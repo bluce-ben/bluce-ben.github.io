@@ -79,18 +79,26 @@
 
 
 
-<meta name="description" content="标题123# 一级标题  == H1### 三级标题  == H3###### 六级标题  == H6">
+<meta name="description" content="标题注意要点：  标题间的空行是没有效果的，除非插入数据（这个是Markdown语法原因） 标题大小以标题首的“#”数量为准，标题末尾可添加可不添加“#”">
 <meta name="keywords" content="Markdown">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Markdown操作指南">
 <meta property="og:url" content="http://yoursite.com/2017/12/06/Markdown操作指南/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="标题123# 一级标题  == H1### 三级标题  == H3###### 六级标题  == H6">
+<meta property="og:description" content="标题注意要点：  标题间的空行是没有效果的，除非插入数据（这个是Markdown语法原因） 标题大小以标题首的“#”数量为准，标题末尾可添加可不添加“#”">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-07T07:44:29.626Z">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/markdown/markdown_title.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/markdown/markdown_list.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/markdown/markdown_quote.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/markdown/markdown_strong.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/markdown/markdown_code_quote.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/markdown/markdown_table.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/markdown/markdown_link.png">
+<meta property="og:updated_time" content="2017-12-08T11:09:30.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Markdown操作指南">
-<meta name="twitter:description" content="标题123# 一级标题  == H1### 三级标题  == H3###### 六级标题  == H6">
+<meta name="twitter:description" content="标题注意要点：  标题间的空行是没有效果的，除非插入数据（这个是Markdown语法原因） 标题大小以标题首的“#”数量为准，标题末尾可添加可不添加“#”">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2017/markdown/markdown_title.png">
 
 
 
@@ -373,26 +381,22 @@
       
 
       
-        <h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 一级标题  == H1</span><br><span class="line">### 三级标题  == H3</span><br><span class="line">###### 六级标题  == H6</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>Markdown 支持有序列表和无序列表。<br>无序列表使用星号、加号或是减号作为列表标记：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">*   Red</span><br><span class="line">*   Green</span><br><span class="line">*   Blue</span><br><span class="line">等同于：</span><br><span class="line">+   Red</span><br><span class="line">+   Green</span><br><span class="line">+   Blue</span><br><span class="line">也等同于：</span><br><span class="line">-   Red</span><br><span class="line">-   Green</span><br><span class="line">-   Blue</span><br></pre></td></tr></table></figure></p>
-<p>有序列表则使用数字接着一个英文句点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1.  Bird</span><br><span class="line">2.  McHale</span><br><span class="line">3.  Parish</span><br></pre></td></tr></table></figure></p>
-<p><em>（注：很重要的一点是，你在列表标记上使用的数字并不会影响输出的 HTML 结果）</em></p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>引用：<code>&gt;</code></p>
-<blockquote>
-<p>世界上失败的人只有一种，那就是在成功路上放弃的人。<br>引用的引用：<code>&gt;&gt;</code></p>
-<blockquote>
-<p>世界上失败的人只有一种，那就是在成功路上放弃的人。</p>
-</blockquote>
-</blockquote>
-<p><em>（注：&gt; 和文本之间要保留一个字符的空格。）</em><br><strong>注意：引用的区块内也可以使用其他的 Markdown 语法，包括标题、列表、代码区块等</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; ## 这是一个标题。</span><br><span class="line">&gt; </span><br><span class="line">&gt; 1.   这是第一行列表项。</span><br><span class="line">&gt; 2.   这是第二行列表项。</span><br><span class="line">&gt; </span><br><span class="line">&gt; 给出一些例子代码：</span><br><span class="line">&gt; </span><br><span class="line">&gt;     return shell_exec(&quot;echo $input | $markdown_script&quot;);</span><br></pre></td></tr></table></figure></p>
-<h3 id="粗体和斜体"><a href="#粗体和斜体" class="headerlink" title="粗体和斜体"></a>粗体和斜体</h3><p>使用星号（*）和底线（_）作为标记强调字词的符号，被（*）或（_）包围的字词会被转成用 <code>&lt;em&gt;</code> 标签包围，用两个（*）或（_）包起来的话，则会被转成 <code>&lt;strong&gt;</code>。<br>如果要在文字前后直接插入普通的星号或底线，你可以用反斜线进行转义。<br><em>（注：如果你的（\</em>）和（_）两边都有空白的话，它们就只会被当成普通的符号。）*</p>
-<h3 id="代码引用"><a href="#代码引用" class="headerlink" title="代码引用"></a>代码引用</h3><p>如果要标记一小段行内代码，你可以用反引号把它包起来（`）；<br>如果要标记一大段代码，可使用多个反引号来开启和结束代码区段：（```代码区段```）</p>
-<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p>带表头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| header1 | header2 |</span><br><span class="line">| :------ | :------ |</span><br><span class="line">| content | content |</span><br></pre></td></tr></table></figure></p>
-<p>不带表头：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">| content1 | content1 |</span><br><span class="line">| :------- | :------- |</span><br><span class="line">| content2 | content2 |</span><br></pre></td></tr></table></figure></p>
-<p>简写形式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">content1 | content1</span><br><span class="line">-------- | --------</span><br><span class="line">content2 | content2</span><br></pre></td></tr></table></figure></p>
-<p><em>（注：表格不生效的情况可能是表格输出前面有markdown强调语法）</em></p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p>行内式链接语法：<br><code>[链接文字](图片地址 &quot;title&quot;)</code><br>此处图片地址可使用绝对路径，也可使用相对路径。<br><em>（注：参考式链接此处不做说明。）</em><br>自动链接：<br>Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用尖括号包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：<br><code>&lt;http://example.com/&gt;</code><br>Markdown 会转为：<br><code>&lt;a href=&quot;http://example.com/&quot;&gt;http://example.com/&lt;/a&gt;</code></p>
+        <h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p><img src="/uploads/2017/markdown/markdown_title.png" alt=""><br>注意要点：</p>
+<ul>
+<li>标题间的空行是没有效果的，除非插入数据（这个是Markdown语法原因）</li>
+<li>标题大小以标题首的“#”数量为准，标题末尾可添加可不添加“#”<a id="more"></a>
+</li>
+</ul>
+<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>Markdown 支持有序列表和无序列表。</p>
+<ul>
+<li>无序列表使用星号、加号或是减号作为列表标记：</li>
+<li>有序列表则使用数字接着一个英文句点：<br><img src="/uploads/2017/markdown/markdown_list.png" alt=""><br><em>（注：很重要的一点是，你在列表标记上使用的数字并不会影响输出的 HTML 结果）</em></li>
+</ul>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p><img src="/uploads/2017/markdown/markdown_quote.png" alt=""><br><em>（注意：引用的区块内也可以使用其他的 Markdown 语法，包括标题、列表、代码区块等）</em></p>
+<h3 id="粗体和斜体"><a href="#粗体和斜体" class="headerlink" title="粗体和斜体"></a>粗体和斜体</h3><p><img src="/uploads/2017/markdown/markdown_strong.png" alt=""><br>如果要在文字前后直接插入普通的星号或底线，你可以用反斜线进行转义。<br><em>（注：不管是粗体还是斜体，只有在一行才会有效果，否则会被当作普通的符号。）</em></p>
+<h3 id="代码引用"><a href="#代码引用" class="headerlink" title="代码引用"></a>代码引用</h3><p><img src="/uploads/2017/markdown/markdown_code_quote.png" alt=""><br><em>（注：代码引用里面，使用markdown其它语法不识别。且反引号的数量<code>代码后数量&lt;=代码前数量</code>）</em></p>
+<h3 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h3><p><img src="/uploads/2017/markdown/markdown_table.png" alt=""><br><em>（注：输出表格前需要空行。且表格中表头不能为段落(即空格不能超过4个)，其它没要求。）</em></p>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p><img src="/uploads/2017/markdown/markdown_link.png" alt=""><br>　此处图片地址可使用绝对路径，也可使用相对路径。<br><em>（注：参考式链接此处不做说明。）</em><br>Markdown 支持以比较简短的自动链接形式来处理网址和电子邮件信箱，只要是用尖括号包起来， Markdown 就会自动把它转成链接。一般网址的链接文字就和链接地址一样，例如：<br><code>&lt;http://example.com/&gt;</code><br>Markdown 会转为：<br><code>&lt;a href=&quot;http://example.com/&quot;&gt;http://example.com/&lt;/a&gt;</code></p>
 <h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><p>行内式图片语法：<br><code>![Alt text](img &quot;title&quot;)</code><br><em>（注：参考式图片此处不做说明。）</em></p>
 <h3 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h3><p>你可以在一行中用三个以上的星号、减号、底线来建立一个分隔线，行内不能有其他东西。你也可以在星号或是减号中间插入空格。下面每种写法都可以建立分隔线：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">* * *</span><br><span class="line"></span><br><span class="line">***</span><br><span class="line"></span><br><span class="line">*****</span><br><span class="line"></span><br><span class="line">- - -</span><br><span class="line"></span><br><span class="line">---------------------------------------</span><br></pre></td></tr></table></figure></p>
 <h3 id="缩进和段落"><a href="#缩进和段落" class="headerlink" title="缩进和段落"></a>缩进和段落</h3><p>缩进：可使用全角下的空格即可实现缩进<br>段落：半角下使用4个缩进即可实现</p>
