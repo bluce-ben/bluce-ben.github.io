@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="MySQL,SQL," />
+  <meta name="keywords" content="MySQL,架构," />
 
 
 
@@ -79,18 +79,21 @@
 
 
 
-<meta name="description" content="1、慢查询 （分析出现出问题的sql）2、Explain （显示了mysql如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句）3、Profile（查询到 SQL 会执行多少时间, 并看出 CPU/Memory 使用量, 执行过程中 Systemlock, Table lock 花多少时间等等.）">
-<meta name="keywords" content="MySQL,SQL">
+<meta name="description" content="MySQL主从同步的机制：">
+<meta name="keywords" content="MySQL,架构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MySQL调优三部曲">
-<meta property="og:url" content="http://yoursite.com/2017/12/07/MySQL调优三部曲/index.html">
+<meta property="og:title" content="总结-MySQL主从复制、读写分离配置详解">
+<meta property="og:url" content="http://yoursite.com/2017/12/08/总结-MySQL主从复制、读写分离配置详解/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="1、慢查询 （分析出现出问题的sql）2、Explain （显示了mysql如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句）3、Profile（查询到 SQL 会执行多少时间, 并看出 CPU/Memory 使用量, 执行过程中 Systemlock, Table lock 花多少时间等等.）">
+<meta property="og:description" content="MySQL主从同步的机制：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-07T11:18:19.980Z">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/mysql_master_slave_01.jpg">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/mysql_master_slave_02.png">
+<meta property="og:updated_time" content="2017-12-08T03:53:43.815Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MySQL调优三部曲">
-<meta name="twitter:description" content="1、慢查询 （分析出现出问题的sql）2、Explain （显示了mysql如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句）3、Profile（查询到 SQL 会执行多少时间, 并看出 CPU/Memory 使用量, 执行过程中 Systemlock, Table lock 花多少时间等等.）">
+<meta name="twitter:title" content="总结-MySQL主从复制、读写分离配置详解">
+<meta name="twitter:description" content="MySQL主从同步的机制：">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/mysql_master_slave_01.jpg">
 
 
 
@@ -120,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/07/MySQL调优三部曲/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/08/总结-MySQL主从复制、读写分离配置详解/"/>
 
 
 
 
 
-  <title>MySQL调优三部曲 | Blog</title>
+  <title>总结-MySQL主从复制、读写分离配置详解 | Blog</title>
   
 
 
@@ -273,7 +276,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/07/MySQL调优三部曲/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/总结-MySQL主从复制、读写分离配置详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Benwu">
@@ -290,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MySQL调优三部曲</h1>
+          <h1 class="post-title" itemprop="name headline">总结-MySQL主从复制、读写分离配置详解</h1>
         
 
         <div class="post-meta">
@@ -302,8 +305,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-07T18:04:34+08:00">
-                2017-12-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T11:23:55+08:00">
+                2017-12-08
               </time>
             
 
@@ -325,8 +328,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
+                  <a href="/categories/架构/" itemprop="url" rel="index">
+                    <span itemprop="name">架构</span>
                   </a>
                 </span>
 
@@ -342,7 +345,7 @@
 
           
           
-             <span id="/2017/12/07/MySQL调优三部曲/" class="leancloud_visitors" data-flag-title="MySQL调优三部曲">
+             <span id="/2017/12/08/总结-MySQL主从复制、读写分离配置详解/" class="leancloud_visitors" data-flag-title="总结-MySQL主从复制、读写分离配置详解">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -373,99 +376,95 @@
       
 
       
-        <p>1、慢查询 （分析出现出问题的sql）<br>2、Explain （显示了mysql如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句）<br>3、Profile（查询到 SQL 会执行多少时间, 并看出 CPU/Memory 使用量, 执行过程中 Systemlock, Table lock 花多少时间等等.）<br><a id="more"></a></p>
-<h2 id="慢查询"><a href="#慢查询" class="headerlink" title="慢查询"></a>慢查询</h2><p>　MySQL通过慢查询日志定位那些执行效率较低的SQL 语句，用–log-slow-queries[=file_name]选项启动时，mysqld 会写一个包含所有执行时间超过long_query_time 秒的SQL语句的日志文件，通过查看这个日志文件定位效率较低的SQL 。下面介绍MySQL中如何查询慢的SQL语句：</p>
-<h4 id="配置开启"><a href="#配置开启" class="headerlink" title="配置开启"></a>配置开启</h4><p><strong>配置选项：</strong></p>
+        <h2 id="MySQL主从同步的机制："><a href="#MySQL主从同步的机制：" class="headerlink" title="MySQL主从同步的机制："></a>MySQL主从同步的机制：</h2><p><img src="/uploads/2017/12/mysql_master_slave_01.jpg" alt=""><br><a id="more"></a></p>
+<blockquote>
+<ol>
+<li>Slave 上面的IO线程连接上 Master，并请求从指定日志文件的指定位置(或者从最开始的日志)之后的日志内容;</li>
+<li>Master 接收到来自 Slave 的 IO 线程的请求后，通过负责复制的 IO线程根据请求信息读取指定日志指定位置之后的日志信息，返回给 Slave 端的 IO线程。返回信息中除了日志所包含的信息之外，还包括本次返回的信息在 Master 端的 Binary Log 文件的名称以及在 BinaryLog 中的位置;</li>
+<li>Slave 的 IO 线程接收到信息后，将接收到的日志内容依次写入到 Slave 端的RelayLog文件(MySQL-relay-bin.xxxxxx)的最末端，并将读取到的Master端的bin-log的文件名和位置记录到master-info文件中，以便在下一次读取的时候能够清楚的高速Master“我需要从某个bin-log的哪个位置开始往后的日志内容，请发给我”</li>
+<li>Slave 的 SQL 线程检测到 Relay Log 中新增加了内容后，会马上解析该 Log 文件中的内容成为在 Master端真实执行时候的那些可执行的 Query 语句，并在自身执行这些 Query。这样，实际上就是在 Master 端和 Slave端执行了同样的 Query，所以两端的数据是完全一样的。</li>
+</ol>
+</blockquote>
+<h2 id="MySQL主从同步的作用"><a href="#MySQL主从同步的作用" class="headerlink" title="MySQL主从同步的作用"></a>MySQL主从同步的作用</h2><p>Ø  可以作为一种备份机制，相当于热备份<br>Ø  可以用来做读写分离，均衡数据库负载</p>
+<h2 id="MySQL主从同步的步骤"><a href="#MySQL主从同步的步骤" class="headerlink" title="MySQL主从同步的步骤"></a>MySQL主从同步的步骤</h2><p>1、在Master MySQL上创建一个用户‘repl’，并允许其他Slave服务器可以通过远程访问Master，通过该用户读取二进制日志，实现数据同步。</p>
+<blockquote>
+<p>mysql&gt;create user repl; //创建新用户<br>//repl用户必须具有REPLICATION SLAVE权限，除此之外没有必要添加不必要的权限，密码为mysql。说明一下192.168.0.%，这个配置是指明repl用户所在服务器，这里%是通配符，表示192.168.0.0-192.168.0.255的Server都可以以repl用户登陆主服务器。当然你也可以指定固定Ip。<br>mysql&gt; GRANT REPLICATION SLAVE ON <em>.</em> TO ‘repl’@’192.168.0.%’ IDENTIFIED BY ‘mysql’;</p>
+</blockquote>
+<p>2、主数据库服务器配置<br>　进入主数据库服务器安装目录,打开my.ini,在文件末尾增加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#数据库ID号， 为1时表示为Master,其中master_id必须为1到232–1之间的一个正整数值;   </span><br><span class="line">server-id = 1  </span><br><span class="line">#启用二进制日志；  </span><br><span class="line">log-bin=mysql-bin  </span><br><span class="line">#需要同步的二进制数据库名；  </span><br><span class="line">binlog-do-db=minishop  </span><br><span class="line">#不同步的二进制数据库名,如果不设置可以将其注释掉;  </span><br><span class="line">binlog-ignore-db=information_schema  </span><br><span class="line">binlog-ignore-db=mysql  </span><br><span class="line">binlog-ignore-db=personalsite  </span><br><span class="line">binlog-ignore-db=test  </span><br><span class="line">#设定生成的log文件名；  </span><br><span class="line">log-bin=&quot;D:/Database/materlog&quot;  </span><br><span class="line">#把更新的记录写到二进制文件中； （注：此处不限制，是对所有操作进行记录日志）</span><br><span class="line">#log-slave-updates</span><br></pre></td></tr></table></figure></p>
+<p>　保存文件。重启Mysql服务。</p>
+<font color="red">注：主数据库配置文件命令详解：</font>
+
 <table>
 <thead>
 <tr>
-<th>配置项</th>
-<th>说明</th>
+<th>log-bin=mysql-bin</th>
+<th>启动二进制日志系统</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>long_query_time</td>
-<td>设定慢查询的阀值，超出次设定值的SQL即被记录到慢查询日志，缺省值为10s  </td>
+<td>binlog-do-db=test</td>
+<td>二进制需要同步的数据库名</td>
 </tr>
 <tr>
-<td>slow_query_log</td>
-<td>指定是否开启慢查询日志  </td>
+<td>server-id = 1</td>
+<td>本机数据库ID 标示为主，该部分还应有一个server-id=Master_id选项，其中master_id必须为1到232–1之间的一个正整数值</td>
 </tr>
 <tr>
-<td>log_slow_queries</td>
-<td>指定是否开启慢查询日志(该参数要被slow_query_log取代，做兼容性保留)  </td>
+<td>log-bin=/var/log/mysql/updatelog</td>
+<td>设定生成log文件名，这里的路径没有mysql目录要手动创建并给于它mysql用户的权限。</td>
 </tr>
 <tr>
-<td>slow_query_log_file</td>
-<td>指定慢日志文件存放位置，可以为空，系统会给一个缺省的文件host_name-slow.log  </td>
-</tr>
-<tr>
-<td>min_examined_row_limit</td>
-<td>查询检查返回少于该参数指定行的SQL不被记录到慢查询日志  </td>
-</tr>
-<tr>
-<td>log_queries_not_using_indexes</td>
-<td>不使用索引的慢查询日志是否记录到索引</td>
+<td>binlog-ignore-db=mysql</td>
+<td>避免同步mysql用户配置，以免不必要的麻烦</td>
 </tr>
 </tbody>
 </table>
-<p><strong>开启配置</strong><br>查询慢查询是否开启：<br><code>show variables like &#39;%slow%&#39;;</code><br>开启慢查询日志：<br><code>set global log_slow_queries=1;</code><br>查询慢查询时间：<br><code>show variables like &#39;%long_query_time%&#39;;</code></p>
-<h4 id="查看方式"><a href="#查看方式" class="headerlink" title="查看方式"></a>查看方式</h4><p>利用MySQL自带的慢查询日志分析工具mysqldumpslow分析日志。</p>
-<pre><code>perlmysqldumpslow –s c –t 10 slow-query.log
-具体参数设置如下：
--s 表示按何种方式排序，c、t、l、r分别是按照记录次数、时间、查询时间、返回的记录数来排序，ac、at、al、ar，表示相应的倒叙；
--t 表示top的意思，后面跟着的数据表示返回前面多少条；
--g 后面可以写正则表达式匹配，大小写不敏感。
-</code></pre><p>例子：<br><code>mysqldumpslow -s c -t 20 host-slow.log</code>     #访问次数最多的20个sql语句<br><code>mysqldumpslow -t 10 -s t -g “left join” host-slow.log</code>     #按照时间返回前10条里面含有左连接的sql语句</p>
-<h2 id="Explain"><a href="#Explain" class="headerlink" title="Explain"></a>Explain</h2><p>explain显示了mysql如何使用索引来处理select语句以及连接表。可以帮助选择更好的索引和写出更优化的查询语句。<br>使用方法，在select语句前加上explain就可以了：<br>例如：<br>explain select surname,first_name form a,b where a.id=b.id<br><strong>显示结果分析：</strong></p>
-<pre><code>id | select_type | table |  type | possible_keys | key | key_len | ref | rows | Extra 
-EXPLAIN列的解释
-table
-显示这一行的数据是关于哪张表的
-type
-这是重要的列，显示连接使用了何种类型。从最好到最差的连接类型为const、eq_reg、ref、range、indexhe和ALL
-possible_keys
-显示可能应用在这张表中的索引。如果为空，没有可能的索引。可以为相关的域从WHERE语句中选择一个合适的语句
-key
-实际使用的索引。如果为NULL，则没有使用索引。很少的情况下，MYSQL会选择优化不足的索引。这种情况下，可以在SELECT语句 中使用USE INDEX（indexname）来强制使用一个索引或者用IGNORE INDEX（indexname）来强制MYSQL忽略索引
-key_len
-使用的索引的长度。在不损失精确性的情况下，长度越短越好
-ref
-显示索引的哪一列被使用了，如果可能的话，是一个常数
-rows
-MYSQL认为必须检查的用来返回请求数据的行数
-Extra
-关于MYSQL如何解析查询的额外信息。这里可以看到的坏的例子是Using temporary和Using filesort，意思MYSQL根本不能使用索引，结果是检索会很慢
-</code></pre><p><strong>Extra列返回的描述的意义：</strong></p>
-<pre><code>Distinct
-一旦MYSQL找到了与行相联合匹配的行，就不再搜索了
-Not exists
-MYSQL优化了LEFT JOIN，一旦它找到了匹配LEFT JOIN标准的行，就不再搜索了Range checked for each Record（index map:#）没有找到理想的索引，因此对于从前面表中来的每一个行组合，MYSQL检查使用哪个索引，并用它来从表中返回行。这是使用索引的最慢的连接之一
-Using filesort
-看到这个的时候，查询就需要优化了。MYSQL需要进行额外的步骤来发现如何对返回的行排序。它根据连接类型以及存储排序键值和匹配条件的全部行的行指针来排序全部行
-Using index
-列数据是从仅仅使用了索引中的信息而没有读取实际的行动的表返回的，这发生在对表的全部的请求列都是同一个索引的部分的时候
-Using temporary
-看到这个的时候，查询需要优化了。这里，MYSQL需要创建一个临时表来存储结果，这通常发生在对不同的列集进行ORDER BY上，而不是GROUP BY上Where used使用了WHERE从句来限制哪些行将与下一张表匹配或者是返回给用户。如果不想返回表中的全部行，并且连接类型ALL或index，这就会发生，或者是查询有问题不同连接类型的解释（按照效率高低的顺序排序）
-</code></pre><p><strong>Type列不同连接类型的解释：（按照效率高低的顺序排序）</strong></p>
-<pre><code>system 
-表只有一行：system表。这是const连接类型的特殊情况 
-const 
-表中的一个记录的最大值能够匹配这个查询（索引可以是主键或惟一索引）。因为只有一行，这个值实际就是常数，因为MYSQL先读这个值然后把它当做常数来对待 
-eq_ref 
-在连接中，MYSQL在查询时，从前面的表中，对每一个记录的联合都从表中读取一个记录，它在查询使用了索引为主键或惟一键的全部时使用 
-ref 
-这个连接类型只有在查询使用了不是惟一或主键的键或者是这些类型的部分（比如，利用最左边前缀）时发生。对于之前的表的每一个行联合，全部记录都将从表中读出。这个类型严重依赖于根据索引匹配的记录多少—越少越好 
-range 
-这个连接类型使用索引返回一个范围中的行，比如使用&gt;或&lt;查找东西时发生的情况 
-index 
-这个连接类型对前面的表中的每一个记录联合进行完全扫描（比ALL更好，因为索引一般小于表数据） 
-ALL 
-这个连接类型对于前面的每一个记录联合进行完全扫描，这一般比较糟糕，应该尽量避免
-</code></pre><h2 id="Profile"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</h2><p>　Query Profiler是MYSQL自带的一种query诊断分析工具，通过它可以分析出一条SQL语句的性能瓶颈在什么地方。通常我们是使用的explain,以及slow query log都无法做到精确分析，但是Query Profiler却可以定位出一条SQL语句执行的各种资源消耗情况，比如CPU，IO等，以及该SQL执行所耗费的时间等。<br>　Show profiles是5.0.37之后添加的，要想使用此功能，要确保版本在5.0.37之后。<br>　查看数据库版本方法：<code>show variables like &quot;%version%&quot;;</code>  或者  <code>select version();</code></p>
-<p>1、确定支持show profile 后，查看profile是否开启，数据库默认是不开启的。变量profiling是用户变量，每次都得重新启用。<br>查看方法： <code>show variables like &quot;%pro%&quot;;</code><br>2、开启和关闭<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set profiling=1;</span><br><span class="line">mysql&gt; set profiling=0;</span><br></pre></td></tr></table></figure></p>
-<p>　information_schema 的 database 会建立一个PROFILING 的 table 记录.<br>3、执行一些语句（自定义语句）<br><code>mysql&gt;select * from navigation_sub where navPId&lt;6 and navSName=&#39;公司介绍&#39;;</code><br>4、查询语句执行时间<br><code>mysql&gt;show profiles;</code><br>5、查询语句详细执行时间<br><code>mysql&gt;show profile for query 2;</code><br><strong>（注：此处的 2 表示再 <code>show profiles</code> 查询后获取的 Query_ID字段。）</strong></p>
+<p>查看日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW MASTER STATUS;</span><br><span class="line">+-------------------+----------+--------------+------------------+</span><br><span class="line">| File | Position | Binlog_Do_DB | Binlog_Ignore_DB |</span><br><span class="line">+-------------------+----------+--------------+------------------+</span><br><span class="line">| master-bin.000001 | 0| | |</span><br><span class="line">+-------------------+----------+--------------+------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p>
+<p><em>（注：此处的日志文件File、Position下面需要用到）</em><br>3、从数据库服务器配置<br>　进入从数据库服务器安装目录,打开my.ini,在文件末尾增加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#如果需要增加Slave库则，此id往后顺延；  </span><br><span class="line">server-id = 2    </span><br><span class="line">log-bin=mysql-bin  </span><br><span class="line">#如果发现主服务器断线，重新连接的时间差；  </span><br><span class="line">master-connect-retry=60  </span><br><span class="line">#不需要备份的数据库；   </span><br><span class="line">replicate-ignore-db=mysql  </span><br><span class="line">#需要备份的数据库  </span><br><span class="line">replicate-do-db=minishop  </span><br><span class="line">#log-slave-update</span><br></pre></td></tr></table></figure></p>
+<p>　保存文件。重启Mysql服务。<br>4、连接Master<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;change master to </span><br><span class="line">-&gt;master_host=&apos;192.168.0.104&apos;, //Master 服务器Ip</span><br><span class="line">-&gt;master_port=3306,</span><br><span class="line">-&gt;master_user=&apos;repl&apos;,</span><br><span class="line">-&gt;master_password=&apos;mysql&apos;, </span><br><span class="line">-&gt;master_log_file=&apos;master-bin.000001&apos;,//Master服务器产生的日志</span><br><span class="line">-&gt;master_log_pos=0;</span><br></pre></td></tr></table></figure></p>
+<font color="red">从服务器配置命令详解：</font>
+
+<table>
+<thead>
+<tr>
+<th>server-id = 2</th>
+<th>从服务器ID号，不要和主ID相同 ，如果设置多个从服务器，每个从服务器必须有一个唯一的server-id值，必须与主服务器的以及其它从服务器的不相同。可以认为server-id值类似于IP地址：这些ID值能唯一识别复制服务器群集中的每个服务器实例。</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master-host = 172.31.70.51</td>
+<td>指定主服务器IP地址</td>
+</tr>
+<tr>
+<td>master-user = replication</td>
+<td>指定在主服务器上可以进行同步的用户名</td>
+</tr>
+<tr>
+<td>master-password = 123456</td>
+<td>密码</td>
+</tr>
+<tr>
+<td>master-port = 3306</td>
+<td>同步所用的端口</td>
+</tr>
+<tr>
+<td>master-connect-retry=60</td>
+<td>断点重新连接时间</td>
+</tr>
+<tr>
+<td>replicate-ignore-db=mysql</td>
+<td>屏蔽对mysql库的同步，以免有麻烦</td>
+</tr>
+<tr>
+<td>replicate-do-db=test</td>
+<td>同步数据库名称</td>
+</tr>
+</tbody>
+</table>
+<p>5、启动Slave<br><code>start slave;</code><br>查看从服务器状态<br><code>mysql&gt; show slave status \G;</code><br><img src="/uploads/2017/12/mysql_master_slave_02.png" alt=""><br>OK所有配置都完成了。</p>
+<h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>　完成MySQL的主从配置，实现数据的实时同步，采用架构的方式实现MySQL的读写分离。<br>　统一认证平台完成数据的增删改的操作，保存数据到MySQL的Master的数据库中，Salve数据库从Master数据库中实时同步数据，应用系统从Salve数据库中读取书据。</p>
 
       
     </div>
@@ -485,7 +484,7 @@ ALL
           
             <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
-            <a href="/tags/SQL/" rel="tag"># SQL</a>
+            <a href="/tags/架构/" rel="tag"># 架构</a>
           
         </div>
       
@@ -498,8 +497,8 @@ ALL
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/07/总结-MySQL索引/" rel="next" title="总结-MySQL索引">
-                <i class="fa fa-chevron-left"></i> 总结-MySQL索引
+              <a href="/2017/12/08/总结-MySQL分库分表理论详解/" rel="next" title="总结-MySQL分库分表理论详解">
+                <i class="fa fa-chevron-left"></i> 总结-MySQL分库分表理论详解
               </a>
             
           </div>
@@ -508,8 +507,8 @@ ALL
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/08/MySQL单机到集群的架构变迁/" rel="prev" title="MySQL单机到集群的架构变迁【摘】">
-                MySQL单机到集群的架构变迁【摘】 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/08/总结-MySQL常用函数/" rel="prev" title="总结-MySQL常用函数">
+                总结-MySQL常用函数 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -648,7 +647,7 @@ ALL
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#慢查询"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x6162;&#x67E5;&#x8BE2;" class="headerlink" title="&#x6162;&#x67E5;&#x8BE2;"></a>&#x6162;&#x67E5;&#x8BE2;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置开启"><span class="nav-number">1.0.1.</span> <span class="nav-text"><a href="#&#x914D;&#x7F6E;&#x5F00;&#x542F;" class="headerlink" title="&#x914D;&#x7F6E;&#x5F00;&#x542F;"></a>&#x914D;&#x7F6E;&#x5F00;&#x542F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看方式"><span class="nav-number">1.0.2.</span> <span class="nav-text"><a href="#&#x67E5;&#x770B;&#x65B9;&#x5F0F;" class="headerlink" title="&#x67E5;&#x770B;&#x65B9;&#x5F0F;"></a>&#x67E5;&#x770B;&#x65B9;&#x5F0F;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Explain"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Explain" class="headerlink" title="Explain"></a>Explain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Profile"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Profile" class="headerlink" title="Profile"></a>Profile</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL主从同步的机制："><span class="nav-number">1.</span> <span class="nav-text"><a href="#MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x673A;&#x5236;&#xFF1A;" class="headerlink" title="MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x673A;&#x5236;&#xFF1A;"></a>MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x673A;&#x5236;&#xFF1A;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL主从同步的作用"><span class="nav-number">2.</span> <span class="nav-text"><a href="#MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x4F5C;&#x7528;" class="headerlink" title="MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x4F5C;&#x7528;"></a>MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x4F5C;&#x7528;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL主从同步的步骤"><span class="nav-number">3.</span> <span class="nav-text"><a href="#MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x6B65;&#x9AA4;" class="headerlink" title="MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x6B65;&#x9AA4;"></a>MySQL&#x4E3B;&#x4ECE;&#x540C;&#x6B65;&#x7684;&#x6B65;&#x9AA4;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读写分离"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x8BFB;&#x5199;&#x5206;&#x79BB;" class="headerlink" title="&#x8BFB;&#x5199;&#x5206;&#x79BB;"></a>&#x8BFB;&#x5199;&#x5206;&#x79BB;</span></a></li></ol></div>
             
 
           </div>
