@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="博客栏目分类、标签不显示内容问题描述：网站栏目通过 hexo new page &amp;#39;pagename&amp;#39; 新增了分类、标签、关于等页面。然后陆陆续续写了几篇文章。但是，点击分类、标签页面确没有生成对应的分类和标签信息。解决方案：需要了解，通过 hexo new page &amp;#39;pagename&amp;#39; 生成的文件内容（以tags为例）：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-08T06:49:27.991Z">
+<meta property="og:updated_time" content="2017-12-13T03:31:07.869Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo问题总结">
 <meta name="twitter:description" content="博客栏目分类、标签不显示内容问题描述：网站栏目通过 hexo new page &amp;#39;pagename&amp;#39; 新增了分类、标签、关于等页面。然后陆陆续续写了几篇文章。但是，点击分类、标签页面确没有生成对应的分类和标签信息。解决方案：需要了解，通过 hexo new page &amp;#39;pagename&amp;#39; 生成的文件内容（以tags为例）：">
@@ -384,7 +384,7 @@
       
 
       
-        <h3 id="博客栏目分类、标签不显示内容"><a href="#博客栏目分类、标签不显示内容" class="headerlink" title="博客栏目分类、标签不显示内容"></a>博客栏目分类、标签不显示内容</h3><p>问题描述：<br>网站栏目通过 <code>hexo new page &#39;pagename&#39;</code> 新增了分类、标签、关于等页面。<br>然后陆陆续续写了几篇文章。但是，点击分类、标签页面确没有生成对应的分类和标签信息。<br>解决方案：<br>需要了解，通过 <code>hexo new page &#39;pagename&#39;</code> 生成的文件内容（以tags为例）：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2017-12-05 18:47:42</span><br><span class="line">type:</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+        <h3 id="博客栏目分类、标签不显示内容"><a href="#博客栏目分类、标签不显示内容" class="headerlink" title="博客栏目分类、标签不显示内容"></a>博客栏目分类、标签不显示内容</h3><p>问题描述：<br>网站栏目通过 <code>hexo new page &#39;pagename&#39;</code> 新增了分类、标签、关于等页面。<br>然后陆陆续续写了几篇文章。但是，点击分类、标签页面确没有生成对应的分类和标签信息。<br>解决方案：<br>需要了解，通过 <code>hexo new page &#39;pagename&#39;</code> 生成的文件内容（以tags为例）：<br><a id="more"></a><br>首先执行命令：<br>　<code>hexo new page &#39;tags&#39;</code><br>生成页面，之后再更改生成页面的内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2017-12-05 18:47:42</span><br><span class="line">type:</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
 <p>改为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: TagCloud</span><br><span class="line">date: 2017-12-05 18:47:42</span><br><span class="line">type: &quot;tags&quot;</span><br><span class="line">comments: false	//多说或者Disqus评论</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
 <p>再次生成静态文件，访问成功。<br>同理，分类页面照此修改即可！</p>
 <h3 id="hexo部署后，CNAME会被自动删除，怎么办？"><a href="#hexo部署后，CNAME会被自动删除，怎么办？" class="headerlink" title="hexo部署后，CNAME会被自动删除，怎么办？"></a>hexo部署后，CNAME会被自动删除，怎么办？</h3><p><em>（自己的独立域名需要用CNAME连接到github pages）</em><br>解决方案：<br>将需要上传至github的内容放在source文件夹，例如CNAME、favicon.ico、images等，每次上传就不会消失了</p>
@@ -513,7 +513,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -524,7 +524,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -535,7 +535,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
