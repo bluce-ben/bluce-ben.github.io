@@ -81,20 +81,18 @@
 
 
 
-<meta name="description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
+<meta name="description" content="前言　　今天我们继续回到MySQL系列文章中,谈一谈MySQL中隐式类型转换。(其实我最早知道是在慢SQL优化中知道的隐式类型转换概念的),在说隐式类型转换之前,首先我们通过一个实例来看看是怎么回事。">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="总结-MySQL数据库设计">
-<meta property="og:url" content="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/index.html">
+<meta property="og:title" content="谈谈MySQL隐式类型转换【转】">
+<meta property="og:url" content="http://yoursite.com/2017/12/18/谈谈MySQL隐式类型转换【转】/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
+<meta property="og:description" content="前言　　今天我们继续回到MySQL系列文章中,谈一谈MySQL中隐式类型转换。(其实我最早知道是在慢SQL优化中知道的隐式类型转换概念的),在说隐式类型转换之前,首先我们通过一个实例来看看是怎么回事。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/uploads/2017/12/mysql_database_01.jpg">
-<meta property="og:updated_time" content="2017-12-08T05:28:56.386Z">
+<meta property="og:updated_time" content="2017-12-18T05:24:38.946Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="总结-MySQL数据库设计">
-<meta name="twitter:description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
-<meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/mysql_database_01.jpg">
+<meta name="twitter:title" content="谈谈MySQL隐式类型转换【转】">
+<meta name="twitter:description" content="前言　　今天我们继续回到MySQL系列文章中,谈一谈MySQL中隐式类型转换。(其实我最早知道是在慢SQL优化中知道的隐式类型转换概念的),在说隐式类型转换之前,首先我们通过一个实例来看看是怎么回事。">
 
 
 
@@ -124,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/18/谈谈MySQL隐式类型转换【转】/"/>
 
 
 
 
 
-  <title>总结-MySQL数据库设计 | Blog</title>
+  <title>谈谈MySQL隐式类型转换【转】 | Blog</title>
   
 
 
@@ -277,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/18/谈谈MySQL隐式类型转换【转】/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Benwu">
@@ -294,7 +292,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">总结-MySQL数据库设计</h2>
+          <h2 class="post-title" itemprop="name headline">谈谈MySQL隐式类型转换【转】</h2>
         
 
         <div class="post-meta">
@@ -306,8 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T13:13:28+08:00">
-                2017-12-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T11:52:21+08:00">
+                2017-12-18
               </time>
             
 
@@ -346,7 +344,7 @@
 
           
           
-             <span id="/2017/12/08/总结-MySQL数据库设计/" class="leancloud_visitors" data-flag-title="总结-MySQL数据库设计">
+             <span id="/2017/12/18/谈谈MySQL隐式类型转换【转】/" class="leancloud_visitors" data-flag-title="谈谈MySQL隐式类型转换【转】">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,67 +375,93 @@
       
 
       
-        <h2 id="一、什么是数据库设计"><a href="#一、什么是数据库设计" class="headerlink" title="一、什么是数据库设计"></a>一、什么是数据库设计</h2><p><strong>１、数据库设计概念</strong><br>　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。<br><strong>２、设计对比</strong></p>
-<table>
-<thead>
-<tr>
-<th>优良的设计</th>
-<th>槽糕的设计</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>减少数据冗余</td>
-<td>存在大量的数据冗余</td>
-</tr>
-<tr>
-<td>避免数据维护异常</td>
-<td>存在数据插入、更新、删除异常</td>
-</tr>
-<tr>
-<td>节约存储空间(偶尔会用空间换时间)</td>
-<td>浪费大量存储空间</td>
-</tr>
-<tr>
-<td>高效的访问</td>
-<td>访问数据低效</td>
-</tr>
-</tbody>
-</table>
-<a id="more"></a>
-<h2 id="二、数据库设计的步骤"><a href="#二、数据库设计的步骤" class="headerlink" title="二、数据库设计的步骤"></a>二、数据库设计的步骤</h2><p><strong>1). 需求分析</strong><br>　需求分析主要完成的内容：业务系统中有哪些数据？这些数据又有哪些属性？数据和属性的各自特点有哪些？<br><strong>2). 逻辑设计</strong><br>　使用ER图设计工具对数据库进行ER图逻辑建模：首先将需求转化为数据库的逻辑模型，其次，通过ER图形式将逻辑模型描述展示出来，最后这个逻辑设计与所选择的DBMS无关，也就是说这个逻辑设计应该适合所有的DBMS。<br><strong>3). 物理设计</strong><br>　这个阶段是进入到与DBMS相关的阶段，因此首先需要选择DBMS，并且将第二步的逻辑模型转为物理模型。<br>　这个阶段会涉及到数据库中建表，选择字段类型的问题。在MySQL中遵循以下原则：<br>　列的数据类型一方面影响相应数据的存储空间的开销，另一方面也会影响数据查询性能。当一个列可以选择多种数据类型时，应该优先考虑数字类型，其次是日期或二进制，最后是字符串类型。对于相同级别的数据类型，在满足业务的情况下，应该优先选择占用空间小的数据类型。<br>　mysql中部分字段空间占用情况：<br><img src="/uploads/2017/12/mysql_database_01.jpg" alt=""><br><em>额外注意几点：</em></p>
-<ul>
-<li>在对数据进行比较(where、join 、order by)操作时，同样的数据，字符串处理比数字处理更慢。</li>
-<li>在MySql中，UTF-8占用3个字节。</li>
-</ul>
-<p><strong>4). 维护优化</strong></p>
-<ul>
-<li>针对新的需求建立新的数据库表(这里补充说明下，在进行数据库最初的设计过程中，不建议在表中预留不确定的字段，这并不能实现数据库良好的扩展性问题，它的代价与后期新加一个字段一样，甚至更大)</li>
-<li>索引优化</li>
-<li>大表拆分：拆分又分为两种方式 <ul>
-<li>水平拆分：控制表的长度，即数据的行数。会将每个表中的数据量减少。</li>
-<li>垂直拆分：数据库中的存储是以页为单位的，当每一行的宽度比较小时(列数比较少时)，每页中存储的内容就多，IO效率就高(数据中的数据是存放在磁盘上，每次IO的内容越多越好)。因此常常对于非常宽的表，进行表的垂直拆分。拆表后的数据量不应该发生变化，但是表的数量增加，每张表的宽度减少。</li>
-</ul>
-</li>
-</ul>
-<h2 id="三、数据库中的几大范式"><a href="#三、数据库中的几大范式" class="headerlink" title="三、数据库中的几大范式"></a>三、数据库中的几大范式</h2><p><strong>第一范式(1NF)</strong></p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>　　今天我们继续回到MySQL系列文章中,谈一谈MySQL中隐式类型转换。(其实我最早知道是在慢SQL优化中知道的隐式类型转换概念的),在说隐式类型转换之前,首先我们通过一个实例来看看是怎么回事。<br><a id="more"></a></p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>本文中所有的操作,都是基于该数据结构(有兴趣的童鞋,可以实验):</p>
+<pre><code>create table t_base_user(   
+oid bigint(20) not null primary key auto_increment,  
+name varchar(30) null comment &quot;name&quot;,  
+email varchar(30) null comment &quot;email&quot;,  
+age int null comment &quot;age&quot;,  
+telephone varchar(30) null comment &quot;telephone&quot;,  
+status tinyint(4) null comment &quot;0 无效 1 有效&quot;,  
+created_at datetime null default now() comment &quot;创建时间&quot;,  
+updated_at datetime null default now() comment &quot;修改时间&quot;  
+)
+
+### 新建索引
+alter table t_base_user add index idx_email(email);
+alter table t_base_user add index idx_name(name);
+alter table t_base_user add index idx_telephone(telephone);
+
+### 新增记录: 
+INSERT INTO `test`.`t_base_user` (`name`, `email`, `age`, `telephone`, `status`, `created_at`, `updated_at`) 
+VALUES (&apos;111111&apos;, &apos;andytohome@gmail.com&apos;, &apos;111&apos;, &apos;12345678901&apos;, &apos;1&apos;, now(),now());
+</code></pre><h3 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h3><p>  首先我们基于上述数据结构中,我们来看看下面这个执行计划:</p>
 <blockquote>
-<p>概念：数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。<br>作用：确保每列保持原子性 （每个表中的字段不可再拆分）<br>举例：本来正常情况下，设计地址，只需要一个字段，但是若在实际业务系统中需要访问其中的国家、省、市时，此时就应该将地址这个字段进行拆分才符合1NF。</p>
+<p>explain select * from t_base_user where telephone=12345678901;</p>
 </blockquote>
-<p><strong>第二范式(2NF)</strong></p>
+<p>执行计划结果:</p>
+<pre><code>id | select_type |    table    | type | possible_keys | key  | key_len | ref  | rows | Extra
+-- | ----------- | ----------- | ---- | ------------- | ---- | ------- | ---- | ---- | ------------
+1  | SIMPLE      | t_base_user | ALL  | idx_telephone | NULL | NULL    | NULL | 1    | Using where
+</code></pre><p>细心的童鞋应该已经看出来了,为什么数据结构中已经在telephone字段上新建了idx_telephone，而上述语句并没有走索引,而是全表扫描。这是为什么呢？带着这疑问,我们来看看今天的主角–MySQL隐式类型转换</p>
+<h3 id="什么隐式类型转换？"><a href="#什么隐式类型转换？" class="headerlink" title="什么隐式类型转换？"></a>什么隐式类型转换？</h3><p>  在MySQL中:</p>
 <blockquote>
-<p>概念：基于1NF基础之上，第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。此外：所有单关键字段的表都符合第二范式。<br>作用：确保表中的每列都和主键相关（一个表中只能有一个主键）</p>
+<p>当操作符与不同类型的操作数一起使用时，会发生类型转换以使操作数兼容。则会发生转换隐式</p>
 </blockquote>
-<p><strong>第三范式(3NF)</strong></p>
+<p>也就是说,MySQL会根据需要自动将数字转换为字符串，将字符串转换数字。看到这个概念之后,是不是有一种茅塞顿开的感觉。哦… 原来在数据结构中telephone字段为字符串(varchar)类型,而我们传的手机号是数字类型。现在我们将SQL修改下:</p>
 <blockquote>
-<p>概念：基于2NF基础上的，如果数据表中不存在非关键字段对任意候选关键字段的传递函数依赖则符合第三范式。<br>作用：确保每列都和主键列直接相关,而不是间接相关 （表中字段都与主键直接相关）</p>
+<p>select * from t_base_user where telephone=”1234567890”;</p>
 </blockquote>
-<h2 id="四、高手的境界都是无招胜有招"><a href="#四、高手的境界都是无招胜有招" class="headerlink" title="四、高手的境界都是无招胜有招"></a>四、高手的境界都是无招胜有招</h2><p>　为了设计出优良的数据库，我们需要遵循数据库的范式，但是有时候如果你设计的数据库完全遵循了这些范式，反而会降低你的某些性能。这里提几点： </p>
+<p>再看看执行计划上述语句的执行计划:</p>
+<blockquote>
+<p>explain select * from t_base_user where telephone=”1234567890”;</p>
+</blockquote>
+<p>结果:</p>
+<pre><code>id | select_type |    table    | type | possible_keys |      key      | key_len | ref  | rows | Extra
+-- | ----------- | ----------- | ---- | ------------- | ------------- | ------- | ---- | ---- | ------------
+1  | SIMPLE      | t_base_user | ref  | idx_telephone | idx_telephone |   63    | const|   1  | Using index condition
+</code></pre><p>从这里看,现在语句已经走索引了。为了加深我们对隐式类型转换的印象,我们再多看看几个隐式类型转换案例:<br>案例一: 字符串转换为数字</p>
+<blockquote>
+<p>mysql &gt; SELECT 1+’1’;</p>
+</blockquote>
+<p>结果:</p>
+<blockquote>
+<p>mysql &gt; 2</p>
+</blockquote>
+<p>案例二: 数字转换为字符串</p>
+<blockquote>
+<p>mysql -&gt; SELECT CONCAT(1024,’ andyqian’);</p>
+</blockquote>
+<p>结果:<br>‘1,’ test’;</p>
+<p>此时CONCAT(字符拼接)函数就进行了隐式类型转换。</p>
+<h3 id="如何避免隐式类型转换"><a href="#如何避免隐式类型转换" class="headerlink" title="如何避免隐式类型转换?"></a>如何避免隐式类型转换?</h3><p>　　只有当清楚的知道隐式类型转换的规则，才能从根本上避免产生隐式类型转换。MySQL也在官网描述了进行隐式类型转换的一些规则如下:</p>
+<p><strong>1. 隐式类型转换规则:</strong></p>
 <ul>
-<li>数据库连接会带来一部分性能损失，因此有时候为了减少冗余，将数据存放在多张表中，往往会降低查询性能，而互联网的世界，读写比例大概是3:1甚至4:1 </li>
-<li>减少表与表之间的关联数量(减少了对磁盘的IO)，增加数据的读取效率。 </li>
-<li>反范式化一定要适度。凡事过度适得其反。</li>
+<li>如果一个或两个参数都是NULL，比较的结果是NULL，除了NULL安全的&lt;=&gt;相等比较运算符。对于NULL &lt;=&gt; NULL，结果为true。不需要转换</li>
+<li>如果比较操作中的两个参数都是字符串，则将它们作为字符串进行比较。</li>
+<li>如果两个参数都是整数，则将它们作为整数进行比较。</li>
+<li>如果不与数字进行比较，则将十六进制值视为二进制字符串</li>
+<li>如果其中一个参数是十进制值，则比较取决于另一个参数。 如果另一个参数是十进制或整数值，则将参数与十进制值进行比较，如果另一个参数是浮点值，则将参数与浮点值进行比较</li>
+<li>如果其中一个参数是TIMESTAMP或DATETIME列，另一个参数是常量，则在执行比较之前将常量转换为时间戳。</li>
+<li>在所有其他情况下，参数都是作为浮点数（实数）比较的。</li>
 </ul>
+<p><strong>2. 使用CAST函数显示转换</strong><br>我们可以使用CAST显示的将类型进行转换,如下所示:</p>
+<blockquote>
+<p>mysql&gt; SELECT 38.8, CAST(38.8 AS CHAR);</p>
+</blockquote>
+<p>结果:</p>
+<blockquote>
+<p>mysql &gt; 38.8, ‘38.8’</p>
+</blockquote>
+<p>如上述中:</p>
+<blockquote>
+<p>select * from t_base_user where telephone=cast(15608464487 as char);</p>
+</blockquote>
+<p>查看执行计划,我们也可以看出,这个时候也走索引了。</p>
+<p><strong>3. 类型一致</strong><br>  这里说的类型一致,指的是在写SQL时,参数类型一定要与数据库中的类型一致,避免产生隐式类型转换,就如刚才在文首时,如果多检查,写的SQL的参数类型与数据库中字段类型一致，也就不会不走索引了，你说是不是？</p>
+<h3 id="小心隐式类型转换"><a href="#小心隐式类型转换" class="headerlink" title="小心隐式类型转换"></a>小心隐式类型转换</h3><p>　　这里再重申一次,写SQL时一定要检查参数类型与数据库字段类型一致,(如果参数不一致,也要使用CAST函数显示转换成一致)否则造成隐式类型转换,不走索引,后果简直不堪设想, 在前面《写会MySQL索引》这篇文章中提到过,不走索引,轻则造成慢查询，重则造成数据库服务器CPU100%。唉,说到这里,不瞒你说，我就吃过不少MySQL隐式类型转换的亏,导致了慢查询。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>　　看到这里,是不是有一种，数据表设计还真不是件容易的事情。需要考虑的因素太多太多了,需要考虑字段类型,索引设计,还有各种约束条件等等。也一定要谨慎谨慎再谨慎！其实换个角度就更容易理解了,大家都知道高楼大厦都是需要一个好的地基的,在数据库表设计中,前期的表结构设计就是这个地基，其重要性可想而知。</p>
 
       
     </div>
@@ -468,8 +492,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/08/总结-MySQL常用函数/" rel="next" title="总结-MySQL常用函数">
-                <i class="fa fa-chevron-left"></i> 总结-MySQL常用函数
+              <a href="/2017/12/14/互联网行业职位简称总结/" rel="next" title="互联网行业职位简称总结">
+                <i class="fa fa-chevron-left"></i> 互联网行业职位简称总结
               </a>
             
           </div>
@@ -477,10 +501,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/08/Git-Error-Failed-to-connect-to-github-com-port-443-Timed-out/" rel="prev" title="Git Error: Failed to connect to github.com port 443: Timed out">
-                Git Error: Failed to connect to github.com port 443: Timed out <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -639,7 +659,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是数据库设计"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;" class="headerlink" title="&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;"></a>&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、数据库设计的步骤"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;" class="headerlink" title="&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;"></a>&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、数据库中的几大范式"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;" class="headerlink" title="&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;"></a>&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、高手的境界都是无招胜有招"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;" class="headerlink" title="&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;"></a>&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x7ED3;&#x6784;" class="headerlink" title="&#x6570;&#x636E;&#x7ED3;&#x6784;"></a>&#x6570;&#x636E;&#x7ED3;&#x6784;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引子"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x5F15;&#x5B50;" class="headerlink" title="&#x5F15;&#x5B50;"></a>&#x5F15;&#x5B50;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么隐式类型转换？"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x4EC0;&#x4E48;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#xFF1F;" class="headerlink" title="&#x4EC0;&#x4E48;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#xFF1F;"></a>&#x4EC0;&#x4E48;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何避免隐式类型转换"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x5982;&#x4F55;&#x907F;&#x514D;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;" class="headerlink" title="&#x5982;&#x4F55;&#x907F;&#x514D;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;?"></a>&#x5982;&#x4F55;&#x907F;&#x514D;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小心隐式类型转换"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x5C0F;&#x5FC3;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;" class="headerlink" title="&#x5C0F;&#x5FC3;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;"></a>&#x5C0F;&#x5FC3;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x5C0F;&#x7ED3;" class="headerlink" title="&#x5C0F;&#x7ED3;"></a>&#x5C0F;&#x7ED3;</span></a></li></ol></div>
             
 
           </div>
