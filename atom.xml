@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-12-18T05:24:38.946Z</updated>
+  <updated>2017-12-20T07:43:38.771Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>25岁Java工程师如何转型学习人工智能？——《2017阿里技术》</title>
+    <link href="http://yoursite.com/2017/12/20/25%E5%B2%81Java%E5%B7%A5%E7%A8%8B%E5%B8%88%E5%A6%82%E4%BD%95%E8%BD%AC%E5%9E%8B%E5%AD%A6%E4%B9%A0%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%EF%BC%9F%E2%80%94%E2%80%94%E3%80%8A2017%E9%98%BF%E9%87%8C%E6%8A%80%E6%9C%AF%E3%80%8B/"/>
+    <id>http://yoursite.com/2017/12/20/25岁Java工程师如何转型学习人工智能？——《2017阿里技术》/</id>
+    <published>2017-12-20T07:25:12.000Z</published>
+    <updated>2017-12-20T07:43:38.771Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　“大牛我要问”栏目推出一段时间后，阿里妹收到不少童鞋的来信，其中以职业发展、技术成长的困惑居多。<br>　　今天阿里妹选择了一个颇具有代表性的问题：关于目前大热的AI入门学习，希望能帮助有同样问题的童鞋解惑指路。<br>　　来信问题：25岁Java工程师如何转型学习AI？<br>　　我是一名25岁的Java开发工程师。本科学习的专业是信息与计算科学（数学专业），因为对计算机方面感兴趣，之后培训学习了Java，所以现在从事Java开发。目前就是在电商公司开发一些系统。<br>　　我对人工智能非常感兴趣，对数学的兴趣也从未减弱。人工智能设计的学习材料很多，像我这样的状况，如果想要转型以后从事这方面的工作，具体应该学习些什么？<br><a id="more"></a><br>　　阿里技术童鞋“以均”回信：<br>　　首先，我想聊聊为何深度学习最近这么火。<br>　　外行所见的是2016年AlphaGo 4比1 战胜李世石，掀起了一波AI热潮，DeepMind背后所用的深度学习一时间火得不得了。其实在内行看来，AlphaGo对阵李世石的结果是毫无悬念的，真正的突破在几年前就发生了。<br>　　2012年，Gefferey Hinton的学生Alex使用一个特别构造的深度神经网络（后来就叫AlexNet），在图像识别的专业比赛ImageNet中，得到了远超之前最好成绩的结果，那个时候，整个人工智能领域就已经明白，深度学习的革命已经到来了。<br>　　果然，之后深度学习在包括语音识别，图像理解，机器翻译等传统的人工智能领域都超越了原先各自领域效果最好的方法。从2015年起，工业界内一些嗅觉灵敏的人士也意识到，一场革命或已到来。</p><h1 id="关于基本概念的学习"><a href="#关于基本概念的学习" class="headerlink" title="关于基本概念的学习"></a>关于基本概念的学习</h1><h3 id="机器学习与深度学习"><a href="#机器学习与深度学习" class="headerlink" title="机器学习与深度学习"></a>机器学习与深度学习</h3><p>　　深度学习是机器学习中的一种技术，机器学习包含深度学习。机器学习还包含其他非深度学习的技术，比如支持向量机，决策树，随机森林，以及关于“学习”的一些基本理论，比如，同样都能描述已知数据的两个不同模型，参数更少的那个对未知数据的预测能力更好（奥卡姆剃刀原理）。<br>　　深度学习是一类特定的机器学习技术，主要是深度神经网络学习，在之前经典的多层神经网络的基础上，将网络的层数加深，并辅以更复杂的结构，在有极大量的数据用于训练的情况下，在很多领域得到了比其他方法更好的结果。</p><h3 id="机器学习与大数据"><a href="#机器学习与大数据" class="headerlink" title="机器学习与大数据"></a>机器学习与大数据</h3><p>　　大数据：机器学习的基础，但在多数语境下，更侧重于统计学习方法。<br>　　机器学习，深度学习，数据挖掘，大数据的关系可以用下图表示<br><img src="/uploads/2017/12/DataMining-BigData-MachineLearning-DeepLearning.png" alt=""></p><h2 id="系统学习资料"><a href="#系统学习资料" class="headerlink" title="系统学习资料"></a>系统学习资料</h2><p>　　深度学习火起来之后，网上关于深度学习的资料很多。但是其质量参差不齐。我从2013年开始就关注深度学习，见证了它从一个小圈子的领先技术到一个大众所追捧的热门技术的过程，也看了很多资料。我认为一个高质量的学习资料可以帮助你真正的理解深度学习的本质，并且更好地掌握这项技术，用于实践。<br>　　以下是我所推荐的学习资料：<br>　　首先是视频课程。</p><h3 id="Yaser-Abu-Mostafa"><a href="#Yaser-Abu-Mostafa" class="headerlink" title="Yaser Abu-Mostafa"></a>Yaser Abu-Mostafa</h3><p>　　加州理工的Yaser Abu-Mostafa教授出品的机器学习网络课程，非常系统地讲解了机器学习背后的原理，以及主要的技术。讲解非常深入浅出，让你不光理解机器学习有哪些技术，还能理解它们背后的思想，为什么要提出这项技术，机器学习的一些通用性问题的解决方法（比如用正则化方法解决过拟合）。强烈推荐。<br>　　课程名称：Machine Learning Course - CS 156<br>　　视频地址：<br>　　<a href="https://www.youtube.com/watch?v=mbyG85GZ0PI&amp;list=PLD63A284B7615313A" target="_blank" rel="noopener">https://www.youtube.com/watch?v=mbyG85GZ0PI&amp;list=PLD63A284B7615313A</a></p><h3 id="Geoffrey-Hinton"><a href="#Geoffrey-Hinton" class="headerlink" title="Geoffrey Hinton"></a>Geoffrey Hinton</h3><p>　　深度学习最重要的研究者。也是他和另外几个人（Yann LeCun，Yoshua Bengio等）在神经网络被人工智能业界打入冷宫，进入低谷期的时候仍然不放弃研究，最终取得突破，才有了现在的深度学习热潮。<br>　　他在Coursera上有一门深度学习的课程，其权威性自不待言，但是课程制作的质量以及易于理解的程度，实际上比不上前面Yaser Mostafa的。当然，因为其实力，课程的干货还是非常多的。<br>　　课程名称：Neural Networks for Machine Learning<br>　　课程地址：<a href="https://www.coursera.org/learn/neural-networks" target="_blank" rel="noopener">https://www.coursera.org/learn/neural-networks</a></p><h3 id="UdaCity"><a href="#UdaCity" class="headerlink" title="UdaCity"></a>UdaCity</h3><p>　　Google工程师出品的一个偏重实践的深度学习课程。讲解非常简明扼要，并且注重和实践相结合。推荐。<br>　　课程名称：深度学习<br>　　课程地址：<a href="https://cn.udacity.com/course/deep-learning--ud730" target="_blank" rel="noopener">https://cn.udacity.com/course/deep-learning--ud730</a></p><h3 id="小象学院"><a href="#小象学院" class="headerlink" title="小象学院"></a>小象学院</h3><p>　　国内小象学院出品的一个深度学习课程，理论与实践并重。由纽约城市大学的博士李伟主讲，优点是包含了很多业内最新的主流技术的讲解。值得一看。<br>　　课程名称：深度学习（第四期）<br>　　课程地址： <a href="http://www.chinahadoop.cn/classroom/45/courses" target="_blank" rel="noopener">http://www.chinahadoop.cn/classroom/45/courses</a></p><h3 id="推荐阅读书目"><a href="#推荐阅读书目" class="headerlink" title="推荐阅读书目"></a>推荐阅读书目</h3><p>　　《Deep Learning the Book》 —— 这本书是前面提到的大牛Yoshua Begio的博士生Goodfellow写的。Goodfellow是生成式对抗网络的提出者，生成式对抗网络被Yann LeCun认为是近年最激动人心的深度学习技术想法。这本书比较系统，专业，偏重理论，兼顾实践，是系统学习深度学习不可多得的好教材。<br>　　英文版：<a href="http://deeplearningthebook.com" target="_blank" rel="noopener">http://deeplearningthebook.com</a><br>　　目前Github上已经有人翻译出了中文版：<br>　　<a href="https://github.com/exacity/deeplearningbook-chinese" target="_blank" rel="noopener">https://github.com/exacity/deeplearningbook-chinese</a></p><h2 id="推荐学习路径"><a href="#推荐学习路径" class="headerlink" title="推荐学习路径"></a>推荐学习路径</h2><p>　　不同的人有不同的需求，有些人希望掌握好理论基础，然后进行实践，有些人希望能够快速上手，马上做点东西，有些人希望理论与实践兼顾。下面推荐几条学习路径，照顾到不同的需求。大家可以根据自己的特点进行选择。<br>　　<strong>Hard way</strong><br>　　Yaser -&gt; Geoffrey Hinton -&gt; UdaCity -&gt; Good Fellow<br>　　特点：理论扎实，步步为营。最完整的学习路径，也是最“难”的。<br>　　推荐指数： 4星<br>　　<strong>Good way</strong><br>　　Yaser -&gt; UdaCity -&gt; 小象学院-&gt; Good Fellow<br>　　特点：理论扎实，紧跟潮流，兼顾实战，最后系统梳理。比较平衡的学习路径。<br>　　推荐指数： 5星<br>　　<strong>“Fast” way</strong><br>　　UdaCity -&gt; Good Fellow<br>　　特点：快速上手，然后完善理论。<br>　　推荐指数： 4星<br>　　<strong>“码农” way</strong><br>　　UdaCity<br>　　特点：快速上手，注重实践。<br>　　推荐指数： 3星</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　“大牛我要问”栏目推出一段时间后，阿里妹收到不少童鞋的来信，其中以职业发展、技术成长的困惑居多。&lt;br&gt;　　今天阿里妹选择了一个颇具有代表性的问题：关于目前大热的AI入门学习，希望能帮助有同样问题的童鞋解惑指路。&lt;br&gt;　　来信问题：25岁Java工程师如何转型学习AI？&lt;br&gt;　　我是一名25岁的Java开发工程师。本科学习的专业是信息与计算科学（数学专业），因为对计算机方面感兴趣，之后培训学习了Java，所以现在从事Java开发。目前就是在电商公司开发一些系统。&lt;br&gt;　　我对人工智能非常感兴趣，对数学的兴趣也从未减弱。人工智能设计的学习材料很多，像我这样的状况，如果想要转型以后从事这方面的工作，具体应该学习些什么？&lt;br&gt;
+    
+    </summary>
+    
+      <category term="书籍" scheme="http://yoursite.com/categories/%E4%B9%A6%E7%B1%8D/"/>
+    
+    
+      <category term="书籍" scheme="http://yoursite.com/tags/%E4%B9%A6%E7%B1%8D/"/>
+    
+      <category term="随记" scheme="http://yoursite.com/tags/%E9%9A%8F%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>技术变化那么快，程序员如何做到不被淘汰？——《2017阿里技术》</title>
+    <link href="http://yoursite.com/2017/12/20/%E6%8A%80%E6%9C%AF%E5%8F%98%E5%8C%96%E9%82%A3%E4%B9%88%E5%BF%AB%EF%BC%8C%E7%A8%8B%E5%BA%8F%E5%91%98%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E4%B8%8D%E8%A2%AB%E6%B7%98%E6%B1%B0%EF%BC%9F%E2%80%94%E2%80%94%E3%80%8A2017%E9%98%BF%E9%87%8C%E6%8A%80%E6%9C%AF%E3%80%8B/"/>
+    <id>http://yoursite.com/2017/12/20/技术变化那么快，程序员如何做到不被淘汰？——《2017阿里技术》/</id>
+    <published>2017-12-20T03:34:28.000Z</published>
+    <updated>2017-12-20T04:39:20.617Z</updated>
+    
+    <content type="html"><![CDATA[<p>作者：空融<br>　　阿里妹导读：写了这么多年的代码，你是否曾经有过这样的迷茫和困惑——技术发展日新月异，奋力追赶的我们，究竟是技术的主人还是技术的奴隶？今天，我们邀请到了蚂蚁金服的技术专家空融，一起来聊聊技术人的软件世界观。<br>　　在浩大的软件世界里，作为一名普通程序员，显得十分渺小，甚至会感到迷茫。我们内心崇拜技术，却也对日新月异的技术抱有深深的恐惧。有时候我会思考难道在技术领域内不断紧跟新潮，不断提升技能就是我的价值所在？那么我是技术的主人还是技术的奴隶？<br>人之所以迷茫往往是找不到工作生活的重心，感受不到工作或生活的价值。那么什么是价值呢？说的大一点就是我改变了世界，说的小一点就是我的所作所为改善了某些问题。如果不清楚自己的行为、目标、价值三者的关系，那么又何来重心？又如何能分得清重要性与优先级呢？<br><a id="more"></a><br>　　程序员的迷茫不仅仅是面对技术繁杂的无力感，更重要的是因为长期埋没于软件世界的浩大的分工体系中，无法看清从业务到软件架构的价值链条，无法清楚定位自己在分工体系的位置，处理不好自身与技术、业务的关系所致。<br>　　很多程序员打心底不喜欢业务，这一点我曾经也经历过，我更宁愿从事框架工具、技术组件研究的相关事情。我有个朋友经常吐槽我说：”你们天天加班加点写了那么多代码，然后呢？有改变什么吗？还不是写出了一堆垃圾。”仔细想想很多时候业务在我们脑海中存留的只是逻辑和流程，我们丢失的是对业务场景的感受，对用户痛点的体会，对业务发展的思考。这些都是与价值紧密相关的部分。我们很自然的用战术的勤快掩盖战略的懒惰！那么这样的后果就是我们把自己限死在流水线的工位上，阉割了自己能够发现业务价值的能力，而过多关注新技术对职场竞争力的价值。这也就是我们面对繁杂技术，而产生技术学习焦虑症的根本原因。</p><h3 id="业务、技术与软件系统的价值链"><a href="#业务、技术与软件系统的价值链" class="headerlink" title="业务、技术与软件系统的价值链"></a>业务、技术与软件系统的价值链</h3><p>　　那么什么是业务呢？就是指某种有目的的工作或工作项目，业务的目的就是解决人类社会与吃喝住行息息相关的领域问题，包括物质的需求和精神的需求，使开展业务活动的主体和受众都能得到利益。通俗的讲业务就是用户的痛点，是业务提供方（比如公司）的盈利点。而技术则是解决问题的工具和手段。比如为了解决用户随时随地购物的业务问题时，程序员利用web技术构建电子商务App，而当需求升级为帮助用户快速选购商品时，程序员会利用数据算法等技术手段构建推荐引擎。 技术如果脱离了业务，那么技术应用就无法很好的落地，技术的研究也将失去场景和方向。而业务脱离了技术，那么业务的开展就变得极其昂贵和低效。<br>　　所以回过头来我们想想自己没日没夜写了那么多的代码从而构建起来的软件系统，它的价值何在呢？说白了就是为了解决业务问题，所以当你所从事的工作内容并不能为解决业务问题带来多大帮助的时候，你应该要及时做出调整。那么软件系统又是如何体现它自身的价值呢？在我看来有如下几个方面的体现：<br>　　<strong>业务领域与功能：</strong>比如支付宝立足支付领域而推出的转账、收款功能等，比如人工智能自动驾驶系统等。<br>　　<strong>服务能力：</strong>这就好比火车站购票窗口，评判它的服务能力的标准就是它能够同时处理多少用户的购票业务，能不能在指定时间内完成购票业务，能不能7*8小时持续工作。对应到软件系统领域，则表现为以下三个方面：</p><pre><code>* 系统正确性(程序能够正确表述业务流程，没有Bug)* 可用性（可以7＊24小时＊365不间歇工作）* 大规模（高并发，高吞吐量）</code></pre><p>　　互联网公司正是借助大规模的软件系统承载着繁多的业务功能，使其拥有巨大的服务能力并借助互联网技术突破了空间限制，高效低廉解决了业务问题，创造了丰厚的利润，这是人肉所不可比拟的。<br>　　理解了这一层面的概念，你就可以清楚这个价值链条：<font color="red">公司依靠软件系统提供业务服务而创造价值，程序员则是通过构建并持续演进软件系统服务能力以及业务功能以支撑公司业务发展从而创造价值。</font><br>　　有了这个价值链条，我们就可以反思自己的工作学习对软件系统的服务能力提升起到了多大的推动作用？可以反思自己的工作学习是否切实在解决领域的业务问题，还是只是做一些意义不大的重复性工作。<br>　　前两天面试了一个候选人，他的工作是从事票务系统开发，他说自己在研究linux内核与汇编语言，我就问他linux内核和汇编语言的学习对你的工作产生了哪些帮助？能否举一个例子？他哑口无言，我内心就觉得这样一个热爱学习的好苗子正迷茫找不到重心，正在做一件浪费精力的事情。<font color="red">正确的学习方式应该是将学习与具体业务场景结合起来，和公司通过软件系统开展业务服务而创造价值，程序员通过提升软件系统服务能力创造价值这一链条串接起来，从对这些价值产生帮助的程度去思考优先级。学习本身没有错，错的往往就是那颗初心。</font><br>　　现在你再来看高并发分布式相关的知识，你会发现并不是因为这些知识比较高深、比较时髦，很多公司有需求才值得学习，而是他们对价值链条有着实实在在的贡献。</p><h3 id="价值驱动的架构"><a href="#价值驱动的架构" class="headerlink" title="价值驱动的架构"></a>价值驱动的架构</h3><p>　　一谈到软件系统，人们免不了想起架构这件事来。之所以此处去谈及架构是因为每一个程序员本质都是软件架构体系中的一分子，我们可能深埋于体系流水线之中，感受不到位置和价值。但如果站在架构这一高度去看这些问题则将会非常透彻。那么架构究竟是什么？和上述的价值链又有什么关系呢？</p><h3 id="什么是架构？"><a href="#什么是架构？" class="headerlink" title="什么是架构？"></a><font color="red">什么是架构？</font></h3><p>　　在我看来软件架构就是将人员、技术等资源组织起来以解决业务问题，支撑业务增长的一种活动。可能比较抽象，我想我们可以从架构师的一些具体工作任务来理解这句话含义：<br>　　<strong>组织业务：</strong>架构师通过探索和研究业务领域的知识，构建自身看待业务的”世界观”。他会基于这种认识拆分业务生命周期，确立业务边界，构建出了一套解决特定业务问题的领域模型，并且确认模型之间、领域之间的关系与协作方式，完成了对业务领域内的要素的组织工作。<br>　　<strong>组织技术：</strong>为了能在计算机世界中运作人类社会的业务模型，架构师需要选用计算机世界中合适的框架、中间件、编程语言、网络协议等技术工具依据之前设计方案组织起来形成一套软件系统方案，在我看来软件系统就像是一种技术组织，即技术组件、技术手段依据某种逻辑被组织起来了，这些技术工具被确定了职责，有了明确分工，并以实现业务功能为目标集合在了一起。比如RPC框架或消息队列被用于内部系统之间的通信服务就如同信使一般，而数据库则负责记录结果，它更像是一名书记员。<br>　　<strong>组织人员：</strong>为了能够实现利用软件系统解决业务问题的目标，架构师还需要关注软件系统的构建过程，他以实现软件系统为号召，从公司组织中聚集一批软件工程师，并将这些人员按不同工种、不同职责、不同系统进行组织，确定这些人员之间的协作方式，并关注这个组织系统是否运作良好比如沟通是否顺畅、产出是否达到要求、能否按时间完成等。<br>　　<strong>组织全局，对外输出：</strong>架构师的首要目标是解决业务问题，推动业务增长。所以他非常关心软件的运行状况。因为只有在软件系统运行起来后，才能对外提供服务，才能在用户访问的过程中，解决业务问题。架构师需要关注运行过程中产生的数据比如业务成功率，系统运行资源占用数据、用户反馈信息、业务增长情况等，这些信息将会帮助架构师制定下一步架构目标和方向。<br>　　所以软件架构不仅仅只是选用什么框架、选用什么技术组件这么简单。它贯穿了对人的组织、对技术的组织、对业务的组织，并将这三种组织以解决业务问题这一目标有机的结合在了一起。<br>　　很多面试的候选人在被问及他所开发的系统采用什么架构的问题时，只会罗列出一些技术组件、技术框架等技术要素，这样看来其根本没有理清架构的深层含义。也有一些架构师只专注对底层技术的研究，以为打造一个卓越的系统是非常牛逼的事情，可是他忽略了软件系统的价值是以解决业务问题的能力、支撑业务增长的能力为衡量标准，所以最后生产出了很多对组织，对业务没有帮助的系统。</p><h3 id="成本与收益"><a href="#成本与收益" class="headerlink" title="成本与收益"></a>成本与收益</h3><p>　　正如之前所说软件系统只有在运行的时候才能创造价值，也就是说软件系统能否7*24小时＊365天稳定的工作关系到公司的收益水平。所以开发团队对生产环境的发布总是小心翼翼，对解决生产环境的问题总是加班加点。而<font color="red">软件系统的成本则体现在软件构建过程，这时候我们就能理解那些工程技术如项目管理、敏捷开发、 单元测试、持续集成、持续构建，版本管理等的价值了，他们有的是保证软件系统正确性，有的是为了降低沟通成本，有的是为了提升开发效率等但总的来说就是为了降低软件的构建成本。</font>所以在提升系统服务能力，创造更多业务收益的同时，降低构建成本也是一种提升收益的有效手段。<br>　　作为一名软件工程师而言，我们往往处在软件构建过程体系中的某个环节，我们可以基于成本与收益的关系去思考自己每一项技能的价值，学习新的有价值的技能，甚至在工作中基于成本与收益的考量选择合适的技术。比如在逻辑不大发生变化的地方，没有必要去做过多的设计，应用各种花俏的设计模式等浪费时间。这样我们才能成为技术的主人。</p><h3 id="架构目标需要适应业务的发展"><a href="#架构目标需要适应业务的发展" class="headerlink" title="架构目标需要适应业务的发展"></a>架构目标需要适应业务的发展</h3><p>　　架构的目标就是为了支撑业务增长，就是提升软件系统的服务能力。可是话虽说如此，但真实却要做很多取舍。比如对初创团队而言，其产品是否解决业务问题这一设想还没得到确认，就立即去构造一个高性能、高可用的分布式系统，这样的架构目标远超出业务发展的需求，最后的结果就是浪费大量人力物力，却得不到任何起色。架构师需要审时度势，仔细衡量正确性、大规模、可用性三者的关系，比如今年业务蓬勃发展日均订单300万，基于对未来的可能预测，明年可能有3000 万的订单，那么架构师应该要着重考虑大规模和可用性。而且每一点提升的程度，也需要架构师衡量把握，比如可用性要达到2个9还是3个9。<br>　　回顾自己以往的工作很多时候就是因为没有确立架构目标导致浪费了组织很多资源，比如在之前的创业团队中，由于本人有一定的代码洁癖，经常会花费很多时间和同事计较代码质量，这样本可以更快上线的功能却需要被延迟，当时过度追求正确性的行为是与创业团队快速验证想法的业务需求不匹配的。<br>　　另外一点比较深刻的案例则是在本人担任一个技术团队负责人的时候，在一次述职报告的时候，leader问我对接下来团队工作有什么计划？我当时说了一堆什么改进代码质量，每天晨会，任务透明化，建立迭代机制等等，然后就被各种批驳一通。当时团队基本以外包人员为主，人员水平较差，开发出来的金融系统也是千疮百孔而这条业务线最重要的业务价值则是按计划实现潜在投资方的需求，争取拉到投资。所以不久leader就召集测试架构的相关人员与我这边一同梳理对核心功能的测试工作，将研发、测试、上线的流程自动化。<br>　　当时并不理解这样做核心价值是什么。但回过头来看这样的工作方式恰好符合了业务发展的需求，即确保系统是符合设计需求的，保证系统达到可接受的正确性，为后续能过快速前进打下基础，最重要的是为企业降低了构建成本。所以程序员想要工作出业绩，必须认清楚系统背后的业务价值，按价值去梳理工作优先级，而不是像我一般过度纠结细节，追求技术理想化。</p><h3 id="成也分工，败也分工"><a href="#成也分工，败也分工" class="headerlink" title="成也分工，败也分工"></a>成也分工，败也分工</h3><p>　　正如在程序员的迷茫那一章节提到的：<font color="red">程序员的迷茫因为长期埋没于软件世界的浩大的分工体系中，无法看清从业务到软件架构的价值链条，无法清楚定位自己在分工体系的位置，处理不好自身与技术、业务的关系所致，</font>所以在这里我想谈谈分工。架构师为了使软件系统更好的服务业务，必然将软件系统生命周期进行拆分，比如分出开发生命周期、测试生命周期、用户访问生命周期、软件运维生命周期，并根据不同的生命周期划分出不同的职责与角色。<br>　　比如开发人员负责开发周期负责完成软件研发，测试人员负责对开发人员交付的成果进行测试等，于是就形成了分工。一旦分工形成，每一个分工组织都会有自己的价值追求，架构师关注的顶层的价值即软件系统能否支撑业务增长被分工的形式打碎到各个组织中。分工是有其价值的，他使得复杂昂贵的任务可以被简单、并行、可替换的流水线方式解决。但久而久之，价值碎片化的问题就出现了，比如测试人员只关注找出更多问题，开发人员只关注快速开发更多的系统，运维人员只关注保障系统稳定。<br>　　三者之间常常都只站在自己的立场去要求对方怎么做，没有人再关注整体价值，产生诸多矛盾增加软件实施成本。而身处流水线中的一员，又因为困扰于重复性工作， 迷茫于工作的意义，甚至感觉自己做为了人的创意与灵感都被扼杀了。所以我的朋友吐槽我说你写了那么多代码然后并没有怎么样是非常有道理的，那是因为我只关注着做为流水工人的价值要求，看不到生态链最顶端的价值。<br>　　我们仔细想想那些团队领导，精英领袖哪一个不是为着更广大的价值所负责，比如项目经理只需要关心自身项目的商业价值，而公司CEO则关心公司范畴内所有业务的总体商业价值。所以关注的价值越大且职位也就越高。这些高层领导者们把控着整体的价值链条，及时纠正底层分工组织的价值目标与整体价值目标出现偏差的问题。</p><h3 id="从价值出发－找寻学习与工作的新思路"><a href="#从价值出发－找寻学习与工作的新思路" class="headerlink" title="从价值出发－找寻学习与工作的新思路"></a>从价值出发－找寻学习与工作的新思路</h3><p>　　迷茫能引发思考，架构则塑造了视野，而价值则是我们之所以存活，之所以工作的逻辑起点。基于这样一种价值思维，对我们的学习和工作又可以有哪些改启示呢？<br>　　<strong>明确自身的业务相关主体：</strong>找出你工作的协作关系网内的业务方和客户方，这样你就可以从客户方中找到离你最近的业务价值点，从你的业务方中挖掘更多的资源。甚至你可以按这个思路顺着网络向上或向下挖掘价值链条，整合更多的上下游资源以实现更大的价值。<br>　　<strong>向前一步，为更大的价值负责：</strong><font color="red">不要因为自己是开发人员就不去关注软件运维，不要因为只是测试就不关注软件开发，因为你关注的越多你越能看清全局的价值目标。如果只关注一亩三分地，那么注定这辈子只能困守在这一亩三分地里，成为一名流水线上焦虑至死的码农。试着转变思维，从架构师的角度思考价值问题，看看能否将技术贯穿到业务、到用户、到最终的价值去。</font>之前我的朋友说过要把产品经理踢到运营位置去，把程序员踢到产品经理位置去，这样才是正确做事方式。这句话也是类似的意思，向前一步才能懂得怎么做的更好。<br>　　<strong>像架构师一样思考，用价值找寻重心：</strong><font color="red">人的迷茫是因为找不到重心，而价值的意义在于引导我们思考做哪些事情才能实现价值，先做哪些事情会比后做哪些事情更能创造收益。像架构师那样全局性思考，把遇到问题进行拆分，把学习到的事物串联起来，努力构成完整的价值链条。</font><br>　　<strong>学会连接，构建体系：</strong>前几天看到一篇文章对今日头条的产品形态极尽批判之词，指责它的智能算法将人类封死在自己的喜好之中，将人类社会进一步碎片化。这似乎很有道理，有趣的是互联网将我们连接至广袤的世界，却也把我们封闭在独属于自己的小世界里。依旧是我的那位朋友，他说他的最大价值在于连接，将不同的人连接在一起，有趣的事情可能就会即将发生。<br>　　或许算法的天性就是顺从与迎合，但人最终想理解这个世界还是需要依靠自身的行动与不同人之间建立联系，这也是一种摆脱流水线限制的有效方式。另外，我们自身也是某种事物连接的产物，比如架构师，他是业务、技术、管理连接在一起的一种产物。所以我们应当树立自身的知识体系以吸收融合新知识，将孤立的概念连接起来，形成自身的价值链条。比如这篇文章将我从事技术开发经验、与对架构的理解以及自身过往经历结合起来，这也是一种内在的体系梳理。<br>　　作者简介：空融，网名“D调的暖冬”。现就职蚂蚁金服，从事支付宝身份认证相关领域的技术开发。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;作者：空融&lt;br&gt;　　阿里妹导读：写了这么多年的代码，你是否曾经有过这样的迷茫和困惑——技术发展日新月异，奋力追赶的我们，究竟是技术的主人还是技术的奴隶？今天，我们邀请到了蚂蚁金服的技术专家空融，一起来聊聊技术人的软件世界观。&lt;br&gt;　　在浩大的软件世界里，作为一名普通程序员，显得十分渺小，甚至会感到迷茫。我们内心崇拜技术，却也对日新月异的技术抱有深深的恐惧。有时候我会思考难道在技术领域内不断紧跟新潮，不断提升技能就是我的价值所在？那么我是技术的主人还是技术的奴隶？&lt;br&gt;人之所以迷茫往往是找不到工作生活的重心，感受不到工作或生活的价值。那么什么是价值呢？说的大一点就是我改变了世界，说的小一点就是我的所作所为改善了某些问题。如果不清楚自己的行为、目标、价值三者的关系，那么又何来重心？又如何能分得清重要性与优先级呢？&lt;br&gt;
+    
+    </summary>
+    
+      <category term="书籍" scheme="http://yoursite.com/categories/%E4%B9%A6%E7%B1%8D/"/>
+    
+    
+      <category term="书籍" scheme="http://yoursite.com/tags/%E4%B9%A6%E7%B1%8D/"/>
+    
+      <category term="随记" scheme="http://yoursite.com/tags/%E9%9A%8F%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>谈谈MySQL隐式类型转换【转】</title>
@@ -78,9 +126,9 @@
       <category term="PHP原理" scheme="http://yoursite.com/categories/PHP%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
-    
       <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
+    
+      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
     
   </entry>
   
@@ -175,9 +223,9 @@
     
       <category term="服务器" scheme="http://yoursite.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
-    
       <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
+    
+      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
     
   </entry>
   
@@ -199,9 +247,9 @@
       <category term="PHP原理" scheme="http://yoursite.com/categories/PHP%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
-    
       <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
+    
+      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
     
   </entry>
   
@@ -276,18 +324,18 @@
     
     </summary>
     
-      <category term="Hexo" scheme="http://yoursite.com/categories/Hexo/"/>
-    
       <category term="Git" scheme="http://yoursite.com/categories/Git/"/>
+    
+      <category term="Hexo" scheme="http://yoursite.com/categories/Hexo/"/>
     
       <category term="Git问题" scheme="http://yoursite.com/categories/Git/Git%E9%97%AE%E9%A2%98/"/>
     
       <category term="Hexo问题" scheme="http://yoursite.com/categories/Hexo/Hexo%E9%97%AE%E9%A2%98/"/>
     
     
-      <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
-    
       <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
+    
+      <category term="Hexo" scheme="http://yoursite.com/tags/Hexo/"/>
     
       <category term="Git问题" scheme="http://yoursite.com/tags/Git%E9%97%AE%E9%A2%98/"/>
     
@@ -522,60 +570,6 @@
 &lt;blockquote&gt;
 &lt;p&gt;   一个简单的对比测试：&lt;br&gt;   　以我去年测试的数据作为一个简单示例，20多条数据源随机生成200万条数据，平均每条数据源都重复大概10万次，表结构比较简单，仅包含一个自增ID，一个char类型，一个text类型和一个int类型，单表2G大小，使用MyIASM引擎。开始测试未添加任何索引。&lt;br&gt;   执行下面的SQL语句：&lt;br&gt;   　mysql&amp;gt; SELECT id,FROM_UNIXTIME(time) FROM article WHERE a.title=’测试标题’&lt;br&gt;   查询需要的时间非常恐怖的，如果加上联合查询和其他一些约束条件，数据库会疯狂的消耗内存，并且会影响前端程序的执行。这时给title字段添加一个BTREE索引：&lt;br&gt;   　mysql&amp;gt; ALTER TABLE article ADD INDEX index_article_title ON title(200);&lt;br&gt;   再次执行上述查询语句，其对比非常明显。&lt;/p&gt;
 &lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>总结-MySQL语句的语法</title>
-    <link href="http://yoursite.com/2017/12/07/%E6%80%BB%E7%BB%93-MySQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E8%AF%AD%E6%B3%95/"/>
-    <id>http://yoursite.com/2017/12/07/总结-MySQL语句的语法/</id>
-    <published>2017-12-07T08:05:45.000Z</published>
-    <updated>2017-12-08T06:49:55.423Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="MySQL语句的语法："><a href="#MySQL语句的语法：" class="headerlink" title="MySQL语句的语法："></a>MySQL语句的语法：</h2><p>1、<code>ALTER TABLE</code> 更新已存在的表的模式。<br>2、<code>COMMIT</code>  用来将事务处理写到数据库。<br>3、<code>CREATE INDEX</code>   用于在一个或多个列上创建索引。<br>4、<code>CREATE PROCEDURE</code>  用于创建存储过程。<br>5、<code>CREATE TABLE</code>   用于创建数据库表。<br><a id="more"></a><br>6、<code>CREATE USER</code>   用于向系统中添加新的用户账号。<br>7、<code>CREATE VIEW</code>   用来创建一个或多个表上的新视图。<br>8、<code>DELETE</code>    从表中删除一行或多行。<br>9、<code>DROP</code>   永久地删除数据库对象（表、视图、索引等）。<br>10、<code>INSERT</code>   给表增加一行。<br>11、<code>INSERT SELECT</code>   插入SELECT的结果到一个表。<br>12、<code>ROLLBACK</code>   用于撤销一个事务处理块。<br>13、<code>SAVEPOINT</code>    为使用ROLLBACK语句设立保留点。<br>14、<code>SELECT</code>    用于从一个或多个表（视图）中检索数据。<br>15、<code>START TRANSACTION</code>   表示一个新的事务处理块的开始。<br>16、<code>UPDATE</code>    更新表中的一行或多行。</p><h2 id="详解："><a href="#详解：" class="headerlink" title="详解："></a>详解：</h2><p>1、ALTER TABLE     更新已存在的表的模式。</p><pre><code>1. 删除列　ALTER TABLE 【表名字】 DROP 【列名称】2. 增加列　ALTER TABLE 【表名字】 ADD 【列名称】 【列类型】  COMMENT &apos;注释说明&apos;3. 修改列的类型信息　ALTER TABLE 【表名字】 MODIFY 【列名称】【列类型】4. 重命名列　ALTER TABLE 【表名字】 CHANGE 【列名称】【新列名称】【新列类型】5. 重命名表　ALTER TABLE 【表名字】 RENAME 【表新名字】6. 更改表存储引擎　ALTER TABLE ENGINE=InnoDB;7. 删除表中主键　Alter TABLE 【表名字】 DROP PRIMARY KEY　（注：该主键不能为自增，否则会报错。）8. 添加主键　ALTER TABLE 【表名字】 ADD PRIMARY KEY (`resid`,`resfromid`);　（注：如果表中有数据，直接添加主键会报错。需要①字段新建普通索引②字段增加自增属性③字段新建主键④删除字段的普通索引。）9. 添加索引　ALTER TABLE 【表名字】 ADD INDEX index_name (name);10. 添加唯一索引　ALTER TABLE 【表名字】 ADD UNIQUE emp_name2(cardnumber);11. 删除索引　ALTER TABLE 【表名字】 DROP INDEX emp_name;12. 添加外键索引　ALTER TABLE 【表名字】 ADD FOREIGN KEY index_name(name) REFERENCES foreign_table(name);　（注：添加外键需要两个表的存储引擎都是InnoDB型。）13. 删除外键索引　ALTER TABLE 【表名字】 DROP FOREIGN KEY index_name;</code></pre><p>2、CREATE TABLE   创建数据库表<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE [IF NOT EXISTS] `tbl_name`(</span><br><span class="line">`col_name` type [NOT NULL | NULL] [DEFAULT default_value] [AUTO_INCREMENT]</span><br><span class="line">PRIMARY KEY (`index_col_name`,...)</span><br><span class="line">or KEY [index_name] (`index_col_name`,...)</span><br><span class="line">or INDEX [index_name] (`index_col_name`,...)</span><br><span class="line">or UNIQUE [INDEX] [index_name] (`index_col_name`,...)</span><br><span class="line">or FOREIGN KEY index_name (`index_col_name`,...）</span><br><span class="line">)ENGINE=MyISAM DEFAULT CHARSET=UTF8;</span><br></pre></td></tr></table></figure></p><p>3、CREATE USER    创建用户</p><pre><code>1. 创建用户　CREATE USER user01@&apos;localhost/%&apos; IDENTIFIED BY &apos;password1&apos;;2. 修改密码　SET PASSWORD FOR &apos;user01&apos;@&apos;localhost/%&apos; = PASSWORD(&apos;password2&apos;);</code></pre><p>4、GRANT    赋予权限</p><pre><code>1. 设置权限　grant 权限 on 数据库对象 to 用户2. 取消权限　revoke 权限 on 数据库对象 from 用户3. 查看权限　show grants for dba@localhost;</code></pre><p>5、CREATE VIEW     创建视图</p><pre><code>1. 创建视图　CREATE VIEW  view_name AS SQL;2. 删除视图　DROP VIEW [IF EXISTS] view_name;　（注：视图不能修改，只能删除，然后重建。）</code></pre><p>6、DROP      删除（表、视图、存储过程）<br>    <code>DROP TABLE/VIEW/PROCEDURE [IF EXISTS] name;</code></p><p>7、CREATE PROCEDURE     创建存储过程</p><pre><code>1. 创建存储过程　CREATE PROCEDURE procedure_name(　IN  id int,　OUT price DECIMAL(8,2) 　)　BEGIN　SQL;　END;2. 调用存储过程　CALL  procedure_name();</code></pre><p>8、触发器</p><pre><code>1. 创建触发器　CREATE TRIGGER trigger_name [AFTER/BEFORE] [INSERT/UPDATE/DELETE] ON table_name　FOR EACH ROW 操作;　（在对表操作之前或之后，执行操作，EACH ROW表示每行变动都需要执行操作）2. 删除触发器　DROP TRIGGER trigger_name;3. 如何使用触发器　此处不需要人为操作触发器，当对表操作的时候自动执行。</code></pre><p>9、事务处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">操作格式：</span><br><span class="line">START TRANSACTION;</span><br><span class="line">SQL;</span><br><span class="line">COMMIT;</span><br><span class="line">ROLLBACK;</span><br></pre></td></tr></table></figure></p><h2 id="数据表的基本操作："><a href="#数据表的基本操作：" class="headerlink" title="数据表的基本操作："></a>数据表的基本操作：</h2><p>1、SELECT<br><code>select [ALL/DISTINCE] 字段表达式子句 [from子句] [where子句] [group by子句] [having子句] [order by子句] [limit子句];</code></p><p>2、UPDATE<br><code>UPDATE tbl_name SET col_name1=expr1 [, col_name2=expr2 ...][WHERE子句] [ORDER BY子句] [LIMIT子句];</code></p><p>3、DELETE<br><code>DELETE FROM tbl_name [WHERE子句] [ORDER BY子句] [LIMIT子句];</code></p><p>4、INSERT<br><code>INSERT INTO tbl_name(col_name1,col_name2...) VALUES(col_vallue1,col_value2...);</code></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;MySQL语句的语法：&quot;&gt;&lt;a href=&quot;#MySQL语句的语法：&quot; class=&quot;headerlink&quot; title=&quot;MySQL语句的语法：&quot;&gt;&lt;/a&gt;MySQL语句的语法：&lt;/h2&gt;&lt;p&gt;1、&lt;code&gt;ALTER TABLE&lt;/code&gt; 更新已存在的表的模式。&lt;br&gt;2、&lt;code&gt;COMMIT&lt;/code&gt;  用来将事务处理写到数据库。&lt;br&gt;3、&lt;code&gt;CREATE INDEX&lt;/code&gt;   用于在一个或多个列上创建索引。&lt;br&gt;4、&lt;code&gt;CREATE PROCEDURE&lt;/code&gt;  用于创建存储过程。&lt;br&gt;5、&lt;code&gt;CREATE TABLE&lt;/code&gt;   用于创建数据库表。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-      <category term="SQL" scheme="http://yoursite.com/categories/SQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-      <category term="SQL" scheme="http://yoursite.com/tags/SQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>总结-MySQL数据类型</title>
-    <link href="http://yoursite.com/2017/12/07/%E6%80%BB%E7%BB%93-MySQL%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/"/>
-    <id>http://yoursite.com/2017/12/07/总结-MySQL数据类型/</id>
-    <published>2017-12-07T07:41:50.000Z</published>
-    <updated>2017-12-07T08:03:18.995Z</updated>
-    
-    <content type="html"><![CDATA[<p>数据类型是定义列中可以存储什么数据以及该数据实际怎样存储的基本规则。<br>数据类型用于以下目的：</p><ul><li>数据类型允许限制可存储在列中的数据。例如，数值数据类型列只能接受数值。</li><li>数据类型允许在内部更有效地存储数据。 可以用一种比文本串更简洁的格式存储数值和日期时间值。</li><li>数据类型允许变换排序顺序。如果所有数据都作为串处理，则1位于10之前，而10又位于2之前（串以字典顺序排序，从左边开始比较，一次一个字符）。作为数值数据类型，数值才能正确排序。</li></ul><p>在设计表时，应该特别重视所用的数据类型。使用错误的数据类型可能会严重地影响应用程序的功能和性能。更改包含数据的列不是一件小事（而且这样做可能会导致数据丢失）。<br><a id="more"></a></p><h2 id="1、串数据类型"><a href="#1、串数据类型" class="headerlink" title="1、串数据类型"></a>1、串数据类型</h2><p>　最常用的数据类型是串数据类型。有两种基本的串类型，分别为定长串和变长串。<br>　定长串接受长度固定的字符串，其长度是在创建表时指定的。<br>　变长串存储可变长度的文本。<br>　<em>（注：MySQL处理定长列远比处理变长列快的多，性能好得多。而且，MySQL不允许对变长列（或一个列的可变部分）进行索引。这也会极大地影响性能。）</em><br><strong>串数据类型</strong></p><table><thead><tr><th>数据类型</th><th>说明</th></tr></thead><tbody><tr><td>CHAR</td><td>1~255个字符的定长串。它的长度必须在创建时指定，否则MySQL假定为CHAR(1)</td></tr><tr><td>VARCHAR</td><td>长度可变，最多不超过255字节。</td></tr><tr><td>TINYTEXT</td><td>与TEXT相同，但最大长度为255字节</td></tr><tr><td>TEXT</td><td>最大长度为64K的变长文本</td></tr><tr><td>MEDIUMTEXT</td><td>与TEXT相同，但最大长度为16K</td></tr><tr><td>LONGTEXT</td><td>与TEXT相同，但最大长度为4GB</td></tr><tr><td>ENUM</td><td>接受最多64K个串组成的一个预定义集合的某个串</td></tr><tr><td>SET</td><td>接受最多64个串组成的一个预定义集合的零个或多个串</td></tr></tbody></table><p><em>（注：不管使用何种形式的串数据类型，串值都必须括在引号内（通常单引号更好）。）</em><br><strong>特殊说明：</strong></p><pre><code>`ENUM`  枚举类型  只能由一个枚举字符串值（最大值是65535）如果默认值为not null，那么允许列表中的第一个值为默认值`SET`   集合类型  字符串对象可以有零个或多个SET成员（最多64个成员）</code></pre><p>　当数值不是数值时：你可能会认为电话号码和邮政编码应该存储在数值字段中（数值字段只存储数值数据），但是，这样做却是不可取的。如果在数值字段中存储邮政编码01234，则保存的将是数值1234，实际上丢失了一位数字。需要遵守的基本规则是：如果数值时计算（求和、平均等）中使用的数值，则应该存储在数值数据类型列中。如果作为字符串（可能只包含数字）使用，则应该保存在串数据类型列中。</p><h2 id="2、数值数据类型"><a href="#2、数值数据类型" class="headerlink" title="2、数值数据类型"></a>2、数值数据类型</h2><p>　数值数据类型存储数值。MySQL支持多种数值数据类型，每种存储的数值具有不同的取值范围。<br>　<em>（注：有符号或无符号：所有数值数据类型（除BIT和BOOLEAN外）都可以有符号或无符号。有符号数值列可以存储正或负的数值，无符号数值列只能存储正数。默认情况为有符号，但如果你知道自己不需要存储负值，可以使用UNSIGNED关键字，这样做将允许你存倍大小的值。）</em><br><strong>数值数据类型</strong></p><table><thead><tr><th>数据类型</th><th>说明</th></tr></thead><tbody><tr><td>BOOLEAN(或BOOL)</td><td>布尔标志，或者为0或者为1，主要用于开/关(on/off)标志</td></tr><tr><td>TINYINT</td><td>整数值，1个字节，支持-128~127（如果为UNSIGNED，为0~255）的数</td></tr><tr><td>SMALLINT</td><td>整数值，2个字节，支持-32768-32767（如果是UNSIGNED，为0-65535）的数</td></tr><tr><td>MEDIUMINT</td><td>整数值，3个字节，支持-8388608~8388607（如果是UNSIGNED，为0~16777215）的数</td></tr><tr><td>INT(或INTEGER)</td><td>整数值，4个字节，支持-2147483648~2147483647</td></tr><tr><td>BIGINT</td><td>整数值，8个字节，支持+-9.22*10的18次方</td></tr><tr><td>FLOAT</td><td>单精度浮点值，8位精度（4字节）</td></tr><tr><td>DOUBLE</td><td>双精度浮点值，16位精度（8字节）</td></tr><tr><td>DECIMAL(或DEC)</td><td>精度可变的浮点值</td></tr><tr><td>REAL</td><td>4字节的浮点值</td></tr><tr><td>BIT</td><td>位字段，1~64位。（在MySQL5之前，BIT功能等价于TINYINT）</td></tr></tbody></table><p><em>（注：与串不一样，数值不应该括在引号内。）</em></p><h2 id="3、日期和时间数据类型"><a href="#3、日期和时间数据类型" class="headerlink" title="3、日期和时间数据类型"></a>3、日期和时间数据类型</h2><p>　MySQL使用专门的数据类型来存储日期和时间值。<br><strong>日期和时间数据类型</strong></p><table><thead><tr><th>数据类型</th><th>说明</th></tr></thead><tbody><tr><td>DATE</td><td>表示1000-01-01~9999-12-31的日期，格式为YYYY-MM-DD</td></tr><tr><td>TIME</td><td>格式为HH:MM:SS</td></tr><tr><td>DATETIME</td><td>DATE和TIME的组合</td></tr><tr><td>TIMESTAMP</td><td>功能和DATETIME相同（但范围较小）</td></tr><tr><td>YEAR</td><td>用2位数字表示，范围是70(1970年)~69(2069年)，用4位数字表示，范围是1901年~2155年  </td></tr></tbody></table><h2 id="4、二进制数据类型"><a href="#4、二进制数据类型" class="headerlink" title="4、二进制数据类型"></a>4、二进制数据类型</h2><p>　二进制数据类型可存储任何数据（甚至包括二进制信息），如图像、多媒体、字处理文档等。<br><strong>二进制数据类型</strong></p><table><thead><tr><th>数据类型</th><th>说明</th></tr></thead><tbody><tr><td>BLOB</td><td>Blob最大长度为64KB</td></tr><tr><td>MEDIUMBLOB</td><td>Blob最大长度为16MB</td></tr><tr><td>LONGBLOB</td><td>Blob最大长度为4GB</td></tr><tr><td>TINYBLOB</td><td>Blob最大长度为255字节</td></tr></tbody></table><p><strong>注：数据类型的属性</strong></p><table><thead><tr><th>MySQL关键字</th><th>含义</th></tr></thead><tbody><tr><td>NULL</td><td>数据列可包含NULL值</td></tr><tr><td>NOT NULL</td><td>数据列不允许包含NULL值</td></tr><tr><td>DEFAULT</td><td>默认值</td></tr><tr><td>PRIMARY KEY</td><td>主键</td></tr><tr><td>AUTO_INCREMENT</td><td>自动递增，适用于整数类型</td></tr><tr><td>UNSIGNED</td><td>无符号</td></tr><tr><td>CHARACTER SET name</td><td>指定一个字符集</td></tr></tbody></table>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;数据类型是定义列中可以存储什么数据以及该数据实际怎样存储的基本规则。&lt;br&gt;数据类型用于以下目的：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;数据类型允许限制可存储在列中的数据。例如，数值数据类型列只能接受数值。&lt;/li&gt;
-&lt;li&gt;数据类型允许在内部更有效地存储数据。 可以用一种比文本串更简洁的格式存储数值和日期时间值。&lt;/li&gt;
-&lt;li&gt;数据类型允许变换排序顺序。如果所有数据都作为串处理，则1位于10之前，而10又位于2之前（串以字典顺序排序，从左边开始比较，一次一个字符）。作为数值数据类型，数值才能正确排序。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;在设计表时，应该特别重视所用的数据类型。使用错误的数据类型可能会严重地影响应用程序的功能和性能。更改包含数据的列不是一件小事（而且这样做可能会导致数据丢失）。&lt;br&gt;
     
     </summary>
     
