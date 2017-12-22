@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-12-22T10:01:11.981Z</updated>
+  <updated>2017-12-22T10:24:58.311Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,13 +21,13 @@
     <link href="http://yoursite.com/2017/12/22/Linux%E5%91%BD%E4%BB%A4%E4%B9%8Bdate%E3%80%81cal%E3%80%81bc/"/>
     <id>http://yoursite.com/2017/12/22/Linux命令之date、cal、bc/</id>
     <published>2017-12-22T09:42:39.000Z</published>
-    <updated>2017-12-22T10:01:11.981Z</updated>
+    <updated>2017-12-22T10:24:58.311Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="1、显示日期的指令：date"><a href="#1、显示日期的指令：date" class="headerlink" title="1、显示日期的指令：date"></a>1、显示日期的指令：date</h3><p>如果在文字接口中想要知道目前Linux 系统的时间，那举就直接在指令列模式输入date 即可显示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[vbird@www ~]$ date</span><br><span class="line">Fri Dec 22 16:06:43 CST 2017</span><br><span class="line">上面显示的是：星期五, 12月22日, 16:06 分, 43 秒，在 2017 年的 CST 时区！</span><br><span class="line">那如果我想要让这个程序显示出『2017/12/22』这样的日期显示方式呢？ 那就使用date 的格式化输出功能吧！</span><br><span class="line">[vbird@www ~]$ date +%Y/%m/%d</span><br><span class="line">2017/12/22</span><br><span class="line">[vbird@www ~]$ date +%H:%M</span><br><span class="line">16:09</span><br></pre></td></tr></table></figure></p><a id="more"></a><h3 id="2、显示日历的指令：cal"><a href="#2、显示日历的指令：cal" class="headerlink" title="2、显示日历的指令：cal"></a>2、显示日历的指令：cal</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[vbird@www ~]$ cal</span><br><span class="line">    December 2017</span><br><span class="line">Su Mo Tu We Th Fr Sa </span><br><span class="line">                            1   2</span><br><span class="line">3    4    5    6   7   8   9</span><br><span class="line">10  11  12  13 14 15 16</span><br><span class="line">17  18  19  20 21 22 23</span><br><span class="line">24  25  26  27 28 29 30</span><br><span class="line">31</span><br></pre></td></tr></table></figure><p>cal (calendar)这个指令可以做的事情还很多，例如你可以显示整年的月历情况：<code>cal 2018</code><br>基本上cal 这个指令可以接的语法为： <code>cal [month] [year]</code></p><h3 id="3、简单好用的计算器：bc"><a href="#3、简单好用的计算器：bc" class="headerlink" title="3、简单好用的计算器：bc"></a>3、简单好用的计算器：bc</h3><p>Linux提供了一支计算程序，就是bc。你在指令列输入bc 后，屏幕会显示出版本信息， 之后就进入到等待指示的阶段。如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[vbird@www ~]$ bc</span><br><span class="line">bc 1.06</span><br><span class="line">Copyright 1991-1994, 1997, 1998, 2000 Free Software Foundation, Inc.</span><br><span class="line">This is free software with ABSOLUTELY NO WARRANTY.</span><br><span class="line">For details type `warranty&apos;.</span><br><span class="line">_ &lt;==这个时候，光标会停留在这里等徃你的输入</span><br></pre></td></tr></table></figure></p><p>常用运算符：</p><ul><li>+ 加法</li><li>- 减法</li><li>* 乘法</li><li>/ 除法</li><li>^ 挃数</li><li>% 余数</li></ul><h3 id="补充一些小Tips："><a href="#补充一些小Tips：" class="headerlink" title="补充一些小Tips："></a>补充一些小Tips：</h3><ol><li>[Tab]：如果在command后按时，代表【命令补全】；如果在第二个字以后按，就变成【档案补齐】的功能了。</li><li>[Ctrl] + c：表示中断目前程序的按键。</li><li>[Ctrl] + d：表示【键盘输入结束】的意思，可以用来取代exit的输入。</li><li>在文本模式下，你可以直接按下两个[Tab]按键，可以查看总共有多少指令可以使用。</li></ol>]]></content>
+    <content type="html"><![CDATA[<h3 id="1、显示日期的指令：date"><a href="#1、显示日期的指令：date" class="headerlink" title="1、显示日期的指令：date"></a>1、显示日期的指令：date</h3><p>如果在文字接口中想要知道目前Linux 系统的时间，那举就直接在指令列模式输入date 即可显示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[bluce-ben@www ~]$ date</span><br><span class="line">Fri Dec 22 16:06:43 CST 2017</span><br><span class="line">上面显示的是：星期五, 12月22日, 16:06 分, 43 秒，在 2017 年的 CST 时区！</span><br><span class="line">那如果我想要让这个程序显示出『2017/12/22』这样的日期显示方式呢？ 那就使用date 的格式化输出功能吧！</span><br><span class="line">[bluce-ben@www ~]$ date +%Y/%m/%d</span><br><span class="line">2017/12/22</span><br><span class="line">[bluce-ben@www ~]$ date +%H:%M</span><br><span class="line">16:09</span><br></pre></td></tr></table></figure></p><a id="more"></a><h3 id="2、显示日历的指令：cal"><a href="#2、显示日历的指令：cal" class="headerlink" title="2、显示日历的指令：cal"></a>2、显示日历的指令：cal</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[bluce-ben@www ~]$ cal</span><br><span class="line">    December 2017</span><br><span class="line">Su Mo Tu We Th Fr Sa </span><br><span class="line">                            1   2</span><br><span class="line">3    4    5    6   7   8   9</span><br><span class="line">10  11  12  13 14 15 16</span><br><span class="line">17  18  19  20 21 22 23</span><br><span class="line">24  25  26  27 28 29 30</span><br><span class="line">31</span><br></pre></td></tr></table></figure><p>cal (calendar)这个指令可以做的事情还很多，例如你可以显示整年的月历情况：<code>cal 2018</code><br>基本上cal 这个指令可以接的语法为： <code>cal [month] [year]</code></p><h3 id="3、简单好用的计算器：bc"><a href="#3、简单好用的计算器：bc" class="headerlink" title="3、简单好用的计算器：bc"></a>3、简单好用的计算器：bc</h3><p>Linux提供了一支计算程序，就是bc。你在指令列输入bc 后，屏幕会显示出版本信息， 之后就进入到等待指示的阶段。如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[bluce-ben@www ~]$ bc</span><br><span class="line">bc 1.06</span><br><span class="line">Copyright 1991-1994, 1997, 1998, 2000 Free Software Foundation, Inc.</span><br><span class="line">This is free software with ABSOLUTELY NO WARRANTY.</span><br><span class="line">For details type `warranty&apos;.</span><br><span class="line">_ &lt;==这个时候，光标会停留在这里等徃你的输入</span><br></pre></td></tr></table></figure></p><p>常用运算符：</p><ul><li>+ 加法</li><li>- 减法</li><li>* 乘法</li><li>/ 除法</li><li>^ 挃数</li><li>% 余数</li></ul><h3 id="补充一些小Tips："><a href="#补充一些小Tips：" class="headerlink" title="补充一些小Tips："></a>补充一些小Tips：</h3><ol><li>[Tab]：如果在command后按时，代表【命令补全】；如果在第二个字以后按，就变成【档案补齐】的功能了。</li><li>[Ctrl] + c：表示中断目前程序的按键。</li><li>[Ctrl] + d：表示【键盘输入结束】的意思，可以用来取代exit的输入。</li><li>在文本模式下，你可以直接按下两个[Tab]按键，可以查看总共有多少指令可以使用。</li></ol>]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;1、显示日期的指令：date&quot;&gt;&lt;a href=&quot;#1、显示日期的指令：date&quot; class=&quot;headerlink&quot; title=&quot;1、显示日期的指令：date&quot;&gt;&lt;/a&gt;1、显示日期的指令：date&lt;/h3&gt;&lt;p&gt;如果在文字接口中想要知道目前Linux 系统的时间，那举就直接在指令列模式输入date 即可显示：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[vbird@www ~]$ date&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Fri Dec 22 16:06:43 CST 2017&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;上面显示的是：星期五, 12月22日, 16:06 分, 43 秒，在 2017 年的 CST 时区！&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;那如果我想要让这个程序显示出『2017/12/22』这样的日期显示方式呢？ 那就使用date 的格式化输出功能吧！&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[vbird@www ~]$ date +%Y/%m/%d&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2017/12/22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[vbird@www ~]$ date +%H:%M&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16:09&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+      &lt;h3 id=&quot;1、显示日期的指令：date&quot;&gt;&lt;a href=&quot;#1、显示日期的指令：date&quot; class=&quot;headerlink&quot; title=&quot;1、显示日期的指令：date&quot;&gt;&lt;/a&gt;1、显示日期的指令：date&lt;/h3&gt;&lt;p&gt;如果在文字接口中想要知道目前Linux 系统的时间，那举就直接在指令列模式输入date 即可显示：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[bluce-ben@www ~]$ date&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Fri Dec 22 16:06:43 CST 2017&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;上面显示的是：星期五, 12月22日, 16:06 分, 43 秒，在 2017 年的 CST 时区！&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;那如果我想要让这个程序显示出『2017/12/22』这样的日期显示方式呢？ 那就使用date 的格式化输出功能吧！&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[bluce-ben@www ~]$ date +%Y/%m/%d&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2017/12/22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[bluce-ben@www ~]$ date +%H:%M&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16:09&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
     
     </summary>
     
@@ -210,9 +210,9 @@
       <category term="PHP原理" scheme="http://yoursite.com/categories/PHP%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
-    
       <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
+    
+      <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   
@@ -307,9 +307,9 @@
     
       <category term="服务器" scheme="http://yoursite.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
-      <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
-    
       <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
+    
+      <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   
@@ -331,9 +331,9 @@
       <category term="PHP原理" scheme="http://yoursite.com/categories/PHP%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
-    
       <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
+    
+      <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
     
   </entry>
   
