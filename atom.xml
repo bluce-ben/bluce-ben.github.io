@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2017-12-22T10:24:58.311Z</updated>
+  <updated>2017-12-25T10:19:58.728Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Linux命令之man</title>
+    <link href="http://yoursite.com/2017/12/25/Linux%E5%91%BD%E4%BB%A4%E4%B9%8Bman/"/>
+    <id>http://yoursite.com/2017/12/25/Linux命令之man/</id>
+    <published>2017-12-25T10:14:16.000Z</published>
+    <updated>2017-12-25T10:19:58.728Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　在文本模式下，你可以直接按下两个[Tab]按键，可以查看总共有多少指令可以使用。可以看到有将近2千个命令，那如何记忆呢？肯定不可能全部记下来，所以，软件的开发者为了让大家能够了解指令的用法， 都会自行制作很多的文件，而这些文件也可以直接在在线就能够轻易的被使用者查询出来。<br><a id="more"></a></p><h4 id="1、man-page"><a href="#1、man-page" class="headerlink" title="1、man page"></a>1、man page</h4><p>简单记忆就是，不会该指令，就找男人（man）呀！（注：man就是manual的缩写。）<br>示例：man date （结果自己操作，此处不贴图）<br>首先，在上个表格的第一行，你可以看到的是：【DATE(1)】，DATE 我们知道是指令的名称， 那么(1)代表什么呢？他代表的是【一般用户可使用的指令】的意思。<br>常见的几个数字的意义是这样的：</p><table><thead><tr><th>代号</th><th>代表内容</th></tr></thead><tbody><tr><td>1</td><td>用户在shell 环境中可以操作的挃令戒可执行文件</td></tr><tr><td>2</td><td>系统核心可呼叫的凼数不工具等</td></tr><tr><td>3</td><td>一些常用的凼数(function)不凼式库(library)，大部分为C 的凼式库(libc)</td></tr><tr><td>4</td><td>装置档案的说明，通常在/dev 下的档案</td></tr><tr><td>5</td><td>配置文件戒者是某些档案的格式</td></tr><tr><td>6</td><td>游戏(games)</td></tr><tr><td>7</td><td>惯例不协议等，例如Linux 文件系统、网绚协议、ASCII code 等等的说明</td></tr><tr><td>8</td><td>系统管理员可用的管理挃令</td></tr><tr><td>9</td><td>跟kernel 有关的文件</td></tr></tbody></table><p>上述的表格内容可以使用【man 7 man】来更详绅的取得说明。<br>再来，man page 的内容也分成好几个部分来加以介绍该指令呢！就是上头man date 那个表格内，以NAME 作为开始介绍，最后还有个SEE ALSO 来作为结束。基本上，man page 大致分成底下这几个部分：</p><table><thead><tr><th>代号</th><th>内容说明</th></tr></thead><tbody><tr><td>NAME</td><td>简短的指令、数据名称说明</td></tr><tr><td>SYNOPSIS</td><td>简短的指令下达诧法(syntax)简介</td></tr><tr><td>DESCRIPTION</td><td>较为完整的说明，这部分最好仔细看看！</td></tr><tr><td>OPTIONS</td><td>针对 SYNOPSIS 部分中，有列丼的所有可用的选项说明</td></tr><tr><td>COMMANDS</td><td>当这个程序(软件)在执行的时候，可以在此程序(软件)中下达的指令</td></tr><tr><td>FILES</td><td>这个程序或数据所使用或参考或连结到的某些档案</td></tr><tr><td>SEE ALSO</td><td>可以参考的，跟这个指令或数据有相关的其他说明！</td></tr><tr><td>EXAMPLE</td><td>一些可以参考的范例</td></tr><tr><td>BUGS</td><td>是否有相关的臭虫！</td></tr></tbody></table><p>有时候除了这些外，还可能会看到Authors与Copyright 等，不过也有很多时候仅有NAME与DESCRIPTION 等部分。<br>注：退出按q<br><em>（相对应的与man -f 等价的是 whatis ）</em></p><h4 id="2、info-page-（自我感觉不好用，就不做说明了）"><a href="#2、info-page-（自我感觉不好用，就不做说明了）" class="headerlink" title="2、info page （自我感觉不好用，就不做说明了）"></a>2、info page （自我感觉不好用，就不做说明了）</h4>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　在文本模式下，你可以直接按下两个[Tab]按键，可以查看总共有多少指令可以使用。可以看到有将近2千个命令，那如何记忆呢？肯定不可能全部记下来，所以，软件的开发者为了让大家能够了解指令的用法， 都会自行制作很多的文件，而这些文件也可以直接在在线就能够轻易的被使用者查询出来。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="每日一个Linux命令" scheme="http://yoursite.com/categories/%E6%AF%8F%E6%97%A5%E4%B8%80%E4%B8%AALinux%E5%91%BD%E4%BB%A4/"/>
+    
+    
+      <category term="Linux命令" scheme="http://yoursite.com/tags/Linux%E5%91%BD%E4%BB%A4/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux下文件与权限详解</title>
+    <link href="http://yoursite.com/2017/12/25/Linux%E4%B8%8B%E6%96%87%E4%BB%B6%E4%B8%8E%E6%9D%83%E9%99%90%E8%AF%A6%E8%A7%A3/"/>
+    <id>http://yoursite.com/2017/12/25/Linux下文件与权限详解/</id>
+    <published>2017-12-25T06:48:56.000Z</published>
+    <updated>2017-12-25T07:17:44.805Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　首先，需要知道的是，“Linux下一切皆档案”。且Linux一般将档案可存取的身份分三个类别，分别是 owner/group/others，且三种身份各有 read/write/execute 等权限。<br>（注：对应的档案存储文件为： 用户记录在 /etc/passwd 档案； 用户密码记录在 /etc/shadow 档案；组名记录在 /etc/group 档案。）</p><ul><li>所有者（owner）：<br>一般为文件的创建者，谁创建了该文件，就天然的成为该文件的所有者。（使用chown修改文件的所有者）</li><li>文件所在组（group）：<br>当某个用户创建了一个文件后，这个文件的所在组就是该用户所在的组。（使用chgrp修改文件所在的组）</li><li>其它人（others）：<br>除开文件的所有者和所在组的用户外，系统的其它用户都是文件的其它组<a id="more"></a><h3 id="档案信息详解"><a href="#档案信息详解" class="headerlink" title="档案信息详解"></a>档案信息详解</h3>由命令 ls -al查看档案的所有信息：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r-- 1 root root 42304 Dec 25 17:26 install.log &lt;=范例说明处</span><br><span class="line">[权限] [链接数] [拥有者] [群组] [档案容量] [修改日期] [档名]</span><br></pre></td></tr></table></figure></li></ul><ol><li>第一栏代表这个档案的类型与权限(permission)：<br>第一个字符代表这个档案是『目录、档案或链接文件等等』：<ul><li>当为[ d ]则是目彔，例如上表档名为『.gconf』的那一行；</li><li>当为[ - ]则是档案，例如上表档名为『install.log』那一行；</li><li>若是[ l ]则表示为链接档(link file)；</li><li>若是[ b ]则表示为装置文件里面的可供储存的接口设备(可随机存取装置)；</li><li>若是[ c ]则表示为装置文件里面的串行端口设备，例如键盘、鼠标(一次性读取装置)。<br>（其余字符没3个为一组，分别对应所有者、所属组、其他人。）</li></ul></li><li>第二栏表示有多少档名链接到此节点(i-node，即是索引节点)：<br>每个档案都会将他的权限与属性记录到文件系统的i-node 中，不过，我们使用的目录树却是使用文件名来记录， 因此每个档名就会连结到一个i-node！这个属性记录的，就是有多少不同的档名连结到相同的一个i-node 号码去就是了。</li><li>第三栏表示这个档案(或目录)的『拥有者账号』</li><li>第四栏表示这个档案的所属群组</li><li>第五栏为这个档案的容量大小，默认单位为bytes；</li><li>第六栏为这个档案的建档日期或者是最近的修改日期：</li><li>第七栏为这个档案的档名</li></ol><h3 id="改变档案属性与权限命令"><a href="#改变档案属性与权限命令" class="headerlink" title="改变档案属性与权限命令"></a>改变档案属性与权限命令</h3><p>1、chgrp（change group）：改变档案所属群组<br>语法：<code>chgrp [-R] dirname/filename ...</code><br>选项与参数：<br>-R : 进行递归(recursive)的持续变更，亦即连同次目录下的所有档案、目录都更新成为这个群组之意。常常用在变更某一目录内所有的档案之情况。<br>范例：<br><code>[root@www ~]# chgrp users install.log</code><br>2、chown（change owner）：改变档案拥有者<br>语法：<code>chown [-R] 账号名称[:组名] 档案或目录</code><br>选项与参数：<br>-R : 进行递归(recursive)的持续变更，亦即连同次目录下的所有档案都变更<br>范例：将install.log 的拥有者改为bin 这个账号：<br><code>[root@www ~]# chown bin install.log</code><br>3、chmod ：改变档案的权限, SUID, SGID, SBIT 等等的特性<br>语法：<code>chmod [-R] xyz 档案或目录</code><br>选项与参数：<br>xyz : 就是刚刚提到的数字类型的权限属性，为 rwx 属性数值的相加。<br>-R : 进行递归(recursive)的持续变更，亦即连同次目录下的所有档案都会变更</p><ol><li>数字类型改变档案权限<br>我们可以使用数字来代表各个权限，各权限的分数对照表如下：<br>r:4<br>w:2<br>x:1<br><code>[root@www ~]# chmod 777 .bashrc</code></li><li>符号类型改变档案权限<br>基本上就九个权限分别是(1)user (2)group (3)others 三种身份。那么我们就可以藉由u, g, o 来代表三种身份的权限！此外，a 则代表 all 亦即全部的身份！那么读写的权限就可以写成r, w, x。<br><img src="/uploads/2017/12/linux_permission_01.png" alt=""><br>假如我们要『限定』一个档案的权限成为『-rwxr-xr-x』时，基本上就是：<br> user (u)：具有可读、可写、可执行的权限；<br> group 不 others (g/o)：具有可读不执行的权限。<br><code>[root@www ~]# chmod u=rwx,go=rx .bashrc</code><br><em>注意：那个 u=rwx,go=rx 是连在一起的，中间并没有任何空格符！</em></li></ol><h3 id="权限对于文件与目录的作用"><a href="#权限对于文件与目录的作用" class="headerlink" title="权限对于文件与目录的作用"></a>权限对于文件与目录的作用</h3><h4 id="1、权限对文件的重要性："><a href="#1、权限对文件的重要性：" class="headerlink" title="1、权限对文件的重要性："></a>1、权限对文件的重要性：</h4><p>权限对于档案来说，他的意义是这样的：</p><pre><code>1. r (read)：可读取此一档案的实际内容，如读取文本文件的文字内容等；2. w (write)：可以编辑、新增或者是修改该档案的内容(但不能删除该档案)；3. x (eXecute)：该档案具有可以被系统执行的权限。</code></pre><p>　　Windows 底下一个档案是否具有执行的能力是藉由『 扩展名 』来判断的， 例如：.exe, .bat, .com 等等，但是在Linux 底下，我们的档案是否能被执行，则是藉由是否具有『x』这个权限来决定的！跟档名是没有绝对的关系的！</p><h4 id="2、权限对目录的重要性："><a href="#2、权限对目录的重要性：" class="headerlink" title="2、权限对目录的重要性："></a>2、权限对目录的重要性：</h4><p>目录主要的内容在记录文件名列表，文件名与目录有强烈的关连！所以如果是针对目录时，那个 r, w, x 对目录意义是这样的：</p><pre><code>1. r (read contents in directory)：表示具有读取目录结构列表的权限，如利用 ls 这个指令将该目录的内容列表显示出来；2. w (modify contents of directory)：表示你具有异动该目录结构列表的权限，也就是底下这些权限：    * 建立新的档案与目录；    * 删除已经存在的档案与目录(不论该档案的权限为何！)    * 将已存在的档案或目录进行更名；    * 搬移该目录内的档案、目录位置。3. x (access directory)：目录只是记录文件名而已，不可以被执行，目彔的x 代表的是用户能否进入该目录成为工作目录的用途。</code></pre><h3 id="Linux档案种类与扩展名"><a href="#Linux档案种类与扩展名" class="headerlink" title="Linux档案种类与扩展名"></a>Linux档案种类与扩展名</h3><h5 id="1、档案种类："><a href="#1、档案种类：" class="headerlink" title="1、档案种类："></a>1、档案种类：</h5><p>我们在刚刚提到使用『ls -l』观察到第一栏那十个字符中，第一个字符为档案的类型。 除了常见的一般档案(-)与；目录档案(d)之外，还有哪些种类的文件类型呢？<br>（1）正规档案(regular file )：<br>在由 ls -al 所显示出来的属性方面，第一个字符为 [-]，例如 [-rwxrwxrwx ]。另外，依照档案的内容，又大略可以分为：</p><blockquote><p>1、纯文本档(ASCII)：这是Linux 系统中最多的一种文件类型， 称为纯文本档是因为内容为我们人类可以直接读到的数据，例如数字、字母等等。<br>2、二进制文件(binary)：你的Linux当中的可执行文件(scripts, 文字型批处理文件不算)就是这种格式。举例来说，刚刚下达的指令cat 就是一个binary file。<br>3、数据格式文件(data)：有些程序在运作的过程当中会读取某些特定格式的档案，那些特定格式的档案可以被称为数据文件 (data file)。</p></blockquote><p>（2）目录(directory)：<br>就是目录，第一个属性为 [ d ]，例如 [drwxrwxrwx]。<br>（3）链接档(link)：<br>就是类似Windows 系统底下的快捷方式，第一个属性为 <a href="英文L 的小写"> l </a>，例如[lrwxrwxrwx] ；<br>（4）设备与装置文件(device)：<br>与不系统周边及储存等相关的一些档案，通常都集中在/dev 这个目录之下！通常又分为两种：</p><blockquote><p>1、区块(block)设备档 ：就是一些储存数据，以提供系统随机存取的接口设备，举例来说，硬盘与软盘等。你可以自行查一下/dev/sda 看看， 会发现第一个属性为[ b ]。<br>2、字符(character)设备文件：亦即是一些串行端口的接口设备，例如键盘、鼠标等等。第一个属性为 [ c ]。</p></blockquote><p>（5）资料接口文件(sockets)：<br>既然被称为数据接口文件，这种类型的档案通常被用在网络上的数据承接。第一个属性为 [ s ]， 最常在/var/run 这个目录中看到这种文件类型了。<br>（6）数据输送文件(FIFO, pipe)：<br>FIFO 也是一种特殊的文件类型，他主要的目的在解决多个程序同时存取一个档案所造成的错误问题。FIFO 是first-in-first-out 的缩写。第一个属性为[p] 。</p><h5 id="2、Linux-档案扩展名："><a href="#2、Linux-档案扩展名：" class="headerlink" title="2、Linux 档案扩展名："></a>2、Linux 档案扩展名：</h5><p>基本上，Linux 的档案是没有所谓的『扩展名』的，我们刚刚就谈过，一个Linux 档案能不能被执行，与他的第一栏的十个属性有关， 与文件名根本一点关系也没有。<br>通常我们还是会以适当的扩展名来表示该档案是什么种类的。底下有数种常用的扩展名：</p><blockquote><p>1、*.sh ： 脚本或批处理文件 (scripts)，因为批处理文件为使用shell 写成的，所以扩展名就编成 .sh；<br>2、*Z, *.tar, *.tar.gz, *.zip, *.tgz： 经过打包的压缩文件。这是因为压缩软件分别为 gunzip, tar 等等的，由与不同的压缩软件，而取其相关的扩展名啰！<br>3、*.html, *.php：网页相关档案，分别代表 HTML 语法与 PHP 语法的网页档案。</p></blockquote><h5 id="3、Linux-文件名的限制："><a href="#3、Linux-文件名的限制：" class="headerlink" title="3、Linux 文件名的限制："></a>3、Linux 文件名的限制：</h5><p>由于Linux 在文字接口下的一些指令操作关系，一般来说，你在设定Linux 底下的文件名时， 最好可以避免一些特殊字符比较好！例如底下这些：<br>* ? &gt; &lt; ; &amp; ! [ ] | \ ‘ “ ` ( ) { }<br>因为这些符号在文字接口下，是有特殊意义的。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　首先，需要知道的是，“Linux下一切皆档案”。且Linux一般将档案可存取的身份分三个类别，分别是 owner/group/others，且三种身份各有 read/write/execute 等权限。&lt;br&gt;（注：对应的档案存储文件为： 用户记录在 /etc/passwd 档案； 用户密码记录在 /etc/shadow 档案；组名记录在 /etc/group 档案。）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;所有者（owner）：&lt;br&gt;一般为文件的创建者，谁创建了该文件，就天然的成为该文件的所有者。（使用chown修改文件的所有者）&lt;/li&gt;
+&lt;li&gt;文件所在组（group）：&lt;br&gt;当某个用户创建了一个文件后，这个文件的所在组就是该用户所在的组。（使用chgrp修改文件所在的组）&lt;/li&gt;
+&lt;li&gt;其它人（others）：&lt;br&gt;除开文件的所有者和所在组的用户外，系统的其它用户都是文件的其它组
+    
+    </summary>
+    
+      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
+    
+    
+      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux命令之date、cal、bc</title>
@@ -210,9 +258,9 @@
       <category term="PHP原理" scheme="http://yoursite.com/categories/PHP%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
-    
       <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
+    
+      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
     
   </entry>
   
@@ -305,11 +353,11 @@
       <category term="PHP" scheme="http://yoursite.com/categories/PHP/"/>
     
     
-      <category term="服务器" scheme="http://yoursite.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+      <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
     
       <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
     
-      <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
+      <category term="服务器" scheme="http://yoursite.com/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
   </entry>
   
@@ -331,9 +379,9 @@
       <category term="PHP原理" scheme="http://yoursite.com/categories/PHP%E5%8E%9F%E7%90%86/"/>
     
     
-      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
-    
       <category term="PHP原理" scheme="http://yoursite.com/tags/PHP%E5%8E%9F%E7%90%86/"/>
+    
+      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
     
   </entry>
   
@@ -472,88 +520,6 @@
     
     
       <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>总结-MySQL常用函数</title>
-    <link href="http://yoursite.com/2017/12/08/%E6%80%BB%E7%BB%93-MySQL%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/"/>
-    <id>http://yoursite.com/2017/12/08/总结-MySQL常用函数/</id>
-    <published>2017-12-08T03:59:00.000Z</published>
-    <updated>2017-12-08T04:44:06.451Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="一、聚合函数-常用于GROUP-BY从句的SELECT查询中"><a href="#一、聚合函数-常用于GROUP-BY从句的SELECT查询中" class="headerlink" title="一、聚合函数(常用于GROUP BY从句的SELECT查询中)"></a>一、聚合函数(常用于GROUP BY从句的SELECT查询中)</h3><p>　下面五个函数会忽略值为NULL的行</p><table><thead><tr><th>函数名</th><th>说明</th></tr></thead><tbody><tr><td>AVG(col)</td><td>返回指定列的平均值</td></tr><tr><td>COUNT(col)</td><td>返回指定列中非NULL值/行的个数（当函数参数为星号*时不会忽略）</td></tr><tr><td>MIN(col)</td><td>返回指定列的最小值</td></tr><tr><td>MAX(col)</td><td>返回指定列的最大值</td></tr><tr><td>SUM(col)</td><td>返回指定列的所有值之和</td></tr><tr><td>GROUP_CONCAT(col)</td><td>返回由属于一组的列值连接组合而成的结果</td></tr></tbody></table><a id="more"></a><h3 id="二、数学函数"><a href="#二、数学函数" class="headerlink" title="二、数学函数"></a>二、数学函数</h3><table><thead><tr><th>函数名</th><th>说明</th></tr></thead><tbody><tr><td>ABS(x)</td><td>返回x的绝对值</td></tr><tr><td>BIN(x)</td><td>返回x的二进制（OCT返回八进制，HEX返回十六进制）</td></tr><tr><td>EXP(x)</td><td>返回值e（自然对数的底）的x次方</td></tr><tr><td>GREATEST(x1,x2,…,xn)</td><td>返回集合中最大的值</td></tr><tr><td>LEAST(x1,x2,…,xn)</td><td>返回集合中最小的值</td></tr><tr><td>LN(x)</td><td>返回x的自然对数</td></tr><tr><td>LOG(x,y)</td><td>返回x的以y为底的对数</td></tr><tr><td>MOD(x,y)</td><td>返回x/y的模（余数）</td></tr><tr><td>PI()</td><td>返回pi的值（圆周率）</td></tr><tr><td>RAND()</td><td>返回0到1内的随机值,可以通过提供一个参数(种子)使RAND()随机数生成器生成一个指定的值。</td></tr><tr><td>FLOOR(x)</td><td>返回小于x的最大整数值，（去掉小数取整）</td></tr><tr><td>CEILING(x)</td><td>返回大于x的最小整数值，（进一取整）</td></tr><tr><td>ROUND(x,y)</td><td>返回参数x的四舍五入的有y位小数的值，（四舍五入）</td></tr><tr><td>TRUNCATE(x,y)</td><td>返回数字x截短为y位小数的结果</td></tr><tr><td>SIGN(x)</td><td>返回代表数字x的符号的值（正数返回1，负数返回-1，0返回0）</td></tr><tr><td>SQRT(x)</td><td>返回一个数的平方根</td></tr></tbody></table><h3 id="三、字符串函数"><a href="#三、字符串函数" class="headerlink" title="三、字符串函数"></a>三、字符串函数</h3><table><thead><tr><th>函数名</th><th>说明</th></tr></thead><tbody><tr><td>ASCII(char)</td><td>返回字符的ASCII码值</td></tr><tr><td>BIT_LENGTH(str)</td><td>返回字符串的比特长度</td></tr><tr><td>CONCAT(s1,s2…,sn)</td><td>将s1,s2…,sn连接成字符串</td></tr><tr><td>CONCAT_WS(sep,s1,s2…,sn)</td><td>将s1,s2…,sn连接成字符串，并用sep字符间隔</td></tr><tr><td>INSERT(str,x,y,instr)</td><td>将字符串str从第x位置开始，y个字符长的子串替换为字符串instr，返回结果</td></tr><tr><td>FIND_IN_SET(str,list)</td><td>分析逗号分隔的list列表，如果发现str，返回str在list中的位置</td></tr><tr><td>LCASE(str)或LOWER(str)</td><td>返回将字符串str中所有字符改变为小写后的结果</td></tr><tr><td>UCASE(str)或UPPER(str)</td><td>返回将字符串str中所有字符转变为大写后的结果</td></tr><tr><td>LEFT(str,x)</td><td>返回字符串str中最左边的x个字符</td></tr><tr><td>RIGHT(str,x)</td><td>返回字符串str中最右边的x个字符</td></tr><tr><td>LENGTH(str)</td><td>返回字符串str中的字符数</td></tr><tr><td>POSITION(substr,str)</td><td>返回子串substr在字符串str中第一次出现的位置</td></tr><tr><td>QUOTE(str)</td><td>用反斜杠转义str中的单引号</td></tr><tr><td>REPEAT(str,srchstr,rplcstr)</td><td>返回字符串str重复x次的结果</td></tr><tr><td>REVERSE(str)</td><td>返回颠倒字符串str的结果</td></tr><tr><td>LTRIM(str)</td><td>去掉字符串str开头的空格</td></tr><tr><td>RTRIM(str)</td><td>去掉字符串str尾部的空格</td></tr><tr><td>TRIM(str)</td><td>去除字符串首部和尾部的所有空格</td></tr></tbody></table><h3 id="四、日期和时间函数"><a href="#四、日期和时间函数" class="headerlink" title="四、日期和时间函数"></a>四、日期和时间函数</h3><table><thead><tr><th>函数名</th><th>说明</th></tr></thead><tbody><tr><td>DATE_ADD(date,INTERVAL int keyword)</td><td>返回日期date加上间隔时间int的结果(int必须按照关键字进行格式化),如：SELECTDATE_ADD(CURRENT_DATE,INTERVAL 6 MONTH);</td></tr><tr><td>DATE_SUB(date,INTERVAL int keyword)</td><td>返回日期date加上间隔时间int的结果(int必须按照关键字进行格式化),如：SELECTDATE_SUB(CURRENT_DATE,INTERVAL 6 MONTH);</td></tr><tr><td>DATE_FORMAT(date,fmt)</td><td>依照指定的fmt格式格式化日期date值</td></tr><tr><td>FROM_UNIXTIME(ts,fmt)</td><td>根据指定的fmt格式，格式化UNIX时间戳ts</td></tr><tr><td>MONTHNAME(date)</td><td>返回date的月份名(英语月份，如October)</td></tr><tr><td>DAYNAME(date)</td><td>返回date的星期名(英语星期几，如Saturday)</td></tr><tr><td>NOW()</td><td>返回当前的日期和时间 如：2016-10-08 18:57:39</td></tr><tr><td>CURDATE()或CURRENT_DATE()</td><td>返回当前的日期</td></tr><tr><td>CURTIME()或CURRENT_TIME()</td><td>返回当前的时间</td></tr><tr><td>QUARTER(date)</td><td>返回date在一年中的季度(1~4)</td></tr><tr><td>WEEK(date)</td><td>返回日期date为一年中第几周(0~53)</td></tr><tr><td>DAYOFYEAR(date)</td><td>返回date是一年的第几天(1~366)</td></tr><tr><td>DAYOFMONTH(date)</td><td>返回date是一个月的第几天(1~31)</td></tr><tr><td>DAYOFWEEK(date)</td><td>返回date所代表的一星期中的第几天(1~7)</td></tr><tr><td>YEAR(date)</td><td>返回日期date的年份(1000~9999)</td></tr><tr><td>MONTH(date)</td><td>返回date的月份值(1~12)</td></tr><tr><td>DAY(date)</td><td>返回date的天数部分</td></tr><tr><td>HOUR(time)</td><td>返回time的小时值(0~23)</td></tr><tr><td>MINUTE(time)</td><td>返回time的分钟值(0~59)</td></tr><tr><td>SECOND(time)</td><td>返回time的秒值（0-59）</td></tr><tr><td>DATE(datetime)</td><td>返回datetime的日期值</td></tr><tr><td>TIME(datetime)</td><td>返回datetime的时间值</td></tr></tbody></table><h3 id="五、加密函数"><a href="#五、加密函数" class="headerlink" title="五、加密函数"></a>五、加密函数</h3><table><thead><tr><th>函数名</th><th>说明</th></tr></thead><tbody><tr><td>AES_ENCRYPT(str,key)</td><td>返回用密钥key对字符串str利用高级加密标准算法加密后的结果，调用AES_ENCRYPT的结果是一个二进制字符串，以BLOB类型存储</td></tr><tr><td>AES_DECRYPT(str,key)</td><td>返回用密钥key对字符串str利用高级加密标准算法解密后的结果</td></tr><tr><td>DECODE(str,key)</td><td>使用key作为密钥解密加密字符串str</td></tr><tr><td>ENCRYPT(str,salt)</td><td>使用UNIXcrypt()函数，用关键词salt(一个可以惟一确定口令的字符串，就像钥匙一样)加密字符串str</td></tr><tr><td>ENCODE(str,key)</td><td>使用key作为密钥加密字符串str，调用ENCODE()的结果是一个二进制字符串，它以BLOB类型存储</td></tr><tr><td>MD5()</td><td>计算字符串str的MD5校验和</td></tr><tr><td>PASSWORD(str)</td><td>返回字符串str的加密版本，这个加密过程是不可逆转的，和UNIX密码加密过程使用不同的算法。</td></tr><tr><td>SHA()</td><td>计算字符串str的安全散列算法(SHA)校验和</td></tr></tbody></table><h3 id="六、格式化函数"><a href="#六、格式化函数" class="headerlink" title="六、格式化函数"></a>六、格式化函数</h3><table><thead><tr><th>函数名</th><th>说明</th></tr></thead><tbody><tr><td>DATE_FORMAT(date,fmt)</td><td>依照字符串fmt格式化日期date值</td></tr><tr><td>FORMAT(x,y)</td><td>把x格式化为以逗号隔开的数字序列，y是结果的小数位数</td></tr><tr><td>INET_ATON(ip)</td><td>返回IP地址的数字表示</td></tr><tr><td>INET_NTOA(num)</td><td>返回数字所代表的IP地址</td></tr><tr><td>TIME_FORMAT(time,fmt)</td><td>依照字符串fmt格式化时间time值,其中最简单的是FORMAT()函数，它可以把大的数值格式化为以逗号间隔的易读的序列。</td></tr></tbody></table><h3 id="七、数据类型转换函数"><a href="#七、数据类型转换函数" class="headerlink" title="七、数据类型转换函数"></a>七、数据类型转换函数</h3><p>　CAST()函数，将一个值转换为指定的数据类型（类型有：BINARY,CHAR,DATE,TIME,DATETIME,SIGNED,UNSIGNED）<br><code>SELECT CAST(NOW() AS SIGNED INTEGER),CURDATE()+0;</code></p><h3 id="八、系统信息函数"><a href="#八、系统信息函数" class="headerlink" title="八、系统信息函数"></a>八、系统信息函数</h3><table><thead><tr><th>函数名</th><th>说明</th></tr></thead><tbody><tr><td>DATABASE()</td><td>返回当前数据库名</td></tr><tr><td>BENCHMARK(count,expr)</td><td>将表达式expr重复运行count次</td></tr><tr><td>CONNECTION_ID()</td><td>返回当前客户的连接ID</td></tr><tr><td>FOUND_ROWS()</td><td>返回最后一个SELECT查询进行检索的总行数</td></tr><tr><td>USER()或SYSTEM_USER()</td><td>返回当前登陆用户名</td></tr><tr><td>VERSION()</td><td>返回MySQL服务器的版本</td></tr></tbody></table><h3 id="九、条件判断函数"><a href="#九、条件判断函数" class="headerlink" title="九、条件判断函数"></a>九、条件判断函数</h3><table><thead><tr><th>函数名</th><th>说明</th></tr></thead><tbody><tr><td>isnull(expr)</td><td>如expr为null，那么isnull()的返回值为1，否则返回值为0。</td></tr><tr><td>ifnull(expr1,expr2)</td><td>假如expr1不为NULL，则IFNULL()的返回值为expr1; 否则其返回值为expr2。IFNULL()的返回值是数字或是字符串，具体情况取决于其所使用的语境。</td></tr><tr><td>nullif(expr1,expr2)</td><td>如果expr1=expr2成立，那么返回值为NULL，否则返回值为expr1。</td></tr><tr><td>IF(expr1,expr2,expr3)</td><td>如果 expr1 是TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)，则 IF()的返回值为expr2; 否则返回值则为 expr3。IF() 的返回值为数字值或字符串值，具体情况视其所在语境而定。</td></tr></tbody></table>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;一、聚合函数-常用于GROUP-BY从句的SELECT查询中&quot;&gt;&lt;a href=&quot;#一、聚合函数-常用于GROUP-BY从句的SELECT查询中&quot; class=&quot;headerlink&quot; title=&quot;一、聚合函数(常用于GROUP BY从句的SELECT查询中)&quot;&gt;&lt;/a&gt;一、聚合函数(常用于GROUP BY从句的SELECT查询中)&lt;/h3&gt;&lt;p&gt;　下面五个函数会忽略值为NULL的行&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;函数名&lt;/th&gt;
-&lt;th&gt;说明&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;AVG(col)&lt;/td&gt;
-&lt;td&gt;返回指定列的平均值&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;COUNT(col)&lt;/td&gt;
-&lt;td&gt;返回指定列中非NULL值/行的个数（当函数参数为星号*时不会忽略）&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;MIN(col)&lt;/td&gt;
-&lt;td&gt;返回指定列的最小值&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;MAX(col)&lt;/td&gt;
-&lt;td&gt;返回指定列的最大值&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;SUM(col)&lt;/td&gt;
-&lt;td&gt;返回指定列的所有值之和&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;GROUP_CONCAT(col)&lt;/td&gt;
-&lt;td&gt;返回由属于一组的列值连接组合而成的结果&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>总结-MySQL主从复制、读写分离配置详解</title>
-    <link href="http://yoursite.com/2017/12/08/%E6%80%BB%E7%BB%93-MySQL%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E3%80%81%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://yoursite.com/2017/12/08/总结-MySQL主从复制、读写分离配置详解/</id>
-    <published>2017-12-08T03:23:55.000Z</published>
-    <updated>2017-12-08T06:48:14.212Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="MySQL主从同步的机制："><a href="#MySQL主从同步的机制：" class="headerlink" title="MySQL主从同步的机制："></a>MySQL主从同步的机制：</h2><p><img src="/uploads/2017/12/mysql_master_slave_01.jpg" alt=""><br><a id="more"></a></p><blockquote><ol><li>Slave 上面的IO线程连接上 Master，并请求从指定日志文件的指定位置(或者从最开始的日志)之后的日志内容;</li><li>Master 接收到来自 Slave 的 IO 线程的请求后，通过负责复制的 IO线程根据请求信息读取指定日志指定位置之后的日志信息，返回给 Slave 端的 IO线程。返回信息中除了日志所包含的信息之外，还包括本次返回的信息在 Master 端的 Binary Log 文件的名称以及在 BinaryLog 中的位置;</li><li>Slave 的 IO 线程接收到信息后，将接收到的日志内容依次写入到 Slave 端的RelayLog文件(MySQL-relay-bin.xxxxxx)的最末端，并将读取到的Master端的bin-log的文件名和位置记录到master-info文件中，以便在下一次读取的时候能够清楚的高速Master“我需要从某个bin-log的哪个位置开始往后的日志内容，请发给我”</li><li>Slave 的 SQL 线程检测到 Relay Log 中新增加了内容后，会马上解析该 Log 文件中的内容成为在 Master端真实执行时候的那些可执行的 Query 语句，并在自身执行这些 Query。这样，实际上就是在 Master 端和 Slave端执行了同样的 Query，所以两端的数据是完全一样的。</li></ol></blockquote><h2 id="MySQL主从同步的作用"><a href="#MySQL主从同步的作用" class="headerlink" title="MySQL主从同步的作用"></a>MySQL主从同步的作用</h2><p>Ø  可以作为一种备份机制，相当于热备份<br>Ø  可以用来做读写分离，均衡数据库负载</p><h2 id="MySQL主从同步的步骤"><a href="#MySQL主从同步的步骤" class="headerlink" title="MySQL主从同步的步骤"></a>MySQL主从同步的步骤</h2><p>1、在Master MySQL上创建一个用户‘repl’，并允许其他Slave服务器可以通过远程访问Master，通过该用户读取二进制日志，实现数据同步。</p><blockquote><p>mysql&gt;create user repl; //创建新用户<br>//repl用户必须具有REPLICATION SLAVE权限，除此之外没有必要添加不必要的权限，密码为mysql。说明一下192.168.0.%，这个配置是指明repl用户所在服务器，这里%是通配符，表示192.168.0.0-192.168.0.255的Server都可以以repl用户登陆主服务器。当然你也可以指定固定Ip。<br>mysql&gt; GRANT REPLICATION SLAVE ON <em>.</em> TO ‘repl’@’192.168.0.%’ IDENTIFIED BY ‘mysql’;</p></blockquote><p>2、主数据库服务器配置<br>　进入主数据库服务器安装目录,打开my.ini,在文件末尾增加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#数据库ID号， 为1时表示为Master,其中master_id必须为1到232–1之间的一个正整数值;   </span><br><span class="line">server-id = 1  </span><br><span class="line">#启用二进制日志；  </span><br><span class="line">log-bin=mysql-bin  </span><br><span class="line">#需要同步的二进制数据库名；  </span><br><span class="line">binlog-do-db=minishop  </span><br><span class="line">#不同步的二进制数据库名,如果不设置可以将其注释掉;  </span><br><span class="line">binlog-ignore-db=information_schema  </span><br><span class="line">binlog-ignore-db=mysql  </span><br><span class="line">binlog-ignore-db=personalsite  </span><br><span class="line">binlog-ignore-db=test  </span><br><span class="line">#设定生成的log文件名；  </span><br><span class="line">log-bin=&quot;D:/Database/materlog&quot;  </span><br><span class="line">#把更新的记录写到二进制文件中； （注：此处不限制，是对所有操作进行记录日志）</span><br><span class="line">#log-slave-updates</span><br></pre></td></tr></table></figure></p><p>　保存文件。重启Mysql服务。</p><font color="red">注：主数据库配置文件命令详解：</font><table><thead><tr><th>log-bin=mysql-bin</th><th>启动二进制日志系统</th></tr></thead><tbody><tr><td>binlog-do-db=test</td><td>二进制需要同步的数据库名</td></tr><tr><td>server-id = 1</td><td>本机数据库ID 标示为主，该部分还应有一个server-id=Master_id选项，其中master_id必须为1到232–1之间的一个正整数值</td></tr><tr><td>log-bin=/var/log/mysql/updatelog</td><td>设定生成log文件名，这里的路径没有mysql目录要手动创建并给于它mysql用户的权限。</td></tr><tr><td>binlog-ignore-db=mysql</td><td>避免同步mysql用户配置，以免不必要的麻烦</td></tr></tbody></table><p>查看日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW MASTER STATUS;</span><br><span class="line">+-------------------+----------+--------------+------------------+</span><br><span class="line">| File | Position | Binlog_Do_DB | Binlog_Ignore_DB |</span><br><span class="line">+-------------------+----------+--------------+------------------+</span><br><span class="line">| master-bin.000001 | 0| | |</span><br><span class="line">+-------------------+----------+--------------+------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure></p><p><em>（注：此处的日志文件File、Position下面需要用到）</em><br>3、从数据库服务器配置<br>　进入从数据库服务器安装目录,打开my.ini,在文件末尾增加如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#如果需要增加Slave库则，此id往后顺延；  </span><br><span class="line">server-id = 2    </span><br><span class="line">log-bin=mysql-bin  </span><br><span class="line">#如果发现主服务器断线，重新连接的时间差；  </span><br><span class="line">master-connect-retry=60  </span><br><span class="line">#不需要备份的数据库；   </span><br><span class="line">replicate-ignore-db=mysql  </span><br><span class="line">#需要备份的数据库  </span><br><span class="line">replicate-do-db=minishop  </span><br><span class="line">#log-slave-update</span><br></pre></td></tr></table></figure></p><p>　保存文件。重启Mysql服务。<br>4、连接Master<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt;change master to </span><br><span class="line">-&gt;master_host=&apos;192.168.0.104&apos;, //Master 服务器Ip</span><br><span class="line">-&gt;master_port=3306,</span><br><span class="line">-&gt;master_user=&apos;repl&apos;,</span><br><span class="line">-&gt;master_password=&apos;mysql&apos;, </span><br><span class="line">-&gt;master_log_file=&apos;master-bin.000001&apos;,//Master服务器产生的日志</span><br><span class="line">-&gt;master_log_pos=0;</span><br></pre></td></tr></table></figure></p><font color="red">从服务器配置命令详解：</font><table><thead><tr><th>server-id = 2</th><th>从服务器ID号，不要和主ID相同 ，如果设置多个从服务器，每个从服务器必须有一个唯一的server-id值，必须与主服务器的以及其它从服务器的不相同。可以认为server-id值类似于IP地址：这些ID值能唯一识别复制服务器群集中的每个服务器实例。</th></tr></thead><tbody><tr><td>master-host = 172.31.70.51</td><td>指定主服务器IP地址</td></tr><tr><td>master-user = replication</td><td>指定在主服务器上可以进行同步的用户名</td></tr><tr><td>master-password = 123456</td><td>密码</td></tr><tr><td>master-port = 3306</td><td>同步所用的端口</td></tr><tr><td>master-connect-retry=60</td><td>断点重新连接时间</td></tr><tr><td>replicate-ignore-db=mysql</td><td>屏蔽对mysql库的同步，以免有麻烦</td></tr><tr><td>replicate-do-db=test</td><td>同步数据库名称</td></tr></tbody></table><p>5、启动Slave<br><code>start slave;</code><br>查看从服务器状态<br><code>mysql&gt; show slave status \G;</code><br><img src="/uploads/2017/12/mysql_master_slave_02.png" alt=""><br>OK所有配置都完成了。</p><h2 id="读写分离"><a href="#读写分离" class="headerlink" title="读写分离"></a>读写分离</h2><p>　完成MySQL的主从配置，实现数据的实时同步，采用架构的方式实现MySQL的读写分离。<br>　统一认证平台完成数据的增删改的操作，保存数据到MySQL的Master的数据库中，Salve数据库从Master数据库中实时同步数据，应用系统从Salve数据库中读取书据。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;MySQL主从同步的机制：&quot;&gt;&lt;a href=&quot;#MySQL主从同步的机制：&quot; class=&quot;headerlink&quot; title=&quot;MySQL主从同步的机制：&quot;&gt;&lt;/a&gt;MySQL主从同步的机制：&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/uploads/2017/12/mysql_master_slave_01.jpg&quot; alt=&quot;&quot;&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-      <category term="架构" scheme="http://yoursite.com/categories/MySQL/%E6%9E%B6%E6%9E%84/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-      <category term="架构" scheme="http://yoursite.com/tags/%E6%9E%B6%E6%9E%84/"/>
     
   </entry>
   
