@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="数据流重导向就是将某个指令执行后应该要出现在屏幕上的数据，给他传输到其他的地方，例如档案或者是装置(例如打印机之类的)。 1、什么是数据流导向？这得要由指令的执行结果谈起。一般来说，如果你要执行一个指令，通常他会是这样的：">
+<meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识与学习BASH之数据流重导向">
+<meta property="og:url" content="http://yoursite.com/2017/12/28/认识与学习BASH之数据流重导向/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="数据流重导向就是将某个指令执行后应该要出现在屏幕上的数据，给他传输到其他的地方，例如档案或者是装置(例如打印机之类的)。 1、什么是数据流导向？这得要由指令的执行结果谈起。一般来说，如果你要执行一个指令，通常他会是这样的：">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_standard_input_output_error.JPG">
+<meta property="og:updated_time" content="2017-12-29T03:15:40.735Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="认识与学习BASH之数据流重导向">
+<meta name="twitter:description" content="数据流重导向就是将某个指令执行后应该要出现在屏幕上的数据，给他传输到其他的地方，例如档案或者是装置(例如打印机之类的)。 1、什么是数据流导向？这得要由指令的执行结果谈起。一般来说，如果你要执行一个指令，通常他会是这样的：">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/linux_standard_input_output_error.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/28/认识与学习BASH之数据流重导向/"/>
+
+
+
+
+
+  <title>认识与学习BASH之数据流重导向 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/认识与学习BASH之数据流重导向/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">认识与学习BASH之数据流重导向</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T19:11:09+08:00">
+                2017-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《鸟哥的Linux私房菜基础篇（第三版）》/" itemprop="url" rel="index">
+                    <span itemprop="name">《鸟哥的Linux私房菜基础篇（第三版）》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/28/认识与学习BASH之数据流重导向/" class="leancloud_visitors" data-flag-title="认识与学习BASH之数据流重导向">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>数据流重导向就是将某个指令执行后应该要出现在屏幕上的数据，给他传输到其他的地方，例如档案或者是装置(例如打印机之类的)。</p>
+<h3 id="1、什么是数据流导向？"><a href="#1、什么是数据流导向？" class="headerlink" title="1、什么是数据流导向？"></a>1、什么是数据流导向？</h3><p>这得要由指令的执行结果谈起。一般来说，如果你要执行一个指令，通常他会是这样的：<br><img src="/uploads/2017/12/linux_standard_input_output_error.JPG" alt=""><br><a id="more"></a><br>我们执行一个指令的时候，这个指令可能会由档案读入资料，经过处理之后，再将数据输出到屏幕上。在上图当中，standard output 与 standard error output 分别代表【标准输出】与【标准错误输出】，这两个默认都是输出到屏幕上面。那么什么是标准输出与标准错误输出呢？</p>
+<h3 id="2、standard-output-与-standard-error-output"><a href="#2、standard-output-与-standard-error-output" class="headerlink" title="2、standard output 与 standard error output"></a>2、standard output 与 standard error output</h3><p>简单的说，标准输出指的是【指令执行所回传的正确的讯息】，而标准错误输出可理解为【指令执行失败后，所回传的错误讯息】。不管正确或错误的数据都是默认输出到屏幕上，所以屏幕当然是乱的。那能不能透过某些机制将这两股数据分开呢？答案是可以的。那就是数据流重导向的功能，数据流重导向可以将 standard output(简称 stdout) 与 standard error output (简称 stderr)分别传送到其他的档案或装置去，而分别传送所用的特殊字符则如下所示：</p>
+<pre><code>1. 标准输入 (stdin) ：代码为 0 ，使用 &lt; 或 &lt;&lt; ；
+2. 标准输出 (stdout)：代码为 1 ，使用 &gt; 或 &gt;&gt; ；
+3. 标准错误输出(stderr)：代码为 2 ，使用 2&gt; 或 2&gt;&gt; ；
+</code></pre><p><strong>（注：一个’&lt;’符号表示覆盖，两个’&lt;&lt;’表示追加。）</strong></p>
+<h3 id="3、-dev-null-垃圾桶黑洞装置与特殊写法"><a href="#3、-dev-null-垃圾桶黑洞装置与特殊写法" class="headerlink" title="3、/dev/null 垃圾桶黑洞装置与特殊写法"></a>3、/dev/null 垃圾桶黑洞装置与特殊写法</h3><p>如果我知道错误讯息会发生，所以要将错误讯息忽略掉而不显示或储存，这个时候黑洞装置 /dev/null 就很重要了。这个 /dev/null 可以吃掉任何导向这个装置的信息。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">示例：</span><br><span class="line">[dmtsai@www ~]$ find /home -name .bashrc 2&gt; /dev/null</span><br><span class="line">/home/dmtsai/.bashrc &lt;==只有 stdout 会显示到屏幕上， stderr 被丢弃了</span><br></pre></td></tr></table></figure></p>
+<p>如果我要将正确与错误数据通通写入同一个档案去，这个时候就得要使用特殊的写法了。我们同样用底下的案例来说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">示例：将指令的数据全部写入名为 list 的档案中</span><br><span class="line">[dmtsai@www ~]$ find /home -name .bashrc &gt; list 2&gt; list &lt;==错误</span><br><span class="line">[dmtsai@www ~]$ find /home -name .bashrc &gt; list 2&gt;&amp;1 &lt;==正确</span><br><span class="line">[dmtsai@www ~]$ find /home -name .bashrc &amp;&gt; list &lt;==正确</span><br></pre></td></tr></table></figure></p>
+<p>上述表格第一行错误的原因是，由于两股数据同时写入一个档案，又没有使用特殊的语法，此时两股数据可能会交叉写入该档案内，造成次序的错乱。所以虽然最终 list 档案还是会产生，但是里面的数据排列是乱的，而不是原本屏幕上的输出排序。至于写入同一个档案的特殊语法如上所示，你可以使用 2&gt;&amp;1 也可以使用 &amp;&gt; 。一般来说，比较常见的是 2&gt;&amp;1 的语法。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/《鸟哥的Linux私房菜基础篇（第三版）》/" rel="tag"># 《鸟哥的Linux私房菜基础篇（第三版）》</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/28/认识与学习BASH之变量/" rel="next" title="认识与学习BASH之变量">
+                <i class="fa fa-chevron-left"></i> 认识与学习BASH之变量
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/28/认识与学习BASH之管线命令/" rel="prev" title="认识与学习BASH之管线命令">
+                认识与学习BASH之管线命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、什么是数据流导向？"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x6D41;&#x5BFC;&#x5411;&#xFF1F;" class="headerlink" title="1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x6D41;&#x5BFC;&#x5411;&#xFF1F;"></a>1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x6D41;&#x5BFC;&#x5411;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、standard-output-与-standard-error-output"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;standard-output-&#x4E0E;-standard-error-output" class="headerlink" title="2&#x3001;standard output &#x4E0E; standard error output"></a>2&#x3001;standard output &#x4E0E; standard error output</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、-dev-null-垃圾桶黑洞装置与特殊写法"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;-dev-null-&#x5783;&#x573E;&#x6876;&#x9ED1;&#x6D1E;&#x88C5;&#x7F6E;&#x4E0E;&#x7279;&#x6B8A;&#x5199;&#x6CD5;" class="headerlink" title="3&#x3001;/dev/null &#x5783;&#x573E;&#x6876;&#x9ED1;&#x6D1E;&#x88C5;&#x7F6E;&#x4E0E;&#x7279;&#x6B8A;&#x5199;&#x6CD5;"></a>3&#x3001;/dev/null &#x5783;&#x573E;&#x6876;&#x9ED1;&#x6D1E;&#x88C5;&#x7F6E;&#x4E0E;&#x7279;&#x6B8A;&#x5199;&#x6CD5;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
