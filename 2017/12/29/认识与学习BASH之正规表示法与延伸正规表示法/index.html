@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一、正规表示法正规表示法 (Regular Expression, RE, 或称为常规表示法)是透过一些特殊字符的排列，用以【搜寻/取代/删除】一列或多列文字字符串，简单的说，正规表示法就是用在字符串的处理上面的一项【表示式】。正规表示法并不是一个工具程序，而是一个字符串处理的标准依据，如果您想要以正规表示法的方式处理字符串，就得要使用支持正规表示法的工具程序才行，这类的工具程序很多，例如 vi,">
+<meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识与学习BASH之正规表示法与延伸正规表示法">
+<meta property="og:url" content="http://yoursite.com/2017/12/29/认识与学习BASH之正规表示法与延伸正规表示法/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="一、正规表示法正规表示法 (Regular Expression, RE, 或称为常规表示法)是透过一些特殊字符的排列，用以【搜寻/取代/删除】一列或多列文字字符串，简单的说，正规表示法就是用在字符串的处理上面的一项【表示式】。正规表示法并不是一个工具程序，而是一个字符串处理的标准依据，如果您想要以正规表示法的方式处理字符串，就得要使用支持正规表示法的工具程序才行，这类的工具程序很多，例如 vi,">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-29T08:29:08.603Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="认识与学习BASH之正规表示法与延伸正规表示法">
+<meta name="twitter:description" content="一、正规表示法正规表示法 (Regular Expression, RE, 或称为常规表示法)是透过一些特殊字符的排列，用以【搜寻/取代/删除】一列或多列文字字符串，简单的说，正规表示法就是用在字符串的处理上面的一项【表示式】。正规表示法并不是一个工具程序，而是一个字符串处理的标准依据，如果您想要以正规表示法的方式处理字符串，就得要使用支持正规表示法的工具程序才行，这类的工具程序很多，例如 vi,">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/29/认识与学习BASH之正规表示法与延伸正规表示法/"/>
+
+
+
+
+
+  <title>认识与学习BASH之正规表示法与延伸正规表示法 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/29/认识与学习BASH之正规表示法与延伸正规表示法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">认识与学习BASH之正规表示法与延伸正规表示法</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-29T15:55:29+08:00">
+                2017-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《鸟哥的Linux私房菜基础篇（第三版）》/" itemprop="url" rel="index">
+                    <span itemprop="name">《鸟哥的Linux私房菜基础篇（第三版）》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/29/认识与学习BASH之正规表示法与延伸正规表示法/" class="leancloud_visitors" data-flag-title="认识与学习BASH之正规表示法与延伸正规表示法">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、正规表示法"><a href="#一、正规表示法" class="headerlink" title="一、正规表示法"></a>一、正规表示法</h2><p>正规表示法 (Regular Expression, RE, 或称为常规表示法)是透过一些特殊字符的排列，用以【搜寻/取代/删除】一列或多列文字字符串，简单的说，正规表示法就是用在字符串的处理上面的一项【表示式】。正规表示法并不是一个工具程序，而是一个字符串处理的标准依据，如果您想要以正规表示法的方式处理字符串，就得要使用支持正规表示法的工具程序才行，这类的工具程序很多，例如 vi, sed, awk 等等。</p>
+<h3 id="1、什么是正规表示法"><a href="#1、什么是正规表示法" class="headerlink" title="1、什么是正规表示法"></a>1、什么是正规表示法</h3><p>简单的说，正规表示法就是处理字符串的方法，他是以行为单位来进行字符串的处理行为，正规表示法透过一些特殊符号的辅助，可以让使用者轻易的达到【搜寻/删除/取代】某特定字符串的处理程序。<br><a id="more"></a><br>举个系统常见的例子，假如你发现系统在开机的时候，出现一个关于 mail 程序的错误，而开机过程的相关程序都是在 /etc/init.d/ 底下，也就是说，在该目录底下的某个档案内具有 mail 这个关键词，你想要将该档案捉出来进行查询修改的动作。此时你怎么找出来含有这个关键词的档案？你当然可以一个档案一个档案的开启，然后去搜寻 mail 这个关键词，只是…..该目录底下的档案可能不止100 个。如果了解正规表示法的相关技巧，那么只要一行指令就找出来：<code>【grep &#39;mail&#39; /etc/init.d/*】</code>那个 grep 就是支持正规表示法的工具程序之一。</p>
+<p>谈到这里就得要进一步说明，正规表示法基本上是一种【表示法】，只要工具程序支持这种表示法，那么该工具程序就可以用来作为正规表示法的字符串处理之用。例如 vi, grep, awk ,sed 等等工具，因为她们有支持正规表示法，所以，这些工具就可以使用正规表示法的特殊字符来进行字符串的处理。但例如 cp, ls 等指令并未支持正规表示法，所以就只能使用 bash 自己本身的通配符而已。</p>
+<h3 id="2、正规表示法与Shell在Linux当中的角色定位："><a href="#2、正规表示法与Shell在Linux当中的角色定位：" class="headerlink" title="2、正规表示法与Shell在Linux当中的角色定位："></a>2、正规表示法与Shell在Linux当中的角色定位：</h3><p>我们谈到的这个正规表示法，就有点像是数学的九九表一样，是 Linux 基础当中的基础，虽然也是最难的部分，不过，如果学成了之后，一定是【大大的有帮助】的。这就好像是金庸小说里面的学武难关：任督二脉！ 打通任督二脉之后，武功立刻成倍成长！所以，不论是对于系统的认识与系统的管理部分，他都有很棒的辅助。</p>
+<h3 id="3、延伸的正规表示法："><a href="#3、延伸的正规表示法：" class="headerlink" title="3、延伸的正规表示法："></a>3、延伸的正规表示法：</h3><p>正规表示法的字符串表示方式依照不同的严谨度而分为： 基础正规表示法与延伸正规表示法。延伸型正规表示法除了简单的一组字符串处理之外，还可以作群组的字符串处理，例如进行搜寻VBird 或 netman 或 lman 的搜寻，注意，是【或(or)】而不是【和(and)】的处理，此时就需要延伸正规表示法的帮助，藉由特殊的【 ( 】与【 | 】等字符的协助，就能够达到这样的目的。不过，我们在这里主要介绍最基础的基础正规表示法。<br><strong>（注：有一点要向大家报告说明清楚，那就是：【正规表示法与通配符是完全不一样的东西！】这很重要。因为【通配符 (wildcard) 代表的是 bash 操作接口的一个功能】，但正规表示法则是一种字符串处理的表示方式，这两者要分的很清楚才行。)</strong></p>
+<h3 id="4、通过grep实例演示来学习正规表示法："><a href="#4、通过grep实例演示来学习正规表示法：" class="headerlink" title="4、通过grep实例演示来学习正规表示法："></a>4、通过grep实例演示来学习正规表示法：</h3><p>新建regular_express.txt文档及测试内容：</p>
+<blockquote>
+<p>“Open Source” is a good mechanism to develop programs.<br>apple is my favorite food.<br>Football game is not use feet only.<br>this dress doesn’t fit me.<br>However, this dress is about $ 3183 dollars.<br>GNU is free air not free beer.<br>Her hair is very beauty.<br>I can’t finish the test.<br>Oh! The soup taste good.<br>motorcycle is cheap than car.<br>This window is clear.<br>the symbol ‘*’ is represented as start.<br>Oh!    My god!<br>The gd software is a library for drafting programs.<br>You are the best is mean you are the no. 1.<br>The world <happy> is the same with “glad”.<br>I like dog.<br>google is the best tools for search keyword.<br>goooooogle yes!<br>go! go! Let’s go.<br># I am VBird</happy></p>
+</blockquote>
+<p>共有22行，最底下一行为空白行！现在开始我们一个案例一个案例的来介绍。</p>
+<h4 id="例题一：搜寻特定字符串"><a href="#例题一：搜寻特定字符串" class="headerlink" title="例题一：搜寻特定字符串"></a>例题一：搜寻特定字符串</h4><p>假设我们要从刚刚的档案当中取得 the 这个特定字符串，最简单的方式就是这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;the&apos; regular_express.txt</span><br><span class="line">8:I can&apos;t finish the test.</span><br><span class="line">12:the symbol &apos;*&apos; is represented as start.</span><br><span class="line">15:You are the best is mean you are the no. 1.</span><br><span class="line">16:The world &lt;Happy&gt; is the same with &quot;glad&quot;.</span><br><span class="line">18:google is the best tools for search keyword.</span><br></pre></td></tr></table></figure></p>
+<p>那如果想要【反向选择】呢？也就是说，当该行没有 ‘the’ 这个字符串时才显示在屏幕上，那就直接使用：<br><code>[root@www ~]# grep -vn &#39;the&#39; regular_express.txt</code></p>
+<p>接下来，如果你想要取得不论大小写的 the 这个字符串，则：<br><code>[root@www ~]# grep -in &#39;the&#39; regular_express.txt</code></p>
+<h4 id="例题二、利用中括号-来搜寻集合字符"><a href="#例题二、利用中括号-来搜寻集合字符" class="headerlink" title="例题二、利用中括号 [] 来搜寻集合字符"></a>例题二、利用中括号 [] 来搜寻集合字符</h4><p>如果我想要搜寻 test 或 taste 这两个单字时，可以发现到，其实她们有共通的 ‘t?st’ 存在。这个时候，我可以这样来搜寻：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;t[ae]st&apos; regular_express.txt</span><br><span class="line">8:I can&apos;t finish the test.</span><br><span class="line">9:Oh! The soup taste good.</span><br></pre></td></tr></table></figure></p>
+<p>其实 [] 里面不论有几个字符，他都谨代表某【一个】字符，所以，上面的例子说明了，我需要的字符串是【tast】或【test】两个字符串而已。</p>
+<p>而如果想要搜寻到有 oo 的字符时，则使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;oo&apos; regular_express.txt</span><br><span class="line">1:&quot;Open Source&quot; is a good mechanism to develop programs.</span><br><span class="line">2:apple is my favorite food.</span><br><span class="line">3:Football game is not use feet only.</span><br><span class="line">9:Oh! The soup taste good.</span><br><span class="line">18:google is the best tools for search keyword.</span><br><span class="line">19:goooooogle yes!</span><br></pre></td></tr></table></figure></p>
+<p>但是，如果我不想要 oo 前面有 g 的话呢？此时，可以利用在集合字符的反向选择 [^] 来达成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;[^g]oo&apos; regular_express.txt</span><br><span class="line">2:apple is my favorite food.</span><br><span class="line">3:Football game is not use feet only.</span><br><span class="line">18:google is the best tools for search keyword.</span><br><span class="line">19:goooooogle yes!</span><br></pre></td></tr></table></figure></p>
+<p>假设我 oo 前面不想要有小写字符，所以，我可以这样写 [^abcd….z]oo ，但是这样似乎不怎么方便，由于小写字符的 ASCII 上编码的顺序是连续的，因此，我们可以将之简化为底下这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;[^a-z]oo&apos; regular_express.txt</span><br><span class="line">3:Football game is not use feet only.</span><br></pre></td></tr></table></figure></p>
+<p>也就是说，当我们在一组集合字符中，如果该字符组是连续的，例如大写英文/小写英文/数字等等，就可以使用<code>[a-z],[A-Z],[0-9]</code>等方式来书写，那么如果我们的要求字符串是数字与英文呢？就将他全部写在一起，变成：<code>[a-zA-Z0-9]</code>。</p>
+<h4 id="例题三、行首与行尾字符"><a href="#例题三、行首与行尾字符" class="headerlink" title="例题三、行首与行尾字符 ^ $"></a>例题三、行首与行尾字符 ^ $</h4><p>我们在例题一当中，可以查询到一行字符串里面有 the 的，那如果我想要让 the 只在行首列出呢？这个时候就得要使用制表符了。我们可以这样做：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;^the&apos; regular_express.txt</span><br><span class="line">12:the symbol &apos;*&apos; is represented as start.</span><br></pre></td></tr></table></figure></p>
+<p>那如果我不想要开头是英文字母，则可以是这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;^[^a-zA-Z]&apos; regular_express.txt</span><br><span class="line">1:&quot;Open Source&quot; is a good mechanism to develop programs.</span><br><span class="line">21:# I am VBird</span><br></pre></td></tr></table></figure></p>
+<p>注意到了吧？那个 ^ 符号，在字符集合符号(括号[])之内与之外是不同的！在 [] 内代表【反向选择】，在 [] 之外则代表定位在行首的意义！</p>
+<p>如果我想要找出来，行尾结束为小数点 (.) 的那一行，该如何处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;\.$&apos; regular_express.txt</span><br><span class="line">1:&quot;Open Source&quot; is a good mechanism to develop programs.</span><br><span class="line">2:apple is my favorite food.</span><br><span class="line">3:Football game is not use feet only.</span><br><span class="line">4:this dress doesn&apos;t fit me.</span><br><span class="line">10:motorcycle is cheap than car.</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>特别注意到，因为小数点具有其他意义(底下会介绍)，所以必须要使用跳脱字符<code>(\)</code>来加以解除其特殊意义！</p>
+<p>那么如果我想要找出来，哪一行是【空白行】，也就是说，该行并没有输入任何数据，该如何搜寻？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;^$&apos; regular_express.txt</span><br><span class="line">22:</span><br></pre></td></tr></table></figure></p>
+<p>因为只有行首跟行尾 (^$)，所以，这样就可以找出空白行了。</p>
+<p>假设你已经知道在一个程序脚本(shell script)或者是配置文件当中，空白行与开头为 # 的那一行是批注，因此如果你要将资料列出给别人参考时，可以将这些数据省略掉以节省保贵的纸张，那么你可以怎么作呢？我们以<code>/etc/syslog.conf</code> 这个档案来作范例，你可以自行参考一下输出的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# cat -n /etc/syslog.conf</span><br><span class="line"># 在 CentOS 中，结果可以发现有 26 行的输出，很多空白行与 # 开头</span><br><span class="line">[root@www ~]# grep -v &apos;^$&apos; /etc/syslog.conf | grep -v &apos;^#&apos;</span><br><span class="line"># 结果仅有 7 行，其中第一个【 -v &apos;^$&apos; 】代表【不要空白行】，</span><br><span class="line"># 第二个【 -v &apos;^#&apos; 】代表【不要开头是 # 的那行】</span><br></pre></td></tr></table></figure></p>
+<h4 id="例题四、任意一个字符-与重复字符"><a href="#例题四、任意一个字符-与重复字符" class="headerlink" title="例题四、任意一个字符 . 与重复字符 *"></a>例题四、任意一个字符 . 与重复字符 *</h4><p>我们知道通配符 * 可以用来代表任意(0 或多个)字符，但是正规表示法并不是通配符，两者之间是不相同的。至于正规表示法当中的【 . 】则代表【绝对有一个任意字符】的意思。这两个符号在正规表示法的意义如下：</p>
+<pre><code>. (小数点)：代表【一定有一个任意字符】的意思；
+* (星星号)：代表【重复前一个 0 到无穷多次】的意思，为组合形态
+</code></pre><p>我们直接做个练习吧。假设我需要找出 g??d 的字符串，亦即共有四个字符，起头是 g 而结束是 d ，我可以这样做：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;g..d&apos; regular_express.txt</span><br><span class="line">1:&quot;Open Source&quot; is a good mechanism to develop programs.</span><br><span class="line">9:Oh! The soup taste good.</span><br><span class="line">16:The world &lt;Happy&gt; is the same with &quot;glad&quot;.</span><br></pre></td></tr></table></figure></p>
+<p>因为 * 代表的是【重复 0 个或多个前面的 RE 字符】的意义，因此，【o*】代表的是：【拥有空字符或一个 o 以上的字符】，特别注意，因为允许空字符(就是有没有字符都可以的意思)，因此，<code>【 grep -n &#39;o*&#39; regular_express.txt 】</code>将会把所有的数据都打印出到屏幕上。因此，当我们需要【至少两个 o 以上的字符串】时，就需要 ooo* ，亦即是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;ooo*&apos; regular_express.txt</span><br><span class="line">1:&quot;Open Source&quot; is a good mechanism to develop programs.</span><br><span class="line">2:apple is my favorite food.</span><br><span class="line">3:Football game is not use feet only.</span><br><span class="line">9:Oh! The soup taste good.</span><br><span class="line">18:google is the best tools for search keyword.</span><br><span class="line">19:goooooogle yes!</span><br></pre></td></tr></table></figure></p>
+<h4 id="例题五、限定连续-RE-字符范围"><a href="#例题五、限定连续-RE-字符范围" class="headerlink" title="例题五、限定连续 RE 字符范围 {}"></a>例题五、限定连续 RE 字符范围 {}</h4><p>在上个例题当中，我们可以利用 . 与 RE 字符及 * 来设定 0 个到无限多个重复字符，那如果我想要限制一个范围区间内的重复字符数呢？举例来说，我想要找出两个到五个 o 的连续字符串，该如何作？这时候就得要使用到限定范围的字符 {} 了。但因为 { 与 } 的符号在 shell 是有特殊意义的，因此，我们必须要使用跳脱字符 \ 来让他失去特殊意义才行。至于 {} 的语法是这样的，假设我要找到两个 o 的字符串，可以是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;o\&#123;2\&#125;&apos; regular_express.txt</span><br><span class="line">1:&quot;Open Source&quot; is a good mechanism to develop programs.</span><br><span class="line">2:apple is my favorite food.</span><br><span class="line">3:Football game is not use feet only.</span><br><span class="line">9:Oh! The soup taste good.</span><br><span class="line">18:google is the best tools for search keyword.</span><br><span class="line">19:goooooogle yes!</span><br></pre></td></tr></table></figure></p>
+<p>这样看似乎与 ooo* 的字符没有什么差异？因为第 19 行有多个 o 依旧也出现了。那么换个搜寻的字符串，假设我们要找出 g 后面接 2 到 5 个 o ，然后再接一个 g 的字符串，他会是这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep -n &apos;go\&#123;2,5\&#125;g&apos; regular_express.txt</span><br><span class="line">18:google is the best tools for search keyword.</span><br></pre></td></tr></table></figure></p>
+<h3 id="5、基础正规表示法字符汇整-characters"><a href="#5、基础正规表示法字符汇整-characters" class="headerlink" title="5、基础正规表示法字符汇整 (characters)"></a>5、基础正规表示法字符汇整 (characters)</h3><p>经过了上面的几个简单的范例，我们可以将基础的正规表示法特殊字符汇整如下：</p>
+<style>
+table th:first-of-type {
+    width: 100px;
+}
+</style>
+
+<table>
+<thead>
+<tr>
+<th>RE字符</th>
+<th>意义与范例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>^word</td>
+<td>意义：待搜寻的字符串(word)在行首！<br> 范例：搜寻行首为 # 开始的那一行，并列出行号 <br> <code>grep -n &#39;^#&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td>word$</td>
+<td>意义：待搜寻的字符串(word)在行尾！ <br> 范例：将行尾为 ! 的那一行打印出来，并列出行号 <br> <code>grep -n &#39;!$&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td> .</td>
+<td>意义：代表【一定有一个任意字符】的字符！ <br> 范例：搜寻的字符串可以是 (eve) (eae) (eee) (e e)， 但不能仅有 (ee) ！亦即 e 与 e 中间【一定】仅有一个字符，而空格符也是字符！ <br> <code>grep -n &#39;e.e&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td> \</td>
+<td>意义：跳脱字符，将特殊符号的特殊意义去除！ <br> 范例：搜寻含有单引号 ‘ 的那一行！ <br> <code>grep -n \&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td>  *</td>
+<td>意义：重复零个到无穷多个的前一个 RE 字符 <br> 范例：找出含有 (es) (ess) (esss) 等等的字符串，注意，因为 <em> 可以是 0 个，所以 es 也是符合带搜寻字符串。另外，因为 </em> 为重复【前一个 RE 字符】的符号，因此，在 <em> 之前必须要紧接着一个 RE 字符。例如任意字符则为【.</em>】！ <br> <code>grep -n &#39;ess*&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td>[list]</td>
+<td>意义：字符集合的 RE 字符，里面列出想要撷取的字符！ <br> 范例：搜寻含有 (gl) 或 (gd) 的那一行，需要特别留意的是，在 [] 当中【谨代表一个待搜寻的字符】，例如【 a[afl]y 】代表搜寻的字符串可以是 aay, afy, aly 即[afl] 代表 a 或 f 或 l 的意思！ <br> <code>grep -n &#39;g[ld]&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td>[n1-n2]</td>
+<td>意义：字符集合的 RE 字符，里面列出想要撷取的字符范围！ <br> 范例：搜寻含有任意数字的那一行！需特别留意，在字符集合 [] 中的减号 - 是有特殊意义的，他代表两个字符之间的所有连续字符！但这个连续与否与 ASCII 编码有关，因此，你的编码需要设定正确(在 bash 当中，需要确定 LANG 与 LANGUAGE 的变量是否正确！) 例如所有大写字符则为 [A-Z] <br> <code>grep -n &#39;[0-9]&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td>[^list]</td>
+<td>意义：字符集合的 RE 字符，里面列出不要的字符串或范围！ <br> 范例：搜寻的字符串可以是 (oog) (ood) 但不能是 (oot) ，那个 ^ 在 [] 内时，代表的意义是【反向选择】的意思。 例如，我不要大写字符，则为 [^A-Z]。但是，需要特别注意的是，如果以 <code>grep -n [^A-Z] regular_express.txt</code>来搜寻，即发现该档案内的所有行都被列出，为什么？因为这个 [^A-Z] 是【非大写字符】的意思，因为每一行均有非大写字符，例如第一行的 “Open Source” 就有 p,e,n,o….等等的小写字 <br> <code>grep -n &#39;oo[^t]&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td>\{n,m\}</td>
+<td>意义：连续 n 到 m 个的【前一个 RE 字符】 <br> 意义：若为 \{n\} 则是连续 n 个的前一个 RE 字符， <br> 意义：若是 \{n,\} 则是连续 n 个以上的前一个 RE 字符！ 范例：在 g 与 g 之间有2 个到 3 个的 o 存在的字符串，亦即 (goog)(gooog) <br> <code>grep -n &#39;go\\{2,3\\}g&#39; regular_express.txt</code></td>
+</tr>
+</tbody>
+</table>
+<p>再次强调：【正规表示法的特殊字符】与一般在指令列输入指令的【通配符】并不相同，例如，在通配符当中的 * 代表的是【 0 ~ 无限多个字符】的意思，但是在正规表示法当中， * 则是【重复 0 到无穷多个的前一个 RE 字符】的意思。使用的意义并不相同，不要搞混了。</p>
+<h2 id="二、延伸正规表示法"><a href="#二、延伸正规表示法" class="headerlink" title="二、延伸正规表示法"></a>二、延伸正规表示法</h2><p>事实上，一般读者只要了解基础型的正规表示法大概就已经相当足够了，不过，某些时刻为了要简化整个指令操作，了解一下使用范围更广的延伸型正规表示法的表示式会更方便。举个简单的例子，我们要去除空白行与行首为 # 的行列，使用的是<br><code>grep -v &#39;^$&#39; regular_express.txt | grep -v &#39;^#&#39;</code><br>需要使用到管线命令来搜寻两次！那么如果使用延伸型的正规表示法，我们可以简化为：<br><code>egrep -v &#39;^$|^#&#39; regular_express.txt</code><br>延伸型正规表示法可以透过群组功能【 | 】来进行一次搜寻！那个在单引号内的管线意义为【或 or】。此外，grep 预设仅支持基础正规表示法，如果要使用延伸型正规表示法，你可以使用 grep -E ，不过更建议直接使用 egrep ！直接区分指令比较好记忆！其实 egrep 与 grep -E 是类似命令别名的关系。</p>
+<table>
+<thead>
+<tr>
+<th>RE字符</th>
+<th>意义与范例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> +</td>
+<td>意义：重复【一个或一个以上】的前一个 RE 字符 <br> 范例：搜寻 (god) (good) (goood)… 等等的字符串。那个 o+ 代表【一个以上的 o 】所以，底下的执行成果会将第 1, 9, 13 行列出来。 <br> <code>egrep -n &#39;go+d&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td> ?</td>
+<td>意义：【零个或一个】的前一个 RE 字符 <br> 范例：搜寻 (gd) (god) 这两个字符串。 那个 o? 代表【空的或 1 个 o 】所以，上面的执行成果会将第 13, 14 行列出来。有没有发现到，这两个案例( ‘go+d’ 与 ‘go?d’ )的结果集合与 ‘go*d’ 相同？想想看，这是为什么！ <br> <code>egrep -n &#39;go?d&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td>  &#124;</td>
+<td>意义：用或( or )的方式找出数个字符串 <br> 范例：搜寻 gd 或 good 这两个字符串，注意，是【或】！ 所以，第 1,9,14 这三行都可以被打印出来。那如果还想要找出 dog 呢？ <br> <code>egrep -n &#39;gd&amp;#124;good&#39; regular_express.txt</code> <br> <code>egrep -n &#39;gd&amp;#124;good&amp;#124;dog&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td> ()</td>
+<td>意义：找出【群组】字符串 <br> 范例：搜寻 (glad) 或 (good) 这两个字符串，因为 g 与 d 是重复的，所以，我就可以将 la 与 oo 列于 ( ) 当中，并以 &#124; 来分隔开来，就可以。 <br> <code>egrep -n &#39;g(la&amp;#124;oo)d&#39; regular_express.txt</code></td>
+</tr>
+<tr>
+<td> ()+</td>
+<td>意义：多个重复群组的判别 <br> 范例：将【AxyzxyzxyzxyzC】用 echo 叫出，然后再使用如下的方法搜寻一下！ <br> echo ‘AxyzxyzxyzxyzC’ &#124; egrep ‘A(xyz)+C’ <br> 上面的例子意思是说，我要找开头是 A 结尾是 C ，中间有一个以上的 “xyz” 字符串的意思</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/《鸟哥的Linux私房菜基础篇（第三版）》/" rel="tag"># 《鸟哥的Linux私房菜基础篇（第三版）》</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/28/认识与学习BASH之管线命令/" rel="next" title="认识与学习BASH之管线命令">
+                <i class="fa fa-chevron-left"></i> 认识与学习BASH之管线命令
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/29/认识与学习BASH之sed命令/" rel="prev" title="认识与学习BASH之sed命令">
+                认识与学习BASH之sed命令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、正规表示法"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;" class="headerlink" title="&#x4E00;&#x3001;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;"></a>&#x4E00;&#x3001;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、什么是正规表示法"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;" class="headerlink" title="1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;"></a>1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、正规表示法与Shell在Linux当中的角色定位："><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#x4E0E;Shell&#x5728;Linux&#x5F53;&#x4E2D;&#x7684;&#x89D2;&#x8272;&#x5B9A;&#x4F4D;&#xFF1A;" class="headerlink" title="2&#x3001;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#x4E0E;Shell&#x5728;Linux&#x5F53;&#x4E2D;&#x7684;&#x89D2;&#x8272;&#x5B9A;&#x4F4D;&#xFF1A;"></a>2&#x3001;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#x4E0E;Shell&#x5728;Linux&#x5F53;&#x4E2D;&#x7684;&#x89D2;&#x8272;&#x5B9A;&#x4F4D;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、延伸的正规表示法："><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x5EF6;&#x4F38;&#x7684;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#xFF1A;" class="headerlink" title="3&#x3001;&#x5EF6;&#x4F38;&#x7684;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#xFF1A;"></a>3&#x3001;&#x5EF6;&#x4F38;&#x7684;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、通过grep实例演示来学习正规表示法："><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x901A;&#x8FC7;grep&#x5B9E;&#x4F8B;&#x6F14;&#x793A;&#x6765;&#x5B66;&#x4E60;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#xFF1A;" class="headerlink" title="4&#x3001;&#x901A;&#x8FC7;grep&#x5B9E;&#x4F8B;&#x6F14;&#x793A;&#x6765;&#x5B66;&#x4E60;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#xFF1A;"></a>4&#x3001;&#x901A;&#x8FC7;grep&#x5B9E;&#x4F8B;&#x6F14;&#x793A;&#x6765;&#x5B66;&#x4E60;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例题一：搜寻特定字符串"><span class="nav-number">1.4.1.</span> <span class="nav-text"><a href="#&#x4F8B;&#x9898;&#x4E00;&#xFF1A;&#x641C;&#x5BFB;&#x7279;&#x5B9A;&#x5B57;&#x7B26;&#x4E32;" class="headerlink" title="&#x4F8B;&#x9898;&#x4E00;&#xFF1A;&#x641C;&#x5BFB;&#x7279;&#x5B9A;&#x5B57;&#x7B26;&#x4E32;"></a>&#x4F8B;&#x9898;&#x4E00;&#xFF1A;&#x641C;&#x5BFB;&#x7279;&#x5B9A;&#x5B57;&#x7B26;&#x4E32;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例题二、利用中括号-来搜寻集合字符"><span class="nav-number">1.4.2.</span> <span class="nav-text"><a href="#&#x4F8B;&#x9898;&#x4E8C;&#x3001;&#x5229;&#x7528;&#x4E2D;&#x62EC;&#x53F7;-&#x6765;&#x641C;&#x5BFB;&#x96C6;&#x5408;&#x5B57;&#x7B26;" class="headerlink" title="&#x4F8B;&#x9898;&#x4E8C;&#x3001;&#x5229;&#x7528;&#x4E2D;&#x62EC;&#x53F7; [] &#x6765;&#x641C;&#x5BFB;&#x96C6;&#x5408;&#x5B57;&#x7B26;"></a>&#x4F8B;&#x9898;&#x4E8C;&#x3001;&#x5229;&#x7528;&#x4E2D;&#x62EC;&#x53F7; [] &#x6765;&#x641C;&#x5BFB;&#x96C6;&#x5408;&#x5B57;&#x7B26;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例题三、行首与行尾字符"><span class="nav-number">1.4.3.</span> <span class="nav-text"><a href="#&#x4F8B;&#x9898;&#x4E09;&#x3001;&#x884C;&#x9996;&#x4E0E;&#x884C;&#x5C3E;&#x5B57;&#x7B26;" class="headerlink" title="&#x4F8B;&#x9898;&#x4E09;&#x3001;&#x884C;&#x9996;&#x4E0E;&#x884C;&#x5C3E;&#x5B57;&#x7B26; ^ $"></a>&#x4F8B;&#x9898;&#x4E09;&#x3001;&#x884C;&#x9996;&#x4E0E;&#x884C;&#x5C3E;&#x5B57;&#x7B26; ^ $</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例题四、任意一个字符-与重复字符"><span class="nav-number">1.4.4.</span> <span class="nav-text"><a href="#&#x4F8B;&#x9898;&#x56DB;&#x3001;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26;-&#x4E0E;&#x91CD;&#x590D;&#x5B57;&#x7B26;" class="headerlink" title="&#x4F8B;&#x9898;&#x56DB;&#x3001;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26; . &#x4E0E;&#x91CD;&#x590D;&#x5B57;&#x7B26; *"></a>&#x4F8B;&#x9898;&#x56DB;&#x3001;&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x5B57;&#x7B26; . &#x4E0E;&#x91CD;&#x590D;&#x5B57;&#x7B26; *</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例题五、限定连续-RE-字符范围"><span class="nav-number">1.4.5.</span> <span class="nav-text"><a href="#&#x4F8B;&#x9898;&#x4E94;&#x3001;&#x9650;&#x5B9A;&#x8FDE;&#x7EED;-RE-&#x5B57;&#x7B26;&#x8303;&#x56F4;" class="headerlink" title="&#x4F8B;&#x9898;&#x4E94;&#x3001;&#x9650;&#x5B9A;&#x8FDE;&#x7EED; RE &#x5B57;&#x7B26;&#x8303;&#x56F4; {}"></a>&#x4F8B;&#x9898;&#x4E94;&#x3001;&#x9650;&#x5B9A;&#x8FDE;&#x7EED; RE &#x5B57;&#x7B26;&#x8303;&#x56F4; {}</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、基础正规表示法字符汇整-characters"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#5&#x3001;&#x57FA;&#x7840;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#x5B57;&#x7B26;&#x6C47;&#x6574;-characters" class="headerlink" title="5&#x3001;&#x57FA;&#x7840;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#x5B57;&#x7B26;&#x6C47;&#x6574; (characters)"></a>5&#x3001;&#x57FA;&#x7840;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;&#x5B57;&#x7B26;&#x6C47;&#x6574; (characters)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、延伸正规表示法"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x5EF6;&#x4F38;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;" class="headerlink" title="&#x4E8C;&#x3001;&#x5EF6;&#x4F38;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;"></a>&#x4E8C;&#x3001;&#x5EF6;&#x4F38;&#x6B63;&#x89C4;&#x8868;&#x793A;&#x6CD5;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="grep命令文件过滤分割与合并 grep（global search regular expression(RE) and print out the line，全面搜索正则表达式并把行打印出来）是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-12T10:28:26.894Z">
+<meta property="og:updated_time" content="2017-12-29T06:47:24.538Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux命令之grep">
 <meta name="twitter:description" content="grep命令文件过滤分割与合并 grep（global search regular expression(RE) and print out the line，全面搜索正则表达式并把行打印出来）是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。">
@@ -382,6 +382,10 @@
 <p>4、输出包含匹配字符串的行数 -n 选项：<br>grep “text” -n file_name<br>或<br>cat file_name | grep “text” -n </p>
 <p>#多个文件<br>grep “text” -n file_1 file_2</p>
 <p>5、忽略匹配样式中的字符大小写：<br>echo “hello world” | grep -i “HELLO”<br>hello</p>
+<p><strong>grep的一些进阶选项：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# grep [-A] [-B] [--color=auto] &apos;搜寻字符串&apos; filename</span><br><span class="line">选项与参数：</span><br><span class="line">-A ：后面可加数字，为 after 的意思，除了列出该行外，后续的 n 行也列出来；</span><br><span class="line">-B ：后面可加数字，为 befer 的意思，除了列出该行外，前面的 n 行也列出来；</span><br><span class="line">--color=auto 可将正确癿那个撷叏数据列出颜色</span><br></pre></td></tr></table></figure></p>
+<p>范例一：要将捉到的关键词显色，且加上行号来显示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# dmesg | grep -n --color=auto &apos;eth&apos;</span><br><span class="line">247:eth0: RealTek RTL8139 at 0xee846000, 00:90:cc:a6:34:84, IRQ 10</span><br><span class="line">248:eth0: Identified 8139 chip type &apos;RTL-8139C&apos;</span><br><span class="line">294:eth0: link up, 100Mbps, full-duplex, lpa 0xC5E1</span><br><span class="line">305:eth0: no IPv6 routers present</span><br><span class="line"># 你会发现除了 eth 会有特殊颜色来表示之外，最前面还有行号显示</span><br></pre></td></tr></table></figure></p>
+<p>范例二：承上题，在关键词所在行的前两行与后三行也一起捉出来显示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# dmesg | grep -n -A3 -B2 --color=auto &apos;eth&apos;</span><br><span class="line">245-PCI: setting IRQ 10 as level-triggered</span><br><span class="line">246-ACPI: PCI Interrupt 0000:00:0e.0[A] -&gt; Link [LNKB] ...</span><br><span class="line">247:eth0: RealTek RTL8139 at 0xee846000, 00:90:cc:a6:34:84, IRQ 10</span><br><span class="line">248:eth0: Identified 8139 chip type &apos;RTL-8139C&apos;</span><br><span class="line">249-input: PC Speaker as /class/input/input2</span><br><span class="line">250-ACPI: PCI Interrupt 0000:00:01.4[B] -&gt; Link [LNKB] ...</span><br><span class="line">251-hdb: ATAPI 48X DVD-ROM DVD-R-RAM CD-R/RW drive, 2048kB</span><br><span class="line">Cache, UDMA(66)</span><br><span class="line"># 如上所示，你会发现关键词 247 所在的前两行及 248 后三行也都被显示出来！</span><br><span class="line"># 这样可以让你将关键词前后数据捉出来进行分析</span><br></pre></td></tr></table></figure></p>
+<p>grep 是一个很常见也很常用的指令，他最重要的功能就是进行字符串数据的比对，然后将符合用户需求的字符串打印出来。需要说明的是【grep 在数据中查寻一个字符串时，是以 “整行” 为单位来进行数据的撷取的！】也就是说，假如一个档案内有 10行，其中有两行具有你所搜寻的字符串，则将那两行显示在屏幕上，其他的就丢弃了。<br><strong>（注：在关键词的显示方面，grep 可以使用 <code>--color=auto</code> 来将关键词部分使用颜色显示。如果感觉每次使用 grep 都得要自行加上 <code>--color=auto</code> 很麻烦，此时就可以使用 alias 来处理一下，你可以在 ~/.bashrc 内加上这行：<code>【alias grep=&#39;grep --color=auto&#39;】</code>再以<code>【 source ~/.bashrc 】</code>来立即生效即可使用。这样每次执行 grep 都会自动帮你加上颜色显示。）</strong></p>
 
       
     </div>
@@ -498,7 +502,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">46</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -509,7 +513,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
