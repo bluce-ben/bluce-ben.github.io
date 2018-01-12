@@ -90,7 +90,7 @@
 <meta property="og:description" content="1、Shell 的变量变量是 bash 环境中非常重要的一个知识点，我们知道 Linux 是多人多任务的环境，每个人登入系统都能取得一个 bash ，每个人都能够使用 bash 下达 mail 这个指令来收取【自己】的邮件，问题是，bash 是如何得知你的邮件信箱是哪个档案？这就需要【变量】的帮助。底下我们将介绍重要的环境变量、变量的取用与设定等数据。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_shell_variable_01.png">
-<meta property="og:updated_time" content="2018-01-04T09:25:24.564Z">
+<meta property="og:updated_time" content="2018-01-12T03:27:29.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="认识与学习BASH之变量">
 <meta name="twitter:description" content="1、Shell 的变量变量是 bash 环境中非常重要的一个知识点，我们知道 Linux 是多人多任务的环境，每个人登入系统都能取得一个 bash ，每个人都能够使用 bash 下达 mail 这个指令来收取【自己】的邮件，问题是，bash 是如何得知你的邮件信箱是哪个档案？这就需要【变量】的帮助。底下我们将介绍重要的环境变量、变量的取用与设定等数据。">
@@ -436,6 +436,50 @@
 <li>/etc/profile：这是系统整体的设定，你最好不要修改这个档案；</li>
 <li>~/.bash_profile 或 ~/.bash_login 或 ~/.profile：属于使用者个人设定，你要改自己的数据，就写入这里。</li>
 </ol>
+<h3 id="7、常见的一些特殊变量"><a href="#7、常见的一些特殊变量" class="headerlink" title="7、常见的一些特殊变量"></a>7、常见的一些特殊变量</h3><style type="text/css">
+    table th:first-of-type {
+        width: 100px;
+    }
+</style>
+
+<table>
+<thead>
+<tr>
+<th>参数处理</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$#</td>
+<td>传递到脚本的参数个数</td>
+</tr>
+<tr>
+<td>$?</td>
+<td>显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。</td>
+</tr>
+<tr>
+<td>$*</td>
+<td>以一个单字符串显示所有向脚本传递的参数。如”$*”用「”」括起来的情况、以”$1 $2 … $n”的形式输出所有参数。</td>
+</tr>
+<tr>
+<td>$@</td>
+<td>与$*相同，但是使用时加引号，并在引号中返回每个参数。如”$@”用「”」括起来的情况、以”$1” “$2” … “$n” 的形式输出所有参数。</td>
+</tr>
+<tr>
+<td>$$</td>
+<td>脚本运行的当前进程ID号</td>
+</tr>
+<tr>
+<td>$!</td>
+<td>后台运行的最后一个进程的ID号</td>
+</tr>
+<tr>
+<td>$-</td>
+<td>显示Shell使用的当前选项，与set命令功能相同。</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -561,7 +605,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -639,7 +683,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Shell-的变量"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;Shell-&#x7684;&#x53D8;&#x91CF;" class="headerlink" title="1&#x3001;Shell &#x7684;&#x53D8;&#x91CF;"></a>1&#x3001;Shell &#x7684;&#x53D8;&#x91CF;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、什么是变量"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x53D8;&#x91CF;" class="headerlink" title="2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x53D8;&#x91CF;"></a>2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x53D8;&#x91CF;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、环境变量的功能"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x7684;&#x529F;&#x80FD;" class="headerlink" title="3&#x3001;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x7684;&#x529F;&#x80FD;"></a>3&#x3001;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x7684;&#x529F;&#x80FD;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、变量键盘的读取、数组与宣告"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x53D8;&#x91CF;&#x952E;&#x76D8;&#x7684;&#x8BFB;&#x53D6;&#x3001;&#x6570;&#x7EC4;&#x4E0E;&#x5BA3;&#x544A;" class="headerlink" title="4&#x3001;&#x53D8;&#x91CF;&#x952E;&#x76D8;&#x7684;&#x8BFB;&#x53D6;&#x3001;&#x6570;&#x7EC4;&#x4E0E;&#x5BA3;&#x544A;"></a>4&#x3001;&#x53D8;&#x91CF;&#x952E;&#x76D8;&#x7684;&#x8BFB;&#x53D6;&#x3001;&#x6570;&#x7EC4;&#x4E0E;&#x5BA3;&#x544A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、变量内容的删除、取代与替换"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x53D8;&#x91CF;&#x5185;&#x5BB9;&#x7684;&#x5220;&#x9664;&#x3001;&#x53D6;&#x4EE3;&#x4E0E;&#x66FF;&#x6362;" class="headerlink" title="5&#x3001;&#x53D8;&#x91CF;&#x5185;&#x5BB9;&#x7684;&#x5220;&#x9664;&#x3001;&#x53D6;&#x4EE3;&#x4E0E;&#x66FF;&#x6362;"></a>5&#x3001;&#x53D8;&#x91CF;&#x5185;&#x5BB9;&#x7684;&#x5220;&#x9664;&#x3001;&#x53D6;&#x4EE3;&#x4E0E;&#x66FF;&#x6362;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、用户登入-shell-后读取的两个配置文件："><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x7528;&#x6237;&#x767B;&#x5165;-shell-&#x540E;&#x8BFB;&#x53D6;&#x7684;&#x4E24;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;" class="headerlink" title="6&#x3001;&#x7528;&#x6237;&#x767B;&#x5165; shell &#x540E;&#x8BFB;&#x53D6;&#x7684;&#x4E24;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;"></a>6&#x3001;&#x7528;&#x6237;&#x767B;&#x5165; shell &#x540E;&#x8BFB;&#x53D6;&#x7684;&#x4E24;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Shell-的变量"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;Shell-&#x7684;&#x53D8;&#x91CF;" class="headerlink" title="1&#x3001;Shell &#x7684;&#x53D8;&#x91CF;"></a>1&#x3001;Shell &#x7684;&#x53D8;&#x91CF;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、什么是变量"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x53D8;&#x91CF;" class="headerlink" title="2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x53D8;&#x91CF;"></a>2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x53D8;&#x91CF;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、环境变量的功能"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x7684;&#x529F;&#x80FD;" class="headerlink" title="3&#x3001;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x7684;&#x529F;&#x80FD;"></a>3&#x3001;&#x73AF;&#x5883;&#x53D8;&#x91CF;&#x7684;&#x529F;&#x80FD;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、变量键盘的读取、数组与宣告"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x53D8;&#x91CF;&#x952E;&#x76D8;&#x7684;&#x8BFB;&#x53D6;&#x3001;&#x6570;&#x7EC4;&#x4E0E;&#x5BA3;&#x544A;" class="headerlink" title="4&#x3001;&#x53D8;&#x91CF;&#x952E;&#x76D8;&#x7684;&#x8BFB;&#x53D6;&#x3001;&#x6570;&#x7EC4;&#x4E0E;&#x5BA3;&#x544A;"></a>4&#x3001;&#x53D8;&#x91CF;&#x952E;&#x76D8;&#x7684;&#x8BFB;&#x53D6;&#x3001;&#x6570;&#x7EC4;&#x4E0E;&#x5BA3;&#x544A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、变量内容的删除、取代与替换"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x53D8;&#x91CF;&#x5185;&#x5BB9;&#x7684;&#x5220;&#x9664;&#x3001;&#x53D6;&#x4EE3;&#x4E0E;&#x66FF;&#x6362;" class="headerlink" title="5&#x3001;&#x53D8;&#x91CF;&#x5185;&#x5BB9;&#x7684;&#x5220;&#x9664;&#x3001;&#x53D6;&#x4EE3;&#x4E0E;&#x66FF;&#x6362;"></a>5&#x3001;&#x53D8;&#x91CF;&#x5185;&#x5BB9;&#x7684;&#x5220;&#x9664;&#x3001;&#x53D6;&#x4EE3;&#x4E0E;&#x66FF;&#x6362;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、用户登入-shell-后读取的两个配置文件："><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x7528;&#x6237;&#x767B;&#x5165;-shell-&#x540E;&#x8BFB;&#x53D6;&#x7684;&#x4E24;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;" class="headerlink" title="6&#x3001;&#x7528;&#x6237;&#x767B;&#x5165; shell &#x540E;&#x8BFB;&#x53D6;&#x7684;&#x4E24;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;"></a>6&#x3001;&#x7528;&#x6237;&#x767B;&#x5165; shell &#x540E;&#x8BFB;&#x53D6;&#x7684;&#x4E24;&#x4E2A;&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、常见的一些特殊变量"><span class="nav-number">7.</span> <span class="nav-text"><a href="#7&#x3001;&#x5E38;&#x89C1;&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x53D8;&#x91CF;" class="headerlink" title="7&#x3001;&#x5E38;&#x89C1;&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x53D8;&#x91CF;"></a>7&#x3001;&#x5E38;&#x89C1;&#x7684;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x53D8;&#x91CF;</span></a></li></ol></div>
             
 
           </div>
