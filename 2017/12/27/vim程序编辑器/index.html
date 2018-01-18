@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》,vim," />
+  <meta name="keywords" content="书籍,vim," />
 
 
 
@@ -82,7 +82,7 @@
 
 
 <meta name="description" content="vi：文本编辑器vim：程序编辑器 为什么要学vi？因为所有的UNIX Like系统都会内建vi文本编辑器，其它的文本编辑器则不一定会存在。 vi与vim的区别？其实你可以将 vim 规作 vi 的进阶版本，vim 可以用颜色或底线等方式来显示一些特殊的信息。举例来说，当你使用 vim 去编辑一个 C 程序语言的档案，或者是我们后续会谈到的shell script 程序时，vim 会依据档案的扩展">
-<meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》,vim">
+<meta name="keywords" content="书籍,vim">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vim程序编辑器">
 <meta property="og:url" content="http://yoursite.com/2017/12/27/vim程序编辑器/index.html">
@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_multiwindows.png">
 <meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_environment_set_01.png">
 <meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_environment_set_02.png">
-<meta property="og:updated_time" content="2018-01-04T09:29:38.324Z">
+<meta property="og:updated_time" content="2018-01-18T07:04:46.313Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vim程序编辑器">
 <meta name="twitter:description" content="vi：文本编辑器vim：程序编辑器 为什么要学vi？因为所有的UNIX Like系统都会内建vi文本编辑器，其它的文本编辑器则不一定会存在。 vi与vim的区别？其实你可以将 vim 规作 vi 的进阶版本，vim 可以用颜色或底线等方式来显示一些特殊的信息。举例来说，当你使用 vim 去编辑一个 C 程序语言的档案，或者是我们后续会谈到的shell script 程序时，vim 会依据档案的扩展">
@@ -408,7 +408,8 @@
 <h3 id="编辑模式："><a href="#编辑模式：" class="headerlink" title="编辑模式："></a>编辑模式：</h3><p>在一般模式中可以进行删除、复制、粘贴等等的动作，但是却无法编辑文件内容。要等到你按下【i, I, o, O, a, A, r, R】等任何一个字母之后才会进入编辑模式。注意了！通常在 Linux 中，按下这些按键时，在画面的左下方会出现【INSERT 或 REPLACE】的字样，此时才可以进行编辑。而如果要回到一般模式时，则必须要按下【Esc】这个按键即可退出编辑模式。</p>
 <h3 id="指令列命令模式："><a href="#指令列命令模式：" class="headerlink" title="指令列命令模式："></a>指令列命令模式：</h3><p>在一般模式当中，输入【: / ?】三个中的任何一个按钮，就可以将光标移动到最底下那一行。在这个模式当中，可以提供你【搜寻资料】的动作，而读取、存盘、大量取代字符、离开 vi 、显示行号等等的动作则是在此模式中达成的。</p>
 <p>简单的说，我们可以将这三个模式想成底下的图标来表示：<br><img src="/uploads/2017/12/linux_vi_01.JPG" alt=""><br>注意到上面的图标，你会发现一般模式可与编辑模式及指令列模式切换，但编辑模式与指令列模式之间不可互相切换。</p>
-<h2 id="按键说明："><a href="#按键说明：" class="headerlink" title="按键说明："></a>按键说明：</h2><h3 id="第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等"><a href="#第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等" class="headerlink" title="第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等"></a>第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等</h3><p><img src="/uploads/2017/12/linux_vi_01.png" alt=""><br><img src="/uploads/2017/12/linux_vi_02.png" alt=""><br><img src="/uploads/2017/12/linux_vi_03.png" alt=""><br><img src="/uploads/2017/12/linux_vi_04.png" alt=""><br><img src="/uploads/2017/12/linux_vi_05.png" alt=""></p>
+<h2 id="按键说明："><a href="#按键说明：" class="headerlink" title="按键说明："></a>按键说明：</h2><h3 id="第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等"><a href="#第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等" class="headerlink" title="第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等"></a>第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等</h3><p><img src="/uploads/2017/12/linux_vi_01.png" alt=""><br><img src="/uploads/2017/12/linux_vi_02.png" alt=""><br><img src="/uploads/2017/12/linux_vi_03.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">替换语法总结：</span><br><span class="line">基础语法：:[range]substitute/old/new/[flags]</span><br><span class="line">（注：substitute 常用缩写形式“:s”。）</span><br><span class="line">range:</span><br><span class="line">  . : 当前行</span><br><span class="line">  n : 对应行数</span><br><span class="line">  % : 所有行</span><br><span class="line">  $ : 最后一行</span><br><span class="line">flags:</span><br><span class="line">  空: 将光标所在行第一个 old 替换为 new</span><br><span class="line">  g : 将光标所在行所有 old 替换为 new</span><br><span class="line">  c : 表示进行确认</span><br><span class="line">  i : 不区分大小写</span><br></pre></td></tr></table></figure></p>
+<p><img src="/uploads/2017/12/linux_vi_04.png" alt=""><br><img src="/uploads/2017/12/linux_vi_05.png" alt=""></p>
 <h3 id="第二部份：一般模式切换到编辑模式的可用的按钮说明"><a href="#第二部份：一般模式切换到编辑模式的可用的按钮说明" class="headerlink" title="第二部份：一般模式切换到编辑模式的可用的按钮说明"></a>第二部份：一般模式切换到编辑模式的可用的按钮说明</h3><p><img src="/uploads/2017/12/linux_vi_06.png" alt=""></p>
 <h3 id="第三部份：一般模式切换到指令列模式的可用的按钮说明"><a href="#第三部份：一般模式切换到指令列模式的可用的按钮说明" class="headerlink" title="第三部份：一般模式切换到指令列模式的可用的按钮说明"></a>第三部份：一般模式切换到指令列模式的可用的按钮说明</h3><p><img src="/uploads/2017/12/linux_vi_07.png" alt=""></p>
 <h2 id="vim的暂存档、救援恢复与开启时的警告讯息"><a href="#vim的暂存档、救援恢复与开启时的警告讯息" class="headerlink" title="vim的暂存档、救援恢复与开启时的警告讯息"></a>vim的暂存档、救援恢复与开启时的警告讯息</h2><h3 id="什么是暂存档？"><a href="#什么是暂存档？" class="headerlink" title="什么是暂存档？"></a>什么是暂存档？</h3><p>当我们在使用 vim 编辑时， vim 会在不被编辑的档案的目录下，再建立一个名为 .filename.swp 的档案。当然，前提是由于各种原因导致的不正常的中断，才会产生该暂存档文件。如果对文件没有修改或正确存储则不会生成该暂存档文件。该暂存档文件的作用就是保留文件修改内容，防止文件因为系统或网络原因等导致丢失。</p>
@@ -438,7 +439,7 @@
 <li>当我有一个档案非常的大，我查阅到后面的数据时，想要【对照】前面的数据，是否需要使用[ctrl]+f 与 [ctrl]+b (或 pageup, pagedown 功能键) 来跑前跑后查阅？</li>
 <li>我有两个需要对照着看的档案，不想使用前一小节提到的多档案编辑功能；</li>
 </ul>
-<p>在一般窗口接口下的编辑软件大多有【分割窗口】或者是【冻结窗口】的功能来将一个档案分割成多个窗口的展现，那么 vim 能不能达到这个功能？可以啊。在指令列模式输入【:sp {filename}】即可！那个 filename 可有可无，如果想要在新窗口启动另一个档案，就加入档名，否则仅输入 :sp 时，出现的则是同一个档案在两个窗口。</p>
+<p>在一般窗口接口下的编辑软件大多有【分割窗口】或者是【冻结窗口】的功能来将一个档案分割成多个窗口的展现，那么 vim 能不能达到这个功能？可以啊。在指令列模式输入【:sp {filename}】即可！那个 filename 可有可无，如果想要在新窗口启动另一个档案，就加入档名，否则仅输入 :sp 时，出现的则是同一个档案在两个窗口。<br>下面是一些常用命令的说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">:sp [filename] &lt;=&gt;  :split [filename]   #横向切分窗口</span><br><span class="line">:vsp [filename] &lt;=&gt;  :vsplit [filename]   #竖向切分窗口</span><br><span class="line">:clo  &lt;=&gt;  :close   #关闭当前窗口</span><br><span class="line">:on   &lt;=&gt;  :only    #仅保留当前窗口，其它窗口都关闭</span><br><span class="line">:ctrl + w + [h/j/k/l]   #切换窗口</span><br></pre></td></tr></table></figure></p>
 <p>这样的话，复制啊、查阅啊等等的，就变的很简单。分割窗口的相关指令功能有很多，不过只要记得这几个就好了：<br><img src="/uploads/2017/12/linux_vi_multiwindows.png" alt=""></p>
 <h4 id="4、vim-环境设定与记录：-vimrc-viminfo"><a href="#4、vim-环境设定与记录：-vimrc-viminfo" class="headerlink" title="4、vim 环境设定与记录： ~/.vimrc, ~/.viminfo"></a>4、vim 环境设定与记录： ~/.vimrc, ~/.viminfo</h4><p>有没有发现，如果我们以 vim 软件来搜寻一个档案内部的某个字符串时，这个字符串会被反白，而下次我们再次以 vim 编辑这个档案时，该搜寻的字符串反白情况还是存在呢！甚至于在编辑其他档案时，如果其他档案内也存在这个字符串，竟然还是主动反白。另外，当我们重复编辑同一个档案时，当第二次进入该档案时，光标竟然就在上次离开的那一行上头，真是好方便。但是，怎么会这样呢？</p>
 <p>这是因为我们的 vim 会主动的将你曾经做过的行为登录下来，好让你下次可以轻松的作业。那个记录动作的档案就是： ~/.viminfo ！如果你曾经使用过 vim，那你的家目录应该会存在这个档案才对。这个档案是自动产生的，你不必自行建立。而你在 vim 里头所做过的动作，就可以在这个档案内部查询到。</p>
@@ -463,8 +464,6 @@
         <div class="post-tags">
           
             <a href="/tags/书籍/" rel="tag"># 书籍</a>
-          
-            <a href="/tags/《鸟哥的Linux私房菜基础篇（第三版）》/" rel="tag"># 《鸟哥的Linux私房菜基础篇（第三版）》</a>
           
             <a href="/tags/vim/" rel="tag"># vim</a>
           
@@ -572,7 +571,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">56</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -583,7 +582,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -594,7 +593,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》," />
+  <meta name="keywords" content="书籍,计算机系统," />
 
 
 
@@ -82,14 +82,14 @@
 
 
 <meta name="description" content="何为压缩？何为压缩比？为什么要压缩，压缩有什么好处？带着这几个问题我们来学习一下。">
-<meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》">
+<meta name="keywords" content="书籍,计算机系统">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文件系统的压缩详解">
 <meta property="og:url" content="http://yoursite.com/2017/12/27/文件系统的压缩详解/index.html">
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="何为压缩？何为压缩比？为什么要压缩，压缩有什么好处？带着这几个问题我们来学习一下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-01-04T09:24:59.442Z">
+<meta property="og:updated_time" content="2018-01-18T06:58:25.380Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="文件系统的压缩详解">
 <meta name="twitter:description" content="何为压缩？何为压缩比？为什么要压缩，压缩有什么好处？带着这几个问题我们来学习一下。">
@@ -400,7 +400,8 @@
 *.tar tar 程序打包的数据，并没有压缩过；
 *.tar.gz tar 程序打包的档案，其中并且经过 gzip 的压缩
 *.tar.bz2 tar 程序打包的档案，其中并且经过 bzip2 的压缩
-</code></pre>
+</code></pre><h3 id="5、常用压缩命令"><a href="#5、常用压缩命令" class="headerlink" title="5、常用压缩命令"></a>5、常用压缩命令</h3><h5 id="1-tar-命令："><a href="#1-tar-命令：" class="headerlink" title="1. tar 命令："></a>1. tar 命令：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">语法：语法：tar [主选项+辅选项] 文件或者目录</span><br><span class="line">参  数：</span><br><span class="line">-c: 建立压缩档案</span><br><span class="line">-x：解压</span><br><span class="line">-t：查看内容</span><br><span class="line">-r：向压缩归档文件末尾追加文件 (注：压缩后的档案再次追加文件会导致失败)</span><br><span class="line">-u：更新原压缩包中的文件（注：压缩后的档案再次更新会导致失败）</span><br><span class="line">这五个是独立的命令，压缩解压都要用到其中一个，可以和别的命令连用但只能用其中一个。</span><br><span class="line">下面的参数是根据需要在压缩或解压档案时可选的。</span><br><span class="line">-z：有gzip属性的</span><br><span class="line">-j：有bz2属性的</span><br><span class="line">-Z：有compress属性的</span><br><span class="line">-v：显示所有过程</span><br><span class="line">-O：将文件解开到标准输出</span><br><span class="line">-f：使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。（必须）</span><br><span class="line">-C：解压到指定目录</span><br><span class="line">特殊使用：</span><br><span class="line">① # tar -rf all.tar *.gif</span><br><span class="line">这条命令是将所有.gif的文件增加到all.tar的包里面去。-r是表示增加文件的意思。</span><br><span class="line">② # tar -uf all.tar logo.gif</span><br><span class="line">这条命令是更新原来tar包all.tar中logo.gif文件，-u是表示更新文件的意思。</span><br><span class="line">③ # tar -tf all.tar</span><br><span class="line">这条命令是列出all.tar包中所有文件，-t是列出文件的意思</span><br><span class="line">压缩：</span><br><span class="line">① tar -cvf jpg.tar *.jpg //仅打包，不压缩！</span><br><span class="line">② tar -zcvf jpg.tar.gz *.jpg   //打包后，以 gzip 压缩</span><br><span class="line">③ tar -jcvf jpg.tar.bz2 *.jpg //打包后，以 bzip2 压缩</span><br><span class="line">解压：</span><br><span class="line">① tar -xvf file.tar //解压 tar包</span><br><span class="line">② tar -zxvf file.tar.gz //解压tar.gz</span><br><span class="line">③ tar -jxvf file.tar.bz2   //解压 tar.bz2</span><br><span class="line">④ tar -xvf archive.tar -C /tmp 将压缩包释放到 /tmp目录下</span><br></pre></td></tr></table></figure>
+<h5 id="2-zip-命令："><a href="#2-zip-命令：" class="headerlink" title="2. zip 命令："></a>2. zip 命令：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">语　　法：zip [-AcdDfFghjJKlLmoqrSTuvVwXyz$][-b &lt;工 作目录&gt;][-ll][-n &lt;字 尾字符串&gt;]\</span><br><span class="line">[-t &lt;日 期时间&gt;][-&lt;压 缩效率&gt;][压 缩文件][文件...][-i &lt;范本样式&gt;][-x &lt;范本样式&gt;]</span><br><span class="line">参　　数：</span><br><span class="line">-r   递归处理，将指定目录下的所有文件和子目录一并处理。</span><br><span class="line">-d   从压缩文件内删除指定的文件。</span><br><span class="line">-D   压缩文件内不建立目录名称。</span><br><span class="line">-m   将文件压缩并加入压缩文件后，删除原始文件，即把文件移到压缩文件中。</span><br><span class="line">-x&lt;范本样式&gt;   压缩时排除符合条件的文件。</span><br><span class="line">-q   不显示指令执行过程。</span><br><span class="line">压缩文件：</span><br><span class="line">①  将当前目录下的所有文件和文件夹全部压缩成test.zip文件,-r表示递归压缩子目录下所有文件</span><br><span class="line"># zip -r test.zip ./*</span><br><span class="line">② 删除压缩文件test1.zip中test.MYI文件</span><br><span class="line"># zip -d test1.zip test.MYI</span><br><span class="line">③ 向压缩文件中test1.zip中添加test. MYI文件</span><br><span class="line"># zip -m test1.zip test. MYI</span><br><span class="line">④ 压缩文件时排除某个文件</span><br><span class="line"># zip test3.zip tests/* -x tests/ln.log</span><br><span class="line">unzip 命令：</span><br><span class="line">语　　法：unzip [-cflptuvz][-agCjLMnoqsVX][-P &lt;密 码&gt;][.zip文 件][文件][-d &lt;目录&gt;][-x &lt;文件&gt;] 或 unzip [-Z]</span><br><span class="line">-v   执 行是时显示详细的信息。或查看压缩文件目录，但不解压。</span><br><span class="line">-n   解 压缩时不要覆盖原有的文件。</span><br><span class="line">-o   不 必先询问用户，unzip执 行后覆盖原有文件。</span><br><span class="line">-q   执 行时不显示任何信息。</span><br><span class="line">-d&lt;目录&gt;   指 定文件解压缩后所要存储的目录。</span><br><span class="line">解压文件：</span><br><span class="line">① 将压缩文件text.zip在当前目录下解压缩。</span><br><span class="line"># unzip test.zip </span><br><span class="line">② 将压缩文件text.zip在指定目录/tmp下解压缩，如果已有相同的文件存在，要求unzip命令不覆盖原先的文件。</span><br><span class="line"># unzip -n test.zip -d /tmp</span><br><span class="line">③ 查看压缩文件目录，但不解压。</span><br><span class="line"># unzip -v test.zip</span><br><span class="line">④ 将压缩文件test.zip在指定目录tmp下解压缩，如果已有相同的文件存在，要求unzip命令覆盖原先的文件。</span><br><span class="line"># unzip -o test.zip -d tmp/</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -419,7 +420,7 @@
           
             <a href="/tags/书籍/" rel="tag"># 书籍</a>
           
-            <a href="/tags/《鸟哥的Linux私房菜基础篇（第三版）》/" rel="tag"># 《鸟哥的Linux私房菜基础篇（第三版）》</a>
+            <a href="/tags/计算机系统/" rel="tag"># 计算机系统</a>
           
         </div>
       
@@ -525,7 +526,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">56</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -536,7 +537,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -547,7 +548,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -603,7 +604,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、为什么要压缩："><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x538B;&#x7F29;&#xFF1A;" class="headerlink" title="1&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x538B;&#x7F29;&#xFF1A;"></a>1&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x538B;&#x7F29;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、压缩的好处："><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x538B;&#x7F29;&#x7684;&#x597D;&#x5904;&#xFF1A;" class="headerlink" title="2&#x3001;&#x538B;&#x7F29;&#x7684;&#x597D;&#x5904;&#xFF1A;"></a>2&#x3001;&#x538B;&#x7F29;&#x7684;&#x597D;&#x5904;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、压缩的原理："><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x538B;&#x7F29;&#x7684;&#x539F;&#x7406;&#xFF1A;" class="headerlink" title="3&#x3001;&#x538B;&#x7F29;&#x7684;&#x539F;&#x7406;&#xFF1A;"></a>3&#x3001;&#x538B;&#x7F29;&#x7684;&#x539F;&#x7406;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、压缩文件扩展名："><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#xFF1A;" class="headerlink" title="4&#x3001;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#xFF1A;"></a>4&#x3001;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#xFF1A;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、为什么要压缩："><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x538B;&#x7F29;&#xFF1A;" class="headerlink" title="1&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x538B;&#x7F29;&#xFF1A;"></a>1&#x3001;&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x538B;&#x7F29;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、压缩的好处："><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x538B;&#x7F29;&#x7684;&#x597D;&#x5904;&#xFF1A;" class="headerlink" title="2&#x3001;&#x538B;&#x7F29;&#x7684;&#x597D;&#x5904;&#xFF1A;"></a>2&#x3001;&#x538B;&#x7F29;&#x7684;&#x597D;&#x5904;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、压缩的原理："><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x538B;&#x7F29;&#x7684;&#x539F;&#x7406;&#xFF1A;" class="headerlink" title="3&#x3001;&#x538B;&#x7F29;&#x7684;&#x539F;&#x7406;&#xFF1A;"></a>3&#x3001;&#x538B;&#x7F29;&#x7684;&#x539F;&#x7406;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、压缩文件扩展名："><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#xFF1A;" class="headerlink" title="4&#x3001;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#xFF1A;"></a>4&#x3001;&#x538B;&#x7F29;&#x6587;&#x4EF6;&#x6269;&#x5C55;&#x540D;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、常用压缩命令"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x5E38;&#x7528;&#x538B;&#x7F29;&#x547D;&#x4EE4;" class="headerlink" title="5&#x3001;&#x5E38;&#x7528;&#x538B;&#x7F29;&#x547D;&#x4EE4;"></a>5&#x3001;&#x5E38;&#x7528;&#x538B;&#x7F29;&#x547D;&#x4EE4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-tar-命令："><span class="nav-number">5.0.1.</span> <span class="nav-text"><a href="#1-tar-&#x547D;&#x4EE4;&#xFF1A;" class="headerlink" title="1. tar &#x547D;&#x4EE4;&#xFF1A;"></a>1. tar &#x547D;&#x4EE4;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-zip-命令："><span class="nav-number">5.0.2.</span> <span class="nav-text"><a href="#2-zip-&#x547D;&#x4EE4;&#xFF1A;" class="headerlink" title="2. zip &#x547D;&#x4EE4;&#xFF1A;"></a>2. zip &#x547D;&#x4EE4;&#xFF1A;</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

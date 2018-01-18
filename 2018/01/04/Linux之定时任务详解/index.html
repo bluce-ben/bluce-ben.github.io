@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》,Linux," />
+  <meta name="keywords" content="书籍,Linux,Crontab," />
 
 
 
@@ -82,7 +82,7 @@
 
 
 <meta name="description" content="1、Linux 工作排程的种类： at, cron at ：at 是个可以处理仅执行一次就结束排程的指令，不过要执行 at 时，必须要有 atd 这个服务的支援才行。在某些新版的 distributions 中，atd 可能预设并没有启动，那么 at 这个指令就会失效！不过我们的 CentOS 预设是启动的。 crontab ：crontab 这个指令所设定的工作将会循环的一直进行下去！可循环的时">
-<meta name="keywords" content="书籍,《鸟哥的Linux私房菜基础篇（第三版）》,Linux">
+<meta name="keywords" content="书籍,Linux,Crontab">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux之定时任务详解">
 <meta property="og:url" content="http://yoursite.com/2018/01/04/Linux之定时任务详解/index.html">
@@ -91,7 +91,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/uploads/2018/01/linux_crontab_01.png">
 <meta property="og:image" content="http://yoursite.com/uploads/2018/01/linux_crontab_02.png">
-<meta property="og:updated_time" content="2018-01-04T09:34:26.597Z">
+<meta property="og:updated_time" content="2018-01-18T07:01:55.911Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux之定时任务详解">
 <meta name="twitter:description" content="1、Linux 工作排程的种类： at, cron at ：at 是个可以处理仅执行一次就结束排程的指令，不过要执行 at 时，必须要有 atd 这个服务的支援才行。在某些新版的 distributions 中，atd 可能预设并没有启动，那么 at 这个指令就会失效！不过我们的 CentOS 预设是启动的。 crontab ：crontab 这个指令所设定的工作将会循环的一直进行下去！可循环的时">
@@ -392,9 +392,9 @@
         <h3 id="1、Linux-工作排程的种类：-at-cron"><a href="#1、Linux-工作排程的种类：-at-cron" class="headerlink" title="1、Linux 工作排程的种类： at, cron"></a>1、Linux 工作排程的种类： at, cron</h3><ol>
 <li>at ：at 是个可以处理仅执行一次就结束排程的指令，不过要执行 at 时，必须要有 atd 这个服务的支援才行。在某些新版的 distributions 中，atd 可能预设并没有启动，那么 at 这个指令就会失效！不过我们的 CentOS 预设是启动的。</li>
 <li>crontab ：crontab 这个指令所设定的工作将会循环的一直进行下去！可循环的时间为分钟、小时、每周、每月或每年等。crontab 除了可以使用指令执行外，亦可编辑 /etc/crontab 来支持。至于让 crontab 可以生效的服务则是 crond 这个服务。<a id="more"></a>
-<h3 id="2、atd-的启动与-at-运作的方式"><a href="#2、atd-的启动与-at-运作的方式" class="headerlink" title="2、atd 的启动与 at 运作的方式"></a>2、atd 的启动与 at 运作的方式</h3>要使用单一工作排程时，我们的 Linux 系统上面必须要有负责这个排程的服务，那就是 atd ！不过并非所有的 Linux distributions 都预设会把他打开的，所以，某些时刻我们必须要手动将他启用才行。启用的方法很简单，就是这样：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# /etc/init.d/atd restart</span><br><span class="line">正在停止 atd: [ 确定 ]</span><br><span class="line">正在激活 atd: [ 确定 ]</span><br><span class="line"># 再设定一下开机时就启动这个服务，免得每次重新启动都得再来一次！</span><br><span class="line">[root@www ~]# chkconfig atd on</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<h3 id="2、atd-的启动与-at-运作的方式"><a href="#2、atd-的启动与-at-运作的方式" class="headerlink" title="2、atd 的启动与 at 运作的方式"></a>2、atd 的启动与 at 运作的方式</h3><p>要使用单一工作排程时，我们的 Linux 系统上面必须要有负责这个排程的服务，那就是 atd ！不过并非所有的 Linux distributions 都预设会把他打开的，所以，某些时刻我们必须要手动将他启用才行。启用的方法很简单，就是这样：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# /etc/init.d/atd restart</span><br><span class="line">正在停止 atd: [ 确定 ]</span><br><span class="line">正在激活 atd: [ 确定 ]</span><br><span class="line"># 再设定一下开机时就启动这个服务，免得每次重新启动都得再来一次！</span><br><span class="line">[root@www ~]# chkconfig atd on</span><br></pre></td></tr></table></figure></p>
 <h4 id="（1）at-的运作方式"><a href="#（1）at-的运作方式" class="headerlink" title="（1）at 的运作方式"></a>（1）at 的运作方式</h4><p>既然是工作排程，那么应该会有产生工作的方式，并且将这些工作排进行程表中！那么产生工作的方式是怎么进行的？事实上，我们使用 at 这个指令来产生所要运作的工作，并将这个工作以文本文件的方式写入 /var/spool/at/ 目录内，该工作便能等待 atd 这个服务的取用与执行了。就这么简单。<br>不过，并不是所有的人都可以进行 at 工作排程！为什么？因为安全的理由，很多主机被所谓的【绑架】后，最常发现的就是他们的系统当中多了很多的怪客程序 (cracker program)， 这些程序非常可能运用工作排程来执行或搜集系统信息，并定时的回报给怪客团体！所以，除非是你认可的账号，否则先不要让他们使用 at ！那怎么达到使用 at 的列管呢？<br>我们可以利用 /etc/at.allow 与 /etc/at.deny 这两个档案来进行 at 的使用限制！加上这两个档案后，at 的工作情况其实是这样的：</p>
 <ol>
 <li>先找寻 /etc/at.allow 这个档案，写在这个档案中的使用者才能使用 at ，没有在这个档案中的使用者则不能使用 at (即使没有写在 at.deny 当中)；</li>
@@ -450,9 +450,9 @@
           
             <a href="/tags/书籍/" rel="tag"># 书籍</a>
           
-            <a href="/tags/《鸟哥的Linux私房菜基础篇（第三版）》/" rel="tag"># 《鸟哥的Linux私房菜基础篇（第三版）》</a>
-          
             <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Crontab/" rel="tag"># Crontab</a>
           
         </div>
       
@@ -558,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-count">56</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -569,7 +569,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -580,7 +580,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

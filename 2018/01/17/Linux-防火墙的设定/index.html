@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,iptables,网络安全," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Linux 的封包过滤软件：iptables《防火墙的认识》这篇文章说了那么多，主要就是说明防火墙是什么，能做什么，并且知道防火墙不是万能的。下面我说一下都使用什么来设定防火墙。因为不同的核心使用的防火墙机制不同，且支持的软件指令与语法也不相同，所以在 Linux 上头设定属于你自己的防火墙规则时，要注意，先用 uname -r 追踪一下你的核心版本再说，目前大部分的核心都使用 kernel 2.">
+<meta name="keywords" content="书籍,iptables,网络安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 防火墙的设定">
+<meta property="og:url" content="http://yoursite.com/2018/01/17/Linux-防火墙的设定/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Linux 的封包过滤软件：iptables《防火墙的认识》这篇文章说了那么多，主要就是说明防火墙是什么，能做什么，并且知道防火墙不是万能的。下面我说一下都使用什么来设定防火墙。因为不同的核心使用的防火墙机制不同，且支持的软件指令与语法也不相同，所以在 Linux 上头设定属于你自己的防火墙规则时，要注意，先用 uname -r 追踪一下你的核心版本再说，目前大部分的核心都使用 kernel 2.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_iptables_rules.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_iptables_chain.JPG">
+<meta property="og:updated_time" content="2018-01-18T07:02:57.151Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 防火墙的设定">
+<meta name="twitter:description" content="Linux 的封包过滤软件：iptables《防火墙的认识》这篇文章说了那么多，主要就是说明防火墙是什么，能做什么，并且知道防火墙不是万能的。下面我说一下都使用什么来设定防火墙。因为不同的核心使用的防火墙机制不同，且支持的软件指令与语法也不相同，所以在 Linux 上头设定属于你自己的防火墙规则时，要注意，先用 uname -r 追踪一下你的核心版本再说，目前大部分的核心都使用 kernel 2.">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/01/network_iptables_rules.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/17/Linux-防火墙的设定/"/>
+
+
+
+
+
+  <title>Linux 防火墙的设定 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/17/Linux-防火墙的设定/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Linux 防火墙的设定</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-17T18:45:23+08:00">
+                2018-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《鸟哥的Linux私房菜服务器架设篇（第三版）》/" itemprop="url" rel="index">
+                    <span itemprop="name">《鸟哥的Linux私房菜服务器架设篇（第三版）》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/17/Linux-防火墙的设定/" class="leancloud_visitors" data-flag-title="Linux 防火墙的设定">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>Linux 的封包过滤软件：iptables</strong><br>《防火墙的认识》这篇文章说了那么多，主要就是说明防火墙是什么，能做什么，并且知道防火墙不是万能的。下面我说一下都使用什么来设定防火墙。<br>因为不同的核心使用的防火墙机制不同，且支持的软件指令与语法也不相同，所以在 Linux 上头设定属于你自己的防火墙规则时，要注意，先用 uname -r 追踪一下你的核心版本再说，目前大部分的核心都使用 kernel 2.6 版的核心，主要是使用 iptables 这个防火墙机制。<br><a id="more"></a></p>
+<h4 id="1、封包进入流程：规则顺序的重要性！"><a href="#1、封包进入流程：规则顺序的重要性！" class="headerlink" title="1、封包进入流程：规则顺序的重要性！"></a>1、封包进入流程：规则顺序的重要性！</h4><p>因为 iptables 是利用封包过滤的机制，所以他会分析封包的表头数据。根据表头数据与定义的【规则】来决定该封包是否可以进入主机或者是被丢弃。意思就是说：【根据封包的分析资料”比对”你预先定义的规则内容，若封包数据与规则内容相同则进行动作，否则就继续下一条规则的比对！】重点在那个【比对与分析顺序】上。</p>
+<p>举个简单的例子，假设我预先定义 10 条防火墙规则好了，那么当 Internet 来了一个封包想要进入我的主机，那么防火墙是如何分析这个封包的呢？我们以底下的图示来说明好了：<br><img src="/uploads/2018/01/network_iptables_rules.JPG" alt="" title="5-1 封包过滤的规则动作及分析流程"></p>
+<p>当一个网络封包要进入到主机之前，会先经由 NetFilter 进行检查，那就是 iptables 的规则了。检查通过则接受 (ACCEPT) 进入本机取得资源，如果检查不通过，则可能予以丢弃 (DROP) ！上图中主要的目的在告知你：【规则是有顺序的】！例如当网络封包进入 Rule 1 的比对时，如果比对结果符合 Rule 1 ，此时这个网络封包就会进行 Action 1 的动作，而不会理会后续的 Rule 2, Rule 3…. 等规则的分析了。<br>而如果这个封包并不符合 Rule 1 的比对，那就会进入 Rule 2 的比对了！如此一个一个规则去进行比对就是了。那如果所有的规则都不符合怎办？此时就会透过预设动作 (封包政策, Policy) 来决定这个封包的去向。所以，当你的规则顺序排列错误时，就会产生很严重的错误了。（类比 rewrite 一致）</p>
+<h4 id="2、iptables-的表格-table-与链-chain"><a href="#2、iptables-的表格-table-与链-chain" class="headerlink" title="2、iptables 的表格 (table) 与链 (chain)"></a>2、iptables 的表格 (table) 与链 (chain)</h4><p>事实上，上图 5-1 所列出的规则仅是 iptables 众多表格当中的一个链(chain) 而已。什么是链呢？这得由 iptables 的名称说起。为什么称为 ip”tables”呢？ 因为这个防火墙软件里面有多个表格 (table) ，每个表格都定义出自己的默认政策与规则，且每个表格的用途都不相同。我们可以使用底下这张图来稍微了解一下：<br><img src="/uploads/2018/01/network_iptables_chain.JPG" alt="" title="5-3 iptables 的表格与相关链示意图"></p>
+<p>刚刚图 5-1 的规则内容仅只是图 5-3 内的某个 chain 而已！而预设的情况下，咱们 Linux 的 iptables 至少就有三个表格，包括管理本机进出的 filter 、管理后端主机 (防火墙内部的其他计算机) 的 nat 、管理特殊旗标使用的 mangle (较少使用) 。更有甚者，我们还可以自定义额外的链呢！真是很神奇吧！每个表格与其中链的用途分别是这样的：</p>
+<ol>
+<li><p>filter (过滤器)：主要跟进入 Linux 本机的封包有关，这个是预设的 table ！</p>
+<ul>
+<li>INPUT：主要与想要进入我们 Linux 本机的封包有关；</li>
+<li>OUTPUT：主要与我们 Linux 本机所要送出的封包有关；</li>
+<li>FORWARD：这个咚咚与 Linux 本机比较没有关系，他可以【转递封包】到后端的计算机中，与下列 nat table 相关性较高。</li>
+</ul>
+</li>
+<li><p>nat (地址转换)：是 Network Address Translation 的缩写，这个表格主要在进行来源与目的之 IP 或 port 的转换，与 Linux 本机较无关，主要与 Linux 主机后的局域网络内计算机较有相关。</p>
+<ul>
+<li>PREROUTING：在进行路由判断之前所要进行的规则(DNAT/REDIRECT)</li>
+<li>POSTROUTING：在进行路由判断之后所要进行的规则(SNAT/MASQUERADE)</li>
+<li>OUTPUT：与发送出去的封包有关</li>
+</ul>
+</li>
+<li><p>mangle (破坏者)：这个表格主要是与特殊的封包的路由旗标有关，早期仅有 PREROUTING 及 OUTPUT 链，不过从 kernel 2.4.18 之后加入了 INPUT 及FORWARD 链。由于这个表格与特殊旗标相关性较高，所以像咱们这种单纯的环境当中，较少使用 mangle 这个表格。</p>
+</li>
+</ol>
+<p>所以说，如果你的 Linux 是作为 www 服务，那么要开放客户端对你的 www 要求有响应，就得要处理 filter 的 INPUT 链； 而如果你的 Linux 是作为局域网络的路由器，那么就得要分析 nat 的各个链以及 filter 的 FORWARD 链才行。</p>
+<h4 id="3、本机的-iptables-语法"><a href="#3、本机的-iptables-语法" class="headerlink" title="3、本机的 iptables 语法"></a>3、本机的 iptables 语法</h4><p>防火墙的设定主要使用的就是 iptables 这个指令而已。而防火墙是系统管理员的主要任务之一，且对于系统的影响相当的大，因此【只能让 root 使用 iptables 】，不论是设定还是观察防火墙规则！</p>
+<h5 id="（1）规则的观察与清除"><a href="#（1）规则的观察与清除" class="headerlink" title="（1）规则的观察与清除"></a>（1）规则的观察与清除</h5><p>如果你在安装的时候选择没有防火墙的话，那么 iptables 在一开始的时候应该是没有规则的，不过，可能因为你在安装的时候就有选择系统自动帮你建立防火墙机制，那系统就会有默认的防火墙规则了！无论如何，我们先来看看目前本机的防火墙规则是如何吧！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# iptables [-t tables] [-L] [-nv]</span><br><span class="line">选项与参数：</span><br><span class="line">    -t ：后面接 table ，例如 nat 或 filter ，若省略此项目，则使用默认的filter</span><br><span class="line">    -L ：列出目前的 table 的规则</span><br><span class="line">    -n ：不进行 IP 与 HOSTNAME 的反查，显示讯息的速度会快很多！</span><br><span class="line">    -v ：列出更多的信息，包括通过该规则的封包总位数、相关的网络接口等</span><br><span class="line">范例：列出 filter table 三条链的规则</span><br><span class="line">[root@www ~]# iptables -L -n</span><br><span class="line">Chain INPUT (policy ACCEPT) &lt;==针对 INPUT 链，且预设政策为可接受</span><br><span class="line">target prot opt source destination &lt;==说明栏</span><br><span class="line">ACCEPT all -- 0.0.0.0/0 0.0.0.0/0 state RELATED,ESTABLISHED</span><br><span class="line">&lt;==第 1 条规则</span><br><span class="line">ACCEPT icmp -- 0.0.0.0/0 0.0.0.0/0</span><br><span class="line">&lt;==第 2 条规则</span><br><span class="line">ACCEPT all -- 0.0.0.0/0 0.0.0.0/0</span><br><span class="line">&lt;==第 3 条规则</span><br><span class="line">ACCEPT tcp -- 0.0.0.0/0 0.0.0.0/0 state NEW tcp dpt:22</span><br><span class="line">&lt;==以下类推</span><br><span class="line">REJECT all -- 0.0.0.0/0 0.0.0.0/0 reject-with icmp-host-prohibited</span><br><span class="line">Chain FORWARD (policy ACCEPT) &lt;==针对 FORWARD 链，且预设政策为可接受</span><br><span class="line">target prot opt source destination</span><br><span class="line">REJECT all -- 0.0.0.0/0 0.0.0.0/0 reject-with icmp-host-prohibited</span><br><span class="line">Chain OUTPUT (policy ACCEPT) &lt;==针对 OUTPUT 链，且预设政策为可接受</span><br><span class="line">target prot opt source destination</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>在上表中，每一个 Chain 就是前面提到的每个链。Chain 那一行里面括号的 policy 就是预设的政策，那底下的 target, prot 代表什么呢？<br><strong>target：</strong>代表进行的动作， ACCEPT 是放行，而 REJECT 则是拒绝，此外，尚有 DROP (丢弃) 的项目！<br><strong>prot：</strong>代表使用的封包协议，主要有 tcp, udp 及 icmp 三种封包格式；<br><strong>opt：</strong>额外的选项说明<br><strong>source ：</strong>代表此规则是针对哪个【来源 IP】进行限制？<br><strong>destination ：</strong>代表此规则是针对哪个【目标 IP】进行限制？</p>
+</blockquote>
+<p>在输出结果中，第一个范例因为没有加上 -t 的选项，所以默认就是 filter 这个表格内的 INPUT, OUTPUT, FORWARD 三条链的规则啰。若针对单机来说，INPUT 与 FORWARD 算是比较重要的管制防火墙链，所以你可以发现最后一条规则的政策是 REJECT (拒绝)！虽然 INPUT 与 FORWARD 的政策是放行 (ACCEPT)，不过在最后一条规则就已经将全部的封包都拒绝了！</p>
+<p>不过这个指令的观察只是作个格式化的查阅，要详细解释每个规则会比较不容易解析。举例来说，我们将 INPUT 的 5 条规则依据输出结果来说明一下，结果会变成：</p>
+<blockquote>
+<ol>
+<li>只要是封包状态为 RELATED,ESTABLISHED 就予以接受</li>
+<li>只要封包协议是 icmp 类型的，就予以放行</li>
+<li>无论任何来源 (0.0.0.0/0) 且要去任何目标的封包，不论任何封包格式(prot 为 all)，通通都接受</li>
+<li>只要是传给 port 22 的主动式联机 tcp 封包就接受</li>
+<li>全部的封包信息通通拒绝</li>
+</ol>
+</blockquote>
+<p>最有趣的应该是第 3 条规则了，怎么会所有的封包信息都予以接受？如果都接受的话，那么后续的规则根本就不会有用嘛！其实那条规则是仅针对每部主机都有的内部循环测试网络 (lo) 接口！如果没有列出接口，那么我们就很容易搞错。所以，近来建议使用 iptables-save 这个指令来观察防火墙规则！因为 iptables-save 会列出完整的防火墙规则，只是并没有规格化输出而已。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# iptables-save [-t table]</span><br><span class="line">选项与参数：</span><br><span class="line">-t ：可以仅针对某些表格来输出，例如仅针对 nat 或 filter 等等</span><br><span class="line">[root@www ~]# iptables-save</span><br><span class="line"># Generated by iptables-save v1.4.7 on Fri Jul 22 15:51:52 2011</span><br><span class="line">*filter &lt;==星号开头的指的是表格，这里为 filter</span><br><span class="line">:INPUT ACCEPT [0:0] &lt;==冒号开头的指的是链，三条内建的链</span><br><span class="line">:FORWARD ACCEPT [0:0] &lt;==三条内建链的政策都是 ACCEPT 啰！</span><br><span class="line">:OUTPUT ACCEPT [680:100461]</span><br><span class="line">-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT &lt;==针对 INPUT的规则</span><br><span class="line">-A INPUT -p icmp -j ACCEPT</span><br><span class="line">-A INPUT -i lo -j ACCEPT &lt;==这条很重要！针对本机内部接口开放！</span><br><span class="line">-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT</span><br><span class="line">-A INPUT -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line">-A FORWARD -j REJECT --reject-with icmp-host-prohibited &lt;==针对FORWARD 的规则</span><br><span class="line">COMMIT</span><br></pre></td></tr></table></figure></p>
+<p>由上面的输出来看，有底线且内容含有 lo 的那条规则当中，【 -i lo 】指的就是由 lo 适配卡进来的封包！这样看就清楚多了！因为有写到接口的关系啊！不像之前的 <code>iptables -L -n</code>！既然这个规则不是我们想要的，那该如何修改规则呢？建议，先删除规则再慢慢建立各个需要的规则！那如何清除规则？这样做就对了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# iptables [-t tables] [-FXZ]</span><br><span class="line">选项与参数：</span><br><span class="line">-F ：清除所有的已订定的规则；</span><br><span class="line">-X ：杀掉所有使用者 &quot;自定义&quot; 的 chain (应该说的是 tables ）；</span><br><span class="line">-Z ：将所有的 chain 的计数与流量统计都归零</span><br><span class="line">范例：清除本机防火墙 (filter) 的所有规则</span><br><span class="line">[root@www ~]# iptables -F</span><br><span class="line">[root@www ~]# iptables -X</span><br><span class="line">[root@www ~]# iptables -Z</span><br></pre></td></tr></table></figure></p>
+<p>由于这三个指令会将本机防火墙的所有规则都清除，但却不会改变预设政策 (policy) ，所以如果你不是在本机下达这三行指令时，很可能你会被自己挡在家门外 (若 INPUT设定为 DROP 时)！要小心啊！</p>
+<h5 id="2）定义预设政策-policy"><a href="#2）定义预设政策-policy" class="headerlink" title="(2）定义预设政策 (policy)"></a>(2）定义预设政策 (policy)</h5><p>清除规则之后，再接下来就是要设定规则的政策！还记得政策指的是什么吗？【 当你的封包不在你设定的规则之内时，则该封包的通过与否，是以 Policy 的设定为准】，在本机方面的预设政策中，假设你对于内部的使用者有信心的话，那么 filter 内的 INPUT 链方面可以定义的比较严格一点，而 FORWARD 与 OUTPUT 则可以订定的松一些！通常都是将 INPUT 的 policy 定义为 DROP ，其他两个则定义为 ACCEPT。至于 nat table 则暂时先不理会他。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# iptables [-t nat] -P [INPUT,OUTPUT,FORWARD] [ACCEPT,DROP]</span><br><span class="line">选项与参数：</span><br><span class="line">-P ：定义政策( Policy )。注意，这个 P 为大写啊！</span><br><span class="line">ACCEPT ：该封包可接受</span><br><span class="line">DROP ：该封包直接丢弃，不会让 client 端知道为何被丢弃。</span><br><span class="line">范例：将本机的 INPUT 设定为 DROP ，其他设定为 ACCEPT</span><br><span class="line">[root@www ~]# iptables -P INPUT DROP</span><br><span class="line">[root@www ~]# iptables -P OUTPUT ACCEPT</span><br><span class="line">[root@www ~]# iptables -P FORWARD ACCEPT</span><br><span class="line">[root@www ~]# iptables-save</span><br><span class="line"># Generated by iptables-save v1.4.7 on Fri Jul 22 15:56:34 2011</span><br><span class="line">*filter</span><br><span class="line">:INPUT DROP [0:0]</span><br><span class="line">:FORWARD ACCEPT [0:0]</span><br><span class="line">:OUTPUT ACCEPT [0:0]</span><br><span class="line">COMMIT</span><br><span class="line"># Completed on Fri Jul 22 15:56:34 2011</span><br><span class="line"># 由于 INPUT 设定为 DROP 而又尚未有任何规则，所以上面的输出结果显示：</span><br><span class="line"># 所有的封包都无法进入你的主机！是不通的防火墙设定！(网络联机是双向的)</span><br></pre></td></tr></table></figure></p>
+<p>看到输出的结果了吧？INPUT 被修改了设定！其他的 nat table 三条链的预设政策设定也是一样的方式，例如：<code>【 iptables -t nat -P PREROUTING ACCEPT 】</code>就设定了 nat table 的 PREROUTING 链为可接受的意思！预设政策设定完毕后，来谈一谈关于各规则的封包基础比对设定吧。</p>
+<h5 id="（3）封包的基础比对：IP-网域及接口装置"><a href="#（3）封包的基础比对：IP-网域及接口装置" class="headerlink" title="（3）封包的基础比对：IP, 网域及接口装置"></a>（3）封包的基础比对：IP, 网域及接口装置</h5><p>开始来进行防火墙规则的封包比对设定吧！既然是因特网，那么我们就由最基础的 IP, 网域及端口，亦即是 OSI 的第三层谈起，再来谈谈装置 (网络卡) 的限制等等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# iptables [-AI 链名] [-io 网络接口] [-p 协议] \</span><br><span class="line">&gt; [-s 来源IP/网域] [-d 目标IP/网域] -j [ACCEPT|DROP|REJECT|LOG]</span><br><span class="line">选项与参数：</span><br><span class="line">-AI 链名：针对某的链进行规则的 &quot;插入&quot; 或 &quot;累加&quot;</span><br><span class="line">  -A ：新增加一条规则，该规则增加在原本规则的最后面。例如原本已经有四条规则，</span><br><span class="line">       使用 -A 就可以加上第五条规则！</span><br><span class="line">  -I ：插入一条规则。如果没有指定此规则的顺序，默认是插入变成第一条规则。例如原本有四条规则，</span><br><span class="line">       使用 -I 则该规则变成第一条，而原本四条变成 2~5 号</span><br><span class="line">  链 ：有 INPUT, OUTPUT, FORWARD 等，此链名称又与 -io 有关，请看底下。</span><br><span class="line">-io 网络接口：设定封包进出的接口规范</span><br><span class="line">  -i ：封包所进入的那个网络接口，例如 eth0, lo 等接口。需与 INPUT 链配合；</span><br><span class="line">  -o ：封包所传出的那个网络接口，需与 OUTPUT 链配合；</span><br><span class="line">-p 协定：设定此规则适用于哪种封包格式</span><br><span class="line">  主要的封包格式有： tcp, udp, icmp 及 all 。</span><br><span class="line">-s 来源 IP/网域：设定此规则之封包的来源项目，可指定单纯的 IP 或包括网域，例如：</span><br><span class="line">  IP ：192.168.0.100</span><br><span class="line">  网域：192.168.0.0/24, 192.168.0.0/255.255.255.0 均可。</span><br><span class="line">  若规范为『不许』时，则加上 ! 即可，例如：</span><br><span class="line">  -s ! 192.168.100.0/24 表示不许 192.168.100.0/24 之封包来源；</span><br><span class="line">-d 目标 IP/网域：同 -s ，只不过这里指的是目标的 IP 或网域。</span><br><span class="line">-j ：后面接动作，主要的动作有接受(ACCEPT)、丢弃(DROP)、拒绝(REJECT)及记录(LOG)</span><br></pre></td></tr></table></figure></p>
+<p>iptables 的基本参数就如同上面所示的，仅只谈到 IP 、网域与装置等等的信息。至于 TCP, UDP 封包特有的端口 (port number) 与状态 (如 SYN 旗标)，下面谈论。</p>
+<p><strong>示例：</strong><br>先让我们来看看最基础的几个规则，例如开放 lo 这个本机的接口以及某个 IP 来源吧！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">范例：设定 lo 成为受信任的装置，亦即进出 lo 的封包都予以接受</span><br><span class="line">[root@www ~]# iptables -A INPUT -i lo -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<p>仔细看上面并没有列出 -s, -d 等等的规则，这表示：不论封包来自何处或去到哪里，只要是来自 lo 这个界面，就予以接受！这个观念挺重要的，就是【没有指定的项目，则表示该项目完全接受】的意思！例如这个案例当中，关于 -s, -d…等等的参数没有规定时，就代表不论什么值都会被接受。</p>
+<h5 id="4）TCP-UDP-的规则比对：针对端口设定"><a href="#4）TCP-UDP-的规则比对：针对端口设定" class="headerlink" title="(4）TCP, UDP 的规则比对：针对端口设定"></a>(4）TCP, UDP 的规则比对：针对端口设定</h5><p>在谈到 TCP 与 UDP 时，比较特殊的就是那个端口 (port)，在 TCP 方面则另外有所谓的联机封包状态，包括最常见的 SYN 主动联机的封包格式。那么如何针对这两种封包格式进行防火墙规则的设定呢？你可以这样看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# iptables [-AI 链] [-io 网络接口] [-p tcp,udp] \</span><br><span class="line">&gt; [-s 来源IP/网域] [--sport 埠口范围] \</span><br><span class="line">&gt; [-d 目标IP/网域] [--dport 埠口范围] -j [ACCEPT|DROP|REJECT]</span><br><span class="line">选项与参数：</span><br><span class="line">--sport 埠口范围：限制来源的端口口号码，端口口号码可以是连续的，例如1024:65535</span><br><span class="line">--dport 埠口范围：限制目标的端口口号码。</span><br></pre></td></tr></table></figure></p>
+<p>事实上就是多了那个 –sport 及 –dport 这两个玩意儿，重点在那个 port 上面！不过你得要特别注意，因为仅有 tcp 与 udp 封包具有端口，因此你想要使用 –dport,–sport 时，得要加上 -p tcp 或 -p udp 的参数才会成功！底下让我们来进行几个小测试：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">范例：想要联机进入本机 port 21 的封包都抵挡掉：</span><br><span class="line">[root@www ~]# iptables -A INPUT -i eth0 -p tcp --dport 21 -j DROP</span><br><span class="line">范例：想连到我这部主机的网络 (upd port 137,138 tcp port 139,445) 就放行</span><br><span class="line">[root@www ~]# iptables -A INPUT -i eth0 -p udp --dport 137:138 -j ACCEPT</span><br><span class="line">[root@www ~]# iptables -A INPUT -i eth0 -p tcp --dport 139 -j ACCEPT</span><br><span class="line">[root@www ~]# iptables -A INPUT -i eth0 -p tcp --dport 445 -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<p>除了端口之外，在 TCP 还有特殊的旗标啊！最常见的就是那个主动联机的 SYN 旗标了。我们在 iptables 里面还支持【 –syn 】的处理方式，我们以底下的例子来说明好了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">范例：将来自任何地方来源 port 1:1023 的主动联机到本机端的 1:1023 联机丢弃</span><br><span class="line">[root@www ~]# iptables -A INPUT -i eth0 -p tcp --sport 1:1023 \</span><br><span class="line">&gt; --dport 1:1023 --syn -j DROP</span><br></pre></td></tr></table></figure></p>
+<p>一般来说，client 端启用的 port 都是大于 1024 以上的端口，而 server 端则是启用小于 1023 以下的端口在监听的。所以我们可以让来自远程的小于 1023 以下的端口数据的主动联机都给他丢弃！但不适用在 FTP 的主动联机中！</p>
+<h5 id="（5）iptables-外挂模块：mac-与-state"><a href="#（5）iptables-外挂模块：mac-与-state" class="headerlink" title="（5）iptables 外挂模块：mac 与 state"></a>（5）iptables 外挂模块：mac 与 state</h5><p>在 kernel 2.2 以前使用 ipchains 管理防火墙时，通常会让系统管理员相当头痛！因为 ipchains 没有所谓的封包状态模块，因此我们必须要针对封包的进、出方向进行管控。举例来说，如果你想要联机到远程主机的 port 22 时，你必须要针对两条规则来设定：</p>
+<ul>
+<li>本机端的 1024:65535 到远程的 port 22 必须要放行 (OUTPUT 链)；</li>
+<li>远程主机 port 22 到本机的 1024:65535 必须放行 (INPUT 链)；</li>
+</ul>
+<p>这会很麻烦！因为如果你要联机到 10 部主机的 port 22 时，假设 OUTPUT 为预设开启 (ACCEPT)， 你依旧需要填写十行规则，让那十部远程主机的 port 22 可以联机到你的本地端主机上。那如果开启全部的 port 22 呢？又担心某些恶意主机会主动以 port 22 联机到你的机器上！同样的道理，如果你要让本地端主机可以连到外部的 port 80 (WWW 服务)，那就更不得了！这就是网络联机是双向的一个很重要的概念！</p>
+<p>好在我们的 iptables 免除了这个困扰！他可以透过一个状态模块来分析 【这个想要进入的封包是否为刚刚我发出去的响应？】如果是刚刚我发出去的响应，那么就可以予以接受放行！这样就不用管远程主机是否联机进来的问题了！那如何达到呢？看看底下的语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# iptables -A INPUT [-m state] [--state 状态]</span><br><span class="line">选项与参数：</span><br><span class="line">-m ：一些 iptables 的外挂模块，主要常见的有：</span><br><span class="line">  state ：状态模块</span><br><span class="line">  mac ：网络卡硬件地址 (hardware address)</span><br><span class="line">--state ：一些封包的状态，主要有：</span><br><span class="line">  INVALID ：无效的封包，例如数据破损的封包状态</span><br><span class="line">  ESTABLISHED：已经联机成功的联机状态；</span><br><span class="line">  NEW ：想要新建立联机的封包状态；</span><br><span class="line">  RELATED ：这个最常用！表示这个封包是与我们主机发送出去的封包有关</span><br><span class="line">范例：只要已建立或相关封包就予以通过，只要是不合法封包就丢弃</span><br><span class="line">[root@www ~]# iptables -A INPUT -m state \</span><br><span class="line">&gt; --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">[root@www ~]# iptables -A INPUT -m state --state INVALID -j DROP</span><br></pre></td></tr></table></figure></p>
+<p>如此一来，我们的 iptables 就会主动分析出该封包是否为响应状态，若是的话，就直接予以接受。这样一来你就不需要针对响应的封包来撰写个别的防火墙规则了！这真是太棒了！底下我们继续谈一下 iptables 的另一个外挂，那就是针对网卡来进行放行与防御：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">范例：针对局域网络内的 aa:bb:cc:dd:ee:ff 主机开放其联机</span><br><span class="line">[root@www ~]# iptables -A INPUT -m mac --mac-source aa:bb:cc:dd:ee:ff -j ACCEPT</span><br><span class="line">选项与参数：</span><br><span class="line">--mac-source ：就是来源主机的 MAC ！</span><br></pre></td></tr></table></figure></p>
+<p>如果你的区网当中有某些网络高手，老是可以透过修改 IP 去尝试透过路由器往外跑，那你该怎么办？难道将整个区网拒绝？并不需要的，你可以透过之前谈到的 ARP 相关概念，去捉到那部主机的 MAC ，然后透过上头的这个机制，将该主机整个 DROP 掉即可。不管他改了什么 IP ，除非他知道你是用网卡的 MAC 来管理，否则他就是出不去！</p>
+<h5 id="（6）超阳春客户端防火墙设计与防火墙规则储存"><a href="#（6）超阳春客户端防火墙设计与防火墙规则储存" class="headerlink" title="（6）超阳春客户端防火墙设计与防火墙规则储存"></a>（6）超阳春客户端防火墙设计与防火墙规则储存</h5><p>经过上述的本机 iptables 语法分析后，接下来我们来想想，如果站在客户端且不提供网络服务的 Linux 本机角色时， 你应该要如何设计你的防火墙呢？老实说，你只要分析过 CentOS 默认的防火墙规则就会知道了，理论上， 应该要有的规则如下：</p>
+<ol>
+<li>规则归零：清除所有已经存在的规则 (iptables -F…)</li>
+<li>预设政策：除了 INPUT 这个自定义链设为 DROP 外，其他为预设 ACCEPT；</li>
+<li>信任本机：由于 lo 对本机来说是相当重要的，因此 lo 必须设定为信任装置；</li>
+<li>回应封包：让本机主动向外要求而响应的封包可以进入本机(ESTABLISHED,RELATED)</li>
+<li>信任用户：这是非必要的，如果你想要让区网的来源可用你的主机资源时</li>
+</ol>
+<p>这就是最最阳春的防火墙，你可以透过第二步骤抵挡所有远程的来源封包，而透过第四步骤让你要求的远程主机响应封包可以进入， 加上让本机的 lo 这个内部循环装置可以放行，嘿嘿！一部 client 专用的防火墙规则就 OK 了！你可以在某个 script 上面这样做即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# vim bin/firewall.sh</span><br><span class="line">#!/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin; export PATH</span><br><span class="line"># 1. 清除规则</span><br><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -Z</span><br><span class="line"># 2. 设定政策</span><br><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line"># 3~5. 制订各项规则</span><br><span class="line">iptables -A INPUT -i lo -j ACCEPT</span><br><span class="line">iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">#iptables -A INPUT -i eth0 -s 192.168.1.0/24 -j ACCEPT</span><br><span class="line"># 6. 写入防火墙规则配置文件</span><br><span class="line">/etc/init.d/iptables save</span><br><span class="line">[root@www ~]# sh bin/firewall.sh</span><br><span class="line">iptables: Saving firewall rules to /etc/sysconfig/iptables:[ OK ]</span><br></pre></td></tr></table></figure></p>
+<p>其实防火墙也是一个服务，你可以透过<code>【chkconfig --list iptables】</code>去察看就知道了。因此，你这次修改的各种设定想要在下次开机还保存，那就得要进行<code>【 /etc/init.d/iptables save 】</code>这个指令加参数。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/iptables/" rel="tag"># iptables</a>
+          
+            <a href="/tags/网络安全/" rel="tag"># 网络安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/17/Linux-防火墙的认识/" rel="next" title="Linux 防火墙的认识">
+                <i class="fa fa-chevron-left"></i> Linux 防火墙的认识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/18/网络安全之常见攻击方式及解决方案/" rel="prev" title="网络安全之常见攻击方式及解决方案">
+                网络安全之常见攻击方式及解决方案 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、封包进入流程：规则顺序的重要性！"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x5C01;&#x5305;&#x8FDB;&#x5165;&#x6D41;&#x7A0B;&#xFF1A;&#x89C4;&#x5219;&#x987A;&#x5E8F;&#x7684;&#x91CD;&#x8981;&#x6027;&#xFF01;" class="headerlink" title="1&#x3001;&#x5C01;&#x5305;&#x8FDB;&#x5165;&#x6D41;&#x7A0B;&#xFF1A;&#x89C4;&#x5219;&#x987A;&#x5E8F;&#x7684;&#x91CD;&#x8981;&#x6027;&#xFF01;"></a>1&#x3001;&#x5C01;&#x5305;&#x8FDB;&#x5165;&#x6D41;&#x7A0B;&#xFF1A;&#x89C4;&#x5219;&#x987A;&#x5E8F;&#x7684;&#x91CD;&#x8981;&#x6027;&#xFF01;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、iptables-的表格-table-与链-chain"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;iptables-&#x7684;&#x8868;&#x683C;-table-&#x4E0E;&#x94FE;-chain" class="headerlink" title="2&#x3001;iptables &#x7684;&#x8868;&#x683C; (table) &#x4E0E;&#x94FE; (chain)"></a>2&#x3001;iptables &#x7684;&#x8868;&#x683C; (table) &#x4E0E;&#x94FE; (chain)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、本机的-iptables-语法"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x672C;&#x673A;&#x7684;-iptables-&#x8BED;&#x6CD5;" class="headerlink" title="3&#x3001;&#x672C;&#x673A;&#x7684; iptables &#x8BED;&#x6CD5;"></a>3&#x3001;&#x672C;&#x673A;&#x7684; iptables &#x8BED;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）规则的观察与清除"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x89C4;&#x5219;&#x7684;&#x89C2;&#x5BDF;&#x4E0E;&#x6E05;&#x9664;" class="headerlink" title="&#xFF08;1&#xFF09;&#x89C4;&#x5219;&#x7684;&#x89C2;&#x5BDF;&#x4E0E;&#x6E05;&#x9664;"></a>&#xFF08;1&#xFF09;&#x89C4;&#x5219;&#x7684;&#x89C2;&#x5BDF;&#x4E0E;&#x6E05;&#x9664;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2）定义预设政策-policy"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#2&#xFF09;&#x5B9A;&#x4E49;&#x9884;&#x8BBE;&#x653F;&#x7B56;-policy" class="headerlink" title="(2&#xFF09;&#x5B9A;&#x4E49;&#x9884;&#x8BBE;&#x653F;&#x7B56; (policy)"></a>(2&#xFF09;&#x5B9A;&#x4E49;&#x9884;&#x8BBE;&#x653F;&#x7B56; (policy)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）封包的基础比对：IP-网域及接口装置"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x5C01;&#x5305;&#x7684;&#x57FA;&#x7840;&#x6BD4;&#x5BF9;&#xFF1A;IP-&#x7F51;&#x57DF;&#x53CA;&#x63A5;&#x53E3;&#x88C5;&#x7F6E;" class="headerlink" title="&#xFF08;3&#xFF09;&#x5C01;&#x5305;&#x7684;&#x57FA;&#x7840;&#x6BD4;&#x5BF9;&#xFF1A;IP, &#x7F51;&#x57DF;&#x53CA;&#x63A5;&#x53E3;&#x88C5;&#x7F6E;"></a>&#xFF08;3&#xFF09;&#x5C01;&#x5305;&#x7684;&#x57FA;&#x7840;&#x6BD4;&#x5BF9;&#xFF1A;IP, &#x7F51;&#x57DF;&#x53CA;&#x63A5;&#x53E3;&#x88C5;&#x7F6E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4）TCP-UDP-的规则比对：针对端口设定"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#4&#xFF09;TCP-UDP-&#x7684;&#x89C4;&#x5219;&#x6BD4;&#x5BF9;&#xFF1A;&#x9488;&#x5BF9;&#x7AEF;&#x53E3;&#x8BBE;&#x5B9A;" class="headerlink" title="(4&#xFF09;TCP, UDP &#x7684;&#x89C4;&#x5219;&#x6BD4;&#x5BF9;&#xFF1A;&#x9488;&#x5BF9;&#x7AEF;&#x53E3;&#x8BBE;&#x5B9A;"></a>(4&#xFF09;TCP, UDP &#x7684;&#x89C4;&#x5219;&#x6BD4;&#x5BF9;&#xFF1A;&#x9488;&#x5BF9;&#x7AEF;&#x53E3;&#x8BBE;&#x5B9A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（5）iptables-外挂模块：mac-与-state"><span class="nav-number">3.5.</span> <span class="nav-text"><a href="#&#xFF08;5&#xFF09;iptables-&#x5916;&#x6302;&#x6A21;&#x5757;&#xFF1A;mac-&#x4E0E;-state" class="headerlink" title="&#xFF08;5&#xFF09;iptables &#x5916;&#x6302;&#x6A21;&#x5757;&#xFF1A;mac &#x4E0E; state"></a>&#xFF08;5&#xFF09;iptables &#x5916;&#x6302;&#x6A21;&#x5757;&#xFF1A;mac &#x4E0E; state</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（6）超阳春客户端防火墙设计与防火墙规则储存"><span class="nav-number">3.6.</span> <span class="nav-text"><a href="#&#xFF08;6&#xFF09;&#x8D85;&#x9633;&#x6625;&#x5BA2;&#x6237;&#x7AEF;&#x9632;&#x706B;&#x5899;&#x8BBE;&#x8BA1;&#x4E0E;&#x9632;&#x706B;&#x5899;&#x89C4;&#x5219;&#x50A8;&#x5B58;" class="headerlink" title="&#xFF08;6&#xFF09;&#x8D85;&#x9633;&#x6625;&#x5BA2;&#x6237;&#x7AEF;&#x9632;&#x706B;&#x5899;&#x8BBE;&#x8BA1;&#x4E0E;&#x9632;&#x706B;&#x5899;&#x89C4;&#x5219;&#x50A8;&#x5B58;"></a>&#xFF08;6&#xFF09;&#x8D85;&#x9633;&#x6625;&#x5BA2;&#x6237;&#x7AEF;&#x9632;&#x706B;&#x5899;&#x8BBE;&#x8BA1;&#x4E0E;&#x9632;&#x706B;&#x5899;&#x89C4;&#x5219;&#x50A8;&#x5B58;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
