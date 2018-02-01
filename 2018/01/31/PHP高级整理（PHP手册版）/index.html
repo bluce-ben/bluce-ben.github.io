@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PHP,PHP知识点," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="函数（1）用户自定义函数： （2）函数的参数：值传递（默认情况）引用传递：在该参数前面加上符号 &amp;amp; （3）类型声明在PHP 5中，类型声明也被称为类型提示。类型声明允许函数在调用时要求参数为特定类型。 如果给出的值类型不对，那么将会产生一个错误： 在PHP 5中，这将是一个可恢复的致命错误，而在PHP 7中将会抛出一个TypeError异常。">
+<meta name="keywords" content="PHP,PHP知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP高级整理（PHP手册版）">
+<meta property="og:url" content="http://yoursite.com/2018/01/31/PHP高级整理（PHP手册版）/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="函数（1）用户自定义函数： （2）函数的参数：值传递（默认情况）引用传递：在该参数前面加上符号 &amp;amp; （3）类型声明在PHP 5中，类型声明也被称为类型提示。类型声明允许函数在调用时要求参数为特定类型。 如果给出的值类型不对，那么将会产生一个错误： 在PHP 5中，这将是一个可恢复的致命错误，而在PHP 7中将会抛出一个TypeError异常。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-01T03:54:22.488Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP高级整理（PHP手册版）">
+<meta name="twitter:description" content="函数（1）用户自定义函数： （2）函数的参数：值传递（默认情况）引用传递：在该参数前面加上符号 &amp;amp; （3）类型声明在PHP 5中，类型声明也被称为类型提示。类型声明允许函数在调用时要求参数为特定类型。 如果给出的值类型不对，那么将会产生一个错误： 在PHP 5中，这将是一个可恢复的致命错误，而在PHP 7中将会抛出一个TypeError异常。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/31/PHP高级整理（PHP手册版）/"/>
+
+
+
+
+
+  <title>PHP高级整理（PHP手册版） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/PHP高级整理（PHP手册版）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">PHP高级整理（PHP手册版）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T17:45:52+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/31/PHP高级整理（PHP手册版）/" class="leancloud_visitors" data-flag-title="PHP高级整理（PHP手册版）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>（1）用户自定义函数：</p>
+<p>（2）函数的参数：<br>值传递（默认情况）<br>引用传递：在该参数前面加上符号 &amp;</p>
+<p>（3）类型声明<br>在PHP 5中，类型声明也被称为类型提示。<br>类型声明允许函数在调用时要求参数为特定类型。 如果给出的值类型不对，那么将会产生一个错误： 在PHP 5中，这将是一个可恢复的致命错误，而在PHP 7中将会抛出一个TypeError异常。<br><a id="more"></a><br>（4）返回值：return</p>
+<p>（5）匿名函数<br>匿名函数（Anonymous functions），也叫闭包函数（closures），允许 临时创建一个没有指定名称的函数。最经常用作回调函数（callback）参数的值。当然，也有其它应用的情况。 </p>
+<h4 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h4><h5 id="（1）基本概念"><a href="#（1）基本概念" class="headerlink" title="（1）基本概念"></a>（1）基本概念</h5><p>每个类的定义都以关键字 class 开头，后面跟着类名，后面跟着一对花括号，里面包含有类的属性与方法的定义。<br>一个类可以包含有属于自己的常量，变量（称为”属性”）以及函数（称为”方法”）。<br>当一个方法在类定义内部被调用时，有一个可用的伪变量 $this。$this 是一个到主叫对象的引用（通常是该方法所从属的对象，但如果是从第二个对象静态调用时也可能是另一个对象）。</p>
+<p><strong>new</strong><br>要创建一个类的实例，必须使用 new 关键字。当创建新对象时该对象总是被赋值，除非该对象定义了构造函数并且在出错时抛出了一个异常。类应在被实例化之前定义（某些情况下则必须这样）。<br>如果在 new 之后跟着的是一个包含有类名的字符串，则该类的一个实例被创建。如果该类属于一个名字空间，则必须使用其完整名称。</p>
+<p>在类定义内部，可以用 new self 和 new parent 创建新对象。<br>当把一个对象已经创建的实例赋给一个新变量时，新变量会访问同一个实例，就和用该对象赋值一样。此行为和给函数传递入实例时一样。可以用克隆给一个已创建的对象建立一个新实例。</p>
+<p><strong>extends</strong><br>一个类可以在声明中用 extends 关键字继承另一个类的方法和属性。PHP不支持多重继承，一个类只能继承一个基类。<br>被继承的方法和属性可以通过用同样的名字重新声明被覆盖。但是如果父类定义方法时使用了 final，则该方法不可被覆盖。可以通过 parent:: 来访问被覆盖的方法或属性。<br>当覆盖方法时，参数必须保持一致否则 PHP 将发出 E_STRICT 级别的错误信息。但构造函数例外，构造函数可在被覆盖时使用不同的参数。</p>
+<p><strong>匿名类</strong><br>PHP 7 开始支持匿名类。 匿名类很有用，可以创建一次性的简单对象。 </p>
+<h5 id="（2）属性"><a href="#（2）属性" class="headerlink" title="（2）属性"></a>（2）属性</h5><p>类的变量成员叫做”属性”，或者叫”字段”、”特征”，在本文档统一称为”属性”。属性声明是由关键字 public，protected 或者 private 开头，然后跟一个普通的变量声明来组成。属性中的变量可以初始化，但是初始化的值必须是常数，这里的常数是指 PHP 脚本在编译阶段时就可以得到其值，而不依赖于运行时的信息才能求值。</p>
+<p>在类的成员方法里面，可以用 -&gt;（对象运算符）：$this-&gt;property（其中 property 是该属性名）这种方式来访问非静态属性。静态属性则是用 ::（双冒号）：self::$property 来访问。</p>
+<p><strong>类常量：</strong><br>可以把在类中始终保持不变的值定义为常量。在定义和使用常量的时候不需要使用 $ 符号。<br>常量的值必须是一个定值，不能是变量，类属性，数学运算的结果或函数调用。<br>接口（interface）中也可以定义常量。</p>
+<h5 id="（3）构造函数与析构函数"><a href="#（3）构造函数与析构函数" class="headerlink" title="（3）构造函数与析构函数"></a>（3）构造函数与析构函数</h5><p>PHP 5 允行开发者在一个类中定义一个方法作为构造函数。具有构造函数的类会在每次创建新对象时先调用此方法，所以非常适合在使用对象之前做一些初始化工作。 </p>
+<p><strong>Note: </strong>如果子类中定义了构造函数则不会隐式调用其父类的构造函数。要执行父类的构造函数，需要在子类的构造函数中调用 parent::__construct()。如果子类没有定义构造函数则会如同一个普通的类方法一样从父类继承（假如没有被定义为 private 的话）。</p>
+<p>PHP 5 引入了析构函数的概念，这类似于其它面向对象的语言，如 C++。析构函数会在到某个对象的所有引用都被删除或者当对象被显式销毁时执行。</p>
+<p>和构造函数一样，父类的析构函数不会被引擎暗中调用。要执行父类的析构函数，必须在子类的析构函数体中显式调用 parent::__destruct()。此外也和构造函数一样，子类如果自己没有定义析构函数则会继承父类的。<br>析构函数即使在使用 exit() 终c止脚本运行时也会被调用。在析构函数中调用 exit() 将会中止其余关闭操作的运行。 </p>
+<h5 id="（4）访问控制符"><a href="#（4）访问控制符" class="headerlink" title="（4）访问控制符"></a>（4）访问控制符</h5><p>对属性或方法的访问控制，是通过在前面添加关键字 public（公有），protected（受保护）或 private（私有）来实现的。被定义为公有的类成员可以在任何地方被访问。被定义为受保护的类成员则可以被其自身以及其子类和父类访问。被定义为私有的类成员则只能被其定义所在的类访问。<br><strong>final关键字：</strong><br>PHP 5 新增了一个 final 关键字。如果父类中的方法被声明为 final，则子类无法覆盖该方法。如果一个类被声明为 final，则不能被继承。</p>
+<p><em>（注：类属性必须定义为公有，受保护，私有之一。如果用 var 定义，则被视为公有。类中的方法可以被定义为公有，私有或受保护。如果没有设置这些关键字，则该方法默认为公有。 ）</em></p>
+<h5 id="（5）对象继承"><a href="#（5）对象继承" class="headerlink" title="（5）对象继承"></a>（5）对象继承</h5><p>继承已为大家所熟知的一个程序设计特性，PHP 的对象模型也使用了继承。继承将会影响到类与类，对象与对象之间的关系。<br>比如，当扩展一个类，子类就会继承父类所有公有的和受保护的方法。除非子类覆盖了父类的方法，被继承的方法都会保留其原有功能。<br>继承对于功能的设计和抽象是非常有用的，而且对于类似的对象增加新功能就无须重新再写这些公用的功能。</p>
+<h5 id="（6）静态关键字-static"><a href="#（6）静态关键字-static" class="headerlink" title="（6）静态关键字 static"></a>（6）静态关键字 static</h5><p>声明类属性或方法为静态，就可以不实例化类而直接访问。静态属性不能通过一个类已实例化的对象来访问（但静态方法可以）。<br><em>（注：由于静态方法不需要通过对象即可调用，所以伪变量 $this 在静态方法中不可用。）</em><br><strong>注意事项：</strong></p>
+<ul>
+<li>静态属性不可以由对象通过 -&gt; 操作符来访问。 </li>
+<li>用静态方式调用一个非静态方法会导致一个 E_STRICT 级别的错误。 </li>
+<li>就像其它所有的 PHP 静态变量一样，静态属性只能被初始化为文字或常量，不能使用表达式。所以可以把静态属性初始化为整数或数组，但不能初始化为另一个变量或函数返回值，也不能指向一个对象。 </li>
+</ul>
+<h5 id="（7）抽象类"><a href="#（7）抽象类" class="headerlink" title="（7）抽象类"></a>（7）抽象类</h5><p>PHP 5 支持抽象类和抽象方法。定义为抽象的类不能被实例化。任何一个类，如果它里面至少有一个方法是被声明为抽象的，那么这个类就必须被声明为抽象的。被定义为抽象的方法只是声明了其调用方式（参数），不能定义其具体的功能实现。 </p>
+<p>继承一个抽象类的时候，子类必须定义父类中的所有抽象方法；另外，这些方法的访问控制必须和父类中一样（或者更为宽松）。例如某个抽象方法被声明为受保护的，那么子类中实现的方法就应该声明为受保护的或者公有的，而不能定义为私有的。此外方法的调用方式必须匹配，即类型和所需参数数量必须一致。例如，子类定义了一个可选参数，而父类抽象方法的声明里没有，则两者的声明并无冲突。 这也适用于 PHP 5.4 起的构造函数。在 PHP 5.4 之前的构造函数声明可以不一样的。 </p>
+<h5 id="（8）对象接口"><a href="#（8）对象接口" class="headerlink" title="（8）对象接口"></a>（8）对象接口</h5><p>使用接口（interface），可以指定某个类必须实现哪些方法，但不需要定义这些方法的具体内容。<br>接口是通过 interface 关键字来定义的，就像定义一个标准的类一样，但其中定义所有的方法都是空的。<br>接口中定义的所有方法都必须是公有，这是接口的特性。 </p>
+<p><strong>实现（implements）</strong><br>要实现一个接口，使用 implements 操作符。类中必须实现接口中定义的所有方法，否则会报一个致命错误。类可以实现多个接口，用逗号来分隔多个接口的名称。 </p>
+<p><strong>Note: </strong><br>实现多个接口时，接口中的方法不能有重名。<br><strong>Note: </strong><br>接口也可以继承，通过使用 extends 操作符。<br><strong>Note: </strong><br>类要实现接口，必须使用和接口中所定义的方法完全一致的方式。否则会导致致命错误。 </p>
+<p><strong>常量</strong><br>接口中也可以定义常量。接口常量和类常量的使用完全相同，但是不能被子类或子接口所覆盖。</p>
+<h5 id="（9）魔术方法"><a href="#（9）魔术方法" class="headerlink" title="（9）魔术方法"></a>（9）魔术方法</h5><p>__construct()， __destruct()， __call()， __callStatic()， __get()， __set()， __isset()， __unset()， __sleep()， __wakeup()， __toString()， __invoke()， __set<em>state()， \</em>_clone() 和 __debugInfo() 等方法在 PHP 中被称为”魔术方法”（Magic methods）。在命名自己的类方法时不能使用这些方法名，除非是想使用其魔术功能。 </p>
+<h4 id="10、命名空间"><a href="#10、命名空间" class="headerlink" title="10、命名空间"></a>10、命名空间</h4><h5 id="（1）概述"><a href="#（1）概述" class="headerlink" title="（1）概述"></a>（1）概述</h5><p>什么是命名空间？从广义上来说，命名空间是一种封装事物的方法。在很多地方都可以见到这种抽象概念。例如，在操作系统中目录用来将相关文件分组，对于目录中的文件来说，它就扮演了命名空间的角色。具体举个例子，文件 foo.txt 可以同时在目录/home/greg 和 /home/other 中存在，但在同一个目录中不能存在两个 foo.txt 文件。另外，在目录 /home/greg 外访问 foo.txt 文件时，我们必须将目录名以及目录分隔符放在文件名之前得到 /home/greg/foo.txt。这个原理应用到程序设计领域就是命名空间的概念。 </p>
+<p>在PHP中，命名空间用来解决在编写类库或应用程序时创建可重用的代码如类或函数时碰到的两类问题： </p>
+<ol>
+<li>用户编写的代码与PHP内部的类/函数/常量或第三方类/函数/常量之间的名字冲突。  </li>
+<li>为很长的标识符名称(通常是为了缓解第一类问题而定义的)创建一个别名（或简短）的名称，提高源代码的可读性。</li>
+</ol>
+<h5 id="（2）定义命名空间-PHP-5-gt-5-3-0-PHP-7"><a href="#（2）定义命名空间-PHP-5-gt-5-3-0-PHP-7" class="headerlink" title="（2）定义命名空间(PHP 5 &gt;= 5.3.0, PHP 7)"></a>（2）定义命名空间(PHP 5 &gt;= 5.3.0, PHP 7)</h5><p>虽然任意合法的PHP代码都可以包含在命名空间中，但只有以下类型的代码受命名空间的影响，它们是：类（包括抽象类和traits）、接口、函数和常量。 </p>
+<p>命名空间通过关键字namespace 来声明。如果一个文件中包含命名空间，它必须在其它所有代码之前声明命名空间，除了一个以外：declare关键字。<br><em>（注：在声明命名空间之前唯一合法的代码是用于定义源文件编码方式的 declare 语句。另外，所有非 PHP 代码包括空白符都不能出现在命名空间的声明之前）</em></p>
+<h5 id="（3）使用命名空间：基础"><a href="#（3）使用命名空间：基础" class="headerlink" title="（3）使用命名空间：基础"></a>（3）使用命名空间：基础</h5><p>在讨论如何使用命名空间之前，必须了解 PHP 是如何知道要使用哪一个命名空间中的元素的。可以将 PHP 命名空间与文件系统作一个简单的类比。在文件系统中访问一个文件有三种方式： </p>
+<ol>
+<li>相对文件名形式如foo.txt。它会被解析为 currentdirectory/foo.txt，其中 currentdirectory 表示当前目录。因此如果当前目录是 /home/foo，则该文件名被解析为/home/foo/foo.txt。  </li>
+<li>相对路径名形式如subdirectory/foo.txt。它会被解析为 currentdirectory/subdirectory/foo.txt。  </li>
+<li>绝对路径名形式如/main/foo.txt。它会被解析为/main/foo.txt。  </li>
+</ol>
+<p>PHP 命名空间中的元素使用同样的原理。例如，类名可以通过三种方式引用：</p>
+<ol>
+<li><strong>非限定名称</strong>，或不包含前缀的类名称，例如 $a=new foo(); 或 foo::staticmethod();。如果当前命名空间是 currentnamespace，foo 将被解析为 currentnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，则 foo 会被解析为foo。   警告：如果命名空间中的函数或常量未定义，则该非限定的函数名称或常量名称会被解析为全局函数名称或常量名称。详情参见 使用命名空间：后备全局函数名称/常量名称。  </li>
+<li><strong>限定名称</strong>,或包含前缀的名称，例如 $a = new subnamespace\foo(); 或 subnamespace\foo::staticmethod();。如果当前的命名空间是 currentnamespace，则 foo 会被解析为 currentnamespace\subnamespace\foo。如果使用 foo 的代码是全局的，不包含在任何命名空间中的代码，foo 会被解析为subnamespace\foo。  </li>
+<li><strong>完全限定名称</strong>，或包含了全局前缀操作符的名称，例如， $a = new \currentnamespace\foo(); 或 \currentnamespace\foo::staticmethod();。在这种情况下，foo 总是被解析为代码中的文字名(literal name)currentnamespace\foo。</li>
+</ol>
+<h5 id="（4）使用命名空间：别名-导入"><a href="#（4）使用命名空间：别名-导入" class="headerlink" title="（4）使用命名空间：别名/导入"></a>（4）使用命名空间：别名/导入</h5><p>允许通过别名引用或导入外部的完全限定名称，是命名空间的一个重要特征。这有点类似于在类 unix 文件系统中可以创建对其它的文件或目录的符号连接。<br>所有支持命名空间的PHP版本支持三种别名或导入方式：为类名称使用别名、为接口使用别名或为命名空间名称使用别名。PHP 5.6开始允许导入函数或常量或者为它们设置别名。<br>在PHP中，别名是通过操作符 use 来实现的. 下面是一个使用所有可能的五种导入方式的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">Example #1 使用use操作符导入/使用别名</span><br><span class="line">&lt;?php</span><br><span class="line">namespace foo;</span><br><span class="line">use My\Full\Classname as Another;</span><br><span class="line"></span><br><span class="line">// 下面的例子与 use My\Full\NSname as NSname 相同</span><br><span class="line">use My\Full\NSname;</span><br><span class="line"></span><br><span class="line">// 导入一个全局类</span><br><span class="line">use ArrayObject;</span><br><span class="line"></span><br><span class="line">// importing a function (PHP 5.6+)</span><br><span class="line">use function My\Full\functionName;</span><br><span class="line"></span><br><span class="line">// aliasing a function (PHP 5.6+)</span><br><span class="line">use function My\Full\functionName as func;</span><br><span class="line"></span><br><span class="line">// importing a constant (PHP 5.6+)</span><br><span class="line">use const My\Full\CONSTANT;</span><br><span class="line"></span><br><span class="line">$obj = new namespace\Another; // 实例化 foo\Another 对象</span><br><span class="line">$obj = new Another; // 实例化 My\Full\Classname　对象</span><br><span class="line">NSname\subns\func(); // 调用函数 My\Full\NSname\subns\func</span><br><span class="line">$a = new ArrayObject(array(1)); // 实例化 ArrayObject 对象</span><br><span class="line">// 如果不使用 &quot;use \ArrayObject&quot; ，则实例化一个 foo\ArrayObject 对象</span><br><span class="line">func(); // calls function My\Full\functionName</span><br><span class="line">echo CONSTANT; // echoes the value of My\Full\CONSTANT</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>注意对命名空间中的名称（包含命名空间分隔符的完全限定名称如 Foo\Bar以及相对的不包含命名空间分隔符的全局名称如 FooBar）来说，前导的反斜杠是不必要的也不推荐的，因为导入的名称必须是完全限定的，不会根据当前的命名空间作相对解析。</p>
+<h5 id="（5）名称解析规则"><a href="#（5）名称解析规则" class="headerlink" title="（5）名称解析规则"></a>（5）名称解析规则</h5><p>在说明名称解析规则之前，我们先看一些重要的定义： </p>
+<blockquote>
+<p>命名空间名称定义<br>① 非限定名称Unqualified name<br>    名称中不包含命名空间分隔符的标识符，例如 Foo<br>② 限定名称Qualified name<br>    名称中含有命名空间分隔符的标识符，例如 Foo\Bar<br>③ 完全限定名称Fully qualified name<br>    名称中包含命名空间分隔符，并以命名空间分隔符开始的标识符，例如 \Foo\Bar。 namespace\Foo 也是一个完全限定名称。 </p>
+</blockquote>
+<p>名称解析遵循下列规则： </p>
+<ol>
+<li>对完全限定名称的函数，类和常量的调用在编译时解析。例如 new \A\B 解析为类 A\B。  </li>
+<li>所有的非限定名称和限定名称（非完全限定名称）根据当前的导入规则在编译时进行转换。例如，如果命名空间 A\B\C 被导入为 C，那么对 C\D\e() 的调用就会被转换为 A\B\C\D\e()。  </li>
+<li>在命名空间内部，所有的没有根据导入规则转换的限定名称均会在其前面加上当前的命名空间名称。例如，在命名空间 A\B 内部调用 C\D\e()，则 C\D\e() 会被转换为 A\B\C\D\e() 。  </li>
+<li>非限定类名根据当前的导入规则在编译时转换（用全名代替短的导入名称）。例如，如果命名空间 A\B\C 导入为C，则 new C() 被转换为 new A\B\C() 。  </li>
+<li>在命名空间内部（例如A\B），对非限定名称的函数调用是在运行时解析的。例如对函数 foo() 的调用是这样解析的：  <ol>
+<li>在当前命名空间中查找名为 A\B\foo() 的函数  </li>
+<li>尝试查找并调用 全局(global) 空间中的函数 foo()。  </li>
+</ol>
+</li>
+<li>在命名空间（例如A\B）内部对非限定名称或限定名称类（非完全限定名称）的调用是在运行时解析的。下面是调用 new C() 及 new D\E() 的解析过程： new C()的解析:  <ol>
+<li>在当前命名空间中查找A\B\C类。  </li>
+<li>尝试自动装载类A\B\C。<br>new D\E()的解析:  </li>
+<li>在类名称前面加上当前命名空间名称变成：A\B\D\E，然后查找该类。  </li>
+<li>尝试自动装载类 A\B\D\E。<br>为了引用全局命名空间中的全局类，必须使用完全限定名称 new \C()。 </li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/PHP知识点/" rel="tag"># PHP知识点</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/31/PHP数据类型详解（PHP手册版）/" rel="next" title="PHP数据类型详解（PHP手册版）">
+                <i class="fa fa-chevron-left"></i> PHP数据类型详解（PHP手册版）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/31/PHP预定义变量梳理（PHP手册版）/" rel="prev" title="PHP预定义变量梳理（PHP手册版）">
+                PHP预定义变量梳理（PHP手册版） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x51FD;&#x6570;" class="headerlink" title="&#x51FD;&#x6570;"></a>&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类与对象"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x7C7B;&#x4E0E;&#x5BF9;&#x8C61;" class="headerlink" title="&#x7C7B;&#x4E0E;&#x5BF9;&#x8C61;"></a>&#x7C7B;&#x4E0E;&#x5BF9;&#x8C61;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）基本概念"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x6982;&#x5FF5;" class="headerlink" title="&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x6982;&#x5FF5;"></a>&#xFF08;1&#xFF09;&#x57FA;&#x672C;&#x6982;&#x5FF5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）属性"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5C5E;&#x6027;" class="headerlink" title="&#xFF08;2&#xFF09;&#x5C5E;&#x6027;"></a>&#xFF08;2&#xFF09;&#x5C5E;&#x6027;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）构造函数与析构函数"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E0E;&#x6790;&#x6784;&#x51FD;&#x6570;" class="headerlink" title="&#xFF08;3&#xFF09;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E0E;&#x6790;&#x6784;&#x51FD;&#x6570;"></a>&#xFF08;3&#xFF09;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E0E;&#x6790;&#x6784;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（4）访问控制符"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;&#x8BBF;&#x95EE;&#x63A7;&#x5236;&#x7B26;" class="headerlink" title="&#xFF08;4&#xFF09;&#x8BBF;&#x95EE;&#x63A7;&#x5236;&#x7B26;"></a>&#xFF08;4&#xFF09;&#x8BBF;&#x95EE;&#x63A7;&#x5236;&#x7B26;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（5）对象继承"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#&#xFF08;5&#xFF09;&#x5BF9;&#x8C61;&#x7EE7;&#x627F;" class="headerlink" title="&#xFF08;5&#xFF09;&#x5BF9;&#x8C61;&#x7EE7;&#x627F;"></a>&#xFF08;5&#xFF09;&#x5BF9;&#x8C61;&#x7EE7;&#x627F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（6）静态关键字-static"><span class="nav-number">2.6.</span> <span class="nav-text"><a href="#&#xFF08;6&#xFF09;&#x9759;&#x6001;&#x5173;&#x952E;&#x5B57;-static" class="headerlink" title="&#xFF08;6&#xFF09;&#x9759;&#x6001;&#x5173;&#x952E;&#x5B57; static"></a>&#xFF08;6&#xFF09;&#x9759;&#x6001;&#x5173;&#x952E;&#x5B57; static</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（7）抽象类"><span class="nav-number">2.7.</span> <span class="nav-text"><a href="#&#xFF08;7&#xFF09;&#x62BD;&#x8C61;&#x7C7B;" class="headerlink" title="&#xFF08;7&#xFF09;&#x62BD;&#x8C61;&#x7C7B;"></a>&#xFF08;7&#xFF09;&#x62BD;&#x8C61;&#x7C7B;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（8）对象接口"><span class="nav-number">2.8.</span> <span class="nav-text"><a href="#&#xFF08;8&#xFF09;&#x5BF9;&#x8C61;&#x63A5;&#x53E3;" class="headerlink" title="&#xFF08;8&#xFF09;&#x5BF9;&#x8C61;&#x63A5;&#x53E3;"></a>&#xFF08;8&#xFF09;&#x5BF9;&#x8C61;&#x63A5;&#x53E3;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（9）魔术方法"><span class="nav-number">2.9.</span> <span class="nav-text"><a href="#&#xFF08;9&#xFF09;&#x9B54;&#x672F;&#x65B9;&#x6CD5;" class="headerlink" title="&#xFF08;9&#xFF09;&#x9B54;&#x672F;&#x65B9;&#x6CD5;"></a>&#xFF08;9&#xFF09;&#x9B54;&#x672F;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10、命名空间"><span class="nav-number">3.</span> <span class="nav-text"><a href="#10&#x3001;&#x547D;&#x540D;&#x7A7A;&#x95F4;" class="headerlink" title="10&#x3001;&#x547D;&#x540D;&#x7A7A;&#x95F4;"></a>10&#x3001;&#x547D;&#x540D;&#x7A7A;&#x95F4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）概述"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x6982;&#x8FF0;" class="headerlink" title="&#xFF08;1&#xFF09;&#x6982;&#x8FF0;"></a>&#xFF08;1&#xFF09;&#x6982;&#x8FF0;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）定义命名空间-PHP-5-gt-5-3-0-PHP-7"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5B9A;&#x4E49;&#x547D;&#x540D;&#x7A7A;&#x95F4;-PHP-5-gt-5-3-0-PHP-7" class="headerlink" title="&#xFF08;2&#xFF09;&#x5B9A;&#x4E49;&#x547D;&#x540D;&#x7A7A;&#x95F4;(PHP 5 &gt;= 5.3.0, PHP 7)"></a>&#xFF08;2&#xFF09;&#x5B9A;&#x4E49;&#x547D;&#x540D;&#x7A7A;&#x95F4;(PHP 5 &gt;= 5.3.0, PHP 7)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）使用命名空间：基础"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x4F7F;&#x7528;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF1A;&#x57FA;&#x7840;" class="headerlink" title="&#xFF08;3&#xFF09;&#x4F7F;&#x7528;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF1A;&#x57FA;&#x7840;"></a>&#xFF08;3&#xFF09;&#x4F7F;&#x7528;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF1A;&#x57FA;&#x7840;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（4）使用命名空间：别名-导入"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;&#x4F7F;&#x7528;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF1A;&#x522B;&#x540D;-&#x5BFC;&#x5165;" class="headerlink" title="&#xFF08;4&#xFF09;&#x4F7F;&#x7528;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF1A;&#x522B;&#x540D;/&#x5BFC;&#x5165;"></a>&#xFF08;4&#xFF09;&#x4F7F;&#x7528;&#x547D;&#x540D;&#x7A7A;&#x95F4;&#xFF1A;&#x522B;&#x540D;/&#x5BFC;&#x5165;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（5）名称解析规则"><span class="nav-number">3.5.</span> <span class="nav-text"><a href="#&#xFF08;5&#xFF09;&#x540D;&#x79F0;&#x89E3;&#x6790;&#x89C4;&#x5219;" class="headerlink" title="&#xFF08;5&#xFF09;&#x540D;&#x79F0;&#x89E3;&#x6790;&#x89C4;&#x5219;"></a>&#xFF08;5&#xFF09;&#x540D;&#x79F0;&#x89E3;&#x6790;&#x89C4;&#x5219;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
