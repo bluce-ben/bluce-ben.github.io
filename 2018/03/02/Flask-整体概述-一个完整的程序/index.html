@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="一、Flask 简介Flask(http://flask.pocoo.org/)是一种小型框架，小到可以称为“微框架”。但是，小并不意味着它比其他框架的功能少。Flask 自开发伊始就被设计为可扩展的框架，它具有一个包含基本服务的强健核心，其他功能则可通过扩展实现。你可以自己挑选所需的扩展包，组成一个没有附加功能的精益组合，从而完全精确满足自身需求。 Flask 有两个主要依赖：路由、调试和Web">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-02T08:45:03.093Z">
+<meta property="og:updated_time" content="2018-03-02T08:46:49.632Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flask  整体概述-一个完整的程序">
 <meta name="twitter:description" content="一、Flask 简介Flask(http://flask.pocoo.org/)是一种小型框架，小到可以称为“微框架”。但是，小并不意味着它比其他框架的功能少。Flask 自开发伊始就被设计为可扩展的框架，它具有一个包含基本服务的强健核心，其他功能则可通过扩展实现。你可以自己挑选所需的扩展包，组成一个没有附加功能的精益组合，从而完全精确满足自身需求。 Flask 有两个主要依赖：路由、调试和Web">
@@ -388,7 +388,7 @@
       
         <h3 id="一、Flask-简介"><a href="#一、Flask-简介" class="headerlink" title="一、Flask 简介"></a>一、Flask 简介</h3><p>Flask(<a href="http://flask.pocoo.org/)是一种小型框架，小到可以称为“微框架”。但是，小并不意味着它比其他框架的功能少。Flask" target="_blank" rel="noopener">http://flask.pocoo.org/)是一种小型框架，小到可以称为“微框架”。但是，小并不意味着它比其他框架的功能少。Flask</a> 自开发伊始就被设计为可扩展的框架，它具有一个包含基本服务的强健核心，其他功能则可通过扩展实现。你可以自己挑选所需的扩展包，组成一个没有附加功能的精益组合，从而完全精确满足自身需求。</p>
 <p>Flask 有两个主要依赖：路由、调试和Web 服务器网关接口（Web Server Gateway Interface，WSGI）子系统由Werkzeug（<a href="http://werkzeug.pocoo.org/）提供；模板系统由Jinja2（http://jinja.pocoo.org/）提供。Werkzeug" target="_blank" rel="noopener">http://werkzeug.pocoo.org/）提供；模板系统由Jinja2（http://jinja.pocoo.org/）提供。Werkzeug</a> 和Jinjia2 都是由Flask 的核心开发者开发而成。</p>
-<p>Flask 并不原生支持数据库访问、Web 表单验证和用户认证等高级功能。这些功能以及其他大多数Web 程序中需要的核心服务都以扩展的形式实现，然后再与核心包集成。开发者可以任意挑选符合项目需求的扩展，甚至可以自行开发。这和大型框架的做法相反，大型框架往往已经替你做出了大多数决定，难以（有时甚至不允许）使用替代方案。</p>
+<p>Flask 并不原生支持数据库访问、Web 表单验证和用户认证等高级功能。这些功能以及其他大多数Web 程序中需要的核心服务都以扩展的形式实现，然后再与核心包集成。开发者可以任意挑选符合项目需求的扩展，甚至可以自行开发。这和大型框架的做法相反，大型框架往往已经替你做出了大多数决定，难以（有时甚至不允许）使用替代方案。<br><a id="more"></a></p>
 <h3 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h3><h4 id="1、使用虚拟环境"><a href="#1、使用虚拟环境" class="headerlink" title="1、使用虚拟环境"></a>1、使用虚拟环境</h4><p>安装Flask 最便捷的方式是使用虚拟环境。虚拟环境是Python解释器的一个私有副本，在这个环境中你可以安装私有包，而且不会影响系统中安装的全局Python 解释器。</p>
 <p>虚拟环境非常有用，可以在系统的Python 解释器中避免包的混乱和版本的冲突。为每个程序单独创建虚拟环境可以保证程序只能访问虚拟环境中的包，从而保持全局解释器的干净整洁，使其只作为创建（更多）虚拟环境的源。</p>
 <p>虚拟环境使用第三方实用工具virtualenv 创建。输入以下命令可以检查系统是否安装了virtualenv：<br>　　<code>$ virtualenv --version</code><br>如果结果显示错误，你就需要安装这个工具。</p>
