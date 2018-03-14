@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="简述CentOS 7 中默认安装了 Python，版本比较低（2.7.5），为了使用新版 3.x，需要对旧版本进行升级。 由于很多基本的命令、软件包都依赖旧版本，比如：yum。所以，在更新 Python 时，建议不要删除旧版本（新旧版本可以共存）。 安装Python3.6.4">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7默认Python升级">
+<meta property="og:url" content="http://yoursite.com/2018/03/13/CentOS-7默认Python升级/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="简述CentOS 7 中默认安装了 Python，版本比较低（2.7.5），为了使用新版 3.x，需要对旧版本进行升级。 由于很多基本的命令、软件包都依赖旧版本，比如：yum。所以，在更新 Python 时，建议不要删除旧版本（新旧版本可以共存）。 安装Python3.6.4">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-14T06:16:06.017Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 7默认Python升级">
+<meta name="twitter:description" content="简述CentOS 7 中默认安装了 Python，版本比较低（2.7.5），为了使用新版 3.x，需要对旧版本进行升级。 由于很多基本的命令、软件包都依赖旧版本，比如：yum。所以，在更新 Python 时，建议不要删除旧版本（新旧版本可以共存）。 安装Python3.6.4">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/13/CentOS-7默认Python升级/"/>
+
+
+
+
+
+  <title>CentOS 7默认Python升级 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/13/CentOS-7默认Python升级/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">CentOS 7默认Python升级</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-13T18:01:05+08:00">
+                2018-03-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/13/CentOS-7默认Python升级/" class="leancloud_visitors" data-flag-title="CentOS 7默认Python升级">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>CentOS 7 中默认安装了 Python，版本比较低（2.7.5），为了使用新版 3.x，需要对旧版本进行升级。</p>
+<p>由于很多基本的命令、软件包都依赖旧版本，比如：yum。所以，在更新 Python 时，建议不要删除旧版本（新旧版本可以共存）。</p>
+<h3 id="安装Python3-6-4"><a href="#安装Python3-6-4" class="headerlink" title="安装Python3.6.4"></a>安装Python3.6.4</h3><a id="more"></a>
+<h4 id="（1）下载并解压缩"><a href="#（1）下载并解压缩" class="headerlink" title="（1）下载并解压缩"></a>（1）下载并解压缩</h4><p>下载地址：<a href="https://www.python.org/downloads/release/python-364/" title="Python3.x" target="_blank" rel="noopener"><font color="red">传送门</font></a><br>此处我选择的版本是Python3.6.4：<br>　　<code>wget https://www.python.org/ftp/python/3.6.4/Python-3.6.4.tgz</code><br>解压缩：<br>　　<code>tar -xvf Python-3.6.4.tgz</code></p>
+<h4 id="（2）检测编译环境"><a href="#（2）检测编译环境" class="headerlink" title="（2）检测编译环境"></a>（2）检测编译环境</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd Python-3.6.4/</span><br><span class="line">./configure</span><br></pre></td></tr></table></figure>
+<p>执行 ./configure 时，如果报错：</p>
+<blockquote>
+<p>configure: error: no acceptable C compiler found in $PATH</p>
+</blockquote>
+<p>说明没有安装合适的编译器。这时，需要安装/升级 gcc 及其它依赖包。<br>　　<code>yum install make gcc gcc-c++</code><br>完成之后，重新执行：<br>　　<code>./configure</code></p>
+<h4 id="（3）编译-amp-安装"><a href="#（3）编译-amp-安装" class="headerlink" title="（3）编译 &amp; 安装"></a>（3）编译 &amp; 安装</h4><p>　　<code>make &amp; make install</code><br>安装中如果报错：</p>
+<blockquote>
+<p>zipimport.ZipImportError: can’t decompress data; zlib not available</p>
+</blockquote>
+<p>说明是因为缺少zlib 的相关工具包导致的，知道了问题所在，那么我们只需要安装相关依赖包即可，<br>① 打开终端，输入一下命令安装zlib相关依赖包：<br>　　<code>yum -y install zlib*</code> 或 <code>yum -y install zlib zlib-devel</code>（未试）</p>
+<p>② 进入 python安装包,修改Module路径的setup文件：<br>　　<code>vim Module/Setup.dist</code><br>找到以下这行代码，去掉注释：</p>
+<blockquote>
+<p>#zlib zlibmodule.c -I$(prefix)/include -L$(exec_prefix)/lib -lz</p>
+</blockquote>
+<p>然后再次执行编译 &amp; 安装。</p>
+<h3 id="设置Python默认版本"><a href="#设置Python默认版本" class="headerlink" title="设置Python默认版本"></a>设置Python默认版本</h3><h4 id="（1）查看Python版本"><a href="#（1）查看Python版本" class="headerlink" title="（1）查看Python版本"></a>（1）查看Python版本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# python -V</span><br><span class="line">Python 2.7.5</span><br><span class="line">[root@VM_0_7_centos ~]# python3 -V</span><br><span class="line">Python 3.6.4</span><br></pre></td></tr></table></figure>
+<p>查看Python命令路径：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# which python</span><br><span class="line">/usr/bin/python</span><br><span class="line">[root@VM_0_7_centos ~]# which python3</span><br><span class="line">/usr/local/bin/python3</span><br></pre></td></tr></table></figure></p>
+<h4 id="（2）设置Python3-x为默认版本"><a href="#（2）设置Python3-x为默认版本" class="headerlink" title="（2）设置Python3.x为默认版本"></a>（2）设置Python3.x为默认版本</h4><p>查看Python默认版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# ll /usr/bin/ | grep python</span><br><span class="line">-rwxr-xr-x. 1 root root      11232 Aug 10  2017 abrt-action-analyze-python</span><br><span class="line">lrwxrwxrwx. 1 root root          7 Jan  9 18:20 python -&gt; python2</span><br><span class="line">lrwxrwxrwx. 1 root root          9 Jan  9 18:20 python2 -&gt; python2.7</span><br><span class="line">-rwxr-xr-x. 1 root root       7136 Aug  4  2017 python2.7</span><br></pre></td></tr></table></figure></p>
+<p>更改Python默认版本，将原来 python 的软链接重命名：<br>　　<code>mv /usr/bin/python /usr/bin/python.bak</code><br>将 python 链接至 python3：<br>　　<code>ln -s /usr/local/bin/python3 /usr/bin/python</code><br>这时，再查看 Python 的版本：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# python -V</span><br><span class="line">Python 3.6.4</span><br></pre></td></tr></table></figure></p>
+<p>输出的是 3.x，说明已经使用的是 python3了。</p>
+<h3 id="配置yum"><a href="#配置yum" class="headerlink" title="配置yum"></a>配置yum</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# yum</span><br><span class="line">  File &quot;/usr/bin/yum&quot;, line 30</span><br><span class="line">    except KeyboardInterrupt, e:</span><br><span class="line">                            ^</span><br><span class="line">SyntaxError: invalid syntax</span><br></pre></td></tr></table></figure>
+<p>升级 Python 之后，由于将默认的 python 指向了 python3，yum 不能正常使用，需要编辑 yum 的配置文件：<br>　　<code>vi /usr/bin/yum</code><br>同时修改：<br>　　<code>vi /usr/libexec/urlgrabber-ext-down</code><br>将 #!/usr/bin/python 改为 #!/usr/bin/python2.7，保存退出即可。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/13/CSS-图片居中问题（水平居中和垂直居中）/" rel="next" title="CSS 图片居中问题（水平居中和垂直居中）">
+                <i class="fa fa-chevron-left"></i> CSS 图片居中问题（水平居中和垂直居中）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/14/Git-详解之协议篇（一）/" rel="prev" title="Git 详解之协议篇（一）">
+                Git 详解之协议篇（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">88</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x7B80;&#x8FF0;" class="headerlink" title="&#x7B80;&#x8FF0;"></a>&#x7B80;&#x8FF0;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Python3-6-4"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x5B89;&#x88C5;Python3-6-4" class="headerlink" title="&#x5B89;&#x88C5;Python3.6.4"></a>&#x5B89;&#x88C5;Python3.6.4</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）下载并解压缩"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x4E0B;&#x8F7D;&#x5E76;&#x89E3;&#x538B;&#x7F29;" class="headerlink" title="&#xFF08;1&#xFF09;&#x4E0B;&#x8F7D;&#x5E76;&#x89E3;&#x538B;&#x7F29;"></a>&#xFF08;1&#xFF09;&#x4E0B;&#x8F7D;&#x5E76;&#x89E3;&#x538B;&#x7F29;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）检测编译环境"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x68C0;&#x6D4B;&#x7F16;&#x8BD1;&#x73AF;&#x5883;" class="headerlink" title="&#xFF08;2&#xFF09;&#x68C0;&#x6D4B;&#x7F16;&#x8BD1;&#x73AF;&#x5883;"></a>&#xFF08;2&#xFF09;&#x68C0;&#x6D4B;&#x7F16;&#x8BD1;&#x73AF;&#x5883;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（3）编译-amp-安装"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x7F16;&#x8BD1;-amp-&#x5B89;&#x88C5;" class="headerlink" title="&#xFF08;3&#xFF09;&#x7F16;&#x8BD1; &amp; &#x5B89;&#x88C5;"></a>&#xFF08;3&#xFF09;&#x7F16;&#x8BD1; &amp; &#x5B89;&#x88C5;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置Python默认版本"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x8BBE;&#x7F6E;Python&#x9ED8;&#x8BA4;&#x7248;&#x672C;" class="headerlink" title="&#x8BBE;&#x7F6E;Python&#x9ED8;&#x8BA4;&#x7248;&#x672C;"></a>&#x8BBE;&#x7F6E;Python&#x9ED8;&#x8BA4;&#x7248;&#x672C;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）查看Python版本"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x67E5;&#x770B;Python&#x7248;&#x672C;" class="headerlink" title="&#xFF08;1&#xFF09;&#x67E5;&#x770B;Python&#x7248;&#x672C;"></a>&#xFF08;1&#xFF09;&#x67E5;&#x770B;Python&#x7248;&#x672C;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）设置Python3-x为默认版本"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x8BBE;&#x7F6E;Python3-x&#x4E3A;&#x9ED8;&#x8BA4;&#x7248;&#x672C;" class="headerlink" title="&#xFF08;2&#xFF09;&#x8BBE;&#x7F6E;Python3.x&#x4E3A;&#x9ED8;&#x8BA4;&#x7248;&#x672C;"></a>&#xFF08;2&#xFF09;&#x8BBE;&#x7F6E;Python3.x&#x4E3A;&#x9ED8;&#x8BA4;&#x7248;&#x672C;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置yum"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x914D;&#x7F6E;yum" class="headerlink" title="&#x914D;&#x7F6E;yum"></a>&#x914D;&#x7F6E;yum</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
