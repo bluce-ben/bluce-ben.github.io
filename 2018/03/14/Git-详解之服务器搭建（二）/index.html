@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="参考博文：https://www.cnblogs.com/dee0912/p/5815267.htmlhttps://www.cnblogs.com/lxmhhy/p/6038243.html 服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]#">
+<meta name="description" content="服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]# git versiongit version 1.8.3.1">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git 详解之服务器搭建（二）">
 <meta property="og:url" content="http://yoursite.com/2018/03/14/Git-详解之服务器搭建（二）/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="参考博文：https://www.cnblogs.com/dee0912/p/5815267.htmlhttps://www.cnblogs.com/lxmhhy/p/6038243.html 服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]#">
+<meta property="og:description" content="服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]# git versiongit version 1.8.3.1">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-14T10:03:34.793Z">
+<meta property="og:updated_time" content="2018-03-15T06:09:17.082Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 详解之服务器搭建（二）">
-<meta name="twitter:description" content="参考博文：https://www.cnblogs.com/dee0912/p/5815267.htmlhttps://www.cnblogs.com/lxmhhy/p/6038243.html 服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]#">
+<meta name="twitter:description" content="服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]# git versiongit version 1.8.3.1">
 
 
 
@@ -327,7 +327,18 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Git/" itemprop="url" rel="index">
+                  <a href="/categories/版本控制/" itemprop="url" rel="index">
+                    <span itemprop="name">版本控制</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/Git/" itemprop="url" rel="index">
                     <span itemprop="name">Git</span>
                   </a>
                 </span>
@@ -375,37 +386,39 @@
       
 
       
-        <p>参考博文：<a href="https://www.cnblogs.com/dee0912/p/5815267.html" target="_blank" rel="noopener">https://www.cnblogs.com/dee0912/p/5815267.html</a><br><a href="https://www.cnblogs.com/lxmhhy/p/6038243.html" target="_blank" rel="noopener">https://www.cnblogs.com/lxmhhy/p/6038243.html</a></p>
-<p>服务器环境：CentOS7 + Git(version 1.8.3.1)</p>
+        <p>服务器环境：CentOS7 + Git(version 1.8.3.1)</p>
 <h4 id="1、安装Git"><a href="#1、安装Git" class="headerlink" title="1、安装Git"></a>1、安装Git</h4><p>　　<code>yum install -y git</code><br>安装完后，查看 Git 版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# git version</span><br><span class="line">git version 1.8.3.1</span><br></pre></td></tr></table></figure></p>
 <a id="more"></a>
 <h4 id="2、新建Git账号，用来管理Git服务"><a href="#2、新建Git账号，用来管理Git服务" class="headerlink" title="2、新建Git账号，用来管理Git服务"></a>2、新建Git账号，用来管理Git服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# id git</span><br><span class="line">id: git：无此用户</span><br><span class="line">[root@VM_0_7_centos ~]# useradd git</span><br><span class="line">[root@VM_0_7_centos ~]# passwd git</span><br></pre></td></tr></table></figure>
 <h4 id="3、服务器端创建Git仓库"><a href="#3、服务器端创建Git仓库" class="headerlink" title="3、服务器端创建Git仓库"></a>3、服务器端创建Git仓库</h4><p>设置 /data/git/gittest.git 为 Git 仓库<br>然后把 Git 仓库的 owner 修改为 git<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# mkdir -p /data/git/gittest.git</span><br><span class="line">[root@VM_0_7_centos ~]# git init --bare /data/git/gittest.git</span><br><span class="line">Initialized empty Git repository in /data/git/gittest.git/</span><br><span class="line">[root@VM_0_7_centos ~]# cd /data/git/</span><br><span class="line">[root@VM_0_7_centos git]# chown -R git:git gittest.git/</span><br></pre></td></tr></table></figure></p>
-<h4 id="4、客户端首次-clone-远程仓库"><a href="#4、客户端首次-clone-远程仓库" class="headerlink" title="4、客户端首次 clone 远程仓库"></a>4、客户端首次 clone 远程仓库</h4><p>进入 Git Bash 命令行客户端，创建项目地址（设置在 d:/wamp64/www/gittest_gitbash）并进入:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dee@Lenovo-PC MINGW64 /d</span><br><span class="line">$ cd wamp64/www</span><br><span class="line"></span><br><span class="line">dee@Lenovo-PC MINGW64 /d/wamp64/www</span><br><span class="line">$ mkdir gittest_gitbash</span><br><span class="line"></span><br><span class="line">dee@Lenovo-PC MINGW64 /d/wamp64/www</span><br><span class="line">$ cd gittest_gitbash</span><br><span class="line"></span><br><span class="line">dee@Lenovo-PC MINGW64 /d/wamp64/www/gittest_gitbash</span><br></pre></td></tr></table></figure></p>
-<p>然后从 Linux Git 服务器上 clone 项目：<br><code>$ git clone git@192.168.56.101:/home/data/gittest.git</code></p>
-<p>如果SSH用的不是默认的22端口，则需要使用以下的命令（假设SSH端口号是7700）：<br><code>$ git clone ssh://git@192.168.56.101:7700/home/data/gittest.git</code></p>
-<p>当第一次连接到目标 Git 服务器时会得到一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The authenticity of host &apos;192.168.56.101 (192.168.56.101)&apos; can&apos;t be established.</span><br><span class="line">RSA key fingerprint is SHA256:Ve6WV/SCA059EqoUOzbFoZdfmMh3B259nigfmvdadqQ.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)?</span><br></pre></td></tr></table></figure></p>
-<p>选择 yes：<br><code>Warning: Permanently added &#39;192.168.56.101&#39; (RSA) to the list of known hosts.</code><br>此时 C:\Users\用户名\.ssh 下会多出一个文件 known_hosts，以后在这台电脑上再次连接目标 Git 服务器时不会再提示上面的语句。</p>
-<p>后面提示要输入密码，可以采用 SSH 公钥来进行验证。</p>
-<h4 id="5、服务器端Git打开RSA认证"><a href="#5、服务器端Git打开RSA认证" class="headerlink" title="5、服务器端Git打开RSA认证"></a>5、服务器端Git打开RSA认证</h4><p>进入 /etc/ssh 目录，编辑 sshd_config，打开以下三个配置的注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RSAAuthentication yes</span><br><span class="line">PubkeyAuthentication yes</span><br><span class="line">AuthorizedKeysFile .ssh/authorized_keys</span><br></pre></td></tr></table></figure></p>
-<p>保存并重启 sshd 服务：<br><code>[root@localhost ssh]# /etc/rc.d/init.d/sshd restart</code></p>
-<p>由 AuthorizedKeysFile 得知公钥的存放路径是 .ssh/authorized_keys，实际上是 $Home/.ssh/authorized_keys，由于管理 Git 服务的用户是 git，所以实际存放公钥的路径是 /home/git/.ssh/authorized_keys</p>
-<p>在 /home/git/ 下创建目录 .ssh<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost git]# pwd</span><br><span class="line">/home/git</span><br><span class="line">[root@localhost git]# mkdir .ssh</span><br><span class="line">[root@localhost git]# ls -a </span><br><span class="line">. .. .bash_logout .bash_profile .bashrc .gnome2 .mozilla .ssh</span><br></pre></td></tr></table></figure></p>
-<p>然后把 .ssh 文件夹的 owner 修改为 git<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost git]# chown -R git:git .ssh</span><br><span class="line">[root@localhost git]# ll -a</span><br><span class="line">总用量 32</span><br><span class="line">drwx------. 5 git  git  4096 8月  28 20:04 .</span><br><span class="line">drwxr-xr-x. 8 root root 4096 8月  28 19:32 ..</span><br><span class="line">-rw-r--r--. 1 git  git    18 10月 16 2014 .bash_logout</span><br><span class="line">-rw-r--r--. 1 git  git   176 10月 16 2014 .bash_profile</span><br><span class="line">-rw-r--r--. 1 git  git   124 10月 16 2014 .bashrc</span><br><span class="line">drwxr-xr-x. 2 git  git  4096 11月 12 2010 .gnome2</span><br><span class="line">drwxr-xr-x. 4 git  git  4096 5月   8 12:22 .mozilla</span><br><span class="line">drwxr-xr-x. 2 git  git  4096 8月  28 20:08 .ssh</span><br></pre></td></tr></table></figure></p>
-<h4 id="6、客户端创建SSH公钥和私钥并将公钥导入服务器端"><a href="#6、客户端创建SSH公钥和私钥并将公钥导入服务器端" class="headerlink" title="6、客户端创建SSH公钥和私钥并将公钥导入服务器端"></a>6、客户端创建SSH公钥和私钥并将公钥导入服务器端</h4><p><code>$ ssh-keygen -t rsa</code><br>此时 C:\Users\用户名\.ssh 下会多出两个文件 id_rsa 和 id_rsa.pub</p>
+<h4 id="4、客户端首次-clone-远程仓库"><a href="#4、客户端首次-clone-远程仓库" class="headerlink" title="4、客户端首次 clone 远程仓库"></a>4、客户端首次 clone 远程仓库</h4><p>进入 Git Bash 命令行客户端，创建项目地址（设置在  /d/MyProjects/gittest.git）并进入；<br>然后从 Linux Git 服务器上 clone 项目：<br><code>$ git clone git@118.24.8.229:/data/git/gittest.git</code></p>
+<p>如果SSH用的不是默认的22端口，则需要使用以下的命令（假设SSH端口号是7700）：<br><code>$ git clone ssh://git@118.24.8.229:7700/home/data/gittest.git</code></p>
+<p>当第一次连接到目标 Git 服务器时会得到一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Cloning into &apos;gittest&apos;...</span><br><span class="line">The authenticity of host &apos;118.24.8.229 (118.24.8.229)&apos; can&apos;t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:witKSLOMzfgWBcs78t5LfqmSJ+JEm2/PBEaR0d9mnqA.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)? yes</span><br></pre></td></tr></table></figure></p>
+<p>选择 yes：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Warning: Permanently added &apos;118.24.8.229&apos; (ECDSA) to the list of known hosts.</span><br><span class="line">git@118.24.8.229&apos;s password:</span><br><span class="line">warning: You appear to have cloned an empty repository.</span><br></pre></td></tr></table></figure></p>
+<p>后面提示要输入密码，可以采用 SSH 公钥来进行验证（下面会进行说明）。</p>
+<h4 id="5、服务器端Git打开RSA认证"><a href="#5、服务器端Git打开RSA认证" class="headerlink" title="5、服务器端Git打开RSA认证"></a>5、服务器端Git打开RSA认证</h4><p>进入 /etc/ssh 目录，编辑 sshd_config，打开以下三个配置的注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#RSAAuthentication yes</span><br><span class="line">#PubkeyAuthentication yes</span><br><span class="line">#AuthorizedKeysFile     .ssh/authorized_keys</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>##RSAAuthentication用来设置是否开启RSA密钥验证，只针对SSH1<font color="red">（注：对于SSH2来说，没有此项配置）</font></p>
+<p>##PubkeyAuthentication用来设置是否开启公钥验证，如果使用公钥验证的方式登录时，则设置为yes</p>
+<p>##AuthorizedKeysFile用来设置公钥验证文件的路径，与PubkeyAuthentication配合使用,默认值是”.ssh/authorized_keys”。</p>
+</blockquote>
+<p>保存并重启 sshd 服务：<br><code>[root@VM_0_7_centos git]# systemctl restart sshd</code></p>
+<p>由AuthorizedKeysFile 得知公钥的存放路径是 <code>.ssh/authorized_keys</code>，实际上是 <code>$Home/.ssh/authorized_keys</code>，由于管理 Git 服务的用户是 git，所以实际存放公钥的路径是 <code>/home/git/.ssh/authorized_keys</code>。</p>
+<h4 id="6、客户端创建SSH公钥和私钥并将公钥导入服务器端"><a href="#6、客户端创建SSH公钥和私钥并将公钥导入服务器端" class="headerlink" title="6、客户端创建SSH公钥和私钥并将公钥导入服务器端"></a>6、客户端创建SSH公钥和私钥并将公钥导入服务器端</h4><p><code>$ ssh-keygen -t rsa</code><br>此时 C:\Users\用户名.ssh 下会多出两个文件 id_rsa 和 id_rsa.pub</p>
 <blockquote>
 <p>id_rsa 是私钥<br>id_rsa.pub 是公钥</p>
 </blockquote>
-<p>回到 Git Bash 下，导入文件：<br><code>$ ssh git@192.168.56.101 &#39;cat &gt;&gt; .ssh/authorized_keys&#39; &lt; ~/.ssh/id_rsa.pub</code></p>
+<p>回到 Git Bash 下，导入文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh git@118.24.8.229 `cat &gt;&gt; ~/.ssh/authorized_keys &lt; ~/.ssh/id_rsa.pub`</span><br><span class="line">git@118.24.8.229&apos;s password:</span><br><span class="line">Last login: Wed Mar 14 21:01:33 2018 from 113.46.182.66</span><br></pre></td></tr></table></figure></p>
 <p>需要输入服务器端 git 用户的密码</p>
-<p>回到服务器端，查看 .ssh 下是否存在 authorized_keys 文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost git]# cd .ssh</span><br><span class="line">[root@localhost .ssh]# ll</span><br><span class="line">总用量 4</span><br><span class="line">-rw-rw-r--. 1 git git 398 8月  28 20:08 authorized_keys</span><br></pre></td></tr></table></figure></p>
+<p>回到服务器端，查看 .ssh 下是否存在 authorized_keys 文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos .ssh]# ll -h</span><br><span class="line">total 12K</span><br><span class="line">-rw------- 1 git git  401 Mar 14 14:34 authorized_keys</span><br><span class="line">-rw------- 1 git git 1.7K Mar 14 14:32 id_rsa</span><br><span class="line">-rw-r--r-- 1 git git  399 Mar 14 14:32 id_rsa.pub</span><br></pre></td></tr></table></figure></p>
 <p>可以查看一下是否是客户端生成的公钥。</p>
 <blockquote>
 <font color="red">重要：<br>修改 .ssh 目录的权限为 700<br>修改 .ssh/authorized_keys 文件的权限为 600</font>
 
 
 </blockquote>
-<h4 id="7、客户端再次-clone-远程仓库"><a href="#7、客户端再次-clone-远程仓库" class="headerlink" title="7、客户端再次 clone 远程仓库"></a>7、客户端再次 clone 远程仓库</h4><p><code>$ git clone git@192.168.56.101:/home/data/git/gittest.git</code><br>查看客户端项目目录：<br>项目已经 clone 了。</p>
+<h4 id="7、客户端再次-clone-远程仓库"><a href="#7、客户端再次-clone-远程仓库" class="headerlink" title="7、客户端再次 clone 远程仓库"></a>7、客户端再次 clone 远程仓库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@118.24.8.229:/data/git/gittest.git</span><br><span class="line">fatal: destination path &apos;gittest&apos; already exists and is not an empty directory.</span><br></pre></td></tr></table></figure>
+<p>项目已经 clone 了</p>
 <h4 id="8、禁止-Git-用户-SSH-登录服务器"><a href="#8、禁止-Git-用户-SSH-登录服务器" class="headerlink" title="8、禁止 Git 用户 SSH 登录服务器"></a>8、禁止 Git 用户 SSH 登录服务器</h4><p>编辑 /etc/passwd<br>找到：<br><code>git:x:502:504::/home/git:/bin/bash</code><br>修改为<br><code>git:x:502:504::/home/git:/bin/git-shell</code><br>此时 git 用户可以正常通过 ssh 使用 git，但无法通过 ssh 登录系统。</p>
 
       
@@ -530,7 +543,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">88</span>
+                  <span class="site-state-item-count">94</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -541,7 +554,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -552,7 +565,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
