@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="1、使用 yum 安装SVN[root@singledb ~]# yum install -y subversion 2、验证安装版本及是否成功安装12[root@singledb ~]# svnserve --versionsvnserve, version 1.4.2 (r22196)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-16T02:41:14.717Z">
+<meta property="og:updated_time" content="2018-03-19T02:52:16.666Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SVN 详解之服务器搭建（一）">
 <meta name="twitter:description" content="1、使用 yum 安装SVN[root@singledb ~]# yum install -y subversion 2、验证安装版本及是否成功安装12[root@singledb ~]# svnserve --versionsvnserve, version 1.4.2 (r22196)">
@@ -410,6 +410,11 @@
 <p>② 使用Kill命令杀死进程<br><code>kill -s 9 31964        （31964为进程ID）</code></p>
 <h4 id="6、客户端检出访问-svn-服务器"><a href="#6、客户端检出访问-svn-服务器" class="headerlink" title="6、客户端检出访问 svn 服务器"></a>6、客户端检出访问 svn 服务器</h4><p><code>svn co svn://118.24.8.229/&lt;repo&gt;</code> 即可检出代码（注：repo为代码库名称）。会弹出输入用户名和密码。</p>
 <p><strong>注：我们搭建的SVN是独立服务器形式运行的，没有和Apache整合，所以SVN地址为：svn://xxx/xxx，而不是<a href="http://xxx/xxx或https://xxx/xxx。" target="_blank" rel="noopener">http://xxx/xxx或https://xxx/xxx。</a></strong><br>Apache 搭建HTTP方式访问SVN服务器：<a href="http://blog.csdn.net/robertohuang/article/details/55504445" target="_blank" rel="noopener"><font color="red">传送门</font></a></p>
+<hr>
+<h4 id="问题集锦"><a href="#问题集锦" class="headerlink" title="问题集锦"></a>问题集锦</h4><h5 id="（1）SVN-检出错误"><a href="#（1）SVN-检出错误" class="headerlink" title="（1）SVN 检出错误"></a>（1）SVN 检出错误</h5><blockquote>
+<p>在 Windows下检出SVN仓库报错：<br>Unable to connect to a repository at URL ‘svn://118.24.8.229/testsvn’<br>Can’t connect to host ‘118.24.8.229’: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。</p>
+</blockquote>
+<p>经查找知道，是因为服务器端的对应端口未开启：3690.<br>在服务端开启即可：<br><code>iptables -A INPUT -p tcp -m tcp --dport 3690 -j ACCEPT</code></p>
 
       
     </div>
@@ -533,7 +538,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">98</span>
+                  <span class="site-state-item-count">102</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -544,7 +549,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -555,7 +560,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -611,7 +616,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、使用-yum-安装SVN"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4F7F;&#x7528;-yum-&#x5B89;&#x88C5;SVN" class="headerlink" title="1&#x3001;&#x4F7F;&#x7528; yum &#x5B89;&#x88C5;SVN"></a>1&#x3001;&#x4F7F;&#x7528; yum &#x5B89;&#x88C5;SVN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、验证安装版本及是否成功安装"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;" class="headerlink" title="2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;"></a>2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、创建-SVN-版本库"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x521B;&#x5EFA;-SVN-&#x7248;&#x672C;&#x5E93;" class="headerlink" title="3&#x3001;&#x521B;&#x5EFA; SVN &#x7248;&#x672C;&#x5E93;"></a>3&#x3001;&#x521B;&#x5EFA; SVN &#x7248;&#x672C;&#x5E93;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、SVN-配置"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;SVN-&#x914D;&#x7F6E;" class="headerlink" title="4&#x3001;SVN &#x914D;&#x7F6E;"></a>4&#x3001;SVN &#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、启动和停止SVN服务"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;" class="headerlink" title="5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;"></a>5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、客户端检出访问-svn-服务器"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE;-svn-&#x670D;&#x52A1;&#x5668;" class="headerlink" title="6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE; svn &#x670D;&#x52A1;&#x5668;"></a>6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE; svn &#x670D;&#x52A1;&#x5668;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、使用-yum-安装SVN"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4F7F;&#x7528;-yum-&#x5B89;&#x88C5;SVN" class="headerlink" title="1&#x3001;&#x4F7F;&#x7528; yum &#x5B89;&#x88C5;SVN"></a>1&#x3001;&#x4F7F;&#x7528; yum &#x5B89;&#x88C5;SVN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、验证安装版本及是否成功安装"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;" class="headerlink" title="2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;"></a>2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、创建-SVN-版本库"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x521B;&#x5EFA;-SVN-&#x7248;&#x672C;&#x5E93;" class="headerlink" title="3&#x3001;&#x521B;&#x5EFA; SVN &#x7248;&#x672C;&#x5E93;"></a>3&#x3001;&#x521B;&#x5EFA; SVN &#x7248;&#x672C;&#x5E93;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、SVN-配置"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;SVN-&#x914D;&#x7F6E;" class="headerlink" title="4&#x3001;SVN &#x914D;&#x7F6E;"></a>4&#x3001;SVN &#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、启动和停止SVN服务"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;" class="headerlink" title="5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;"></a>5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、客户端检出访问-svn-服务器"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE;-svn-&#x670D;&#x52A1;&#x5668;" class="headerlink" title="6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE; svn &#x670D;&#x52A1;&#x5668;"></a>6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE; svn &#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题集锦"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x96C6;&#x9526;" class="headerlink" title="&#x95EE;&#x9898;&#x96C6;&#x9526;"></a>&#x95EE;&#x9898;&#x96C6;&#x9526;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）SVN-检出错误"><span class="nav-number">7.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;SVN-&#x68C0;&#x51FA;&#x9519;&#x8BEF;" class="headerlink" title="&#xFF08;1&#xFF09;SVN &#x68C0;&#x51FA;&#x9519;&#x8BEF;"></a>&#xFF08;1&#xFF09;SVN &#x68C0;&#x51FA;&#x9519;&#x8BEF;</span></a></li></ol></li></ol></div>
             
 
           </div>

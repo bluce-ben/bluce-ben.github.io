@@ -91,7 +91,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_iptables_rules.JPG">
 <meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_iptables_chain.JPG">
-<meta property="og:updated_time" content="2018-01-18T07:02:57.151Z">
+<meta property="og:updated_time" content="2018-03-19T02:58:37.787Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 防火墙的设定">
 <meta name="twitter:description" content="Linux 的封包过滤软件：iptables《防火墙的认识》这篇文章说了那么多，主要就是说明防火墙是什么，能做什么，并且知道防火墙不是万能的。下面我说一下都使用什么来设定防火墙。因为不同的核心使用的防火墙机制不同，且支持的软件指令与语法也不相同，所以在 Linux 上头设定属于你自己的防火墙规则时，要注意，先用 uname -r 追踪一下你的核心版本再说，目前大部分的核心都使用 kernel 2.">
@@ -460,8 +460,8 @@
 <li>回应封包：让本机主动向外要求而响应的封包可以进入本机(ESTABLISHED,RELATED)</li>
 <li>信任用户：这是非必要的，如果你想要让区网的来源可用你的主机资源时</li>
 </ol>
-<p>这就是最最阳春的防火墙，你可以透过第二步骤抵挡所有远程的来源封包，而透过第四步骤让你要求的远程主机响应封包可以进入， 加上让本机的 lo 这个内部循环装置可以放行，嘿嘿！一部 client 专用的防火墙规则就 OK 了！你可以在某个 script 上面这样做即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# vim bin/firewall.sh</span><br><span class="line">#!/bin/bash</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin; export PATH</span><br><span class="line"># 1. 清除规则</span><br><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -Z</span><br><span class="line"># 2. 设定政策</span><br><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line"># 3~5. 制订各项规则</span><br><span class="line">iptables -A INPUT -i lo -j ACCEPT</span><br><span class="line">iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">#iptables -A INPUT -i eth0 -s 192.168.1.0/24 -j ACCEPT</span><br><span class="line"># 6. 写入防火墙规则配置文件</span><br><span class="line">/etc/init.d/iptables save</span><br><span class="line">[root@www ~]# sh bin/firewall.sh</span><br><span class="line">iptables: Saving firewall rules to /etc/sysconfig/iptables:[ OK ]</span><br></pre></td></tr></table></figure></p>
-<p>其实防火墙也是一个服务，你可以透过<code>【chkconfig --list iptables】</code>去察看就知道了。因此，你这次修改的各种设定想要在下次开机还保存，那就得要进行<code>【 /etc/init.d/iptables save 】</code>这个指令加参数。</p>
+<p>这就是最最阳春的防火墙，你可以透过第二步骤抵挡所有远程的来源封包，而透过第四步骤让你要求的远程主机响应封包可以进入， 加上让本机的 lo 这个内部循环装置可以放行，嘿嘿！一部 client 专用的防火墙规则就 OK 了！你可以在某个 script 上面这样做即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# vim bin/firewall.sh</span><br><span class="line">#!/bin/bash</span><br><span class="line"># 1. 清除规则</span><br><span class="line">iptables -F</span><br><span class="line">iptables -X</span><br><span class="line">iptables -Z</span><br><span class="line"># 2. 设定政策</span><br><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line"># 3~5. 制订各项规则</span><br><span class="line">iptables -A INPUT -i eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A INPUT -p icmp -j ACCEPT</span><br><span class="line">iptables -A INPUT -i lo -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 22 -j ACCEPT   #必须要写，要不然就登陆不了SSH了。被锁外面了-_-</span><br><span class="line"># 6. 写入防火墙规则配置文件并重启</span><br><span class="line">service iptables save</span><br><span class="line">systemctl restart iptables.service</span><br></pre></td></tr></table></figure></p>
+<p>其实防火墙也是一个服务，你可以透过【systemctl list-unit-files iptables】去察看就知道了。</p>
 
       
     </div>
@@ -589,7 +589,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">98</span>
+                  <span class="site-state-item-count">102</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -600,7 +600,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -611,7 +611,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">41</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
