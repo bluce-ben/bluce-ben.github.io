@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Flask,Python," />
+  <meta name="keywords" content="Python,Flask," />
 
 
 
@@ -82,14 +82,14 @@
 
 
 <meta name="description" content="1、引入模块Flask-WTF（http://pythonhosted.org/Flask-WTF/）扩展可以把处理Web 表单的过程变成一种愉悦的体验。这个扩展对独立的WTForms（http://wtforms.simplecodes.com）包进行了包装，方便集成到Flask 程序中。 Flask-WTF 及其依赖可使用pip 安装：　　(venv) $ pip install flask-">
-<meta name="keywords" content="Flask,Python">
+<meta name="keywords" content="Python,Flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flask 基础模块 - 表单(Flask-WTF)">
 <meta property="og:url" content="http://yoursite.com/2018/03/05/Flask-基础模块-表单-Flask-WTF/index.html">
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="1、引入模块Flask-WTF（http://pythonhosted.org/Flask-WTF/）扩展可以把处理Web 表单的过程变成一种愉悦的体验。这个扩展对独立的WTForms（http://wtforms.simplecodes.com）包进行了包装，方便集成到Flask 程序中。 Flask-WTF 及其依赖可使用pip 安装：　　(venv) $ pip install flask-">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T02:23:51.143Z">
+<meta property="og:updated_time" content="2018-03-23T07:13:25.295Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flask 基础模块 - 表单(Flask-WTF)">
 <meta name="twitter:description" content="1、引入模块Flask-WTF（http://pythonhosted.org/Flask-WTF/）扩展可以把处理Web 表单的过程变成一种愉悦的体验。这个扩展对独立的WTForms（http://wtforms.simplecodes.com）包进行了包装，方便集成到Flask 程序中。 Flask-WTF 及其依赖可使用pip 安装：　　(venv) $ pip install flask-">
@@ -475,6 +475,49 @@
 </tr>
 </tbody>
 </table>
+<p><strong>表4-2  WTForms 字段支持的属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>说    明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>label</td>
+<td>字段的标签</td>
+</tr>
+<tr>
+<td>validators</td>
+<td>调用验证时调用的一系列验证器。</td>
+</tr>
+<tr>
+<td>filters</td>
+<td>由进程在输入数据上运行的一系列过滤器。</td>
+</tr>
+<tr>
+<td>description</td>
+<td>字段的描述，通常用于帮助文本。</td>
+</tr>
+<tr>
+<td>id</td>
+<td>用于该字段的id。一个合理的默认设置是由表单设置的，您不需要手动设置它。</td>
+</tr>
+<tr>
+<td>default</td>
+<td>如果没有提供表单或对象输入，则将默认值分配给该字段。可能是一个可调用的。</td>
+</tr>
+<tr>
+<td>widget</td>
+<td>如果提供，则重写用于呈现字段的小部件。</td>
+</tr>
+<tr>
+<td>render_kw (dict)</td>
+<td>如果提供，则提供在呈现时向小部件提供默认关键字的字典。</td>
+</tr>
+</tbody>
+</table>
 <p><strong>表4-2　WTForms验证函数</strong></p>
 <table>
 <thead>
@@ -485,47 +528,59 @@
 </thead>
 <tbody>
 <tr>
-<td>Email</td>
-<td>验证电子邮件地址</td>
-</tr>
-<tr>
-<td>EqualTo</td>
-<td>比较两个字段的值；常用于要求输入两次密码进行确认的情况</td>
-</tr>
-<tr>
-<td>IPAddress</td>
-<td>验证IPv4 网络地址</td>
-</tr>
-<tr>
-<td>Length</td>
-<td>验证输入字符串的长度</td>
-</tr>
-<tr>
-<td>NumberRange</td>
-<td>验证输入的值在数字范围内</td>
-</tr>
-<tr>
-<td>Optional</td>
-<td>无输入值时跳过其他验证函数</td>
-</tr>
-<tr>
-<td>Required</td>
+<td>DataRequired(message=None)</td>
 <td>确保字段中有数据</td>
 </tr>
 <tr>
-<td>Regexp</td>
+<td>Email(message=None)</td>
+<td>验证电子邮件地址</td>
+</tr>
+<tr>
+<td>EqualTo(fieldname, message=None)</td>
+<td>比较两个字段的值；常用于要求输入两次密码进行确认的情况</td>
+</tr>
+<tr>
+<td>InputRequired(message=None)</td>
+<td>Validates that input was provided for this field.</td>
+</tr>
+<tr>
+<td>IPAddress(ipv4=True, ipv6=False, message=None)</td>
+<td>验证IPv4 网络地址</td>
+</tr>
+<tr>
+<td>Length(min=-1, max=-1, message=None)</td>
+<td>验证输入字符串的长度</td>
+</tr>
+<tr>
+<td>MacAddress(message=None)</td>
+<td>Validates a MAC address.</td>
+</tr>
+<tr>
+<td>NumberRange(min=None, max=None, message=None)</td>
+<td>验证输入的值在数字范围内</td>
+</tr>
+<tr>
+<td>Optional(strip_whitespace=True)</td>
+<td>无输入值时跳过其他验证函数</td>
+</tr>
+<tr>
+<td>Regexp(regex, flags=0, message=None)</td>
 <td>使用正则表达式验证输入值</td>
 </tr>
 <tr>
-<td>URL</td>
+<td>URL(require_tld=True, message=None)</td>
 <td>验证URL</td>
 </tr>
 <tr>
-<td>AnyOf</td>
+<td>UUID(message=None)</td>
+<td>Validates a UUID.</td>
+</tr>
+<tr>
+<td>AnyOf(values, message=None, values_formatter=None)</td>
 <td>确保输入值在可选值列表中</td>
 </tr>
 <tr>
-<td>NoneOf</td>
+<td>NoneOf(values, message=None, values_formatter=None)</td>
 <td>确保输入值不在可选值列表中</td>
 </tr>
 </tbody>
@@ -558,9 +613,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Flask/" rel="tag"># Flask</a>
-          
             <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
           
         </div>
       

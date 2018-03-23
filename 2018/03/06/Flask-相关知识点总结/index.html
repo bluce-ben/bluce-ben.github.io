@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Flask,Python," />
+  <meta name="keywords" content="Python,Flask," />
 
 
 
@@ -82,14 +82,14 @@
 
 
 <meta name="description" content="1、Flask入口文件集成 shell每次启动shell 会话都要导入数据库实例和模型，这真是份枯燥的工作。为了避免一直重复导入，我们可以做些配置，让Flask-Script 的shell 命令自动导入特定的对象。 若想把对象添加到导入列表中，我们要为shell 命令注册一个make_context 回调函数，如示例5-7 所示。">
-<meta name="keywords" content="Flask,Python">
+<meta name="keywords" content="Python,Flask">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Flask - 相关知识点总结">
 <meta property="og:url" content="http://yoursite.com/2018/03/06/Flask-相关知识点总结/index.html">
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="1、Flask入口文件集成 shell每次启动shell 会话都要导入数据库实例和模型，这真是份枯燥的工作。为了避免一直重复导入，我们可以做些配置，让Flask-Script 的shell 命令自动导入特定的对象。 若想把对象添加到导入列表中，我们要为shell 命令注册一个make_context 回调函数，如示例5-7 所示。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-03-06T10:48:01.046Z">
+<meta property="og:updated_time" content="2018-03-23T08:46:33.337Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flask - 相关知识点总结">
 <meta name="twitter:description" content="1、Flask入口文件集成 shell每次启动shell 会话都要导入数据库实例和模型，这真是份枯燥的工作。为了避免一直重复导入，我们可以做些配置，让Flask-Script 的shell 命令自动导入特定的对象。 若想把对象添加到导入列表中，我们要为shell 命令注册一个make_context 回调函数，如示例5-7 所示。">
@@ -394,6 +394,20 @@
 <p>在这个示例中，每次提交的名字都会和存储在用户会话中的名字进行比较，而会话中存储的名字是前一次在这个表单中提交的数据。如果两个名字不一样，就会调用flash() 函数，在发给客户端的下一个响应中显示一个消息。</p>
 <p>仅调用flash() 函数并不能把消息显示出来，程序使用的模板要渲染这些消息。最好在基模板中渲染Flash 消息，因为这样所有页面都能使用这些消息。Flask 把get_flashed_messages() 函数开放给模板，用来获取并渲染消息，如示例所示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;% block content %&#125;</span><br><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">	&#123;% for message in get_flashed_messages() %&#125;</span><br><span class="line">	&lt;div class=&quot;alert alert-warning&quot;&gt;</span><br><span class="line">		&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot;&gt;&amp;times;&lt;/button&gt;</span><br><span class="line">		&#123;&#123; message &#125;&#125;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">	&#123;% endfor %&#125;</span><br><span class="line">	</span><br><span class="line">	&#123;% block page_content %&#125;&#123;% endblock %&#125;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure></p>
 <p>在模板中使用循环是因为在之前的请求循环中每次调用flash() 函数时都会生成一个消息，所以可能有多个消息在排队等待显示。get_flashed_messages() 函数获取的消息在下次调用时不会再次返回，因此Flash 消息只显示一次，然后就消失了。</p>
+<p><strong>进阶用法：区别类别分别显示（使用category_filter字段）</strong></p>
+<ul>
+<li><p>首先，在视图文件中使用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">flash(message, category)</span><br><span class="line"># 例如</span><br><span class="line">flash(&apos;Change your name success!&apos;, &apos;ok&apos;)</span><br><span class="line">flash(&apos;Change your name faild!&apos;, &apos;error&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其次，在模板中使用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for message in get_flashed_messages(category_filter=[&apos;ok&apos;]) %&#125;</span><br><span class="line">&#123;% for message in get_flashed_messages(category_filter=[&apos;error&apos;]) %&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3、使用Flask-Moment进行日期时间的管理"><a href="#3、使用Flask-Moment进行日期时间的管理" class="headerlink" title="3、使用Flask-Moment进行日期时间的管理"></a>3、使用Flask-Moment进行日期时间的管理</h4><p>Flask-Moment又是一个flask的扩展模块，用来处理时间日期等信息。用这个模块主要是考虑到两点，第一是为了让不同时区的用户看到的都是各自时区的实际时间，而不是服务器所在地的时间。第二是对于一些时间间隔的处理，如果要手动处理很麻烦，如果有模块就很好了。</p>
+<p>1、安装该模块<br><code>pip install flask-moment</code></p>
+<p>2、初始化框架的时候引入<br>app文件 app/__init__.py：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from flask_moment import Moment</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># 实例化</span><br><span class="line">moment = Moment()</span><br><span class="line"></span><br><span class="line"># 传入app进行初始化</span><br><span class="line">moment.init_app(app)</span><br></pre></td></tr></table></figure></p>
+<p>（注：因为我使用了Flask-Scripts来管理项目，所以此处分为两步引入框架。）</p>
+<p>3、在base.html模板中引入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% block scripts %&#125;</span><br><span class="line">&#123;&#123; super() &#125;&#125;</span><br><span class="line">&#123;&#123; moment.include_moment() &#125;&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -411,9 +425,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Flask/" rel="tag"># Flask</a>
-          
             <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
           
         </div>
       
@@ -597,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、Flask入口文件集成-shell"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210;-shell" class="headerlink" title="1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210; shell"></a>1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210; shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、Flash消息"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;Flash&#x6D88;&#x606F;" class="headerlink" title="2&#x3001;Flash&#x6D88;&#x606F;"></a>2&#x3001;Flash&#x6D88;&#x606F;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、Flask入口文件集成-shell"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210;-shell" class="headerlink" title="1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210; shell"></a>1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210; shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、Flash消息"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;Flash&#x6D88;&#x606F;" class="headerlink" title="2&#x3001;Flash&#x6D88;&#x606F;"></a>2&#x3001;Flash&#x6D88;&#x606F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、使用Flask-Moment进行日期时间的管理"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x4F7F;&#x7528;Flask-Moment&#x8FDB;&#x884C;&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7684;&#x7BA1;&#x7406;" class="headerlink" title="3&#x3001;&#x4F7F;&#x7528;Flask-Moment&#x8FDB;&#x884C;&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7684;&#x7BA1;&#x7406;"></a>3&#x3001;&#x4F7F;&#x7528;Flask-Moment&#x8FDB;&#x884C;&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7684;&#x7BA1;&#x7406;</span></a></li></ol></div>
             
 
           </div>
