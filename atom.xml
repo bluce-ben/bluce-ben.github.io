@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-03-26T02:45:14.977Z</updated>
+  <updated>2018-03-28T10:54:32.631Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,129 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Redis 相关知识点整理</title>
+    <link href="http://yoursite.com/2018/03/28/Redis-%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/"/>
+    <id>http://yoursite.com/2018/03/28/Redis-相关知识点整理/</id>
+    <published>2018-03-28T10:48:18.000Z</published>
+    <updated>2018-03-28T10:54:32.631Z</updated>
+    
+    <content type="html"><![CDATA[<p>首先，要知道redis是一个key-value内存存储系统，且是单线程模型。<br>与其他key-value缓存相比有以下特点：</p><ol><li>支持数据持久化，可以将内存中的数据保存到磁盘，重启机器后可再次加载进来</li><li>不仅仅支持key-value类型数据，还有哈希、列表、集合数据结构类型</li><li>支持数据的备份，master-slave模式的数据备份</li></ol><p>并且，redis的所有操作都具有原子性。<br><a id="more"></a></p><h4 id="1、redis-的数据类型介绍"><a href="#1、redis-的数据类型介绍" class="headerlink" title="1、redis 的数据类型介绍"></a>1、redis 的数据类型介绍</h4><h5 id="String"><a href="#String" class="headerlink" title="String"></a>String</h5><p><strong>常用命令：</strong><br>set,get,decr,incr,mget 等。<br><strong>应用场景：</strong><br>String是最常用的一种数据类型，普通的key/value存储都可以归为此类，这里就不所做解释了。<br><strong>实现方式：</strong><br>String在redis内部存储默认就是一个字符串，被redisObject所引用，当遇到incr,decr等操作时会转成数值型进行计算，此时redisObject的encoding字段为int。</p><h5 id="Hash"><a href="#Hash" class="headerlink" title="Hash"></a>Hash</h5><p><strong>常用命令：</strong><br>hget,hset,hgetall 等。<br><strong>应用场景：</strong><br>我们简单举个实例来描述下Hash的应用场景，比如我们要存储一个用户信息对象数据，包含以下信息：<br>用户ID为查找的key，存储的value用户对象包含姓名，年龄，生日等信息，如果用普通的key/value结构来存储，主要有以下2种存储方式：</p><ul><li>第一种方式将用户ID作为查找key,把其他信息封装成一个对象以序列化的方式存储，这种方式的缺点是，增加了序列化/反序列化的开销，并且在需要修改其中一项信息时，需要把整个对象取回，并且修改操作需要对并发进行保护，引入CAS等复杂问题。</li><li>第二种方法是这个用户信息对象有多少成员就存成多少个key-value对儿，用用户ID+对应属性的名称作为唯一标识来取得对应属性的值，虽然省去了序列化开销和并发问题，但是用户ID为重复存储，如果存在大量这样的数据，内存浪费还是非常可观的。</li></ul><p>那么Redis提供的Hash很好的解决了这个问题，Redis的Hash实际是内部存储的Value为一个HashMap，并提供了直接存取这个Map成员的接口。</p><p>也就是说，Key仍然是用户ID, value是一个Map，这个Map的key是成员的属性名，value是属性值，这样对数据的修改和存取都可以直接通过其内部Map的 Key(Redis里称内部Map的key为field), 也就是通过 key(用户ID) + field(属性标签) 就可以操作对应属性数据了，既不需要重复存储数据，也不会带来序列化和并发修改控制的问题。很好的解决了问题。</p><p>这里同时需要注意，Redis提供了接口(hgetall)可以直接取到全部的属性数据,但是如果内部Map的成员很多，那么涉及到遍历整 个内部Map的操作，由于Redis单线程模型的缘故，这个遍历操作可能会比较耗时，而另其它客户端的请求完全不响应，这点需要格外注意。</p><p>上面已经说到Redis Hash对应Value内部实际就是一个HashMap，实际这里会有2种不同实现，这个Hash的成员比较少时Redis为了节省内存会采用类似一维数组的方式来紧凑存储，而不会采用真正的HashMap结构，对应的value redisObject的encoding为zipmap,当成员数量增大时会自动转成真正的HashMap,此时encoding为ht。</p><h5 id="List"><a href="#List" class="headerlink" title="List"></a>List</h5><p><strong>常用命令：</strong><br>lpush,rpush,lpop,rpop,lrange等。<br><strong>应用场景：</strong><br>Redis list的应用场景非常多，也是Redis最重要的数据结构之一，比如twitter的关注列表，粉丝列表等都可以用Redis的list结构来实现，比较好理解，这里不再重复。<br><strong>实现方式：</strong><br>Redis list的实现为一个双向链表，即可以支持反向查找和遍历，更方便操作，不过带来了部分额外的内存开销，Redis内部的很多实现，包括发送缓冲队列等也都是用的这个数据结构。</p><h5 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h5><p><strong>常用命令：</strong><br>sadd,spop,smembers,sunion 等。<br><strong>应用场景：</strong><br>Redis set对外提供的功能与list类似是一个列表的功能，特殊之处在于set是可以自动排重的，当你需要存储一个列表数据，又不希望出现重复数据时，set 是一个很好的选择，并且set提供了判断某个成员是否在一个set集合内的重要接口，这个也是list所不能提供的。<br><strong>实现方式：</strong><br>set 的内部实现是一个 value永远为null的HashMap，实际就是通过计算hash的方式来快速排重的，这也是set能提供判断一个成员是否在集合内的原因。</p><h5 id="Sorted-Set"><a href="#Sorted-Set" class="headerlink" title="Sorted Set"></a>Sorted Set</h5><p><strong>常用命令：</strong><br>zadd,zrange,zrem,zcard等<br><strong>使用场景：</strong><br>Redis sorted set的使用场景与set类似，区别是set不是自动有序的，而sorted set可以通过用户额外提供一个优先级(score)的参数来为成员排序，并且是插入有序的，即自动排序。当你需要一个有序的并且不重复的集合列表，那么 可以选择sorted set数据结构，比如twitter 的public timeline可以以发表时间作为score来存储，这样获取时就是自动按时间排好序的。<br><strong>实现方式：</strong><br>Redis sorted set的内部使用HashMap和跳跃表(SkipList)来保证数据的存储和有序，HashMap里放的是成员到score的映射，而跳跃表里存放的 是所有的成员，排序依据是HashMap里存的score,使用跳跃表的结构可以获得比较高的查找效率，并且在实现上比较简单。</p><h4 id="redis支持持久化的原理"><a href="#redis支持持久化的原理" class="headerlink" title="redis支持持久化的原理"></a>redis支持持久化的原理</h4><p>Redis由于支持非常丰富的内存数据结构类型，如何把这些复杂的内存组织方式持久化到磁盘上是一个难题，所以Redis的持久化方式与传统数据库的方式有比较多的差别，Redis一共支持四种持久化方式，分别是：</p><blockquote><p>定时快照方式(snapshot)<br>基于语句追加文件的方式(aof)<br>虚拟内存(vm)<br>Diskstore方式</p></blockquote><p>redis支持小量数据落地功能，后两种种方式并不成熟，下面分别介绍下这几种持久化方式：</p><p><strong>定时快照方式(snapshot)：</strong><br>该持久化方式实际是在Redis内部一个定时器事件，每隔固定时间去检查当前数据发生的改变次数与时间是否满足配置的持久化触发的条件<font color="red">（注：需要配置）</font>，如果满足则 通过操作系统fork调用来创建出一个子进程，这个子进程默认会与父进程共享相同的地址空间，这时就可以通过子进程来遍历整个内存来进行存储操作，而主进 程则仍然可以提供服务，当有写入时由操作系统按照内存页(page)为单位来进行copy-on-write保证父子进程之间不会互相影响。<br>该持久化的主要缺点是定时快照只是代表一段时间内的内存映像，所以系统重启会丢失上次快照与重启之间所有的数据。</p><p><strong>基于语句追加方式(aof)：</strong><br>aof方式实际类似mysql的基于语句的binlog方式，即每条会使Redis内存数据发生改变的命令都会追加到一个log文件中，也就是说这个log文件就是Redis的持久化数据。<br>aof的方式的主要缺点是追加log文件可能导致体积过大，当系统重启恢复数据时如果是aof的方式则加载数据会非常慢，几十G的数据可能需要几小时才能加载完，当然这个耗时并不是因为磁盘文件读取速度慢，而是由于读取的所有命令都要在内存中执行一遍。另外由于每条命令都要写log,所以使用aof 的方式，Redis的读写性能也会有所下降。</p><p><strong>虚拟内存方式：</strong><br>虚拟内存方式是Redis来进行用户空间的数据换入换出的一个策略，此种方式在实现的效果上比较差，主要问题是代码复杂，重启慢，复制慢等等，目前已经被作者放弃。</p><p><strong>diskstore方式：</strong><br>diskstore方式是作者放弃了虚拟内存方式后选择的一种新的实现方式，也就是传统的B-tree的方式，目前仍在实验阶段，后续是否可用我们可以拭目以待。</p><p><strong>Redis持久化磁盘IO方式及其带来的问题</strong><br>有Redis线上运维经验的人会发现Redis在物理内存使用比较多，但还没有超过实际物理内存总容量时就会发生不稳定甚至崩溃的问题，有人认为是 基于快照方式持久化的fork系统调用造成内存占用加倍而导致的，这种观点是不准确的，因为fork 调用的copy-on-write机制是基于操作系统页这个单位的，也就是只有有写入的脏页会被复制，但是一般你的系统不会在短时间内所有的页都发生了写 入而导致复制，那么是什么原因导致Redis崩溃的呢？</p><p>答案是Redis的持久化使用了Buffer IO造成的，所谓Buffer IO是指Redis对持久化文件的写入和读取操作都会使用物理内存的Page Cache,而大多数数据库系统会使用Direct IO来绕过这层Page Cache并自行维护一个数据的Cache，而当Redis的持久化文件过大(尤其是快照文件)，并对其进行读写时，磁盘文件中的数据都会被加载到物理内 存中作为操作系统对该文件的一层Cache,而这层Cache的数据与Redis内存中管理的数据实际是重复存储的，虽然内核在物理内存紧张时会做 Page Cache的剔除工作，但内核很可能认为某块Page Cache更重要，而让你的进程开始Swap ,这时你的系统就会开始出现不稳定或者崩溃了。我们的经验是当你的Redis物理内存使用超过内存总容量的3/5时就会开始比较危险了。<br><em>（注：Redis的复制功能是完全建立在基于内存快照的持久化策略基础上的，也就是说无论你的持久化策略选择的是什么，只要用到了 Redis的复制功能，就一定会有内存快照发生。）</em></p><h4 id="3、redis备份原理"><a href="#3、redis备份原理" class="headerlink" title="3、redis备份原理"></a>3、redis备份原理</h4><p>由上面持久化的原理可知道，目前使用的是RDB和AOF。<br>默认情况下60秒刷新到disk一次[save 60 10000 当有1w条keys数据被改变时]，Redis的数据集保存在叫dump.rdb一个二进制文件，这种策略被称为快照。</p><p>快照易恢复，文件也小，但是如果遇到宕机等情况的时候快照的数据可能会不完整。此时可能需要启用另一种持久化方式AOF，在配置文件中打开[appendonly yes]。</p><blockquote><p>AOF刷新日志到disk的规则：<br>appendfsync always #always 表示每次有写操作都进行同步，非常慢，非常安全。<br>appendfsync everysec #everysec表示对写操作进行累积，每秒同步一次<br>官方的建议的everysec，安全，就是速度不够快，如果是机器出现问题可能会丢失1秒的数据。</p></blockquote><p>我们现在的做法是一主(Master)多从(Slave)，主库不开启AOF持久化，只是每天备份一下RDB[官方给的建议是每小时备份RDB文件，看你的策略了]，而在从库上开启AOF备份，并且会用脚本将相应的备份文件推送到备份服务器。<br>当redis服务器挂掉时，重启时将按照以下优先级恢复数据到内存：</p><ul><li>如果只配置AOF,重启时加载AOF文件恢复数据；</li><li>如果同时 配置了RBD和AOF,启动是只加载AOF文件恢复数据;</li><li>如果只配置RBD,启动是讲加载dump文件恢复数据。</li></ul><font color="red">恢复时需要注意，要是主库挂了不能直接重启主库，否则会直接覆盖掉从库的AOF文件，一定要确保要恢复的文件都正确才能启动，否则会冲掉原来的文件。</font>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;首先，要知道redis是一个key-value内存存储系统，且是单线程模型。&lt;br&gt;与其他key-value缓存相比有以下特点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;支持数据持久化，可以将内存中的数据保存到磁盘，重启机器后可再次加载进来&lt;/li&gt;
+&lt;li&gt;不仅仅支持key-value类型数据，还有哈希、列表、集合数据结构类型&lt;/li&gt;
+&lt;li&gt;支持数据的备份，master-slave模式的数据备份&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;并且，redis的所有操作都具有原子性。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Redis" scheme="http://yoursite.com/categories/Redis/"/>
+    
+    
+      <category term="Redis" scheme="http://yoursite.com/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 底层索引原理【摘】</title>
+    <link href="http://yoursite.com/2018/03/28/MySQL-%E5%BA%95%E5%B1%82%E7%B4%A2%E5%BC%95%E5%8E%9F%E7%90%86%E3%80%90%E6%91%98%E3%80%91/"/>
+    <id>http://yoursite.com/2018/03/28/MySQL-底层索引原理【摘】/</id>
+    <published>2018-03-28T10:47:37.000Z</published>
+    <updated>2018-03-28T10:57:00.985Z</updated>
+    
+    <content type="html"><![CDATA[<p>原文链接：<a href="http://blog.codinglabs.org/articles/theory-of-mysql-index.html" target="_blank" rel="noopener">MySQL索引背后的数据结构及算法原理</a></p><p>本文以MySQL数据库为研究对象，讨论与数据库索引相关的一些话题。特别需要说明的是，MySQL支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此MySQL数据库支持多种索引类型，如BTree索引，哈希索引，全文索引等等。本文将只关注于BTree索引。</p><p>文章主要内容分为三个部分。<br>第一部分主要从数据结构及算法理论层面讨论MySQL数据库索引的数理基础。<br>第二部分结合MySQL数据库中MyISAM和InnoDB数据存储引擎中索引的架构实现讨论聚集索引、非聚集索引及覆盖索引等话题。<br>第三部分根据上面的理论基础，讨论MySQL中高性能使用索引的策略。<br><a id="more"></a></p><h3 id="数据结构及算法基础"><a href="#数据结构及算法基础" class="headerlink" title="数据结构及算法基础"></a>数据结构及算法基础</h3><h4 id="索引的本质"><a href="#索引的本质" class="headerlink" title="索引的本质"></a>索引的本质</h4><p>MySQL官方对索引的定义为：索引（Index）是帮助MySQL高效获取数据的数据结构。提取句子主干，就可以得到索引的本质：索引是一种数据结构。</p><p>数据库查询是数据库的主要功能之一，最基本的查询算法是顺序查找（linear search）时间复杂度为O(n)，显然在数据量很大时效率很低。优化的查找算法如二分查找（binary search）、二叉树查找（binary tree search）等，虽然查找效率提高了。但是各自对检索的数据都有要求：二分查找要求被检索数据有序，而二叉树查找只能应用于二叉查找树上，但是数据本身的组织结构不可能完全满足各种数据结构（例如，理论上不可能同时将两列都按顺序进行组织）。所以，在数据之外，数据库系统还维护着满足特定查找算法的数据结构。这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法。这种数据结构就是索引。</p><p>看一个例子：<br><img src="/uploads/2018/03/mysql_index_01.png" alt=""><br>图1展示了一种可能的索引方式。左边是数据表，一共有两列七条记录，最左边的是数据记录的物理地址（注意逻辑上相邻的记录在磁盘上也并不是一定物理相邻的）。为了加快Col2的查找，可以维护一个右边所示的二叉查找树，每个节点分别包含索引键值和一个指向对应数据记录物理地址的指针，这样就可以运用二叉查找在O(log2n)的复杂度内获取到相应数据。</p><p>虽然这是一个货真价实的索引，但是实际的数据库系统几乎没有使用二叉查找树或其进化品种红黑树（red-black tree）实现的，原因会在下文介绍。</p><h4 id="B-Tree和B-Tree"><a href="#B-Tree和B-Tree" class="headerlink" title="B-Tree和B+Tree"></a>B-Tree和B+Tree</h4><p>关于B树和B+树请参考关于<a href="http://www.cnblogs.com/tgycoder/p/5077017.html" target="_blank" rel="noopener">B树的一些总结</a>，这篇文章介绍的比较详细，同时容易理解。</p><p>目前大部分数据库系统及文件系统都采用B-Tree或其变种B+Tree作为索引结构，在本文的下一节会结合存储器原理及计算机存取原理讨论为什么B-Tree和B+Tree在被如此广泛用于索引，这一节先单纯从数据结构角度描述它们。</p><p>未完【待续】</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;原文链接：&lt;a href=&quot;http://blog.codinglabs.org/articles/theory-of-mysql-index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;MySQL索引背后的数据结构及算法原理&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本文以MySQL数据库为研究对象，讨论与数据库索引相关的一些话题。特别需要说明的是，MySQL支持诸多存储引擎，而各种存储引擎对索引的支持也各不相同，因此MySQL数据库支持多种索引类型，如BTree索引，哈希索引，全文索引等等。本文将只关注于BTree索引。&lt;/p&gt;
+&lt;p&gt;文章主要内容分为三个部分。&lt;br&gt;第一部分主要从数据结构及算法理论层面讨论MySQL数据库索引的数理基础。&lt;br&gt;第二部分结合MySQL数据库中MyISAM和InnoDB数据存储引擎中索引的架构实现讨论聚集索引、非聚集索引及覆盖索引等话题。&lt;br&gt;第三部分根据上面的理论基础，讨论MySQL中高性能使用索引的策略。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 存储引擎详解</title>
+    <link href="http://yoursite.com/2018/03/28/MySQL-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E8%AF%A6%E8%A7%A3/"/>
+    <id>http://yoursite.com/2018/03/28/MySQL-存储引擎详解/</id>
+    <published>2018-03-28T10:47:23.000Z</published>
+    <updated>2018-03-28T10:58:26.417Z</updated>
+    
+    <content type="html"><![CDATA[<p>数据库存储引擎是数据库底层软件组织，数据库管理系统（DBMS）使用数据引擎进行创建、查询、更新和删除数据。不同的存储引擎提供不同的存储机制、索引技巧、锁定水平等功能，使用不同的存储引擎，还可以 获得特定的功能。现在许多不同的数据库管理系统都支持多种不同的数据引擎。MySql的核心就是存储引擎。</p><h4 id="存储引擎查看"><a href="#存储引擎查看" class="headerlink" title="存储引擎查看"></a>存储引擎查看</h4><p>MySQL给开发者提供了查询存储引擎的功能，我这里使用的是 10.1.28-MariaDB，可以使用：<br><code>show engines;</code><br><a id="more"></a></p><table><thead><tr><th>Engine</th><th>Suppert</th><th>Comment</th><th>Transactions</th><th>XA</th><th>Savepoints</th></tr></thead><tbody><tr><td>CSV</td><td>YES</td><td>CSV storage engine</td><td>No</td><td>No</td><td>No</td></tr><tr><td>InnoDB</td><td>DEFAULT</td><td>Comment: Percona-XtraDB, Supports transactions, row-level locking, foreignkeys and encryption for tables</td><td>YES</td><td>YES</td><td>YES</td></tr><tr><td>MEMORY</td><td>YES</td><td>Hash based, stored in memory, useful for temporary tables</td><td>NO</td><td>NO</td><td>NO</td></tr><tr><td>MyISAM</td><td>YES</td><td>MyISAM storage engine</td><td>NO</td><td>NO</td><td>NO</td></tr><tr><td>MRG_MyISAM</td><td>YES</td><td>Collection of identical MyISAM tables</td><td>NO</td><td>NO</td><td>NO</td></tr><tr><td>Aria</td><td>YES</td><td>Crash-safe tables with MyISAM heritage</td><td>NO</td><td>NO</td><td>NO</td></tr><tr><td>PERFORMANCE_SCHEMA</td><td>YES</td><td>Performance Schema</td><td>NO</td><td>NO</td><td>NO</td><td>NO</td></tr><tr><td>SEQUENCE</td><td>YES</td><td>Generated tables filled with sequential values</td><td>YES</td><td>NO</td><td>YES</td></tr></tbody></table><p>看到MySQL给用户提供了这么多存储引擎，包括处理事务安全表的引擎和出来了非事物安全表的引擎。</p><h4 id="InnoDB"><a href="#InnoDB" class="headerlink" title="InnoDB"></a>InnoDB</h4><p>InnoDB是事务型数据库的首选引擎，支持事务安全表（ACID），支持行锁定和外键，上图也看到了，InnoDB是默认的MySQL引擎。<br>InnoDB存储表和索引有一下两种方式：</p><ol><li>使用共享表空间存储，这种方式创建的表的表结构保存在.frm文件中，数据和索引保存在innodb_data_home_dir和innodb_data_file_path定义的表空间中，可以是多个文件。</li><li>使用多表空间存储，这种方式创建的表的表结构仍然保存在.frm文件中，但是每个表的数据和索引单独保存在.ibd中，如果是个分区表，则每个分区对应单独的.ibd文件，文件名是”表名+分区名”，可以在创建分区的时候指定每个分区的数据文件位置，以此来将表的IO均匀分布在多个磁盘上。</li></ol><p><strong>选择理由：</strong><br>用于事务处理应用程序，支持外键。如果应用对事务的完整性有比较高的要求，在并发条件下要求数据一致性，数据操作除了插入和查询意外，还包括很多的更新删除操作，那么InnoDB比较合适。InnoDB存储引擎除了有效的降低由于删除和更新操作导致的锁定，还可以确保事务的完整提交和回滚。</p><h4 id="MyISAM"><a href="#MyISAM" class="headerlink" title="MyISAM"></a>MyISAM</h4><p>它是在Web、数据仓储和其他应用环境下最常使用的存储引擎之一。MyISAM拥有较高的插入、查询速度，但不支持事物。<br>每个MyISAM在磁盘上存储成3个文件，文件名都和表名相同，但是扩展名不同，扩展名分别是：</p><ol><li>.frm（存储表定义）；</li><li>.MYD（MYData，存储数据）；</li><li>.MYI（MYIndex，存储索引）；</li></ol><p>MyISAM的表还支持3种不同的存储格式，分别是：</p><ol><li>静态（固定长度）表；</li><li>动态表；</li><li>压缩表；</li></ol><p><strong>选择理由：</strong><br>如果应用是以读写操作和插入操作为主，只有很少的更新和删除操作，并且对事务的完整性、并发性要求不是很高可选用此种存储引擎。</p><h4 id="MEMORY"><a href="#MEMORY" class="headerlink" title="MEMORY"></a>MEMORY</h4><p>MEMORY存储引擎将表中的数据存储到内存中，未查询和引用其他表数据提供快速访问。<br>MEMORY存储引擎使用存在于内存中的内容来创建表。每个MEMORY表只实际对应一个磁盘文件，格式.frm。MEMORY类型的表访问非常快，因为它的数据是存放在内存中的，并且默认使用HASH索引，但是一旦服务关闭，表中的数据就会丢失。</p><p><strong>选择理由：</strong><br>将所有的数据保存在RAM中，在需要快速定位记录和其他类似数据的环境下，可提供极快的访问。MEMORY的缺陷是对表的大小有限制，太大的表无法缓存在内存中，其次要确保表数据可以恢复，数据库异常终止后表中的数据是可以恢复的。MEMORY表通常用于更新不太频繁的小表，用以快速得到访问结果。</p><h4 id="下面对一些常用的引擎的特点进行汇总"><a href="#下面对一些常用的引擎的特点进行汇总" class="headerlink" title="下面对一些常用的引擎的特点进行汇总"></a>下面对一些常用的引擎的特点进行汇总</h4><table><thead><tr><th>功  能</th><th>MYISAM</th><th>Memory</th><th>InnoDB</th><th>Archive</th></tr></thead><tbody><tr><td>存储限制</td><td>256TB</td><td>RAM</td><td>64TB</td><td>None</td></tr><tr><td>支持事物</td><td>No</td><td>No</td><td>Yes</td><td>No</td></tr><tr><td>支持全文索引</td><td>Yes</td><td>No</td><td>No</td><td>No</td></tr><tr><td>支持数索引</td><td>Yes</td><td>Yes</td><td>Yes</td><td>No</td></tr><tr><td>支持哈希索引</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr><tr><td>支持数据缓存</td><td>No</td><td>N/A</td><td>Yes</td><td>No</td></tr><tr><td>支持外键</td><td>No</td><td>No</td><td>Yes</td><td>No</td></tr></tbody></table><p><strong>存储引擎的选择：</strong><br>如果要提供提交、回滚、崩溃恢复能力的事物安全（ACID兼容）能力，并要求实现并发控制，InnoDB是一个好的选择</p><p>如果数据表主要用来插入和查询记录，则MyISAM引擎能提供较高的处理效率</p><p>如果只是临时存放数据，数据量不大，并且不需要较高的数据安全性，可以选择将数据保存在内存中的Memory引擎，MySQL中使用该引擎作为临时表，存放查询的中间结果</p><p>如果只有INSERT和SELECT操作，可以选择Archive，Archive支持高并发的插入操作，但是本身不是事务安全的。Archive非常适合存储归档数据，如记录日志信息可以使用Archive</p><p>使用哪一种引擎需要灵活选择，一个数据库中多个表可以使用不同引擎以满足各种性能和实际需求，使用合适的存储引擎，将会提高整个数据库的性能</p><h4 id="MyISAM与InnoDB的区别"><a href="#MyISAM与InnoDB的区别" class="headerlink" title="MyISAM与InnoDB的区别"></a>MyISAM与InnoDB的区别</h4><p>1、InnoDB支持事务处理，而MyISAM不支持<br>2、InnoDB支持外键，而MyISAM不支持<br>3、InnoDB是行锁，而MyISAM是表锁（行锁开销大，高并发；表锁开销小，并发低）<br>4、MyISAM支持全文索引，而InnoDB不支持</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;数据库存储引擎是数据库底层软件组织，数据库管理系统（DBMS）使用数据引擎进行创建、查询、更新和删除数据。不同的存储引擎提供不同的存储机制、索引技巧、锁定水平等功能，使用不同的存储引擎，还可以 获得特定的功能。现在许多不同的数据库管理系统都支持多种不同的数据引擎。MySql的核心就是存储引擎。&lt;/p&gt;
+&lt;h4 id=&quot;存储引擎查看&quot;&gt;&lt;a href=&quot;#存储引擎查看&quot; class=&quot;headerlink&quot; title=&quot;存储引擎查看&quot;&gt;&lt;/a&gt;存储引擎查看&lt;/h4&gt;&lt;p&gt;MySQL给开发者提供了查询存储引擎的功能，我这里使用的是 10.1.28-MariaDB，可以使用：&lt;br&gt;&lt;code&gt;show engines;&lt;/code&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySQL 的事务处理以及隔离级别</title>
+    <link href="http://yoursite.com/2018/03/28/MySQL-%E7%9A%84%E4%BA%8B%E5%8A%A1%E5%A4%84%E7%90%86%E4%BB%A5%E5%8F%8A%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB/"/>
+    <id>http://yoursite.com/2018/03/28/MySQL-的事务处理以及隔离级别/</id>
+    <published>2018-03-28T10:47:09.000Z</published>
+    <updated>2018-03-28T11:10:04.627Z</updated>
+    
+    <content type="html"><![CDATA[<p>以下内容出自《高性能MySQL》第三版，了解事务的ACID及四种隔离级有助于我们更好的理解事务运作。<br>下面举一个银行应用是解释事务必要性的一个经典例子。假如一个银行的数据库有两张表：支票表（checking）和储蓄表（savings）。现在要从用户Jane的支票账户转移200美元到她的储蓄账户，那么至少需要三个步骤：</p><blockquote><p>1、检查支票账户的余额高于或者等于200美元。<br>2、从支票账户余额中减去200美元。<br>3、在储蓄帐户余额中增加200美元。</p></blockquote><p>上述三个步骤的操作必须打包在一个事务中，任何一个步骤失败，则必须回滚所有的步骤。<br><a id="more"></a></p><h4 id="1、事务处理的基本语法"><a href="#1、事务处理的基本语法" class="headerlink" title="1、事务处理的基本语法"></a>1、事务处理的基本语法</h4><p>可以用START TRANSACTION语句开始一个事务，然后要么使用COMMIT提交将修改的数据持久保存，要么使用ROLLBACK撤销所有的修改。事务SQL的样本如下：</p><blockquote><p>1.start transaction;<br>2.select balance from checking where customer_id = 10233276;<br>3.update checking set balance = balance - 200.00 where customer_id = 10233276;<br>4.update savings set balance = balance + 200.00 where customer_id = 10233276;<br>5.commit;</p></blockquote><h4 id="2、事务处理的特性"><a href="#2、事务处理的特性" class="headerlink" title="2、事务处理的特性"></a>2、事务处理的特性</h4><p>ACID表示原子性（atomicity）、一致性（consistency）、隔离性（isolation）和持久性（durability）。一个很好的事务处理系统，必须具备这些标准特性：</p><h5 id="原子性（atomicity）"><a href="#原子性（atomicity）" class="headerlink" title="原子性（atomicity）"></a>原子性（atomicity）</h5><p>　　一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作，这就是事务的原子性</p><h5 id="一致性（consistency）"><a href="#一致性（consistency）" class="headerlink" title="一致性（consistency）"></a>一致性（consistency）</h5><p>　　数据库总是从一个一致性的状态转换到另一个一致性的状态。（在前面的例子中，一致性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户中也不会损失200美元，因为事务最终没有提交，所以事务中所做的修改也不会保存到数据库中。）</p><h5 id="隔离性（isolation）"><a href="#隔离性（isolation）" class="headerlink" title="隔离性（isolation）"></a>隔离性（isolation）</h5><p>　　通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。（在前面的例子中，当执行完第三条语句、第四条语句还未开始时，此时有另外的一个账户汇总程序开始运行，则其看到支票帐户的余额并没有被减去200美元。）</p><h5 id="持久性（durability）"><a href="#持久性（durability）" class="headerlink" title="持久性（durability）"></a>持久性（durability）</h5><p>　　一旦事务提交，则其所做的修改不会永久保存到数据库。（此时即使系统崩溃，修改的数据也不会丢失。持久性是个有占模糊的概念，因为实际上持久性也分很多不同的级别。有些持久性策略能够提供非常强的安全保障，而有些则未必，而且不可能有能做到100%的持久性保证的策略。）</p><h4 id="3、事务处理的隔离级别"><a href="#3、事务处理的隔离级别" class="headerlink" title="3、事务处理的隔离级别"></a>3、事务处理的隔离级别</h4><h5 id="READ-UNCOMMITTED（未提交读）"><a href="#READ-UNCOMMITTED（未提交读）" class="headerlink" title="READ UNCOMMITTED（未提交读）"></a>READ UNCOMMITTED（未提交读）</h5><p>　　在READ UNCOMMITTED级别，事务中的修改，即使没有提交，对其他事务也都是可见的。事务可以读取未提交的数据，这也被称为脏读（Dirty Read）。这个级别会导致很多问题，从性能上来说，READ UNCOMMITTED不会比其他的级别好太多，但却缺乏其他级别的很多好处，除非真的有非常必要的理由，在实际应用中一般很少使用。</p><h5 id="READ-COMMITTED（提交读）"><a href="#READ-COMMITTED（提交读）" class="headerlink" title="READ COMMITTED（提交读）"></a>READ COMMITTED（提交读）</h5><p>　　大多数数据库系统的默认隔离级别都是READ COMMTTED（但MySQL不是）。READ COMMITTED满足前面提到的隔离性的简单定义：一个事务开始时，只能”看见”已经提交的事务所做的修改。换句话说，一个事务从开始直到提交之前，所做的任何修改对其他事务都是不可见的。这个级别有时候叫做不可重复读（nonrepeatble read），因为两次执行同样的查询，可能会得到不一样的结果</p><h5 id="REPEATABLE-READ-可重复读"><a href="#REPEATABLE-READ-可重复读" class="headerlink" title="REPEATABLE READ(可重复读)"></a>REPEATABLE READ(可重复读)</h5><p>　　REPEATABLE READ解决了脏读的问题。该隔离级别保证了在同一个事务中多次读取同样记录结果是一致的。但是理论上，可重复读隔离级别还是无法解决另外一个幻读（Phantom Read）的问题。所谓幻读，指的是当某个事务在读取某个范围内的记录时，另一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围的记录时，会产生幻行（Phantom Row）。InnoDB和XtraDB存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）解决了幻读的问题。</p><h5 id="SERIALIZABLE（可串行化）"><a href="#SERIALIZABLE（可串行化）" class="headerlink" title="SERIALIZABLE（可串行化）"></a>SERIALIZABLE（可串行化）</h5><p>　　SERIALIZABLE是最高的隔离级别。它通过强制事务串行执行，避免了前面说的幻读的问题。简单来说，SERIALIZABLE会在读取每一行数据都加锁，所以可能导致大量的超时和锁争用问题。实际应用中也很少用到这个隔离级别，只有在非常需要确保数据的一致性而且可以接受没有并发的情况下，才考虑采用该级别。</p><p>下面对隔离级别进行汇总，如下表：<br><img src="/uploads/2018/03/mysql_transaction_character.png" alt=""></p><h4 id="4、事务处理的相关语法总结"><a href="#4、事务处理的相关语法总结" class="headerlink" title="4、事务处理的相关语法总结"></a>4、事务处理的相关语法总结</h4><h5 id="1、查询当前这个点的下一个事务隔离级别："><a href="#1、查询当前这个点的下一个事务隔离级别：" class="headerlink" title="1、查询当前这个点的下一个事务隔离级别："></a>1、查询当前这个点的下一个事务隔离级别：</h5><p><code>select @@tx_isolation;</code><br><img src="/uploads/2018/03/mysql_transaction_level_01.png" alt=""></p><h5 id="2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别："><a href="#2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别：" class="headerlink" title="2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别："></a>2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别：</h5><p><code>select @@global.tx_isolation;</code><br><img src="/uploads/2018/03/mysql_transaction_level_02.png" alt=""></p><h5 id="3、查询当前所在的事务的隔离级别："><a href="#3、查询当前所在的事务的隔离级别：" class="headerlink" title="3、查询当前所在的事务的隔离级别："></a>3、查询当前所在的事务的隔离级别：</h5><p><code>select @@session.tx_isolation;</code><br><img src="/uploads/2018/03/mysql_transaction_level_03.png" alt=""></p><h5 id="4、设置事务隔离级别"><a href="#4、设置事务隔离级别" class="headerlink" title="4、设置事务隔离级别"></a>4、设置事务隔离级别</h5><p>1.在my.cnf文件中的mysqld中进行更改。可供更改的leve 【READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE】<br>如：<code>transaction_isolation = SERIALIZABLE</code></p><p>2.用mysql语句进行更改，语法 <code>set tx_isolation= level</code>   level级别【READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE】</p><p>注：可通过上述语法查询是否更改。</p><h4 id="5、事务隔离级别示例详解"><a href="#5、事务隔离级别示例详解" class="headerlink" title="5、事务隔离级别示例详解"></a>5、事务隔离级别示例详解</h4><h5 id="1、脏读："><a href="#1、脏读：" class="headerlink" title="1、脏读："></a>1、<strong>脏读：</strong></h5><p>脏读指的是一个事务修改本事务的数据，但没有提交的情况下，本事务可以查看到更改了却没有提交的数据。这种情况只可能发生在未提交读readuncommitted的隔离级别里。</p><blockquote><p>首先设置事务隔离级别为read-uncommited<br>事务一：给t表添加数据a=1但并不提交！查询t表的结果里本事务是可以看到未提交的操作结果的。<br><img src="/uploads/2018/03/mysql_transaction_example_01.png" alt=""><br>事务二：查询t表的数据，这个时候事务一是没有提交的!要确保事务二的隔离级别是read-uncommited。<br><img src="/uploads/2018/03/mysql_transaction_example_02.png" alt=""></p></blockquote><p>这个情况就是所谓的脏读！只可能出现在read-uncommit隔离级别里！自己可尝试其他级别试试</p><h5 id="2、不重复读："><a href="#2、不重复读：" class="headerlink" title="2、不重复读："></a>2、<strong>不重复读：</strong></h5><p>指的是一个事务多次读取同一个数据，但此过程中第二个事务对第一个事务进行了修改，这就造成了第一个事务的多次读取过程中的结果出现了前后不一致的情况，这就是不可重复读！这个情况可以出现在read-uncommited和read-committed两个隔离级别里！</p><blockquote><p>先看反例repeatable-read隔离级别下的情况，这种级别下只会读取首次select的点的数据结果，以避免出现不重复读的情况：<br>事务一：查询t表a=5，然后update进行修改a=22，查看修改后的结果最后提交<br><img src="/uploads/2018/03/mysql_transaction_example_03.png" alt=""><br>事务二：在事务一开始后select操作时同时也进行两次查询，查询结果和事务一的结果一致，都是5，等到事务一update操作后事务二进行第三次查询，查询结果依旧为5，事务一提交后，事务二进行第四次查询，结果依旧是5，没有任何改变，所以repeatable-read的隔离级别解决了重复读的问题。<br><img src="/uploads/2018/03/mysql_transaction_example_04.png" alt=""></p></blockquote><p><strong>下面我们再来看read-commit隔离级别下的情况：</strong><br>事务一：<br><img src="/uploads/2018/03/mysql_transaction_example_05.png" alt=""><br>事务二：<br><img src="/uploads/2018/03/mysql_transaction_example_06.png" alt=""></p><h5 id="3、幻读："><a href="#3、幻读：" class="headerlink" title="3、幻读："></a>3、<strong>幻读：</strong></h5><p>在repeatable-read级别下解决了不可重复读的问题，但是还有没有解决的地方，那就是幻读，幻读是指在一个事务中，事务一对数据进行了更改并提交了，而事务二也对该数据进行了更改，但是更改的情况可能会受到事务一更改的影响，从而引起更改仿佛不存在，这就是幻读！这是由于repeatable-read的隔离措施只读取初次select的点导致的。</p><blockquote><p>t表的有一行数据，a=5<br>事务一：首先读取t表，发现有一个a=5的数据，然后更改该数据为25并提交<br><img src="/uploads/2018/03/mysql_transaction_example_07.png" alt=""><br>事务二：首先读取t表，发现有一个a=5的数据，这个时候事务一已经删除数据并期间了，但是由于隔离级别是repeatable-read导致读取的结果是a=5的数据还在，这个时候如果事务二对该数据进行更改，改为26，提交后发现之前的更改无效，该行数据a=25，这是因为事务一已经对a=5的数据进行了更改，改为了25，这个时候a=5的数据已经不存在了，因此这次更改无效，等同于幻影，这就是幻读！<br><img src="/uploads/2018/03/mysql_transaction_example_08.png" alt=""></p></blockquote><p>可以从这里看出，提交读解决了脏读问题，而重复读解决了不重复读的问题，串行化解决幻读的问题，但是也会造成锁竞争，可能造成大量的超时问题，因为串行化是给每个读的数据行加上共享锁，通过强制事务进行排序，以此防止相互冲突，具体原理以后再做说明。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;以下内容出自《高性能MySQL》第三版，了解事务的ACID及四种隔离级有助于我们更好的理解事务运作。&lt;br&gt;下面举一个银行应用是解释事务必要性的一个经典例子。假如一个银行的数据库有两张表：支票表（checking）和储蓄表（savings）。现在要从用户Jane的支票账户转移200美元到她的储蓄账户，那么至少需要三个步骤：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;1、检查支票账户的余额高于或者等于200美元。&lt;br&gt;2、从支票账户余额中减去200美元。&lt;br&gt;3、在储蓄帐户余额中增加200美元。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上述三个步骤的操作必须打包在一个事务中，任何一个步骤失败，则必须回滚所有的步骤。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
+    
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>windows 7设置WiFi热点</title>
+    <link href="http://yoursite.com/2018/03/27/windows-7%E8%AE%BE%E7%BD%AEWiFi%E7%83%AD%E7%82%B9/"/>
+    <id>http://yoursite.com/2018/03/27/windows-7设置WiFi热点/</id>
+    <published>2018-03-27T08:04:35.000Z</published>
+    <updated>2018-03-27T08:09:47.827Z</updated>
+    
+    <content type="html"><![CDATA[<p>点击可查看…<br><a id="more"></a></p><h4 id="1、查看是否支持并开启"><a href="#1、查看是否支持并开启" class="headerlink" title="1、查看是否支持并开启"></a>1、查看是否支持并开启</h4><p>首先打开自己的网络连接，看一下有没有上述网卡图标，若有则进行下一步，若没有则打开设备管理器，找到网卡选项，右击选择更新网卡驱动，若此时出现说明你的电脑支持此功能，若没有出现，则说明电脑不支持。<br><img src="/uploads/2018/03/network_wifi_01.jpg" alt=""></p><h4 id="2、设置WiFi热点"><a href="#2、设置WiFi热点" class="headerlink" title="2、设置WiFi热点"></a>2、设置WiFi热点</h4><p>点击 开始， 选择 附件，找到命令提示符，右击选择以管理员方式运行<br>输入：<code>netsh wlan set hostednetwork mode=allow ssid=&quot;无线热点的名字&quot; key=“w ifi的密码”</code>，然后回车，如果出现如下的信息，则表示设置成功：<br><img src="/uploads/2018/03/network_wifi_02.jpg" alt=""><br><img src="/uploads/2018/03/network_wifi_03.jpg" alt=""></p><h4 id="3、开启WiFi"><a href="#3、开启WiFi" class="headerlink" title="3、开启WiFi"></a>3、开启WiFi</h4><p>至此wifi已经设置完成，现在就是开始运行问题，输入：netsh wlan start hostednetwork 然后回车，则启动wifi<br>以后，每次重启电脑后都需要运行netsh wlan start hostednetwork命令来启动<br><img src="/uploads/2018/03/network_wifi_04.jpg" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;点击可查看…&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Windows" scheme="http://yoursite.com/categories/Windows/"/>
+    
+    
+      <category term="Windows" scheme="http://yoursite.com/tags/Windows/"/>
+    
+  </entry>
   
   <entry>
     <title>算法概述及效率的度量</title>
@@ -409,131 +532,6 @@
     
     
       <category term="SVN" scheme="http://yoursite.com/tags/SVN/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SVN 详解之客户端安装（二）</title>
-    <link href="http://yoursite.com/2018/03/15/SVN-%E8%AF%A6%E8%A7%A3%E4%B9%8B%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%89%E8%A3%85%EF%BC%88%E4%BA%8C%EF%BC%89/"/>
-    <id>http://yoursite.com/2018/03/15/SVN-详解之客户端安装（二）/</id>
-    <published>2018-03-15T06:10:26.000Z</published>
-    <updated>2018-03-15T07:28:08.379Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="Linux-下安装"><a href="#Linux-下安装" class="headerlink" title="Linux 下安装"></a>Linux 下安装</h4><p>CentOS 系统可使用yum 软件包管理器直接安装，Debian、Ubuntu 系统可使用apt-get 软件包管理器直接安装。此处，我们使用一种通用的安装方式，源码安装。</p><h5 id="1、下载及解压"><a href="#1、下载及解压" class="headerlink" title="1、下载及解压"></a>1、下载及解压</h5><p>下载地址：<a href="http://subversion.apache.org/download/" target="_blank" rel="noopener"><font color="red">传送门</font></a><br><code>tar xvf subversion-1.9.7.tar.bz2</code><br><a id="more"></a></p><h5 id="2、配置文件"><a href="#2、配置文件" class="headerlink" title="2、配置文件"></a>2、配置文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /usr/local/subersion</span><br><span class="line">cd subversion-1.9.7</span><br><span class="line">./configure --prefix=/usr/local/subversion  #指定安装路径</span><br></pre></td></tr></table></figure><h5 id="3、解析及安装文件"><a href="#3、解析及安装文件" class="headerlink" title="3、解析及安装文件"></a>3、解析及安装文件</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp; make install</span><br></pre></td></tr></table></figure><h5 id="4、测试及建立软链接"><a href="#4、测试及建立软链接" class="headerlink" title="4、测试及建立软链接"></a>4、测试及建立软链接</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/local/subversion/bin</span><br><span class="line">svn</span><br><span class="line">ln -s /usr/local/subversion/bin/svn /sbin/svn</span><br><span class="line">cd /</span><br><span class="line">svn</span><br></pre></td></tr></table></figure><h4 id="Windows下安装"><a href="#Windows下安装" class="headerlink" title="Windows下安装"></a>Windows下安装</h4><h5 id="1、SVN客户端下载及安装"><a href="#1、SVN客户端下载及安装" class="headerlink" title="1、SVN客户端下载及安装"></a>1、SVN客户端下载及安装</h5><p>下载地址：<a href="https://tortoisesvn.net/downloads.html" target="_blank" rel="noopener"><font color="red">传送门</font></a><br>安装根据下一步操作即可完成…</p><h5 id="2、SVN客户端配置"><a href="#2、SVN客户端配置" class="headerlink" title="2、SVN客户端配置"></a>2、SVN客户端配置</h5><p>这里要特别声明一下——<font color="red">SVN客户端不是指一个桌面应用程序，而是集成到系统的右键菜单中的插件。</font>因此使用客户端向资源库下载项目资源、提交项目资源等都是通过右键菜单来完成的。</p><p>在桌面空白处右键：<br><img src="/uploads/2018/03/svn_image_01.png" alt=""></p><p>选择  设置 ，打开设置面板：<br>可以设置语言：<br><img src="/uploads/2018/03/svn_image_02.png" alt=""><br>也可以设置 项目资源的图标，通过不同图标来指示下载到本地的项目资源文件发生了什么变化，比如：修改、新增、删除等等。</p><h5 id="3、SVN-基础操作"><a href="#3、SVN-基础操作" class="headerlink" title="3、SVN 基础操作"></a>3、SVN 基础操作</h5><h6 id="（1）检出"><a href="#（1）检出" class="headerlink" title="（1）检出"></a>（1）检出</h6><p>在你的本地项目文件夹或随便一个地方，右键空白处弹出菜单，选择 SVN检出。然后，通过从SVN服务端获取的 <font color="red">资源库URL+具体的项目文件夹名</font> 下载相应项目，并可以知道下载项目的保存位置<br><img src="/uploads/2018/03/svn_image_03.png" alt=""></p><h6 id="（2）修改及提交"><a href="#（2）修改及提交" class="headerlink" title="（2）修改及提交"></a>（2）修改及提交</h6><ol><li>把项目下载到本机后，其实就是一个普通的项目文件而已，你可以在里面添加文件、修改文件、删除文件等等。</li><li>提交修改<br>在项目文件空白处右键，选择 SVN提交。然后，输入 <font color="red">本次提交的版本更新信息（所作修改的注释）、勾选要提交的操作内容，点击 确定，即可把本机项目提交到SVN服务器资源库，覆盖掉资源库项目从而实现更新。</font><br>（如果发生提交冲突，即两人都提交修改，后提交者由于版本落后会提交失败。这时可以先把自己的项目备份，然后从服务端下载最新的项目（下面有讲SVN更新），再把自己的项目覆盖到本地项目文件夹，最后SVN提交即可成功提交）<br>（SVN不提供历史版本功能，所以项目被覆盖后就找不回来了，所以切记备份。如果需要历史版本的保存功能，推荐使用Git）<br><img src="/uploads/2018/03/svn_image_04.png" alt=""></li></ol><h6 id="（3）更新"><a href="#（3）更新" class="headerlink" title="（3）更新"></a>（3）更新</h6><p>如果别人修改了SVN服务端资源库上的项目，你想下载最新的项目，则在 本机项目文件空白处单击鼠标右键，选择 SVN更新 ，即可自动完成下载，并会提示所作的更新有哪些。注意：<font color="red">在原项目文件夹内选择SVN更新的话，会自动覆盖掉原有内容。建议：先备份，再更新，防止自己本来的项目内容丢失。</font><br><img src="/uploads/2018/03/svn_image_05.png" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;Linux-下安装&quot;&gt;&lt;a href=&quot;#Linux-下安装&quot; class=&quot;headerlink&quot; title=&quot;Linux 下安装&quot;&gt;&lt;/a&gt;Linux 下安装&lt;/h4&gt;&lt;p&gt;CentOS 系统可使用yum 软件包管理器直接安装，Debian、Ubuntu 系统可使用apt-get 软件包管理器直接安装。此处，我们使用一种通用的安装方式，源码安装。&lt;/p&gt;
-&lt;h5 id=&quot;1、下载及解压&quot;&gt;&lt;a href=&quot;#1、下载及解压&quot; class=&quot;headerlink&quot; title=&quot;1、下载及解压&quot;&gt;&lt;/a&gt;1、下载及解压&lt;/h5&gt;&lt;p&gt;下载地址：&lt;a href=&quot;http://subversion.apache.org/download/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;font color=&quot;red&quot;&gt;传送门&lt;/font&gt;&lt;/a&gt;&lt;br&gt;&lt;code&gt;tar xvf subversion-1.9.7.tar.bz2&lt;/code&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="版本控制" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
-    
-      <category term="SVN" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/SVN/"/>
-    
-    
-      <category term="SVN" scheme="http://yoursite.com/tags/SVN/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SVN 详解之服务器搭建（一）</title>
-    <link href="http://yoursite.com/2018/03/15/SVN-%E8%AF%A6%E8%A7%A3%E4%B9%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA%EF%BC%88%E4%B8%80%EF%BC%89/"/>
-    <id>http://yoursite.com/2018/03/15/SVN-详解之服务器搭建（一）/</id>
-    <published>2018-03-15T06:09:57.000Z</published>
-    <updated>2018-03-19T02:52:16.666Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="1、使用-yum-安装SVN"><a href="#1、使用-yum-安装SVN" class="headerlink" title="1、使用 yum 安装SVN"></a>1、使用 yum 安装SVN</h4><p><code>[root@singledb ~]# yum install -y subversion</code></p><h4 id="2、验证安装版本及是否成功安装"><a href="#2、验证安装版本及是否成功安装" class="headerlink" title="2、验证安装版本及是否成功安装"></a>2、验证安装版本及是否成功安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@singledb ~]# svnserve --version</span><br><span class="line">svnserve, version 1.4.2 (r22196)</span><br></pre></td></tr></table></figure><a id="more"></a><h4 id="3、创建-SVN-版本库"><a href="#3、创建-SVN-版本库" class="headerlink" title="3、创建 SVN 版本库"></a>3、创建 SVN 版本库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@singledb ~]# mkdir /var/svn  //创建存放版本库文件的目录</span><br><span class="line">[root@singledb ~]# svnadmin create /var/svn/testsvn  //创建版本库</span><br></pre></td></tr></table></figure><h4 id="4、SVN-配置"><a href="#4、SVN-配置" class="headerlink" title="4、SVN 配置"></a>4、SVN 配置</h4><p>创建版本库后，在这个目录下会生成3个配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@singledb conf]# pwd</span><br><span class="line">/var/svn/testsvn/conf</span><br><span class="line">[root@singledb conf]# ls</span><br><span class="line">authz  passwd  svnserve.conf</span><br></pre></td></tr></table></figure></p><blockquote><p>（1）svnserve.conf：  svn服务配置文件。<br>（2）passwd： 用户名口令文件，负责账号和密码的用户名单管理。<br>（3）authz： 权限配置文件，控制账号的读写权限。 </p></blockquote><p><strong>svnserve.conf 文件， 该文件配置项分为以下5项：</strong></p><ul><li>anon-access： 控制非鉴权用户访问版本库的权限。</li><li>auth-access：  控制鉴权用户访问版本库的权限。</li><li>password-db： 指定用户名口令文件名。</li><li>authz-db：指定权限配置文件名，通过该文件可以实现以路径为基础的访问控制。</li><li>realm：指定版本库的认证域，即在登录时提示的认证域名称。若两个版本库的认证域相同，建议使用相同的用户名口令数据文件</li></ul><font color="red">（注意：将此五项都给去注释的时候，一定要顶格，不然会报错； realm指要认证的版本库，填写自己要配置的版本库即可）</font><p><strong>authz 文件 ：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#这里把不同用户放到不同的组里面，下面在设置目录访问权限的时候，用用户组来操作就可以了。</span><br><span class="line">（注：此处可不使用groups概念，在下方可直接添加可操作的人员即可。）</span><br><span class="line">[groups]</span><br><span class="line">admin = admin</span><br><span class="line">dev = ben,nana</span><br><span class="line">test = test</span><br><span class="line"></span><br><span class="line"># 为所有库指定默认访问规则</span><br><span class="line"># 所有人可以读，管理员可以写</span><br><span class="line">[/]</span><br><span class="line">* = r</span><br><span class="line">@admin = rw</span><br><span class="line"></span><br><span class="line"># 允许开发人员可以完全访问他们的项目版本库</span><br><span class="line">[devproject:/]</span><br><span class="line">@dev = rw</span><br><span class="line"></span><br><span class="line"># 允许测试人员访问其中的test目录</span><br><span class="line">[devproject:/test]</span><br><span class="line">@test = rw</span><br></pre></td></tr></table></figure></p><p><strong>Passwd 文件 ：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[users]</span><br><span class="line"># harry = harryssecret</span><br><span class="line"># sally = sallyssecret</span><br><span class="line">ben = ben1234</span><br><span class="line">nana = nana1234</span><br></pre></td></tr></table></figure></p><h4 id="5、启动和停止SVN服务"><a href="#5、启动和停止SVN服务" class="headerlink" title="5、启动和停止SVN服务"></a>5、启动和停止SVN服务</h4><p>启动SVN服务：<br><code>svnserve -d -r /home/svn   （/home/svn 为版本库的根目录）</code><br>关闭SVN服务：<br>① 使用以下命令查找进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# ps aux | grep svn</span><br><span class="line">root      8530  0.0  0.0 112660   972 pts/0    R+   14:44   0:00 grep --color=auto svn</span><br><span class="line">root     31964  0.0  0.0 166336   908 ?        Ss   11:28   0:00 svnserve -d -r /var/svn</span><br></pre></td></tr></table></figure></p><p>② 使用Kill命令杀死进程<br><code>kill -s 9 31964        （31964为进程ID）</code></p><h4 id="6、客户端检出访问-svn-服务器"><a href="#6、客户端检出访问-svn-服务器" class="headerlink" title="6、客户端检出访问 svn 服务器"></a>6、客户端检出访问 svn 服务器</h4><p><code>svn co svn://118.24.8.229/&lt;repo&gt;</code> 即可检出代码（注：repo为代码库名称）。会弹出输入用户名和密码。</p><p><strong>注：我们搭建的SVN是独立服务器形式运行的，没有和Apache整合，所以SVN地址为：svn://xxx/xxx，而不是<a href="http://xxx/xxx或https://xxx/xxx。" target="_blank" rel="noopener">http://xxx/xxx或https://xxx/xxx。</a></strong><br>Apache 搭建HTTP方式访问SVN服务器：<a href="http://blog.csdn.net/robertohuang/article/details/55504445" target="_blank" rel="noopener"><font color="red">传送门</font></a></p><hr><h4 id="问题集锦"><a href="#问题集锦" class="headerlink" title="问题集锦"></a>问题集锦</h4><h5 id="（1）SVN-检出错误"><a href="#（1）SVN-检出错误" class="headerlink" title="（1）SVN 检出错误"></a>（1）SVN 检出错误</h5><blockquote><p>在 Windows下检出SVN仓库报错：<br>Unable to connect to a repository at URL ‘svn://118.24.8.229/testsvn’<br>Can’t connect to host ‘118.24.8.229’: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。</p></blockquote><p>经查找知道，是因为服务器端的对应端口未开启：3690.<br>在服务端开启即可：<br><code>iptables -A INPUT -p tcp -m tcp --dport 3690 -j ACCEPT</code></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;1、使用-yum-安装SVN&quot;&gt;&lt;a href=&quot;#1、使用-yum-安装SVN&quot; class=&quot;headerlink&quot; title=&quot;1、使用 yum 安装SVN&quot;&gt;&lt;/a&gt;1、使用 yum 安装SVN&lt;/h4&gt;&lt;p&gt;&lt;code&gt;[root@singledb ~]# yum install -y subversion&lt;/code&gt;&lt;/p&gt;
-&lt;h4 id=&quot;2、验证安装版本及是否成功安装&quot;&gt;&lt;a href=&quot;#2、验证安装版本及是否成功安装&quot; class=&quot;headerlink&quot; title=&quot;2、验证安装版本及是否成功安装&quot;&gt;&lt;/a&gt;2、验证安装版本及是否成功安装&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[root@singledb ~]# svnserve --version&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;svnserve, version 1.4.2 (r22196)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="版本控制" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
-    
-      <category term="SVN" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/SVN/"/>
-    
-    
-      <category term="SVN" scheme="http://yoursite.com/tags/SVN/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>代码版本管理系统</title>
-    <link href="http://yoursite.com/2018/03/15/%E4%BB%A3%E7%A0%81%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://yoursite.com/2018/03/15/代码版本管理系统/</id>
-    <published>2018-03-15T06:07:43.000Z</published>
-    <updated>2018-03-15T06:12:11.722Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="代码版本管理系统的概述"><a href="#代码版本管理系统的概述" class="headerlink" title="代码版本管理系统的概述"></a>代码版本管理系统的概述</h4><h5 id="1、什么是版本控制"><a href="#1、什么是版本控制" class="headerlink" title="1、什么是版本控制"></a>1、什么是版本控制</h5><p>版本控制的核心是这样一个简单的概念，即对一个或者多个文件的追踪过程，随着这些文件演变成一个或多个产品的过程。特别是版本控制追踪什么变化，是什么改变了它，为什么会这样。版本控制系统提供了一个有益的说明，这些说明在传统的文件管理中是找不到的。</p><p>需要注意的是版本控制使用不仅是局限于程序员。版本控制可以被任何人用来维护文件目录，因此即便你不是程序也可以因此受益。<br><a id="more"></a></p><h5 id="2、集中式版本控制介绍"><a href="#2、集中式版本控制介绍" class="headerlink" title="2、集中式版本控制介绍"></a>2、集中式版本控制介绍</h5><p>集中化的版本控制系统(Centralized Version Control Systems，简称 CVCS)应运而生。 这类系统，诸如 CVS、Subversion 以及 Perforce 等，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。 多年以来，这已成为版本控制系统的标准做法。</p><p>这种做法带来了许多好处，特别是相较于老式的本地 VCS 来说。 现在，每个人都可以在一定程度上看到项目中的其他人正在做些什么。 而管理员也可以轻松掌控每个开发者的权限，并且管理一个 CVCS 要远比在各个客户端上维护本地数据库来得轻松容易。</p><p>事分两面，有好有坏。 这么做最显而易见的缺点是中央服务器的单点故障。 如果宕机一小时，那么在这一小时内，谁都无法提交更新，也就无法协同工作。 如果中心数据库所在的磁盘发生损坏，又没有做恰当备份，毫无疑问你将丢失所有数据——包括项目的整个变更历史，只剩下人们在各自机器上保留的单独快照。 本地版本控制系统也存在类似问题，只要整个项目的历史记录被保存在单一位置，就有丢失所有历史更新记录的风险。</p><h5 id="3、分布式版本控制介绍"><a href="#3、分布式版本控制介绍" class="headerlink" title="3、分布式版本控制介绍"></a>3、分布式版本控制介绍</h5><p>于是分布式版本控制系统(Distributed Version Control System，简称 DVCS)面世了。 在这类系统中，像 Git、Mercurial、Bazaar 以及 Darcs 等，客户端并不只提取最新版本的文件快照，而是把代码仓库完整地镜像下来。 这么一来，任何一处协同工作用的服务器发生故障，事后都可以用任何一个镜像出来的本地仓库恢复。 因为每一次的克隆操作，实际上都是一次对代码仓库的完整备份。</p><h5 id="4、SVN与Git的最主要的区别？"><a href="#4、SVN与Git的最主要的区别？" class="headerlink" title="4、SVN与Git的最主要的区别？"></a>4、SVN与Git的最主要的区别？</h5><p>　　SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快，如果在互联网下，如果网速慢的话，就纳闷了。</p><p>　　Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p><h5 id="5、总结："><a href="#5、总结：" class="headerlink" title="5、总结："></a>5、总结：</h5><p>分布式代码版本管理系统并不一定适合所有团队，比如中小团队可能更关心的只是成本更低，简单易用，那么SVN等这类集中式版本管理工具还是更为适合。但是不管团队最终选用什么代码版本管理工具，只要适合自己的团队的开发流程和工作方式，并且代码管理顺畅就可以了。</p><h4 id="代码版本管理系统的历史"><a href="#代码版本管理系统的历史" class="headerlink" title="代码版本管理系统的历史"></a>代码版本管理系统的历史</h4><p>代码版本管理系统大致可以分为三个时代：</p><h5 id="第一代：本地式"><a href="#第一代：本地式" class="headerlink" title="第一代：本地式"></a>第一代：本地式</h5><p>这代主要的特点提供本地代码版本控制，比如SCCS(1972)、 PVCS(1985)等。<br>这代主要实现了基本的代码版本管理，但缺点是无法让多人同时对一个版本库进行修改。这个也和当时软件规模不够大有关，也没有这样的需求。</p><h5 id="第二代：客户端-服务器式"><a href="#第二代：客户端-服务器式" class="headerlink" title="第二代：客户端-服务器式"></a>第二代：客户端-服务器式</h5><p>这代主要的特点是提供集中式服务器端代码版本控制,比如 CVS(1986), ClearCase(1992), Visual SourceSafe(1994), Perforce(1995), Subversion(2000) 等。</p><p>这代主要是实现了中心服务器端的代码版本管理，特点是可以让多人同时对一个代码版本库进行同步和修改，但缺点也相当明显：</p><ul><li>在无法连接服务器的情况下，无法查看日志以及提交和比较代码版本（慢速网络和远程异地工作的程序员的痛），以及当服务或者网络出现问题的时候很多人员就会无法工作。</li><li>不支持local branch，导致branch创建管理复杂，并且一旦创建就很难修改（快速迭代开发中的程序员的痛）</li><li>由于只有一个中心端服务器，一旦发生灾难性问题，那么所有日志都会丢失，所以需要经常做备份（备份需要不小的成本）</li><li>如果软件代码量过于庞大，一般会出现速度缓慢的情况，因为每次的日志查询、不同版本之间的代码比较和代码提交等操作都需要和服务器通信，造成服务器端的负载过大。</li></ul><h5 id="第三代：分布式"><a href="#第三代：分布式" class="headerlink" title="第三代：分布式"></a>第三代：分布式</h5><p>这代主要的特点是提供分布式代码版本控制,比如Git(2005), Mercurial(2005)等。<br>这代结合了第一代和第二代的优点并实现了分布式的代码版本管理。<br>这代的优点：分布式管理，在没有和服务器有连接的情况下仍然可以查看日志，提交代码，创建分支；支持local branch，可以快速方便的实现各种分支管理；支持分布式，从而可以实现分块管理，以及负载分流管理。<br>缺点是有一定的学习曲线，比如分布方式下的代码同步，local branch的理解与运用，分布式代码管理的理解与运用等。详细的比较可以参考：这里。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;代码版本管理系统的概述&quot;&gt;&lt;a href=&quot;#代码版本管理系统的概述&quot; class=&quot;headerlink&quot; title=&quot;代码版本管理系统的概述&quot;&gt;&lt;/a&gt;代码版本管理系统的概述&lt;/h4&gt;&lt;h5 id=&quot;1、什么是版本控制&quot;&gt;&lt;a href=&quot;#1、什么是版本控制&quot; class=&quot;headerlink&quot; title=&quot;1、什么是版本控制&quot;&gt;&lt;/a&gt;1、什么是版本控制&lt;/h5&gt;&lt;p&gt;版本控制的核心是这样一个简单的概念，即对一个或者多个文件的追踪过程，随着这些文件演变成一个或多个产品的过程。特别是版本控制追踪什么变化，是什么改变了它，为什么会这样。版本控制系统提供了一个有益的说明，这些说明在传统的文件管理中是找不到的。&lt;/p&gt;
-&lt;p&gt;需要注意的是版本控制使用不仅是局限于程序员。版本控制可以被任何人用来维护文件目录，因此即便你不是程序也可以因此受益。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="版本控制" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
-    
-    
-      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
-    
-      <category term="SVN" scheme="http://yoursite.com/tags/SVN/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Git 详解之常用命令汇总（四）</title>
-    <link href="http://yoursite.com/2018/03/14/Git-%E8%AF%A6%E8%A7%A3%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%EF%BC%88%E5%9B%9B%EF%BC%89/"/>
-    <id>http://yoursite.com/2018/03/14/Git-详解之常用命令汇总（四）/</id>
-    <published>2018-03-14T09:48:01.000Z</published>
-    <updated>2018-03-15T06:09:27.010Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="Git提交三步走："><a href="#Git提交三步走：" class="headerlink" title="Git提交三步走："></a>Git提交三步走：</h4><p>（1）git add xx<br>git add xx命令可以将xx文件添加到暂存区，如果有很多改动可以通过 git add -A .来一次添加所有改变的文件。<br>注意 -A 选项后面还有一个句点。 git add -A表示添加所有内容， git add . 表示添加新文件和编辑过的文件不包括删除的文件; git add -u 表示添加编辑或者删除的文件，不包括新添加的文件<br>（2）git commit -m “注释”<br>（3）git push origin 分支名称，一般使用：git push origin master</p><p>正常来说，这三步基本满足需求了。<br><a id="more"></a></p><h4 id="下面进行命令的详细介绍"><a href="#下面进行命令的详细介绍" class="headerlink" title="下面进行命令的详细介绍"></a>下面进行命令的详细介绍</h4><p><code>git checkout</code>  查看当前分支</p><p><code>git branch name</code>  新建分支name<br><code>git checkout name</code>  切换当前分支为name</p><p><font color="red">合并语句：</font><code>git checkout -b name</code>  新建分支并切换到分支name</p><p><code>git add filename</code>  增加文件到分支<br><code>git commit -m &quot;remark&quot;</code>  提交修改内容到分支并添加注释</p><p><font color="red">合并语句：</font><code>git commit -m &quot;remark&quot; filename</code></p><p><code>git diff filename</code>  查看文件修改了什么内容</p><p><code>git status</code>  查看当前工作区状态</p><p><code>git checkout master</code><br><code>git merge name</code>  合并分支到master分支</p><p><code>git branch -d name</code>  删除name分支</p><p><code>git log --graph --pretty=oneline --abbrev-commit</code>  用git log查看分支历史</p><h4 id="特殊需求详解："><a href="#特殊需求详解：" class="headerlink" title="特殊需求详解："></a>特殊需求详解：</h4><h5 id="1、合并文件："><a href="#1、合并文件：" class="headerlink" title="1、合并文件："></a>1、合并文件：</h5><p><code>git merge name</code> 这种合并 Git会优先选择 Fast forward模式，这种模式下，删除分支后，会丢掉分支信息<br>如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样从分支历史上就可以看出来分支信息。<br><code>git merge --no-ff -m &quot;merge with no-ff&quot; dev</code>  合并分支dev并禁用Fast forward模式 </p><h5 id="2、冲突解决："><a href="#2、冲突解决：" class="headerlink" title="2、冲突解决："></a>2、冲突解决：</h5><p>① 手动修改冲突文件并再次提交<br>打开产生冲突的文件后，Git用&lt;&lt;&lt;&lt;&lt;&lt;&lt;，=======，>>>>>>>标记出不同分支的内容，其中<code>&lt;&lt;&lt;HEAD</code>是指主分支修改的内容，<code>&gt;&gt;&gt;&gt;&gt;fenzhi1</code> 是指fenzhi1上修改的内容，我们可以修改后保存即解决冲突。</p><h5 id="3、版本回退："><a href="#3、版本回退：" class="headerlink" title="3、版本回退："></a>3、版本回退：</h5><p>（1）使用<code>HEAD^</code>回退版本，<code>HEAD^</code>回退上个版本，<code>HEAD^^</code>回退上上个版本，以此类推。如果回退前100个版本的话，使用<code>HEAD~100</code>即可。<br><code>git reset --hard HEAD^</code><br><code>git reset --hard HEAD~100</code></p><p>（2）使用commit_id回退版本<br><code>git log</code> 查看需要回退的 commit_id<br><code>git reflog</code> 查看未来版本的 commit_id<br><code>git reset --hard commit_id</code><br>（注：这个回退可以回到以前版本，也可回到未来版本，只要知道commit_id即可）</p><h5 id="4、撤销修改："><a href="#4、撤销修改：" class="headerlink" title="4、撤销修改："></a>4、撤销修改：</h5><p>在工作区：（就是开发环境本地）<br><code>git checkout -- file</code>  可以丢弃工作区的修改。<strong>（注：如果没有 -- 的话，那么命令就变成创建分支了。）</strong></p><p>在暂存区：（已经 git add了）<br><code>git reset HEAD file</code>  可以把暂存区的修改撤销掉，重新放回到工作区</p><p>在本地版本中：（已经提交到分支）<br>只能版本回退了</p><h5 id="5、删除文件："><a href="#5、删除文件：" class="headerlink" title="5、删除文件："></a>5、删除文件：</h5><p>工作区删除：<br><code>rm file</code><br>工作区删除后文件恢复：<br><code>git checkout -- file</code><br>版本库删除：<br><code>git rm file</code><br><code>git commit -m &#39;remark&#39;</code><br>（注：删除后必须得提交更新版本库）</p><h5 id="6、BUG分支"><a href="#6、BUG分支" class="headerlink" title="6、BUG分支"></a>6、BUG分支</h5><p><code>git stash</code>  把当前工作现场“储藏”起来，等以后恢复现场后继续工作<br><code>git stash list</code>  查看工作现场存储到什么地方<br><code>git stash apply</code>  恢复，但stash内容并不删除<br><code>git stash pop</code>  恢复，但同时把stash内容也删除</p><h5 id="7、多人协作"><a href="#7、多人协作" class="headerlink" title="7、多人协作"></a>7、多人协作</h5><p><code>git remote</code>  查看远程库的信息 -v 更详细信息<br>推送分支： 就是把该分支上的所有本地提交推送到远程库。<br><code>git push origin master</code><br>抓取分支：把线上最新的提交抓下来<br><code>git pull</code></p><h4 id="工作模式通常是这样："><a href="#工作模式通常是这样：" class="headerlink" title="工作模式通常是这样："></a>工作模式通常是这样：</h4><p>1、首先，可以试图用git push origin branch-name推送自己的修改；<br>2、如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；<br>3、如果合并有冲突，则解决冲突，并在本地提交；<br>4、没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！<br>如果<code>git pull</code>提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令<code>git branch --set-upstream branch-name origin/branch-name</code>。<br>这就是多人协作的工作模式，一旦熟悉了，就非常简单。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;Git提交三步走：&quot;&gt;&lt;a href=&quot;#Git提交三步走：&quot; class=&quot;headerlink&quot; title=&quot;Git提交三步走：&quot;&gt;&lt;/a&gt;Git提交三步走：&lt;/h4&gt;&lt;p&gt;（1）git add xx&lt;br&gt;git add xx命令可以将xx文件添加到暂存区，如果有很多改动可以通过 git add -A .来一次添加所有改变的文件。&lt;br&gt;注意 -A 选项后面还有一个句点。 git add -A表示添加所有内容， git add . 表示添加新文件和编辑过的文件不包括删除的文件; git add -u 表示添加编辑或者删除的文件，不包括新添加的文件&lt;br&gt;（2）git commit -m “注释”&lt;br&gt;（3）git push origin 分支名称，一般使用：git push origin master&lt;/p&gt;
-&lt;p&gt;正常来说，这三步基本满足需求了。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="版本控制" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
-    
-      <category term="Git" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/Git/"/>
-    
-    
-      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Git 详解之客户端安装（三）</title>
-    <link href="http://yoursite.com/2018/03/14/Git-%E8%AF%A6%E8%A7%A3%E4%B9%8B%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%89%E8%A3%85%EF%BC%88%E4%B8%89%EF%BC%89/"/>
-    <id>http://yoursite.com/2018/03/14/Git-详解之客户端安装（三）/</id>
-    <published>2018-03-14T09:47:43.000Z</published>
-    <updated>2018-03-15T06:09:21.835Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="一、Linux下安装"><a href="#一、Linux下安装" class="headerlink" title="一、Linux下安装"></a>一、Linux下安装</h4><p>首先，你可以试着输入git，看看系统有没有安装Git：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git</span><br><span class="line">The program &apos;git&apos; is currently not installed. You can install it by typing:</span><br><span class="line">sudo apt-get install git</span><br></pre></td></tr></table></figure></p><p>像上面的命令，有很多Linux会友好地告诉你Git没有安装，还会告诉你如何安装Git。<br>如果你碰巧用Debian或Ubuntu Linux，通过一条<code>sudo apt-get install git</code>就可以直接完成Git的安装，非常简单。<br><a id="more"></a></p><p>如果是其他Linux版本，可以直接通过源码安装。先从Git官网下载源码，然后解压，依次输入：<code>./config</code>，<code>make</code>，<code>sudo make install</code> 这几个命令安装就好了。</p><h4 id="二、windows下安装"><a href="#二、windows下安装" class="headerlink" title="二、windows下安装"></a>二、windows下安装</h4><p>windows下客户端分为两种：<br>（1）Git客户端程序。<br>　　Git目前最新版本2.16.2<br>　　Git官网下载地址：<a href="http://git-scm.com/" target="_blank" rel="noopener"><font color="red">传送门</font></a><br>（2）Git客户端图形化操作程序 TortoiseGit。<br>　　TortoiseGit目前最新版本2.6.0<br>　　TortoiseGit官网下载地址：<a href="http://tortoisegit.org/download/" target="_blank" rel="noopener"><font color="red">传送门</font></a></p><p>安装过程可以按照程序的默认选项，都选择“下一步”安装完成。</p><p><strong>下面以 Git客户端程序为例来安装：</strong></p><blockquote><p>1.双击安装程序“Git-2.10.2-64-bit.exe”<br>2.点击“Next” ，根据自己的情况，选择程序的安装目录。<br>3.继续点击“Next”，显示截图如下：<br><img src="/uploads/2018/03/git_image_01.jpg" alt=""><br><strong>说明：</strong><br>（1）图标组件(Addition icons) : 选择是否创建桌面快捷方式。<br>（2）桌面浏览(Windows Explorer integration) : 浏览源码的方法，使用bash 或者 使用Git GUI工具。<br>（3）关联配置文件 : 是否关联 git 配置文件, 该配置文件主要显示文本编辑器的样式。<br>（4）关联shell脚本文件 : 是否关联Bash命令行执行的脚本文件。<br>（5）使用TrueType编码 : 在命令行中是否使用TruthType编码, 该编码是微软和苹果公司制定的通用编码。<br>4.选择完之后，点击“Next”，开始菜单快捷方式目录：设置开始菜单中快捷方式的目录名称, 也可以选择不在开始菜单中创建快捷方式。<br>5.点击“Next”，显示截图如下：<br><img src="/uploads/2018/03/git_image_02.jpg" alt=""><br><strong>设置环境变量</strong><br>选择使用什么样的命令行工具，一般情况下我们默认使用Git Bash即可：<br>（1）Git自带：使用Git自带的Git Bash命令行工具。<br>（2）系统自带CMD：使用Windows系统的命令行工具。<br>（3）二者都有：上面二者同时配置，但是注意，这样会将windows中的find.exe 和 sort.exe工具覆盖，如果不懂这些尽量不要选择。<br>6.选择之后，继续点击“Next”，显示如下：<br><img src="/uploads/2018/03/git_image_03.jpg" alt=""><br><strong>选择提交的时候换行格式</strong><br>（1）检查出windows格式转换为unix格式：将windows格式的换行转为unix格式的换行再进行提交。<br>（2）检查出原来格式转为unix格式：不管什么格式的，一律转为unix格式的换行再进行提交。<br>（3）不进行格式转换 : 不进行转换，检查出什么，就提交什么。<br>7.选择之后，点击“Next”<br>8.选择之后，点击“Next”<br>9.选择之后，点击“Install”，开始安装</p></blockquote><p>这样，我们的Git客户端就安装完成了。</p><p>安装完成后，在开始菜单里面能够找到 “Git –&gt; Git Bash”,如下：<br><img src="/uploads/2018/03/git_image_04.JPG" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;一、Linux下安装&quot;&gt;&lt;a href=&quot;#一、Linux下安装&quot; class=&quot;headerlink&quot; title=&quot;一、Linux下安装&quot;&gt;&lt;/a&gt;一、Linux下安装&lt;/h4&gt;&lt;p&gt;首先，你可以试着输入git，看看系统有没有安装Git：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ git&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;The program &amp;apos;git&amp;apos; is currently not installed. You can install it by typing:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install git&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;像上面的命令，有很多Linux会友好地告诉你Git没有安装，还会告诉你如何安装Git。&lt;br&gt;如果你碰巧用Debian或Ubuntu Linux，通过一条&lt;code&gt;sudo apt-get install git&lt;/code&gt;就可以直接完成Git的安装，非常简单。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="版本控制" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
-    
-      <category term="Git" scheme="http://yoursite.com/categories/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/Git/"/>
-    
-    
-      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
     
   </entry>
   
