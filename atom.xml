@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-10T10:53:34.084Z</updated>
+  <updated>2018-04-17T10:47:43.774Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,101 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Flask 常见错误篇</title>
+    <link href="http://yoursite.com/2018/04/16/Flask-%E5%B8%B8%E8%A7%81%E9%94%99%E8%AF%AF%E7%AF%87/"/>
+    <id>http://yoursite.com/2018/04/16/Flask-常见错误篇/</id>
+    <published>2018-04-16T05:31:49.000Z</published>
+    <updated>2018-04-17T10:47:43.774Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>1、在 admin/forms.py 表单文件中使用如下语句报错：</strong><br><code>auth_list = Auth.query.all()</code></p><p>报错信息，如下：</p><blockquote><p>RuntimeError: No application found. Either work inside a view function or push an application contex.</p></blockquote><p>报错信息意思是：没有找到应用程序。可以在视图函数内工作，也可以推动应用程序上下文。<br><a id="more"></a><br>因此，我们就要建立程序上下文，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(config[config_name])</span><br><span class="line">config[config_name].init_app(app)</span><br><span class="line"></span><br><span class="line">with app.app_context():</span><br><span class="line">db.init_app(app)</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">return app</span><br></pre></td></tr></table></figure></p><p>就是在初始化的时候，添加 <code>app_context()</code> 上下文。</p><p><strong>2、元组赋值报错，如下：</strong></p><blockquote><p>TypeError: ‘NoneType’ object is not iterable</p></blockquote><p>这个错误提示一般发生在将None赋给多个值时。<br>在判断语句中，当if条件不满足，并且没有else语句时，函数默认返回None。<br>在没有return语句时，python也默认会返回None。<br>调用时，将None赋给多个值时，会出现提示：TypeError: ‘NoneType’ object is not iterable.</p><p><strong>3、模板中使用表单（wtf），报错如下：</strong></p><blockquote><p>TypeError: html_params() got multiple values for keyword argument ‘name’</p></blockquote><p>这个是由于表单中有一个变量为 “render_kw”，其值是键值对字典，且其键不能为 “name”。否则就报错！</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;strong&gt;1、在 admin/forms.py 表单文件中使用如下语句报错：&lt;/strong&gt;&lt;br&gt;&lt;code&gt;auth_list = Auth.query.all()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;报错信息，如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;RuntimeError: No application found. Either work inside a view function or push an application contex.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;报错信息意思是：没有找到应用程序。可以在视图函数内工作，也可以推动应用程序上下文。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="Python" scheme="http://yoursite.com/categories/Python/"/>
+    
+      <category term="Flask" scheme="http://yoursite.com/categories/Python/Flask/"/>
+    
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+      <category term="Flask" scheme="http://yoursite.com/tags/Flask/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Flask 使用session</title>
+    <link href="http://yoursite.com/2018/04/16/Flask-%E4%BD%BF%E7%94%A8session/"/>
+    <id>http://yoursite.com/2018/04/16/Flask-使用session/</id>
+    <published>2018-04-16T05:30:53.000Z</published>
+    <updated>2018-04-16T05:35:35.940Z</updated>
+    
+    <content type="html"><![CDATA[<p>1、首先安装session<br><code>pip install flask-session</code></p><p>2、引入框架中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from flask_session import Session</span><br><span class="line">sess = Session()</span><br><span class="line">sess.init_app(app)</span><br></pre></td></tr></table></figure></p><p>3、下面就可以在视图中使用引用使用了<br><code>from flask import session</code></p><a id="more"></a><p><strong>报错集锦：</strong></p><blockquote><p>Flask  session报下面错误：<br>RuntimeError: The session is unavailable because no secret key was set.  Set the secret_key on the application to something unique and secret.</p></blockquote><p>查找代码发现：<br>SERECT_KEY 已经设定。但是，仍然报此错误。原因是 SESSION_TYPE 未设置，如果不使用 内存缓存的话，可以使文件缓存。即：<br><code>SESSION_TYPE = &#39;filesystem&#39;</code></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;1、首先安装session&lt;br&gt;&lt;code&gt;pip install flask-session&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;2、引入框架中&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;from flask_session import Session&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sess = Session()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sess.init_app(app)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;3、下面就可以在视图中使用引用使用了&lt;br&gt;&lt;code&gt;from flask import session&lt;/code&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Python" scheme="http://yoursite.com/categories/Python/"/>
+    
+      <category term="Flask" scheme="http://yoursite.com/categories/Python/Flask/"/>
+    
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+      <category term="Flask" scheme="http://yoursite.com/tags/Flask/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python3 支持MySQL</title>
+    <link href="http://yoursite.com/2018/04/16/Python3-%E6%94%AF%E6%8C%81MySQL/"/>
+    <id>http://yoursite.com/2018/04/16/Python3-支持MySQL/</id>
+    <published>2018-04-16T05:30:05.000Z</published>
+    <updated>2018-04-16T05:34:26.838Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><font color="red">注：MySQLdb 只适用于Python2.x，在Python3的替代品是：pymysql</font></blockquote><p>1、安装： pip install pymysql</p><p>一些框架默认仍然用的是MySQLdb，但是python3已经不支持MySQLdb，取而代之的是pymysql，因此运行的时候会报<br><code>ModuleNotFoundError: No module named &#39;MySQLdb&#39;</code></p><p>2、使用方式：</p><ol><li>安装成功后，可使用MySQLdb的语法使用pymysql</li><li>使用Flask集成的SQLAlchemy管理MySQL</li></ol><a id="more"></a><p>在框架中引入下面语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pymysql</span><br><span class="line">pymysql.install_as_MySQLdb()</span><br></pre></td></tr></table></figure></p><p>然后，在配置 <code>SQLALCHEMY_DATABASE_URI</code> 参数时，直接使用 mysql的使用方式即可。</p><blockquote><p>使用方式：<code>mysql://username:password@hostname/database</code></p></blockquote><p>3、生成对应数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python manage.py db init</span><br><span class="line">python manage.py db migrate</span><br><span class="line">python manage.py db upgrade</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;font color=&quot;red&quot;&gt;注：MySQLdb 只适用于Python2.x，在Python3的替代品是：pymysql&lt;/font&gt;
+
+&lt;/blockquote&gt;
+&lt;p&gt;1、安装： pip install pymysql&lt;/p&gt;
+&lt;p&gt;一些框架默认仍然用的是MySQLdb，但是python3已经不支持MySQLdb，取而代之的是pymysql，因此运行的时候会报&lt;br&gt;&lt;code&gt;ModuleNotFoundError: No module named &amp;#39;MySQLdb&amp;#39;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;2、使用方式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;安装成功后，可使用MySQLdb的语法使用pymysql&lt;/li&gt;
+&lt;li&gt;使用Flask集成的SQLAlchemy管理MySQL&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="Python" scheme="http://yoursite.com/categories/Python/"/>
+    
+      <category term="Flask" scheme="http://yoursite.com/categories/Python/Flask/"/>
+    
+    
+      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
+    
+      <category term="Flask" scheme="http://yoursite.com/tags/Flask/"/>
+    
+  </entry>
   
   <entry>
     <title>HTTP 和 Socket 的区别</title>
@@ -441,89 +536,6 @@
     
     
       <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>windows 7设置WiFi热点</title>
-    <link href="http://yoursite.com/2018/03/27/windows-7%E8%AE%BE%E7%BD%AEWiFi%E7%83%AD%E7%82%B9/"/>
-    <id>http://yoursite.com/2018/03/27/windows-7设置WiFi热点/</id>
-    <published>2018-03-27T08:04:35.000Z</published>
-    <updated>2018-03-27T08:09:47.827Z</updated>
-    
-    <content type="html"><![CDATA[<p>点击可查看…<br><a id="more"></a></p><h4 id="1、查看是否支持并开启"><a href="#1、查看是否支持并开启" class="headerlink" title="1、查看是否支持并开启"></a>1、查看是否支持并开启</h4><p>首先打开自己的网络连接，看一下有没有上述网卡图标，若有则进行下一步，若没有则打开设备管理器，找到网卡选项，右击选择更新网卡驱动，若此时出现说明你的电脑支持此功能，若没有出现，则说明电脑不支持。<br><img src="/uploads/2018/03/network_wifi_01.jpg" alt=""></p><h4 id="2、设置WiFi热点"><a href="#2、设置WiFi热点" class="headerlink" title="2、设置WiFi热点"></a>2、设置WiFi热点</h4><p>点击 开始， 选择 附件，找到命令提示符，右击选择以管理员方式运行<br>输入：<code>netsh wlan set hostednetwork mode=allow ssid=&quot;无线热点的名字&quot; key=“w ifi的密码”</code>，然后回车，如果出现如下的信息，则表示设置成功：<br><img src="/uploads/2018/03/network_wifi_02.jpg" alt=""><br><img src="/uploads/2018/03/network_wifi_03.jpg" alt=""></p><h4 id="3、开启WiFi"><a href="#3、开启WiFi" class="headerlink" title="3、开启WiFi"></a>3、开启WiFi</h4><p>至此wifi已经设置完成，现在就是开始运行问题，输入：netsh wlan start hostednetwork 然后回车，则启动wifi<br>以后，每次重启电脑后都需要运行netsh wlan start hostednetwork命令来启动<br><img src="/uploads/2018/03/network_wifi_04.jpg" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;点击可查看…&lt;br&gt;
-    
-    </summary>
-    
-      <category term="Windows" scheme="http://yoursite.com/categories/Windows/"/>
-    
-    
-      <category term="Windows" scheme="http://yoursite.com/tags/Windows/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>算法概述及效率的度量</title>
-    <link href="http://yoursite.com/2018/03/26/%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0%E5%8F%8A%E6%95%88%E7%8E%87%E7%9A%84%E5%BA%A6%E9%87%8F/"/>
-    <id>http://yoursite.com/2018/03/26/算法概述及效率的度量/</id>
-    <published>2018-03-26T02:39:43.000Z</published>
-    <updated>2018-03-26T02:45:14.977Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="1、算法的定义"><a href="#1、算法的定义" class="headerlink" title="1、算法的定义"></a>1、算法的定义</h4><p>算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。</p><h4 id="2、算法具有的武哥基本特性"><a href="#2、算法具有的武哥基本特性" class="headerlink" title="2、算法具有的武哥基本特性"></a>2、算法具有的武哥基本特性</h4><ul><li><strong>有穷性：</strong> 指算法在执行有限的步骤之后，自动结束而不会出现无线循环，并且每一个步骤在可接受的时间内完成。</li><li><strong>确定性：</strong> 算法的每一步骤都具有确定的含义，不会出现二义性。</li><li><strong>可行性：</strong> 算法的每一步都必须是可行的，也就是说，每一步都能够通过执行有限次数完成。</li><li><strong>输入：</strong> 一个算法有零个或多个的输入，这些输入取自于某个特定的对象的集合。</li><li><strong>输出：</strong> 一个算法有一个或多个的输出，这些输出是同输入有着某些特定关系的量。</li></ul><a id="more"></a><h4 id="3、算法设计的要求"><a href="#3、算法设计的要求" class="headerlink" title="3、算法设计的要求"></a>3、算法设计的要求</h4><p>设计算法时，通常应考虑达到以下目标：</p><ul><li><strong>正确性：</strong> 算法的正确性是指算法至少应该具有输入、输出和加工处理无歧义性、能正确反映问题的需求、能够得到问题的正确答案。</li><li><strong>可读性：</strong> 算法设计的另一个目的是为了便于阅读、理解和交流。另一方面，晦涩难懂的程序易于隐藏较多错误而难以调试。</li><li><strong>健壮性：</strong> 当输入数据不合法时，算法也能做出相关处理，而不是产生异常或莫名其妙的结果。</li><li><strong>高效率与低存储量：</strong> 通常，效率指的是算法执行时间；存储量指的是算法执行过程中所需的最大存储空间，两者都与问题的规模相关。</li></ul><h4 id="4、算法效率的度量方法："><a href="#4、算法效率的度量方法：" class="headerlink" title="4、算法效率的度量方法："></a>4、算法效率的度量方法：</h4><ul><li><strong>事后统计方法：</strong> 这种方法主要是通过设计好的测试程序和数据，利用计算机计时器对不同算法编制的程序的运行时间进行比较，从而确定算法效率的高低。</li><li><strong>事前分析估算法：</strong> 在计算机程序编制前，依据统计方法对算法进行估算。一个程序的运行时间，依赖于算法的好坏和问题的输入规模。（所谓问题输入规模是指输入量的多少。）</li></ul><h4 id="5、算法的时间复杂度"><a href="#5、算法的时间复杂度" class="headerlink" title="5、算法的时间复杂度"></a>5、算法的时间复杂度</h4><p>算法的时间复杂度，也就是算法的时间量度，记作：T(n) = O(f(n))。他表示岁问题规模n的增大，算法执行时间的增长率和f(n)的增长率相同，称作算法的渐进时间复杂度，简称为<strong>时间复杂度</strong>。</p><blockquote><p>推导大O阶：<br>1.用常数1取代运行时间中的所有加法常数。<br>2.在修改后的运行次数函数中，只保留最高阶项。<br>3.如果最高阶项存在且不是1，则去除与这个项相乘的常数。<br>得到的结果就是大O阶。</p></blockquote><table><thead><tr><th>执行次数函数</th><th>阶</th><th>非正式术语</th></tr></thead><tbody><tr><td>12</td><td>O(1)</td><td>常数阶</td></tr><tr><td>2n+3</td><td>O(n)</td><td>线性阶</td></tr><tr><td>3n^2+2n+1</td><td>O(n^2)</td><td>平方阶</td></tr><tr><td>5log2n+20</td><td>O(logn)</td><td>对数阶</td></tr><tr><td>2n+3nlog2n+19</td><td>O(nlogn)</td><td>nlogn阶</td></tr><tr><td>6n^3+2n^2+3n+4</td><td>O(n^3)</td><td>立方阶</td></tr><tr><td>2^n</td><td>O(2^n)</td><td>指数阶</td></tr></tbody></table><p><strong>常用的时间复杂度所耗费的时间从小到大依次是：</strong><br>O(1) &lt; O(logn) &lt; O(n) &lt; O(nlogn) &lt; O(n^2) &lt; O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</p><h4 id="6、算法空间复杂度"><a href="#6、算法空间复杂度" class="headerlink" title="6、算法空间复杂度"></a>6、算法空间复杂度</h4><p>算法的空间复杂度通过计算算法所需的存储空间实现，算法空间复杂度的计算公式记作：S(n) = O(f(n))，其中，n为问题的规模，f(n)为语句关于n所占存储空间的函数。</p><p><strong>（注：一般在没有特殊说明的情况下，都是指最坏时间复杂度。）</strong></p><h4 id="7、算法的时间复杂度推导公式"><a href="#7、算法的时间复杂度推导公式" class="headerlink" title="7、算法的时间复杂度推导公式"></a>7、算法的时间复杂度推导公式</h4><p>待补充…</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;1、算法的定义&quot;&gt;&lt;a href=&quot;#1、算法的定义&quot; class=&quot;headerlink&quot; title=&quot;1、算法的定义&quot;&gt;&lt;/a&gt;1、算法的定义&lt;/h4&gt;&lt;p&gt;算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。&lt;/p&gt;
-&lt;h4 id=&quot;2、算法具有的武哥基本特性&quot;&gt;&lt;a href=&quot;#2、算法具有的武哥基本特性&quot; class=&quot;headerlink&quot; title=&quot;2、算法具有的武哥基本特性&quot;&gt;&lt;/a&gt;2、算法具有的武哥基本特性&lt;/h4&gt;&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;有穷性：&lt;/strong&gt; 指算法在执行有限的步骤之后，自动结束而不会出现无线循环，并且每一个步骤在可接受的时间内完成。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;确定性：&lt;/strong&gt; 算法的每一步骤都具有确定的含义，不会出现二义性。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;可行性：&lt;/strong&gt; 算法的每一步都必须是可行的，也就是说，每一步都能够通过执行有限次数完成。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;输入：&lt;/strong&gt; 一个算法有零个或多个的输入，这些输入取自于某个特定的对象的集合。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;输出：&lt;/strong&gt; 一个算法有一个或多个的输出，这些输出是同输入有着某些特定关系的量。&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="算法" scheme="http://yoursite.com/categories/%E7%AE%97%E6%B3%95/"/>
-    
-    
-      <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 下二进制文件命令存放目录区别</title>
-    <link href="http://yoursite.com/2018/03/20/Linux-%E4%B8%8B%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%91%BD%E4%BB%A4%E5%AD%98%E6%94%BE%E7%9B%AE%E5%BD%95%E5%8C%BA%E5%88%AB/"/>
-    <id>http://yoursite.com/2018/03/20/Linux-下二进制文件命令存放目录区别/</id>
-    <published>2018-03-20T10:48:21.000Z</published>
-    <updated>2018-03-20T10:50:35.846Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>二进制文件命令：</p><ul><li>/bin　　# 系统的一些指令</li><li>/sbin　　# 一般是指超级用户指令</li><li>/usr/bin　　# 后期安装的一些软件的运行脚本</li><li>/usr/sbin　　# 一些用户安装的系统管理的必备程序</li><li>/usr/local/bin　　# 通常是源码编译的软件</li><li>/usr/local/sbin　　# 通常是源码编译的软件，用来管理系统的程序</li></ul></blockquote><a id="more"></a><p><strong>首先看下PATH变量在不同用户下的值：</strong><br><strong>root用户：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos /]# echo $PATH</span><br><span class="line">/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin</span><br></pre></td></tr></table></figure></p><p><strong>普通用户：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[ben@VM_0_7_centos ~]$ echo $PATH</span><br><span class="line">/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ben/.local/bin:/home/ben/bin</span><br></pre></td></tr></table></figure></p><p>（注：bin是binary的缩写，二进制。sbin意义为system binary。）</p><blockquote><p>由上面可知道 root权限都没有 /bin、/sbin 的目录使用权。为什么呢？<br>原因就是，/bin以及/sbin是和/在同一文件系统，在挂载其他文件系统之前就可以使用/bin以及/sbin下的命令。<br>/usr/bin，/usr/sbin，/usr/local/bin，/usr/local/sbin可能与根文件系统不在同一文件系统之中，可能是在其他文件系统中后挂载上去的。<br>而我的服务器是 腾讯云，因此也是挂载上去的。</p></blockquote><p>从命令功能来看，/sbin 下的命令属于基本的系统命令，如shutdown，reboot，用于启动系统，修复系统，/bin下存放一些普通的基本命令，如ls,chmod等，这些命令在Linux系统里的配置文件脚本里经常用到。</p><p>从用户权限的角度看，/sbin目录下的命令通常只有管理员才可以运行，/bin下的命令管理员和一般的用户都可以使用。</p><p>从可运行时间角度看，/sbin,/bin能够在挂载其他文件系统前就可以使用。</p><p><strong>下面来说一下常用的目录：</strong></p><blockquote><p><strong>/bin 是系统的一些指令。</strong><br>bin为binary的简写主要放置一些系统的必备执行档例如:cat、cp、chmod df、dmesg、gzip、kill、ls、mkdir、more、mount、rm、su、tar等。<br><strong>/sbin 一般是指超级用户指令。</strong><br>主要放置一些系统管理的必备程式例如:cfdisk、dhcpcd、dump、e2fsck、fdisk、halt、ifconfig、ifup、 ifdown、init、insmod、lilo、lsmod、mke2fs、modprobe、quotacheck、reboot、rmmod、 runlevel、shutdown等。<br><strong>/usr/bin 是你在后期安装的一些软件的运行脚本。</strong><br>主要放置一些应用软体工具的必备执行档例如c++、g++、gcc、chdrv、diff、dig、du、eject、elm、free、gnome<em>、 gzip、htpasswd、kfm、ktop、last、less、locale、m4、make、man、mcopy、ncftp、 newaliases、nslookup passwd、quota、smb</em>、wget等。<br><strong>/usr/sbin 放置一些用户安装的系统管理的必备程式</strong><br>例如:dhcpd、httpd、imap、in.<em>d、inetd、lpd、named、netconfig、nmbd、samba、sendmail、squid、swap、tcpd、tcpdump等。<br><strong>/usr/local/bin </strong><br>很多时候我们自己安装的软件，可能在此处建立一个软连接（符号链接），指向实际的可执行文件。<br><em>*/usr/local/sbin</em></em><br>也是我们自己安装的软件，一般用来管理系统的程序</p></blockquote><p>（注：以上所说的并不是绝对的，例如ifconfig在/sbin下，但是普通用户一般具有可执行权限。）</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;二进制文件命令：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;/bin　　# 系统的一些指令&lt;/li&gt;
-&lt;li&gt;/sbin　　# 一般是指超级用户指令&lt;/li&gt;
-&lt;li&gt;/usr/bin　　# 后期安装的一些软件的运行脚本&lt;/li&gt;
-&lt;li&gt;/usr/sbin　　# 一些用户安装的系统管理的必备程序&lt;/li&gt;
-&lt;li&gt;/usr/local/bin　　# 通常是源码编译的软件&lt;/li&gt;
-&lt;li&gt;/usr/local/sbin　　# 通常是源码编译的软件，用来管理系统的程序&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;
-    
-    </summary>
-    
-      <category term="Linux" scheme="http://yoursite.com/categories/Linux/"/>
-    
-    
-      <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
     
   </entry>
   
