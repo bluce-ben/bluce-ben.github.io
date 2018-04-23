@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="1、在 admin/forms.py 表单文件中使用如下语句报错：auth_list = Auth.query.all() 报错信息，如下：  RuntimeError: No application found. Either work inside a view function or push an application contex.  报错信息意思是：没有找到应用程序。可以在视图函数内">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-17T10:47:43.774Z">
+<meta property="og:updated_time" content="2018-04-23T03:00:16.316Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Flask 常见错误篇">
 <meta name="twitter:description" content="1、在 admin/forms.py 表单文件中使用如下语句报错：auth_list = Auth.query.all() 报错信息，如下：  RuntimeError: No application found. Either work inside a view function or push an application contex.  报错信息意思是：没有找到应用程序。可以在视图函数内">
@@ -403,6 +403,7 @@
 <p>TypeError: html_params() got multiple values for keyword argument ‘name’</p>
 </blockquote>
 <p>这个是由于表单中有一个变量为 “render_kw”，其值是键值对字典，且其键不能为 “name”。否则就报错！</p>
+<p><strong>4、Flask 的 validate_on_submit() 老是false ??</strong><br>在 flask中提交表单时使用了validate_on_submit()来验证，但是每次提交时都是false，不知道什么原因啊？<br>但是只要把生成form表单的地方换成 quick_form自动生成，就正常了。<br>最后，通过上网搜索知道问题的原因了，就是CSRF的原因，直接在form里加上csrf_token就行了。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; form.csrf_token &#125;&#125;</span><br><span class="line">&#123;&#123; form.submit() &#125;&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -444,6 +445,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/23/Python-标准模块之-uuiid/" rel="prev" title="Python 标准模块之 uuiid">
+                Python 标准模块之 uuiid <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -515,7 +520,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">127</span>
+                  <span class="site-state-item-count">129</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
