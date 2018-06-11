@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="MySQL语句的语法：1、ALTER TABLE 更新已存在的表的模式。2、COMMIT  用来将事务处理写到数据库。3、CREATE INDEX   用于在一个或多个列上创建索引。4、CREATE PROCEDURE  用于创建存储过程。5、CREATE TABLE   用于创建数据库表。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-08T06:49:55.423Z">
+<meta property="og:updated_time" content="2018-06-05T06:43:33.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="总结-MySQL语句的语法">
 <meta name="twitter:description" content="MySQL语句的语法：1、ALTER TABLE 更新已存在的表的模式。2、COMMIT  用来将事务处理写到数据库。3、CREATE INDEX   用于在一个或多个列上创建索引。4、CREATE PROCEDURE  用于创建存储过程。5、CREATE TABLE   用于创建数据库表。">
@@ -417,6 +417,8 @@
 　（注：添加外键需要两个表的存储引擎都是InnoDB型。）
 13. 删除外键索引
 　ALTER TABLE 【表名字】 DROP FOREIGN KEY index_name;
+14. 添加复合索引
+  ALTER TABLE 【表名字】 ADD INDEX index_name(`column1`, `column2`);
 </code></pre><p>2、CREATE TABLE   创建数据库表<br>    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE [IF NOT EXISTS] `tbl_name`(</span><br><span class="line">`col_name` type [NOT NULL | NULL] [DEFAULT default_value] [AUTO_INCREMENT]</span><br><span class="line">PRIMARY KEY (`index_col_name`,...)</span><br><span class="line">or KEY [index_name] (`index_col_name`,...)</span><br><span class="line">or INDEX [index_name] (`index_col_name`,...)</span><br><span class="line">or UNIQUE [INDEX] [index_name] (`index_col_name`,...)</span><br><span class="line">or FOREIGN KEY index_name (`index_col_name`,...）</span><br><span class="line">)ENGINE=MyISAM DEFAULT CHARSET=UTF8;</span><br></pre></td></tr></table></figure></p>
 <p>3、CREATE USER    创建用户</p>
 <pre><code>1. 创建用户
@@ -587,7 +589,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">131</span>
+                  <span class="site-state-item-count">135</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

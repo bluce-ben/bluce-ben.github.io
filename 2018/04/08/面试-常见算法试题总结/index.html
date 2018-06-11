@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="试题目录：1、斐波那契数列实现2、楼梯有s阶台阶,上楼时可以一步上1阶,也可以一步上2阶，编程计算共有多少种不同的走法。3、输入两个整数n和m，从数列1，2…….n中随意取几个数，使其和等于m，要求将其中所有的可能组合列出来。4、求一个数组的最长递减子序列 比如{9，4，3，2，5，4，3，2}的最长递减子序列为{9，5，4，3，2}。5、一个整型数组里除了两个数字之外，其他的数字都出现了两次。请">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-04-08T10:35:28.367Z">
+<meta property="og:updated_time" content="2018-06-11T09:15:02.298Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面试 - 常见算法试题总结（PHP）">
 <meta name="twitter:description" content="试题目录：1、斐波那契数列实现2、楼梯有s阶台阶,上楼时可以一步上1阶,也可以一步上2阶，编程计算共有多少种不同的走法。3、输入两个整数n和m，从数列1，2…….n中随意取几个数，使其和等于m，要求将其中所有的可能组合列出来。4、求一个数组的最长递减子序列 比如{9，4，3，2，5，4，3，2}的最长递减子序列为{9，5，4，3，2}。5、一个整型数组里除了两个数字之外，其他的数字都出现了两次。请">
@@ -420,6 +420,12 @@
 <p><strong>解题思路：</strong><br>此题利用PHP函数很容易实现。<br>注：要注意使用 <code>array_reverse()</code> 数组翻转函数</p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function strrevStr($str)&#123;</span><br><span class="line">	$str_arr = explode(&quot; &quot;, $str);</span><br><span class="line">	$reverse_arr = array_reverse($str_arr);</span><br><span class="line">	return implode(&quot; &quot;, $reverse_arr);</span><br><span class="line">&#125;</span><br><span class="line">// $str = &quot;I am a student.&quot;;</span><br><span class="line">// echo strrevStr($str);</span><br></pre></td></tr></table></figure>
+<p>问题描述：翻转字符串，但是不能使用PHP内部函数，只能使用 strlen 。</p>
+<blockquote>
+<p><strong>解题思路：</strong><br>可使用循环解决。</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function myStrrev($str)</span><br><span class="line">&#123;</span><br><span class="line">	$len = strlen($str);</span><br><span class="line">	$new_str = &apos;&apos;;</span><br><span class="line">	$n = &apos;&apos;;</span><br><span class="line">	for($i=0; $i&lt;$len-1; $i++)&#123;</span><br><span class="line">		if($str[$i] != &apos; &apos;)&#123;</span><br><span class="line">			$n .= $str[$i];</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			$new_str = $n.&apos; &apos;.$new_str;</span><br><span class="line">			$n = &apos;&apos;;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	$new_str = $n.&apos; &apos;.$new_str;</span><br><span class="line">	return trim($new_str);</span><br><span class="line">&#125;</span><br><span class="line">$str = &quot;your name is benwu&quot;;</span><br><span class="line">echo myStrrev($str);</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -542,7 +548,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">131</span>
+                  <span class="site-state-item-count">135</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
