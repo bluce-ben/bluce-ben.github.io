@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Git提交三步走：（1）git add xxgit add xx命令可以将xx文件添加到暂存区，如果有很多改动可以通过 git add -A .来一次添加所有改变的文件。注意 -A 选项后面还有一个句点。 git add -A表示添加所有内容， git add . 表示添加新文件和编辑过的文件不包括删除的文件; git add -u 表示添加编辑或者删除的文件，不包括新添加的文件（2）git co">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 详解之常用命令汇总（四）">
+<meta property="og:url" content="http://yoursite.com/2018/03/14/Git-╧ъ╜т╓о│г╙├├№┴ю╗у╫▄ги╦─гй/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Git提交三步走：（1）git add xxgit add xx命令可以将xx文件添加到暂存区，如果有很多改动可以通过 git add -A .来一次添加所有改变的文件。注意 -A 选项后面还有一个句点。 git add -A表示添加所有内容， git add . 表示添加新文件和编辑过的文件不包括删除的文件; git add -u 表示添加编辑或者删除的文件，不包括新添加的文件（2）git co">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-11T04:56:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git 详解之常用命令汇总（四）">
+<meta name="twitter:description" content="Git提交三步走：（1）git add xxgit add xx命令可以将xx文件添加到暂存区，如果有很多改动可以通过 git add -A .来一次添加所有改变的文件。注意 -A 选项后面还有一个句点。 git add -A表示添加所有内容， git add . 表示添加新文件和编辑过的文件不包括删除的文件; git add -u 表示添加编辑或者删除的文件，不包括新添加的文件（2）git co">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/14/Git-╧ъ╜т╓о│г╙├├№┴ю╗у╫▄ги╦─гй/"/>
+
+
+
+
+
+  <title>Git 详解之常用命令汇总（四） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/14/Git-╧ъ╜т╓о│г╙├├№┴ю╗у╫▄ги╦─гй/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Git 详解之常用命令汇总（四）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-14T17:48:01+08:00">
+                2018-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/" itemprop="url" rel="index">
+                    <span itemprop="name">版本控制</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/14/Git-╧ъ╜т╓о│г╙├├№┴ю╗у╫▄ги╦─гй/" class="leancloud_visitors" data-flag-title="Git 详解之常用命令汇总（四）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Git提交三步走："><a href="#Git提交三步走：" class="headerlink" title="Git提交三步走："></a>Git提交三步走：</h4><p>（1）git add xx<br>git add xx命令可以将xx文件添加到暂存区，如果有很多改动可以通过 git add -A .来一次添加所有改变的文件。<br>注意 -A 选项后面还有一个句点。 git add -A表示添加所有内容， git add . 表示添加新文件和编辑过的文件不包括删除的文件; git add -u 表示添加编辑或者删除的文件，不包括新添加的文件<br>（2）git commit -m “注释”<br>（3）git push origin 分支名称，一般使用：git push origin master</p>
+<p>正常来说，这三步基本满足需求了。<br><a id="more"></a></p>
+<h4 id="下面进行命令的详细介绍"><a href="#下面进行命令的详细介绍" class="headerlink" title="下面进行命令的详细介绍"></a>下面进行命令的详细介绍</h4><p><code>git checkout</code>  查看当前分支</p>
+<p><code>git branch name</code>  新建分支name<br><code>git checkout name</code>  切换当前分支为name</p>
+<p><font color="red">合并语句：</font><code>git checkout -b name</code>  新建分支并切换到分支name</p>
+<p><code>git add filename</code>  增加文件到分支<br><code>git commit -m &quot;remark&quot;</code>  提交修改内容到分支并添加注释</p>
+<p><font color="red">合并语句：</font><code>git commit -m &quot;remark&quot; filename</code></p>
+<p><code>git diff filename</code>  查看文件修改了什么内容</p>
+<p><code>git status</code>  查看当前工作区状态</p>
+<p><code>git checkout master</code><br><code>git merge name</code>  合并分支到master分支</p>
+<p><code>git branch -d name</code>  删除name分支</p>
+<p><code>git log --graph --pretty=oneline --abbrev-commit</code>  用git log查看分支历史</p>
+<h4 id="特殊需求详解："><a href="#特殊需求详解：" class="headerlink" title="特殊需求详解："></a>特殊需求详解：</h4><h5 id="1、合并文件："><a href="#1、合并文件：" class="headerlink" title="1、合并文件："></a>1、合并文件：</h5><p><code>git merge name</code> 这种合并 Git会优先选择 Fast forward模式，这种模式下，删除分支后，会丢掉分支信息<br>如果要强制禁用Fast forward模式，Git就会在merge时生成一个新的commit，这样从分支历史上就可以看出来分支信息。<br><code>git merge --no-ff -m &quot;merge with no-ff&quot; dev</code>  合并分支dev并禁用Fast forward模式 </p>
+<h5 id="2、冲突解决："><a href="#2、冲突解决：" class="headerlink" title="2、冲突解决："></a>2、冲突解决：</h5><p>① 手动修改冲突文件并再次提交<br>打开产生冲突的文件后，Git用&lt;&lt;&lt;&lt;&lt;&lt;&lt;，=======，>>>>>>>标记出不同分支的内容，其中<code>&lt;&lt;&lt;HEAD</code>是指主分支修改的内容，<code>&gt;&gt;&gt;&gt;&gt;fenzhi1</code> 是指fenzhi1上修改的内容，我们可以修改后保存即解决冲突。</p>
+<h5 id="3、版本回退："><a href="#3、版本回退：" class="headerlink" title="3、版本回退："></a>3、版本回退：</h5><p>（1）使用<code>HEAD^</code>回退版本，<code>HEAD^</code>回退上个版本，<code>HEAD^^</code>回退上上个版本，以此类推。如果回退前100个版本的话，使用<code>HEAD~100</code>即可。<br><code>git reset --hard HEAD^</code><br><code>git reset --hard HEAD~100</code></p>
+<p>（2）使用commit_id回退版本<br><code>git log</code> 查看需要回退的 commit_id<br><code>git reflog</code> 查看未来版本的 commit_id<br><code>git reset --hard commit_id</code><br>（注：这个回退可以回到以前版本，也可回到未来版本，只要知道commit_id即可）</p>
+<h5 id="4、撤销修改："><a href="#4、撤销修改：" class="headerlink" title="4、撤销修改："></a>4、撤销修改：</h5><p>在工作区：（就是开发环境本地）<br><code>git checkout -- file</code>  可以丢弃工作区的修改。<strong>（注：如果没有 -- 的话，那么命令就变成创建分支了。）</strong></p>
+<p>在暂存区：（已经 git add了）<br><code>git reset HEAD file</code>  可以把暂存区的修改撤销掉，重新放回到工作区</p>
+<p>在本地版本中：（已经提交到分支）<br>只能版本回退了</p>
+<h5 id="5、删除文件："><a href="#5、删除文件：" class="headerlink" title="5、删除文件："></a>5、删除文件：</h5><p>工作区删除：<br><code>rm file</code><br>工作区删除后文件恢复：<br><code>git checkout -- file</code><br>版本库删除：<br><code>git rm file</code><br><code>git commit -m &#39;remark&#39;</code><br>（注：删除后必须得提交更新版本库）</p>
+<h5 id="6、BUG分支"><a href="#6、BUG分支" class="headerlink" title="6、BUG分支"></a>6、BUG分支</h5><p><code>git stash</code>  把当前工作现场“储藏”起来，等以后恢复现场后继续工作<br><code>git stash list</code>  查看工作现场存储到什么地方<br><code>git stash apply</code>  恢复，但stash内容并不删除<br><code>git stash pop</code>  恢复，但同时把stash内容也删除</p>
+<h5 id="7、多人协作"><a href="#7、多人协作" class="headerlink" title="7、多人协作"></a>7、多人协作</h5><p><code>git remote</code>  查看远程库的信息 -v 更详细信息<br>推送分支： 就是把该分支上的所有本地提交推送到远程库。<br><code>git push origin master</code><br>抓取分支：把线上最新的提交抓下来<br><code>git pull</code></p>
+<h4 id="工作模式通常是这样："><a href="#工作模式通常是这样：" class="headerlink" title="工作模式通常是这样："></a>工作模式通常是这样：</h4><p>1、首先，可以试图用git push origin branch-name推送自己的修改；<br>2、如果推送失败，则因为远程分支比你的本地更新，需要先用git pull试图合并；<br>3、如果合并有冲突，则解决冲突，并在本地提交；<br>4、没有冲突或者解决掉冲突后，再用git push origin branch-name推送就能成功！<br>如果<code>git pull</code>提示“no tracking information”，则说明本地分支和远程分支的链接关系没有创建，用命令<code>git branch --set-upstream branch-name origin/branch-name</code>。<br>这就是多人协作的工作模式，一旦熟悉了，就非常简单。</p>
+<h5 id="Git工作命令汇总（外派百度）："><a href="#Git工作命令汇总（外派百度）：" class="headerlink" title="Git工作命令汇总（外派百度）："></a>Git工作命令汇总（外派百度）：</h5><p>1) iCode 上新建分支，并拉取iCode分支到本地<br>   <code>git checkout -b branch_name origin/branch_name</code><br>（注：iCode新建分支后，一定要git pull 更新本地分支，才能把新建分支更新到本地）</p>
+<p>2）本地开发完成，合并到分支<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add filename</span><br><span class="line">git commit -m &quot;remark&quot;</span><br><span class="line">git push origin HEAD:refs/for/branch_name</span><br></pre></td></tr></table></figure></p>
+<p>3）特殊操作：<br>① 撤销修改：<br>在工作区：<br><code>git checkout -- file  可以丢弃工作区的修改</code><br>在暂存区：（已经 git add了）<br><code>git reset HEAD file  可以把暂存区的修改撤销掉，重新放回到工作区</code><br>在本地版本中：<br>只能版本回退了<br>② 版本回退：<br><code>git log 查看需要回退的 commit_id</code><br><code>git reflog 查看未来版本的 commit_id</code><br><code>git reset --hard commit_id</code><br><em>（注：这个回退可以回到以前版本，也可回到未来版本，只要知道commit_id即可）</em><br>③ 冲突解决：<br>① 手动修改冲突文件并再次提交 </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/14/Git-╧ъ╜т╓о┐═╗з╢╦░▓╫░ги╚¤гй/" rel="next" title="Git 详解之客户端安装（三）">
+                <i class="fa fa-chevron-left"></i> Git 详解之客户端安装（三）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/15/┤·┬ы░ц▒╛╣▄└э╧╡═│/" rel="prev" title="代码版本管理系统">
+                代码版本管理系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Git提交三步走："><span class="nav-number">1.</span> <span class="nav-text"><a href="#Git&#x63D0;&#x4EA4;&#x4E09;&#x6B65;&#x8D70;&#xFF1A;" class="headerlink" title="Git&#x63D0;&#x4EA4;&#x4E09;&#x6B65;&#x8D70;&#xFF1A;"></a>Git&#x63D0;&#x4EA4;&#x4E09;&#x6B65;&#x8D70;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下面进行命令的详细介绍"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E0B;&#x9762;&#x8FDB;&#x884C;&#x547D;&#x4EE4;&#x7684;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;" class="headerlink" title="&#x4E0B;&#x9762;&#x8FDB;&#x884C;&#x547D;&#x4EE4;&#x7684;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;"></a>&#x4E0B;&#x9762;&#x8FDB;&#x884C;&#x547D;&#x4EE4;&#x7684;&#x8BE6;&#x7EC6;&#x4ECB;&#x7ECD;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#特殊需求详解："><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x7279;&#x6B8A;&#x9700;&#x6C42;&#x8BE6;&#x89E3;&#xFF1A;" class="headerlink" title="&#x7279;&#x6B8A;&#x9700;&#x6C42;&#x8BE6;&#x89E3;&#xFF1A;"></a>&#x7279;&#x6B8A;&#x9700;&#x6C42;&#x8BE6;&#x89E3;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、合并文件："><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x5408;&#x5E76;&#x6587;&#x4EF6;&#xFF1A;" class="headerlink" title="1&#x3001;&#x5408;&#x5E76;&#x6587;&#x4EF6;&#xFF1A;"></a>1&#x3001;&#x5408;&#x5E76;&#x6587;&#x4EF6;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、冲突解决："><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x51B2;&#x7A81;&#x89E3;&#x51B3;&#xFF1A;" class="headerlink" title="2&#x3001;&#x51B2;&#x7A81;&#x89E3;&#x51B3;&#xFF1A;"></a>2&#x3001;&#x51B2;&#x7A81;&#x89E3;&#x51B3;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、版本回退："><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x7248;&#x672C;&#x56DE;&#x9000;&#xFF1A;" class="headerlink" title="3&#x3001;&#x7248;&#x672C;&#x56DE;&#x9000;&#xFF1A;"></a>3&#x3001;&#x7248;&#x672C;&#x56DE;&#x9000;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、撤销修改："><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x64A4;&#x9500;&#x4FEE;&#x6539;&#xFF1A;" class="headerlink" title="4&#x3001;&#x64A4;&#x9500;&#x4FEE;&#x6539;&#xFF1A;"></a>4&#x3001;&#x64A4;&#x9500;&#x4FEE;&#x6539;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、删除文件："><span class="nav-number">3.5.</span> <span class="nav-text"><a href="#5&#x3001;&#x5220;&#x9664;&#x6587;&#x4EF6;&#xFF1A;" class="headerlink" title="5&#x3001;&#x5220;&#x9664;&#x6587;&#x4EF6;&#xFF1A;"></a>5&#x3001;&#x5220;&#x9664;&#x6587;&#x4EF6;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、BUG分支"><span class="nav-number">3.6.</span> <span class="nav-text"><a href="#6&#x3001;BUG&#x5206;&#x652F;" class="headerlink" title="6&#x3001;BUG&#x5206;&#x652F;"></a>6&#x3001;BUG&#x5206;&#x652F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7、多人协作"><span class="nav-number">3.7.</span> <span class="nav-text"><a href="#7&#x3001;&#x591A;&#x4EBA;&#x534F;&#x4F5C;" class="headerlink" title="7&#x3001;&#x591A;&#x4EBA;&#x534F;&#x4F5C;"></a>7&#x3001;&#x591A;&#x4EBA;&#x534F;&#x4F5C;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作模式通常是这样："><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5DE5;&#x4F5C;&#x6A21;&#x5F0F;&#x901A;&#x5E38;&#x662F;&#x8FD9;&#x6837;&#xFF1A;" class="headerlink" title="&#x5DE5;&#x4F5C;&#x6A21;&#x5F0F;&#x901A;&#x5E38;&#x662F;&#x8FD9;&#x6837;&#xFF1A;"></a>&#x5DE5;&#x4F5C;&#x6A21;&#x5F0F;&#x901A;&#x5E38;&#x662F;&#x8FD9;&#x6837;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Git工作命令汇总（外派百度）："><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#Git&#x5DE5;&#x4F5C;&#x547D;&#x4EE4;&#x6C47;&#x603B;&#xFF08;&#x5916;&#x6D3E;&#x767E;&#x5EA6;&#xFF09;&#xFF1A;" class="headerlink" title="Git&#x5DE5;&#x4F5C;&#x547D;&#x4EE4;&#x6C47;&#x603B;&#xFF08;&#x5916;&#x6D3E;&#x767E;&#x5EA6;&#xFF09;&#xFF1A;"></a>Git&#x5DE5;&#x4F5C;&#x547D;&#x4EE4;&#x6C47;&#x603B;&#xFF08;&#x5916;&#x6D3E;&#x767E;&#x5EA6;&#xFF09;&#xFF1A;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

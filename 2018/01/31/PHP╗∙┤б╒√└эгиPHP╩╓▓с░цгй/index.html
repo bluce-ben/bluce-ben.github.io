@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PHP,PHP知识点," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="PHP概述：PHP（“PHP: Hypertext Preprocessor”，超文本预处理器的字母缩写）是一种被广泛应用的开放源代码的多用途脚本语言，它可嵌入到 HTML中，尤其适合 web 开发。PHP常用于服务端脚本和命令行脚本。服务端脚本。是 PHP 最传统，也是最主要的目标领域。开展这项工作需要具备以下三点：PHP 解析器（CGI 或者服务器模块）、web 服务器和 web 浏览器。需要">
+<meta name="keywords" content="PHP,PHP知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP基础整理（PHP手册版）">
+<meta property="og:url" content="http://yoursite.com/2018/01/31/PHP╗∙┤б╒√└эгиPHP╩╓▓с░цгй/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="PHP概述：PHP（“PHP: Hypertext Preprocessor”，超文本预处理器的字母缩写）是一种被广泛应用的开放源代码的多用途脚本语言，它可嵌入到 HTML中，尤其适合 web 开发。PHP常用于服务端脚本和命令行脚本。服务端脚本。是 PHP 最传统，也是最主要的目标领域。开展这项工作需要具备以下三点：PHP 解析器（CGI 或者服务器模块）、web 服务器和 web 浏览器。需要">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-01T03:40:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP基础整理（PHP手册版）">
+<meta name="twitter:description" content="PHP概述：PHP（“PHP: Hypertext Preprocessor”，超文本预处理器的字母缩写）是一种被广泛应用的开放源代码的多用途脚本语言，它可嵌入到 HTML中，尤其适合 web 开发。PHP常用于服务端脚本和命令行脚本。服务端脚本。是 PHP 最传统，也是最主要的目标领域。开展这项工作需要具备以下三点：PHP 解析器（CGI 或者服务器模块）、web 服务器和 web 浏览器。需要">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/31/PHP╗∙┤б╒√└эгиPHP╩╓▓с░цгй/"/>
+
+
+
+
+
+  <title>PHP基础整理（PHP手册版） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/PHP╗∙┤б╒√└эгиPHP╩╓▓с░цгй/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">PHP基础整理（PHP手册版）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T17:45:30+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/31/PHP╗∙┤б╒√└эгиPHP╩╓▓с░цгй/" class="leancloud_visitors" data-flag-title="PHP基础整理（PHP手册版）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="PHP概述："><a href="#PHP概述：" class="headerlink" title="PHP概述："></a>PHP概述：</h4><p>PHP（“PHP: Hypertext Preprocessor”，超文本预处理器的字母缩写）是一种被广泛应用的开放源代码的多用途脚本语言，它可嵌入到 HTML中，尤其适合 web 开发。<br>PHP常用于服务端脚本和命令行脚本。<br>服务端脚本。是 PHP 最传统，也是最主要的目标领域。开展这项工作需要具备以下三点：PHP 解析器（CGI 或者服务器模块）、web 服务器和 web 浏览器。需要在运行 web 服务器时，安装并配置 PHP，然后，可以用 web 浏览器来访问 PHP 程序的输出，即浏览服务端的 PHP 页面。一般做 web 开发和 api 开发。<br>命令行脚本。可以编写一段 PHP 脚本，并且不需要任何服务器或者浏览器来运行它。通过这种方式，仅仅只需要 PHP 解析器来执行。这种用法对于依赖 cron（Unix 或者 Linux 环境）或者 Task Scheduler（Windows 环境）的日常运行的脚本来说是理想的选择。这些脚本也可以用来处理简单的文本。<br><a id="more"></a></p>
+<h4 id="基础语法："><a href="#基础语法：" class="headerlink" title="基础语法："></a>基础语法：</h4><h5 id="1、PHP标记："><a href="#1、PHP标记：" class="headerlink" title="1、PHP标记："></a>1、PHP标记：</h5><p>普通：&lt;?php ?&gt;<br>短标记：&lt;? ?&gt; 通过 php.ini 配置中的 short_open_tag 开启即可。</p>
+<h5 id="2、注释"><a href="#2、注释" class="headerlink" title="2、注释"></a>2、注释</h5><p>单行：//<br>多行：/<em>  </em>/</p>
+<h5 id="3、变量"><a href="#3、变量" class="headerlink" title="3、变量"></a>3、变量</h5><h6 id="（1）基础"><a href="#（1）基础" class="headerlink" title="（1）基础"></a>（1）基础</h6><p>PHP 中的变量用一个美元符号后面跟变量名来表示。变量名是区分大小写的。<br>变量名与 PHP 中其它的标签一样遵循相同的规则。一个有效的变量名由字母或者下划线开头，后面跟上任意数量的字母，数字，或者下划线。</p>
+<p>变量默认总是传值赋值。那也就是说，当将一个表达式的值赋予一个变量时，整个原始表达式的值被赋值到目标变量。这意味着，例如，当一个变量的值赋予另外一个变量时，改变其中一个变量的值，将不会影响到另外一个变量。<br>PHP 也提供了另外一种方式给变量赋值：引用赋值。这意味着新的变量简单的引用（换言之，”成为其别名” 或者 “指向”）了原始变量。改动新的变量将影响到原始变量，反之亦然。<br>使用引用赋值，简单地将一个 &amp; 符号加到将要赋值的变量前（源变量）。</p>
+<p>虽然在 PHP 中并不需要初始化变量，但对变量进行初始化是个好习惯。未初始化的变量具有其类型的默认值 - 布尔类型的变量默认值是 FALSE，整形和浮点型变量默认值是零，字符串型变量（例如用于 echo 中）默认值是空字符串以及数组变量的默认值是空数组。 </p>
+<h6 id="（2）变量范围："><a href="#（2）变量范围：" class="headerlink" title="（2）变量范围："></a>（2）变量范围：</h6><p>变量的范围即它定义的上下文背景（也就是它的生效范围）。大部分的 PHP 变量只有一个单独的范围。这个单独的范围跨度同样包含了 include 和 require 引入的文件。</p>
+<p>局部变量：局部函数内部的变量将被限制在局部函数范围内。<br>全局变量：PHP 中全局变量在函数中使用时必须声明为 global。<br>超全局变量：PHP自定义特殊的数组。$GLOBALS、$_POST、$_GET、$_REQUEST、$_COOKIE。<br>静态变量：静态变量仅在局部函数域中存在，但当程序执行离开此作用域时，其值并不丢失。</p>
+<h6 id="（3）可变变量："><a href="#（3）可变变量：" class="headerlink" title="（3）可变变量："></a>（3）可变变量：</h6><p>有时候使用可变变量名是很方便的。就是说，一个变量的变量名可以动态的设置和使用。一个普通的变量通过声明来设置，例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$a = &apos;hello&apos;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p>一个可变变量获取了一个普通变量的值作为这个可变变量的变量名。在上面的例子中 hello 使用了两个美元符号（$）以后，就可以作为一个可变变量的变量了。例如： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$$a = &apos;world&apos;;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<p>这时，两个变量都被定义了：$a 的内容是”hello”并且 $hello 的内容是”world”。</p>
+<p>要将可变变量用于数组，必须解决一个模棱两可的问题。这就是当写下 $$a[1] 时，解析器需要知道是想要 $a[1] 作为一个变量呢，还是想要 $$a 作为一个变量并取出该变量中索引为 [1] 的值。解决此问题的语法是，对第一种情况用 ${$a[1]}，对第二种情况用 ${$a}[1]。<br>类的属性也可以通过可变属性名来访问。可变属性名将在该调用所处的范围内被解析。例如，对于 $foo-&gt;$bar 表达式，则会在本地范围来解析 $bar 并且其值将被用于 $foo 的属性名。对于 $bar 是数组单元时也是一样。<br>也可使用花括号来给属性名清晰定界。最有用是在属性位于数组中，或者属性名包含有多个部分或者属性名包含有非法字符时。<br><strong>（注意，在 PHP 的函数和类的方法中，超全局变量不能用作可变变量。$this 变量也是一个特殊变量，不能被动态引用。）</strong></p>
+<h5 id="5、常量"><a href="#5、常量" class="headerlink" title="5、常量"></a>5、常量</h5><p>常量是一个简单值的标识符（名字）。如同其名称所暗示的，在脚本执行期间该值不能改变（除了所谓的魔术常量，它们其实不是常量）。常量默认为大小写敏感。传统上常量标识符总是大写的。<br>常量名和其它任何 PHP 标签遵循同样的命名规则。合法的常量名以字母或下划线开始，后面跟着任何字母，数字或下划线。</p>
+<h6 id="（1）语法"><a href="#（1）语法" class="headerlink" title="（1）语法"></a>（1）语法</h6><p>可以用 define() 函数来定义常量，在 PHP 5.3.0 以后，可以使用 const 关键字在类定义之外定义常量。一个常量一旦被定义，就不能再改变或者取消定义。如果只想检查是否定义了某常量，用 defined() 函数。</p>
+<p>常量只能包含标量数据（boolean，integer，float 和 string）。可以定义 resource 常量，但应尽量避免，因为会造成不可预料的结果。 </p>
+<p>可以简单的通过指定其名字来取得常量的值，与变量不同，不应该在常量前面加上 $ 符号。如果常量名是动态的，也可以用函数 constant() 来获取常量的值。用 get_defined_constants() 可以获得所有已定义的常量列表。<br><strong>（注: 常量和（全局）变量在不同的名字空间中。这意味着例如 TRUE 和 $TRUE 是不同的。）</strong></p>
+<p>如果使用了一个未定义的常量，PHP 假定想要的是该常量本身的名字，如同用字符串调用它一样（CONSTANT 对应 “CONSTANT”）。此时将发出一个 E_NOTICE 级的错误。参见手册中为什么 $foo[bar] 是错误的（除非事先用 define() 将 bar 定义为一个常量）。 </p>
+<p><strong>常量和变量有如下不同： </strong></p>
+<ul>
+<li>常量前面没有美元符号（$）；  </li>
+<li>常量只能用 define() 函数定义，而不能通过赋值语句；  </li>
+<li>常量可以不用理会变量的作用域而在任何地方定义和访问；  </li>
+<li>常量一旦定义就不能被重新定义或者取消定义；  </li>
+<li>常量的值只能是标量。</li>
+</ul>
+<p><strong>define() 与 const 区别：</strong><br>和使用 define() 来定义常量相反的是，使用 const 关键字定义常量必须处于最顶端的作用区域，因为用此方法是在编译时定义的。这就意味着不能在函数内，循环内以及 if 语句之内用 const 来定义常量。</p>
+<h6 id="（2）魔术常量"><a href="#（2）魔术常量" class="headerlink" title="（2）魔术常量"></a>（2）魔术常量</h6><p>PHP 向它运行的任何脚本提供了大量的预定义常量。不过很多常量都是由不同的扩展库定义的，只有在加载了这些扩展库时才会出现，或者动态加载后，或者在编译时已经包括进去了。<br>有八个魔术常量它们的值随着它们在代码中的位置改变而改变。例如 <strong>LINE</strong> 的值就依赖于它在脚本中所处的行来决定。这些特殊的常量不区分大小写，如下： </p>
+<p>几个 PHP 的”魔术常量”</p>
+<style type="text/css">
+    table th:first-of-type{
+        width: 100px;
+    }
+</style>
+
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LINE</strong></td>
+<td>文件中的当前行号。  </td>
+</tr>
+<tr>
+<td><strong>FILE</strong></td>
+<td>文件的完整路径和文件名。如果用在被包含文件中，则返回被包含的文件名。自 PHP 4.0.2 起，<strong>FILE</strong> 总是包含一个绝对路径（如果是符号连接，则是解析后的绝对路径），而在此之前的版本有时会包含一个相对路径。  </td>
+</tr>
+<tr>
+<td><strong>DIR</strong></td>
+<td>文件所在的目录。如果用在被包括文件中，则返回被包括的文件所在的目录。它等价于 dirname(<strong>FILE</strong>)。除非是根目录，否则目录中名不包括末尾的斜杠。（PHP 5.3.0中新增） =  </td>
+</tr>
+<tr>
+<td><strong>FUNCTION</strong></td>
+<td>函数名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该函数被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。  </td>
+</tr>
+<tr>
+<td><strong>CLASS</strong></td>
+<td>类的名称（PHP 4.3.0 新加）。自 PHP 5 起本常量返回该类被定义时的名字（区分大小写）。在 PHP 4 中该值总是小写字母的。类名包括其被声明的作用区域（例如 Foo\Bar）。注意自 PHP 5.4 起 <strong>CLASS</strong> 对 trait 也起作用。当用在 trait 方法中时，<strong>CLASS</strong> 是调用 trait 方法的类的名字。  </td>
+</tr>
+<tr>
+<td><strong>TRAIT</strong></td>
+<td>Trait 的名字（PHP 5.4.0 新加）。自 PHP 5.4 起此常量返回 trait 被定义时的名字（区分大小写）。Trait 名包括其被声明的作用区域（例如 Foo\Bar）。  </td>
+</tr>
+<tr>
+<td><strong>METHOD</strong></td>
+<td>类的方法名（PHP 5.0.0 新加）。返回该方法被定义时的名字（区分大小写）。  </td>
+</tr>
+<tr>
+<td><strong>NAMESPACE</strong></td>
+<td>当前命名空间的名称（区分大小写）。此常量是在编译时定义的（PHP 5.3.0 新增）。 </td>
+</tr>
+</tbody>
+</table>
+<h5 id="6、运算符"><a href="#6、运算符" class="headerlink" title="6、运算符"></a>6、运算符</h5><p>运算符优先级</p>
+<table>
+<thead>
+<tr>
+<th>结合方向</th>
+<th>运算符</th>
+<th>附加信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无</td>
+<td>clone new</td>
+<td>clone 和 new </td>
+</tr>
+<tr>
+<td>左</td>
+<td>[</td>
+<td>array() </td>
+</tr>
+<tr>
+<td>右</td>
+<td>**</td>
+<td>算术运算符 </td>
+</tr>
+<tr>
+<td>右</td>
+<td>++ – ~ (int) (float) (string) (array) (object) (bool) @</td>
+<td>类型和递增／递减  </td>
+</tr>
+<tr>
+<td>无</td>
+<td>instanceof</td>
+<td>类型  </td>
+</tr>
+<tr>
+<td>右</td>
+<td>!</td>
+<td>逻辑运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>* / %</td>
+<td>算术运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>+ - .</td>
+<td>算术运算符和字符串运算符 </td>
+</tr>
+<tr>
+<td>左</td>
+<td>&lt;&lt; &gt;&gt;</td>
+<td>位运算符  </td>
+</tr>
+<tr>
+<td>无</td>
+<td>&lt; &lt;= &gt; &gt;=</td>
+<td>比较运算符  </td>
+</tr>
+<tr>
+<td>无</td>
+<td>== != === !== &lt;&gt; &lt;=&gt;</td>
+<td>比较运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>&amp;</td>
+<td>位运算符和引用 </td>
+</tr>
+<tr>
+<td>左</td>
+<td>^</td>
+<td>位运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>&#124;</td>
+<td>位运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>&amp;&amp;</td>
+<td>逻辑运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>&#124;&#124;</td>
+<td>逻辑运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>??</td>
+<td>比较运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>? :</td>
+<td>ternary  </td>
+</tr>
+<tr>
+<td>右</td>
+<td>= += -= <em>= *</em>= /= .= %= &amp;= &#124;= ^= &lt;&lt;= &gt;&gt;=</td>
+<td>赋值运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>and</td>
+<td>逻辑运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>xor</td>
+<td>逻辑运算符  </td>
+</tr>
+<tr>
+<td>左</td>
+<td>or</td>
+<td>逻辑运算符  </td>
+</tr>
+</tbody>
+</table>
+<h5 id="7、流程控制"><a href="#7、流程控制" class="headerlink" title="7、流程控制"></a>7、流程控制</h5><h6 id="（1）条件判断"><a href="#（1）条件判断" class="headerlink" title="（1）条件判断"></a>（1）条件判断</h6><p><strong>if语句：</strong><br>单分支if语句：if(){}else{}<br>多分支if语句：if(){}elseif(){}else{}<br>分支嵌套语句：if(){if(){}}else{}</p>
+<p><strong>switch语句：</strong><br>switch(expr){<br>    case 0:<br>        statement<br>        break;<br>    case 1:<br>        statement<br>        break;<br>    default:<br>        statement<br>        break;<br>}</p>
+<h6 id="（2）循环判断"><a href="#（2）循环判断" class="headerlink" title="（2）循环判断"></a>（2）循环判断</h6><p><strong>for循环：</strong><br>for(expr1; expr2; expr3){</p>
+<p>}</p>
+<p><strong>foreach循环：</strong><br>仅能够应用于数组和对象，如果尝试应用于其他数据类型的变量，或者未初始化的变量将发出错误信息。<br>foreach(array_expression as $value){<br>    statement<br>}<br>foreach(array_expression as $key=&gt;$value){<br>    statement<br>}</p>
+<p><strong>while循环：</strong><br>while(){</p>
+<p>}</p>
+<p><strong>do-while循环：</strong><br>do{</p>
+<p>}while();</p>
+<h6 id="（3）中止语句"><a href="#（3）中止语句" class="headerlink" title="（3）中止语句"></a>（3）中止语句</h6><p>跳出循环语句：break;<br>跳出本次循环，执行下一个循环：continue;<br>结束函数的执行并将它的值返回：return;</p>
+<h6 id="（4）加载语句"><a href="#（4）加载语句" class="headerlink" title="（4）加载语句"></a>（4）加载语句</h6><p>require 和 include 几乎完全一样，除了处理失败的方式不同之外。require 在出错时产生 E_COMPILE_ERROR 级别的错误。换句话说将导致脚本中止而 include 只产生警告（E_WARNING），脚本会继续运行。<br>require：<br>include：<br>唯一区别是 PHP 会检查该文件是否已经被包含过，如果是则不会再次包含。<br>require_once：<br>include_once：</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/PHP知识点/" rel="tag"># PHP知识点</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/25/Linux-VPSбвLinux╧╡═│╖└╓╣DDOS╣е╗ў╜┼▒╛-╫к/" rel="next" title="Linux VPS、Linux系统防止DDOS攻击脚本[转]">
+                <i class="fa fa-chevron-left"></i> Linux VPS、Linux系统防止DDOS攻击脚本[转]
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/31/PHP╩¤╛▌└р╨═╧ъ╜тгиPHP╩╓▓с░цгй/" rel="prev" title="PHP数据类型详解（PHP手册版）">
+                PHP数据类型详解（PHP手册版） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#PHP概述："><span class="nav-number">1.</span> <span class="nav-text"><a href="#PHP&#x6982;&#x8FF0;&#xFF1A;" class="headerlink" title="PHP&#x6982;&#x8FF0;&#xFF1A;"></a>PHP&#x6982;&#x8FF0;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基础语法："><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x57FA;&#x7840;&#x8BED;&#x6CD5;&#xFF1A;" class="headerlink" title="&#x57FA;&#x7840;&#x8BED;&#x6CD5;&#xFF1A;"></a>&#x57FA;&#x7840;&#x8BED;&#x6CD5;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、PHP标记："><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;PHP&#x6807;&#x8BB0;&#xFF1A;" class="headerlink" title="1&#x3001;PHP&#x6807;&#x8BB0;&#xFF1A;"></a>1&#x3001;PHP&#x6807;&#x8BB0;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、注释"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x6CE8;&#x91CA;" class="headerlink" title="2&#x3001;&#x6CE8;&#x91CA;"></a>2&#x3001;&#x6CE8;&#x91CA;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、变量"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x53D8;&#x91CF;" class="headerlink" title="3&#x3001;&#x53D8;&#x91CF;"></a>3&#x3001;&#x53D8;&#x91CF;</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#（1）基础"><span class="nav-number">2.3.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x57FA;&#x7840;" class="headerlink" title="&#xFF08;1&#xFF09;&#x57FA;&#x7840;"></a>&#xFF08;1&#xFF09;&#x57FA;&#x7840;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#（2）变量范围："><span class="nav-number">2.3.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x53D8;&#x91CF;&#x8303;&#x56F4;&#xFF1A;" class="headerlink" title="&#xFF08;2&#xFF09;&#x53D8;&#x91CF;&#x8303;&#x56F4;&#xFF1A;"></a>&#xFF08;2&#xFF09;&#x53D8;&#x91CF;&#x8303;&#x56F4;&#xFF1A;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#（3）可变变量："><span class="nav-number">2.3.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x53EF;&#x53D8;&#x53D8;&#x91CF;&#xFF1A;" class="headerlink" title="&#xFF08;3&#xFF09;&#x53EF;&#x53D8;&#x53D8;&#x91CF;&#xFF1A;"></a>&#xFF08;3&#xFF09;&#x53EF;&#x53D8;&#x53D8;&#x91CF;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、常量"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#5&#x3001;&#x5E38;&#x91CF;" class="headerlink" title="5&#x3001;&#x5E38;&#x91CF;"></a>5&#x3001;&#x5E38;&#x91CF;</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#（1）语法"><span class="nav-number">2.4.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x8BED;&#x6CD5;" class="headerlink" title="&#xFF08;1&#xFF09;&#x8BED;&#x6CD5;"></a>&#xFF08;1&#xFF09;&#x8BED;&#x6CD5;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#（2）魔术常量"><span class="nav-number">2.4.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x9B54;&#x672F;&#x5E38;&#x91CF;" class="headerlink" title="&#xFF08;2&#xFF09;&#x9B54;&#x672F;&#x5E38;&#x91CF;"></a>&#xFF08;2&#xFF09;&#x9B54;&#x672F;&#x5E38;&#x91CF;</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、运算符"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#6&#x3001;&#x8FD0;&#x7B97;&#x7B26;" class="headerlink" title="6&#x3001;&#x8FD0;&#x7B97;&#x7B26;"></a>6&#x3001;&#x8FD0;&#x7B97;&#x7B26;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7、流程控制"><span class="nav-number">2.6.</span> <span class="nav-text"><a href="#7&#x3001;&#x6D41;&#x7A0B;&#x63A7;&#x5236;" class="headerlink" title="7&#x3001;&#x6D41;&#x7A0B;&#x63A7;&#x5236;"></a>7&#x3001;&#x6D41;&#x7A0B;&#x63A7;&#x5236;</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#（1）条件判断"><span class="nav-number">2.6.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x6761;&#x4EF6;&#x5224;&#x65AD;" class="headerlink" title="&#xFF08;1&#xFF09;&#x6761;&#x4EF6;&#x5224;&#x65AD;"></a>&#xFF08;1&#xFF09;&#x6761;&#x4EF6;&#x5224;&#x65AD;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#（2）循环判断"><span class="nav-number">2.6.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5FAA;&#x73AF;&#x5224;&#x65AD;" class="headerlink" title="&#xFF08;2&#xFF09;&#x5FAA;&#x73AF;&#x5224;&#x65AD;"></a>&#xFF08;2&#xFF09;&#x5FAA;&#x73AF;&#x5224;&#x65AD;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#（3）中止语句"><span class="nav-number">2.6.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x4E2D;&#x6B62;&#x8BED;&#x53E5;" class="headerlink" title="&#xFF08;3&#xFF09;&#x4E2D;&#x6B62;&#x8BED;&#x53E5;"></a>&#xFF08;3&#xFF09;&#x4E2D;&#x6B62;&#x8BED;&#x53E5;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#（4）加载语句"><span class="nav-number">2.6.4.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;&#x52A0;&#x8F7D;&#x8BED;&#x53E5;" class="headerlink" title="&#xFF08;4&#xFF09;&#x52A0;&#x8F7D;&#x8BED;&#x53E5;"></a>&#xFF08;4&#xFF09;&#x52A0;&#x8F7D;&#x8BED;&#x53E5;</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

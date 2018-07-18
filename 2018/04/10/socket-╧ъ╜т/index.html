@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、网络中进程之间是如何通信？本地的进程间通信（IPC）有很多种方式，但可以总结为下面4类：  消息传递（管道、FIFO、消息队列） 同步（互斥量、条件变量、读写锁、文件和写记录锁、信号量） 共享内存（匿名的和具名的） 远程过程调用（Solaris门和Sun RPC）  在本地我们通过进程 PID 来唯一标识一个进程，但是在网络中是行不通的。而 TCP/IP 协议簇帮我们解决了这个问题，网络层的“">
+<meta name="keywords" content="计算机网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket 详解">
+<meta property="og:url" content="http://yoursite.com/2018/04/10/socket-╧ъ╜т/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、网络中进程之间是如何通信？本地的进程间通信（IPC）有很多种方式，但可以总结为下面4类：  消息传递（管道、FIFO、消息队列） 同步（互斥量、条件变量、读写锁、文件和写记录锁、信号量） 共享内存（匿名的和具名的） 远程过程调用（Solaris门和Sun RPC）  在本地我们通过进程 PID 来唯一标识一个进程，但是在网络中是行不通的。而 TCP/IP 协议簇帮我们解决了这个问题，网络层的“">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/04/linux_socket_04.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/04/linux_socket_03.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/04/linux_socket_05.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/04/linux_socket_02.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/04/linux_socket_01.png">
+<meta property="og:updated_time" content="2018-04-10T10:11:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="socket 详解">
+<meta name="twitter:description" content="1、网络中进程之间是如何通信？本地的进程间通信（IPC）有很多种方式，但可以总结为下面4类：  消息传递（管道、FIFO、消息队列） 同步（互斥量、条件变量、读写锁、文件和写记录锁、信号量） 共享内存（匿名的和具名的） 远程过程调用（Solaris门和Sun RPC）  在本地我们通过进程 PID 来唯一标识一个进程，但是在网络中是行不通的。而 TCP/IP 协议簇帮我们解决了这个问题，网络层的“">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/04/linux_socket_04.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/10/socket-╧ъ╜т/"/>
+
+
+
+
+
+  <title>socket 详解 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/10/socket-╧ъ╜т/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">socket 详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T16:13:54+08:00">
+                2018-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/10/socket-╧ъ╜т/" class="leancloud_visitors" data-flag-title="socket 详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、网络中进程之间是如何通信？"><a href="#1、网络中进程之间是如何通信？" class="headerlink" title="1、网络中进程之间是如何通信？"></a>1、网络中进程之间是如何通信？</h4><p>本地的进程间通信（IPC）有很多种方式，但可以总结为下面4类：</p>
+<ul>
+<li>消息传递（管道、FIFO、消息队列）</li>
+<li>同步（互斥量、条件变量、读写锁、文件和写记录锁、信号量）</li>
+<li>共享内存（匿名的和具名的）</li>
+<li>远程过程调用（Solaris门和Sun RPC）</li>
+</ul>
+<p>在本地我们通过进程 PID 来唯一标识一个进程，但是在网络中是行不通的。而 TCP/IP 协议簇帮我们解决了这个问题，<font color="red">网络层的“IP地址”</font>可以唯一标识网络中的主机，<font color="red">传输层的“协议+端口”</font>可以唯一标识主机中的应用程序（进程）。这样利用三元组（ip地址、协议、端口）就可以标识网络中的进程了，网络中的进程通信就可以利用这个标志与其它进程进行交互。</p>
+<a id="more"></a>
+<h4 id="2、什么是socket"><a href="#2、什么是socket" class="headerlink" title="2、什么是socket"></a>2、什么是socket</h4><p>那什么是socket呢？其实，Socket 就是编程接口（API），是对 TCP/IP 的封装，对外提供的接口。网络中进程间通信采用的就是 socket（套接字）。<br>看下图即可明白 socket：<br><img src="/uploads/2018/04/linux_socket_04.png" alt="" title="图1"><br><img src="/uploads/2018/04/linux_socket_03.png" alt="" title="图2"></p>
+<blockquote>
+<p>几种典型的应用编程接口：</p>
+<ul>
+<li>Berkeley UNIX 操作系统定义了一种 API，称为套接字接口（socket Interface），简称<font color="red">套接字（socket）</font>。</li>
+<li>微软公司在其操作系统中采用了套接字接口 API，形成了一个稍有不同的 API，并称为 Windows Socket Interface，<font color="red">WINSOCK</font>。</li>
+<li>AT&amp;T 为其 UNIX 系统 V 定义了一种 API，简写为 <font color="red">TLI</font>（Transport Layer Interface）(已经被淘汰了)。</li>
+</ul>
+</blockquote>
+<h4 id="3、套接字（socket）概念"><a href="#3、套接字（socket）概念" class="headerlink" title="3、套接字（socket）概念"></a>3、套接字（socket）概念</h4><p>套接字（socket）是通信的基石，是支持TCP/IP协议的网络通信的基本操作单元。它是网络通信过程中端点的抽象表示，包含进行网络通信必须的五种信息：连接使用的协议，本地主机的IP地址，本地进程的协议端口，远地主机的IP地址，远地进程的协议端口。</p>
+<p>应用层通过传输层进行数据通信时，TCP会遇到同时为多个应用程序进程提供并发服务的问题。多个TCP连接或多个应用程序进程可能需要通过同一个 TCP协议端口传输数据。为了区别不同的应用程序进程和连接，<strong>许多计算机操作系统为应用程序与TCP／IP协议交互提供了</strong><font color="red">套接字(Socket)接口</font>（由图2可看出来）。应用层可以和传输层通过Socket接口，区分来自不同应用程序进程或网络连接的通信，实现数据传输的并发服务。</p>
+<h4 id="4、socket原理"><a href="#4、socket原理" class="headerlink" title="4、socket原理"></a>4、socket原理</h4><p>要想明白 Socket，必须要理解TCP连接。</p>
+<blockquote>
+<p>建立TCP连接的“三次握手”：</p>
+<ul>
+<li><strong>第一次：</strong>客户端向服务器发送SYN包(syn=j)，同时自己处于SYN_SEND状态。</li>
+<li><strong>第二次：</strong>服务器端收到SYN包后，必须确认客户的SYN(syn=j+1)，同时也发送一个SYN包(syn=k)，即SYN+ACK包，此时服务器进入SYN_RECV状态。</li>
+<li><strong>第三次：</strong>客户端收到服务器发来的SYN+ACK包，就向服务器发送SYN(syn=k+1)，发送完毕后，服务器和客户端都进入ESTABLISHED状态。完成三次握手。</li>
+</ul>
+</blockquote>
+<p>握手过程中，并不传输数据。在握手后，服务器与客户端才开始传输数据，理想状态下，TCP连接一旦建立，在通讯双方中的任何一方主动断开连接之前，TCP连接会一直保持下去。断开连接时服务器和客户端均可以主动发起断开TCP连接的请求，断开过程需要经过“四次握手”。</p>
+<h5 id="（1）socket-连接"><a href="#（1）socket-连接" class="headerlink" title="（1）socket 连接"></a>（1）socket 连接</h5><p>Socket连接，至少需要一对套接字，分为 clientSocket，serverSocket。连接分为3个步骤：</p>
+<ul>
+<li><strong>服务器监听：</strong>服务器并不定位具体客户端的套接字，而是时刻处于监听状态。</li>
+<li><strong>客户端请求：</strong>客户端的套接字要描述它要连接的服务器的套接字。提供地址和端口号，然后向服务器套接字提出连接请求。</li>
+<li><strong>连接确认：</strong>当服务器套接字收到客户端套接字发来的请求后，就响应客户端套接字的请求，并建立一个新的线程，把服务器端的套接字的描述发给客户端，一旦客户端确认了此描述，就正式建立连接。而服务器套接字继续处于监听状态，继续接收其他客户端套接字的连接请求。</li>
+</ul>
+<p>创建Socket连接的时候，可以指定传输层协议。可以是TCP或者UDP，当用TCP连接，该Socket就是个TCP连接。</p>
+<h5 id="（2）socket-函数"><a href="#（2）socket-函数" class="headerlink" title="（2）socket 函数"></a>（2）socket 函数</h5><p>Socket接口对外提供的函数如下：</p>
+<style type="text/css">
+    table th:first-of-type{
+        width: 15%;
+    }
+</style>
+
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>socket</td>
+<td>创建套接字 </td>
+</tr>
+<tr>
+<td>connect</td>
+<td>“连接”远端服务器（仅用于客户端）</td>
+</tr>
+<tr>
+<td>closesocket</td>
+<td>释放/关闭套接字</td>
+</tr>
+<tr>
+<td>bind</td>
+<td>绑定套接字的本地IP地址和端口号（通常客户端不需要）</td>
+</tr>
+<tr>
+<td>listen</td>
+<td>配置服务端TCP套接字为监听模式，并设置队列大小（仅用于服务器端TCP套接字）</td>
+</tr>
+<tr>
+<td>accept</td>
+<td>接受/提取一个连接请求，创建新套接字，通过新套接（仅用于服务器端的TCP套接字）</td>
+</tr>
+<tr>
+<td>recv</td>
+<td>接收数据（用于TCP套接字或连接模式的客户端UDP套接字）</td>
+</tr>
+<tr>
+<td>recvfrom</td>
+<td>接收数据报（用于非连接模式的UDP套接字）</td>
+</tr>
+<tr>
+<td>send</td>
+<td>发送数据（用于TCP套接字或连接模式的客户端UDP套接字）</td>
+</tr>
+<tr>
+<td>sendto</td>
+<td>发送数据报（用于非连接模式的UDP套接字）</td>
+</tr>
+<tr>
+<td>setsockopt</td>
+<td>设置套接字选项参数</td>
+</tr>
+<tr>
+<td>getsockopt</td>
+<td>获取套接字选项参数</td>
+</tr>
+</tbody>
+</table>
+<h5 id="（3）socket-调用流程"><a href="#（3）socket-调用流程" class="headerlink" title="（3）socket 调用流程"></a>（3）socket 调用流程</h5><p><img src="/uploads/2018/04/linux_socket_05.png" alt=""></p>
+<h5 id="（4）socket-管理"><a href="#（4）socket-管理" class="headerlink" title="（4）socket 管理"></a>（4）socket 管理</h5><p>通过 Socket描述符表来进行管理，每个进程中有一个描述符表。当应用进程创建套接字时，操作系统分配一个数据结构存储该套接字相关信息。如下图所示：<br><img src="/uploads/2018/04/linux_socket_02.png" alt=""></p>
+<h5 id="（5）并发面向连接服务器基本流程"><a href="#（5）并发面向连接服务器基本流程" class="headerlink" title="（5）并发面向连接服务器基本流程"></a>（5）并发面向连接服务器基本流程</h5><p><img src="/uploads/2018/04/linux_socket_01.png" alt=""><br><strong>主线程1：</strong>创建（主）套接字，并绑定熟知端口号；<br><strong>主线程2：</strong>创建（主）套接字为被动监听模式，准备用于服务器；<br><strong>主线程3：</strong>反复调用accept() 函数接收下一个<font color="red">连接请求</font>（通过主套接字），并创建一个新的子线程处理该客户端响应；<br><strong>子线程1：</strong>接收一个客户端的<font color="red">服务请求</font>（通过新创建的套接字）；<br><strong>子线程2：</strong>遵循应用层协议与特定客户进行交互；<br><strong>子线程3：</strong>关闭/释放连接并推出（线程终止）。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/09/Nginx-┼ф╓├╬─╝■╧ъ╜т/" rel="next" title="Nginx 配置文件详解">
+                <i class="fa fa-chevron-left"></i> Nginx 配置文件详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/10/HTTP-╧ъ╜т/" rel="prev" title="HTTP 详解">
+                HTTP 详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、网络中进程之间是如何通信？"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x7F51;&#x7EDC;&#x4E2D;&#x8FDB;&#x7A0B;&#x4E4B;&#x95F4;&#x662F;&#x5982;&#x4F55;&#x901A;&#x4FE1;&#xFF1F;" class="headerlink" title="1&#x3001;&#x7F51;&#x7EDC;&#x4E2D;&#x8FDB;&#x7A0B;&#x4E4B;&#x95F4;&#x662F;&#x5982;&#x4F55;&#x901A;&#x4FE1;&#xFF1F;"></a>1&#x3001;&#x7F51;&#x7EDC;&#x4E2D;&#x8FDB;&#x7A0B;&#x4E4B;&#x95F4;&#x662F;&#x5982;&#x4F55;&#x901A;&#x4FE1;&#xFF1F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、什么是socket"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4EC0;&#x4E48;&#x662F;socket" class="headerlink" title="2&#x3001;&#x4EC0;&#x4E48;&#x662F;socket"></a>2&#x3001;&#x4EC0;&#x4E48;&#x662F;socket</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、套接字（socket）概念"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x5957;&#x63A5;&#x5B57;&#xFF08;socket&#xFF09;&#x6982;&#x5FF5;" class="headerlink" title="3&#x3001;&#x5957;&#x63A5;&#x5B57;&#xFF08;socket&#xFF09;&#x6982;&#x5FF5;"></a>3&#x3001;&#x5957;&#x63A5;&#x5B57;&#xFF08;socket&#xFF09;&#x6982;&#x5FF5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、socket原理"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;socket&#x539F;&#x7406;" class="headerlink" title="4&#x3001;socket&#x539F;&#x7406;"></a>4&#x3001;socket&#x539F;&#x7406;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）socket-连接"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;socket-&#x8FDE;&#x63A5;" class="headerlink" title="&#xFF08;1&#xFF09;socket &#x8FDE;&#x63A5;"></a>&#xFF08;1&#xFF09;socket &#x8FDE;&#x63A5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）socket-函数"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;socket-&#x51FD;&#x6570;" class="headerlink" title="&#xFF08;2&#xFF09;socket &#x51FD;&#x6570;"></a>&#xFF08;2&#xFF09;socket &#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）socket-调用流程"><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;socket-&#x8C03;&#x7528;&#x6D41;&#x7A0B;" class="headerlink" title="&#xFF08;3&#xFF09;socket &#x8C03;&#x7528;&#x6D41;&#x7A0B;"></a>&#xFF08;3&#xFF09;socket &#x8C03;&#x7528;&#x6D41;&#x7A0B;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（4）socket-管理"><span class="nav-number">4.4.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;socket-&#x7BA1;&#x7406;" class="headerlink" title="&#xFF08;4&#xFF09;socket &#x7BA1;&#x7406;"></a>&#xFF08;4&#xFF09;socket &#x7BA1;&#x7406;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（5）并发面向连接服务器基本流程"><span class="nav-number">4.5.</span> <span class="nav-text"><a href="#&#xFF08;5&#xFF09;&#x5E76;&#x53D1;&#x9762;&#x5411;&#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x5668;&#x57FA;&#x672C;&#x6D41;&#x7A0B;" class="headerlink" title="&#xFF08;5&#xFF09;&#x5E76;&#x53D1;&#x9762;&#x5411;&#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x5668;&#x57FA;&#x672C;&#x6D41;&#x7A0B;"></a>&#xFF08;5&#xFF09;&#x5E76;&#x53D1;&#x9762;&#x5411;&#x8FDE;&#x63A5;&#x670D;&#x52A1;&#x5668;&#x57FA;&#x672C;&#x6D41;&#x7A0B;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

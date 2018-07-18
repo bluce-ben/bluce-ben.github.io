@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,BASH,shell," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="为什么BASH叫做壳程序？ 理解这个就理解了BASH与操作系统的关系，以及BASH是什么，有什么用。 1、认识BASH这个Shell管理整个计算机硬件的其实是操作系统的核心 (kernel)，这个核心是需要被保护的。所以我们一般使用者就只能透过 shell 来跟核心沟通，以让核心达到我们所想要达到的工作。那么系统有多少 shell 可用呢？为什么我们要使用 bash啊？底下分别来谈一谈。">
+<meta name="keywords" content="书籍,BASH,shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识与学习BASH之BASH概述">
+<meta property="og:url" content="http://yoursite.com/2017/12/28/╚╧╩╢╙ы╤з╧░BASH╓оBASH╕┼╩Ў/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="为什么BASH叫做壳程序？ 理解这个就理解了BASH与操作系统的关系，以及BASH是什么，有什么用。 1、认识BASH这个Shell管理整个计算机硬件的其实是操作系统的核心 (kernel)，这个核心是需要被保护的。所以我们一般使用者就只能透过 shell 来跟核心沟通，以让核心达到我们所想要达到的工作。那么系统有多少 shell 可用呢？为什么我们要使用 bash啊？底下分别来谈一谈。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-01-24T10:43:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="认识与学习BASH之BASH概述">
+<meta name="twitter:description" content="为什么BASH叫做壳程序？ 理解这个就理解了BASH与操作系统的关系，以及BASH是什么，有什么用。 1、认识BASH这个Shell管理整个计算机硬件的其实是操作系统的核心 (kernel)，这个核心是需要被保护的。所以我们一般使用者就只能透过 shell 来跟核心沟通，以让核心达到我们所想要达到的工作。那么系统有多少 shell 可用呢？为什么我们要使用 bash啊？底下分别来谈一谈。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/28/╚╧╩╢╙ы╤з╧░BASH╓оBASH╕┼╩Ў/"/>
+
+
+
+
+
+  <title>认识与学习BASH之BASH概述 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/28/╚╧╩╢╙ы╤з╧░BASH╓оBASH╕┼╩Ў/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">认识与学习BASH之BASH概述</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-28T19:10:35+08:00">
+                2017-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《鸟哥的Linux私房菜基础篇（第三版）》/" itemprop="url" rel="index">
+                    <span itemprop="name">《鸟哥的Linux私房菜基础篇（第三版）》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/28/╚╧╩╢╙ы╤з╧░BASH╓оBASH╕┼╩Ў/" class="leancloud_visitors" data-flag-title="认识与学习BASH之BASH概述">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>为什么BASH叫做壳程序？ 理解这个就理解了BASH与操作系统的关系，以及BASH是什么，有什么用。</p>
+<h3 id="1、认识BASH这个Shell"><a href="#1、认识BASH这个Shell" class="headerlink" title="1、认识BASH这个Shell"></a>1、认识BASH这个Shell</h3><p>管理整个计算机硬件的其实是操作系统的核心 (kernel)，这个核心是需要被保护的。所以我们一般使用者就只能透过 shell 来跟核心沟通，以让核心达到我们所想要达到的工作。那么系统有多少 shell 可用呢？为什么我们要使用 bash啊？底下分别来谈一谈。<br><a id="more"></a></p>
+<h3 id="2、硬件、核心-与-Shell"><a href="#2、硬件、核心-与-Shell" class="headerlink" title="2、硬件、核心 与 Shell"></a>2、硬件、核心 与 Shell</h3><p>在认识 Shell 之前，我们先来了解一下计算机的运作状况吧。举个例子来说：当你要计算机传输出来【音乐】的时候，你的计算机需要什么东西呢？</p>
+<pre><code>1. 硬件：当然就是需要你的硬件有【声卡芯片】这个配备，否则怎么会有声音；
+2. 核心管理：操作系统的核心可以支持这个芯片组，当然还需要提供芯片的驱动程序；
+3. 应用程序：需要使用者 (就是你) 输入发生声音的指令。
+</code></pre><p>这就是基本的一个输出声音所需要的步骤。也就是说，你必须要【输入】一个指令之后，【硬件】才会透过你下达的指令来工作。那么硬件如何知道你下达的指令呢？那就是 kernel (核心) 的控制工作了，也就是说，我们必须要透过【Shell】将我们输入的指令与 Kernel 沟通，好让 Kernel 可以控制硬件来正确无误的工作。</p>
+<p>曾经提到过，操作系统其实是一组软件，由于这组软件在控制整个硬件与管理系统的活动监测，如果这组软件能被用户随意的操作，若使用者应用不当，将会使得整个系统崩溃！因为操作系统管理的就是整个硬件功能，所以当然不能够随便被一些没有管理能力的终端用户随意使用。但是我们总是需要让用户操作系统的，所以就有了在操作系统上面发展的应用程序。用户可以透过应用程序来指挥核心，让核心达成我们所需要的硬件任务！</p>
+<p>我们可以发现应用程序其实是在最外局，就如同鸡蛋的外壳一样，因此这个咚咚也就被称呼为<font color="red">壳程序 (shell)</font>。其实壳程序的功能只是提供用户操作系统的一个接口，因此这个壳程序需要可以呼叫其他软件才好。我们知道有很多指令，例如 man, chmod, chown, vi, fdisk, mkfs 等指令，这些指令都是独立的应用程序，但是我们可以透过壳程序 (就是指令列模式)来操作这些应用程序，让这些应用程序呼叫核心来运作所需的工作。这样对于壳程序是否有了一定的概念了。</p>
+<blockquote>
+<p>也就是说，只要能够操作应用程序的接口都能够称为壳程序。狭义的壳程序指的是指令列方面的软件，包括本章要介绍的 bash 等。广义的壳程序则包括图形接口的软件，因为图形接口其实也能够操作各种应用程序来呼叫核心工作。</p>
+</blockquote>
+<h3 id="3、系统合法的shell与-etc-shells功能"><a href="#3、系统合法的shell与-etc-shells功能" class="headerlink" title="3、系统合法的shell与/etc/shells功能"></a>3、系统合法的shell与/etc/shells功能</h3><p>知道什么是 Shell 之后，那么我们来了解一下 Linux 使用的是哪一个 shell 。由于早年的 Unix 年代，发展者众，所以由于 shell 依据发展者的不同就有很多的版本，例如常听到的 Bourne SHell (sh) 、在 Sun 里头预设的 C SHell、 商业上常用的 K SHell、还有 TCSH 等等，每一种 Shell 都各有其特点。至于 Linux 使用的这一种版本就称为【Bourne Again SHell (简称 bash) 】，这个 Shell 是 Bourne Shell 的增强版本，也是基准于GNU 的架构下发展出来的。</p>
+<p>在介绍 shell 的优点之前，先来说一说 shell 的简单历史：第一个流行的 shell 是由 Steven Bourne 发展出来的，为了纪念他所以就称为 Bourne shell ，或直接简称为 sh 。而后来另一个广为流传的 shell 是由柏克莱大学的 Bill Joy 设计依附于 BSD 版的 Unix 系统中的 shell ，这个 shell 的语法有点类似 C 语言，所以才得名为 C shell ，简称为 csh 。由于在学术界 Sun 主机势力相当的庞大，而Sun 主要是 BSD 的分支之一，所以 C shell 也是另一个很重要而且流传很广的 shell 之一 。</p>
+<blockquote>
+<p>由于 Linux 为 C 程序语言撰写的，很多程序设计师使用 C 来开发软件，因此 C shell相对的就很热门了。Sun 公司的创始人就是 Bill Joy，而 BSD 最早就是 Bill Joy 发展出来的。</p>
+</blockquote>
+<p>那么目前我们的 Linux 有多少我们可以使用的 shells 呢？ 你可以检查一下/etc/shells 这个档案，至少就有底下这几个可以用的 shells：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/bin/sh (已经被 /bin/bash 所取代)</span><br><span class="line">/bin/bash (就是 Linux 预设的 shell)</span><br><span class="line">/bin/ksh (Kornshell 由 AT&amp;T Bell lab. 发展出来的，兼容于 bash)</span><br><span class="line">/bin/tcsh (整合 C Shell ，提供更多的功能)</span><br><span class="line">/bin/csh (已经被 /bin/tcsh 所取代)</span><br><span class="line">/bin/zsh (基于 ksh 发展出来的，功能更强大的 shell)</span><br></pre></td></tr></table></figure></p>
+<p>虽然各家 shell 的功能都差不多，但是在某些语法的下达方面则有所不同，因此建议你还是选择某一种 shell 来熟悉一下较佳。 Linux 预设就是使用 bash ，所以最初你只要学会 bash 就ok了。为什么我们系统上合法的 shell 要写入 /etc/shells 这个档案呢？ 这是因为系统某些服务在运作过程中，会去检查使用者能够使用的 shells ，而这些 shell 的查询就是藉由 /etc/shells 这个档案。</p>
+<p>那么，我这个使用者取得shell工作后，预设会取得哪一个 shell 呢？当我登入的时候，系统就会给我一个 shell 让我来工作了。而这个登入取得的 shell 就记录在 /etc/passwd 这个档案内。这个档案的内容是啥？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# cat /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">bin:x:1:1:bin:/bin:/sbin/nologin</span><br><span class="line">daemon:x:2:2:daemon:/sbin:/sbin/nologin</span><br><span class="line">.....(底下省略).....</span><br></pre></td></tr></table></figure></p>
+<p>如上所示，在每一行的最后一个数据，就是你登入后取得预设的 shell 。</p>
+<h3 id="4、Bash-shell-的功能"><a href="#4、Bash-shell-的功能" class="headerlink" title="4、Bash shell 的功能"></a>4、Bash shell 的功能</h3><p>既然 /bin/bash 是 Linux 预设的 shell，那么总是得了解一下这个玩意儿。bash 是 GNU 计划中重要的工具软件之一，目前也是 Linux distributions 的标准 shell 。 bash 主要兼容于 sh ，并且依据一些使用者的需求，而加强的 shell 版本。不论你使用的是那个 distribution ，你都难逃需要学习 bash 的宿命。那么这个 shell 有什么好处，干嘛 Linux 要使用他作为预设的 shell 呢？ bash 主要的优点有底下几个：</p>
+<p><strong>（1）命令编修能力 (history)：</strong><br>就是记忆使用过的指令，只要在指令列按【上下键】就可以找到前/后一个输入的指令。而在很多 distribution 里头，默认的指令记忆功能可以多达 1000 个。也就是说，你曾经下达过的指令几乎都被记录下来了。</p>
+<p>这么多的指令记录在哪里呢？在你的家目录内的 .bash_history。不过，需要留意的是，~/.bash_history 记录的是前一次登入以前所执行过的指令，而至于这一次登入所执行的指令都被暂存在内存中，当你成功的注销系统后，该指令记忆才会记录到 .bash_history 当中。</p>
+<p><strong>（2）命令与档案补全功能： ([tab] 按键的好处)</strong><br>常常在 bash 环境中使用 [tab] 是个很棒的习惯。因为至少可以让你 1)少打很多字； 2)确定输入的数据是正确的。使用 [tab] 按键的时机依据 [tab] 接在指令后或参数后而有所不同。<br>如下所示：</p>
+<pre><code>1. [Tab] 接在一串指令的第一个字的后面，则为命令补全；
+2. [Tab] 接在一串指令的第二个字以后时，则为【档案补齐】。
+</code></pre><p>所以说，如果我想要知道我的环境中，所有可以执行的指令有几个？就直接在 bash 的提示字符后面连续按两次 [tab] 按键就能够显示所有的可执行指令了。 那如果想要知道系统当中所有以 c 为开头的指令呢？就按下【c[tab][tab]】就好了。</p>
+<p><strong>（3）命令别名设定功能： (alias)</strong><br>假如我需要知道这个目录底下的所有档案 (包含隐藏档) 及所有的文件属性，那么我就必须要下达【ls -al】这样的指令串。如果使用命令别名，就可以自定义命令来取代长指令串命令，也就是说使用 alias 即可。你可以在指令列输入 alias 就可以知道目前的命令别名有哪些了。也可以直接下达命令来设定别名：<br>    <code>alias lm=&#39;ls -al&#39;</code></p>
+<p><strong>（4）工作控制、前景背景控制： (job control, foreground, background)</strong><br>使用前、背景的控制可以让工作进行的更为顺利。至于工作控制(jobs)的用途则更广，可以让我们随时将工作丢到背景中执行。而不怕不小心使用了[Ctrl] + c 来停掉该程序。此外，也可以在单一登录的环境中，达到多任务的目的。</p>
+<p><strong>（5）程序化脚本： (shell scripts)</strong><br>在 Linux 底下的 shell scripts 可以将你平时管理系统常需要下达的连续指令写成一个档案，该档案并且可以透过对谈交互式的方式来进行主机的侦测工作。也可以藉由 shell 提供的环境变量及相关指令来进行设计，整个设计下来几乎就是一个小型的程序语言。（该部分会单独详解）</p>
+<p><strong>（6）通配符： (Wildcard)</strong><br>除了完整的字符串之外，bash 还支持很多的通配符来帮助用户查询与指令下达。举例来说，想要知道/usr/bin 底下有多少以 X 为开头的档案，使用：【ls -l /usr/bin/X*】就能够知道。</p>
+<h3 id="5、Bash-shell-的内建命令：-type"><a href="#5、Bash-shell-的内建命令：-type" class="headerlink" title="5、Bash shell 的内建命令： type"></a>5、Bash shell 的内建命令： type</h3><p>如何知道这个指令是来自于外部指令(指的是其他非 bash 所提供的指令) 或是内建在 bash 当中的，利用 type 这个指令来观察即可。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">语法：`type [-tpa] name`</span><br><span class="line">选项与参数：</span><br><span class="line">	   ：不加任何选项与参数时，type 会显示出 name 是外部指令还是 bash 内建指令</span><br><span class="line">	-t ：当加入 -t 参数时，type 会将 name 以底下这些字眼显示出他的意义：</span><br><span class="line">		file ：表示为外部指令；</span><br><span class="line">		alias ：表示该指令为命令别名所设定的名称；</span><br><span class="line">		builtin ：表示该指令为 bash 内建的指令功能；</span><br><span class="line">	-p ：如果后面接的 name 为外部指令时，才会显示完整文件名；</span><br><span class="line">	-a ：会由 PATH 变量定义的路径中，将所有含 name 的指令都列出来，包含alias</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/BASH/" rel="tag"># BASH</a>
+          
+            <a href="/tags/shell/" rel="tag"># shell</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/27/vim│╠╨Є▒р╝н╞ў/" rel="next" title="vim程序编辑器">
+                <i class="fa fa-chevron-left"></i> vim程序编辑器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/28/╚╧╩╢╙ы╤з╧░BASH╓о▒ф┴┐/" rel="prev" title="认识与学习BASH之变量">
+                认识与学习BASH之变量 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、认识BASH这个Shell"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x8BA4;&#x8BC6;BASH&#x8FD9;&#x4E2A;Shell" class="headerlink" title="1&#x3001;&#x8BA4;&#x8BC6;BASH&#x8FD9;&#x4E2A;Shell"></a>1&#x3001;&#x8BA4;&#x8BC6;BASH&#x8FD9;&#x4E2A;Shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、硬件、核心-与-Shell"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x786C;&#x4EF6;&#x3001;&#x6838;&#x5FC3;-&#x4E0E;-Shell" class="headerlink" title="2&#x3001;&#x786C;&#x4EF6;&#x3001;&#x6838;&#x5FC3; &#x4E0E; Shell"></a>2&#x3001;&#x786C;&#x4EF6;&#x3001;&#x6838;&#x5FC3; &#x4E0E; Shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、系统合法的shell与-etc-shells功能"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x7CFB;&#x7EDF;&#x5408;&#x6CD5;&#x7684;shell&#x4E0E;-etc-shells&#x529F;&#x80FD;" class="headerlink" title="3&#x3001;&#x7CFB;&#x7EDF;&#x5408;&#x6CD5;&#x7684;shell&#x4E0E;/etc/shells&#x529F;&#x80FD;"></a>3&#x3001;&#x7CFB;&#x7EDF;&#x5408;&#x6CD5;&#x7684;shell&#x4E0E;/etc/shells&#x529F;&#x80FD;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Bash-shell-的功能"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;Bash-shell-&#x7684;&#x529F;&#x80FD;" class="headerlink" title="4&#x3001;Bash shell &#x7684;&#x529F;&#x80FD;"></a>4&#x3001;Bash shell &#x7684;&#x529F;&#x80FD;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、Bash-shell-的内建命令：-type"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;Bash-shell-&#x7684;&#x5185;&#x5EFA;&#x547D;&#x4EE4;&#xFF1A;-type" class="headerlink" title="5&#x3001;Bash shell &#x7684;&#x5185;&#x5EFA;&#x547D;&#x4EE4;&#xFF1A; type"></a>5&#x3001;Bash shell &#x7684;&#x5185;&#x5EFA;&#x547D;&#x4EE4;&#xFF1A; type</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

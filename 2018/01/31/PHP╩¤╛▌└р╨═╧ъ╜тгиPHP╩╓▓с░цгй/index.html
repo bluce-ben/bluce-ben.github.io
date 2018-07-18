@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PHP,PHP知识点," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="数据类型四种标量类型：  boolean（布尔型）、integer（整型）、float（浮点型，也称为double）、string（字符串）  两种复合类型：  array（数组）、object（对象）  两种特殊类型：  resource（资源）、Null  其它伪类型：  mixed（混合类型）、number（数字类型）、callback（回调类型）、void（无类型）">
+<meta name="keywords" content="PHP,PHP知识点">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP数据类型详解（PHP手册版）">
+<meta property="og:url" content="http://yoursite.com/2018/01/31/PHP╩¤╛▌└р╨═╧ъ╜тгиPHP╩╓▓с░цгй/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="数据类型四种标量类型：  boolean（布尔型）、integer（整型）、float（浮点型，也称为double）、string（字符串）  两种复合类型：  array（数组）、object（对象）  两种特殊类型：  resource（资源）、Null  其它伪类型：  mixed（混合类型）、number（数字类型）、callback（回调类型）、void（无类型）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-01T03:26:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP数据类型详解（PHP手册版）">
+<meta name="twitter:description" content="数据类型四种标量类型：  boolean（布尔型）、integer（整型）、float（浮点型，也称为double）、string（字符串）  两种复合类型：  array（数组）、object（对象）  两种特殊类型：  resource（资源）、Null  其它伪类型：  mixed（混合类型）、number（数字类型）、callback（回调类型）、void（无类型）">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/31/PHP╩¤╛▌└р╨═╧ъ╜тгиPHP╩╓▓с░цгй/"/>
+
+
+
+
+
+  <title>PHP数据类型详解（PHP手册版） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/PHP╩¤╛▌└р╨═╧ъ╜тгиPHP╩╓▓с░цгй/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">PHP数据类型详解（PHP手册版）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T17:45:42+08:00">
+                2018-01-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/31/PHP╩¤╛▌└р╨═╧ъ╜тгиPHP╩╓▓с░цгй/" class="leancloud_visitors" data-flag-title="PHP数据类型详解（PHP手册版）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>数据类型</strong><br>四种标量类型：</p>
+<blockquote>
+<p>boolean（布尔型）、integer（整型）、float（浮点型，也称为double）、string（字符串）</p>
+</blockquote>
+<p>两种复合类型：</p>
+<blockquote>
+<p>array（数组）、object（对象）</p>
+</blockquote>
+<p>两种特殊类型：</p>
+<blockquote>
+<p>resource（资源）、Null</p>
+</blockquote>
+<p>其它伪类型：</p>
+<blockquote>
+<p>mixed（混合类型）、number（数字类型）、callback（回调类型）、void（无类型）</p>
+</blockquote>
+<a id="more"></a>
+<h4 id="布尔型（boolean）："><a href="#布尔型（boolean）：" class="headerlink" title="布尔型（boolean）："></a>布尔型（boolean）：</h4><p>（1）指定一个布尔值，使用常量 TRUE 或 FALSE。两个都不区分大小写。<br>（2）强制转换为布尔型，用 (bool) 或 (boolean) 来强制转换。但是很多情况下不需要强制转换，会被自动转换。<br>当转换为 boolean 时，以下值被认为是 FALSE： </p>
+<ul>
+<li>布尔值 FALSE 本身  </li>
+<li>整型值 0（零）  </li>
+<li>浮点型值 0.0（零）  </li>
+<li>空字符串，以及字符串 “0”  </li>
+<li>不包括任何元素的数组  </li>
+<li>特殊类型 NULL（包括尚未赋值的变量）  </li>
+<li>从空标记生成的 SimpleXML 对象  </li>
+</ul>
+<p>所有其它值都被认为是 TRUE（包括任何资源 和 NAN）。</p>
+<h4 id="整型（interger）："><a href="#整型（interger）：" class="headerlink" title="整型（interger）："></a>整型（interger）：</h4><p>（1）整型值可以使用十进制，十六进制，八进制或二进制表示，前面可以加上可选的符号（- 或者 +）。<br>要使用八进制表达，数字前必须加上 0（零）。要使用十六进制表达，数字前必须加上 0x。要使用二进制表达，数字前必须加上 0b。<br>（2）要明确地将一个值转换为 integer，用 (int) 或 (integer) 强制转换。不过大多数情况下都不需要强制转换，因为当运算符，函数或流程控制需要一个 integer 参数时，值会自动转换。还可以通过函数 intval() 来将一个值转换成整型。<br>当从浮点数转换成整数时，将向下取整。 </p>
+<h4 id="浮点型（float）："><a href="#浮点型（float）：" class="headerlink" title="浮点型（float）："></a>浮点型（float）：</h4><p>（1）浮点型（也叫浮点数 float，双精度数 double 或实数 real）。<br>（2）浮点数的精度<br>浮点数的精度有限。尽管取决于系统，PHP 通常使用 IEEE 754 双精度格式，则由于取整而导致的最大相对误差为 1.11e-16。非基本数学运算可能会给出更大误差，并且要考虑到进行复合运算时的误差传递。<br>（3）NaN<br>某些数学运算会产生一个由常量 NAN 所代表的结果。此结果代表着一个在浮点数运算中未定义或不可表述的值。任何拿此值与其它任何值（除了 TRUE）进行的松散或严格比较的结果都是 FALSE。<br>由于 NAN 代表着任何不同值，不应拿 NAN 去和其它值进行比较，包括其自身，应该用 is_nan() 来检查。 </p>
+<h4 id="字符串（string）："><a href="#字符串（string）：" class="headerlink" title="字符串（string）："></a>字符串（string）：</h4><p>（1）一个字符串 string 就是由一系列的字符组成，其中每个字符等同于一个字节。这意味着 PHP 只能支持 256 的字符集，因此不支持 Unicode 。<br>（注：Note: string 最大可以达到 2GB。）<br>（2）一个字符串可以用 4 种方式表达： </p>
+<ul>
+<li>单引号  ：定义一个字符串的最简单的方法是用单引号把它包围起来（字符 ‘）。</li>
+<li>双引号  ：如果字符串是包围在双引号（”）中， PHP 将对一些特殊的字符进行解析。</li>
+<li>heredoc 语法结构  ：<br>第三种表达字符串的方法是用 heredoc 句法结构：&lt;&lt;&lt;。在该运算符之后要提供一个标识符，然后换行。接下来是字符串 string 本身，最后要用前面定义的标识符作为结束标志。<br>结束时所引用的标识符必须在该行的第一列，而且，标识符的命名也要像其它标签一样遵守 PHP 的规则：只能包含字母、数字和下划线，并且必须以字母和下划线作为开头。<br>（Heredoc 结构就象是没有使用双引号的双引号字符串，这就是说在 heredoc 结构中单引号不用被转义，但是上文中列出的转义序列还可以使用。变量将被替换，但在 heredoc 结构中含有复杂的变量时要格外小心。 ）</li>
+<li>nowdoc 语法结构（自 PHP 5.3.0 起）<br>就象 heredoc 结构类似于双引号字符串，Nowdoc 结构是类似于单引号字符串的。Nowdoc 结构很象 heredoc 结构，但是 nowdoc 中不进行解析操作。这种结构很适合用于嵌入 PHP 代码或其它大段文本而无需对其中的特殊字符进行转义。与 SGML 的 &lt;![CDATA[ ]]&gt; 结构是用来声明大段的不用解析的文本类似，nowdoc 结构也有相同的特征。<br>一个 nowdoc 结构也用和 heredocs 结构一样的标记 &lt;&lt;&lt;， 但是跟在后面的标识符要用单引号括起来，即 &lt;&lt;&lt;’EOT’。Heredoc 结构的所有规则也同样适用于 nowdoc 结构，尤其是结束标识符的规则。</li>
+</ul>
+<p><strong>（注：函数、方法、静态类变量和类常量只有在 PHP 5 以后才可在 {$} 中使用。然而，只有在该字符串被定义的命名空间中才可以将其值作为变量名来访问。只单一使用花括号 ({}) 无法处理从函数或方法的返回值或者类常量以及类静态变量的值。 ）</strong><br>（3）字符串可以用 ‘.’（点）运算符连接起来，注意 ‘+’（加号）运算符没有这个功能。对于 string 的操作有很多有用的函数，后面予以单独说明。</p>
+<h4 id="数组（array）："><a href="#数组（array）：" class="headerlink" title="数组（array）："></a>数组（array）：</h4><p>PHP 中的数组实际上是一个有序映射。映射是一种把 values 关联到 keys 的类型。此类型在很多方面做了优化，因此可以把它当成真正的数组，或列表（向量），散列表（是映射的一种实现），字典，集合，栈，队列以及更多可能性。由于数组元素的值也可以是另一个数组，树形结构和多维数组也是允许的。<br>（1）语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">定义数组 array()</span><br><span class="line">可以用 array() 语言结构来新建一个数组。它接受任意数量用逗号分隔的 键（key） =&gt; 值（value）对。 </span><br><span class="line">array(  key =&gt;  value</span><br><span class="line">     , ...</span><br><span class="line">     )</span><br><span class="line">// 键（key）可是是一个整数 integer 或字符串 string</span><br><span class="line">// 值（value）可以是任意类型的值</span><br></pre></td></tr></table></figure></p>
+<p>最后一个数组单元之后的逗号可以省略。通常用于单行数组定义中，例如常用 array(1, 2) 而不是 array(1, 2, )。对多行数组定义通常保留最后一个逗号，这样要添加一个新单元时更方便。<br>自 5.4 起可以使用短数组定义语法，用 [] 替代 array()。<br><strong>（注：key 可以是 integer 或者 string。value 可以是任意类型。）</strong></p>
+<p><strong>此外 key 会有如下的强制转换： </strong></p>
+<ul>
+<li>包含有合法整型值的字符串会被转换为整型。例如键名 “8” 实际会被储存为 8。但是 “08” 则不会强制转换，因为其不是一个合法的十进制数值。  </li>
+<li>浮点数也会被转换为整型，意味着其小数部分会被舍去。例如键名 8.7 实际会被储存为 8。  </li>
+<li>布尔值也会被转换成整型。即键名 true 实际会被储存为 1 而键名 false 会被储存为 0。  </li>
+<li>Null 会被转换为空字符串，即键名 null 实际会被储存为 “”。  </li>
+<li>数组和对象不能被用为键名。坚持这么做会导致警告：Illegal offset type。  </li>
+</ul>
+<p>如果在数组定义中多个单元都使用了同一个键名，则只使用了最后一个，之前的都被覆盖了。</p>
+<p>（2）注意事项：<br> ① 方括号和花括号可以互换使用来访问数组单元（例如 $array[42] 和 $array{42} 在上例中效果相同）。<br> ② 试图访问一个未定义的数组键名与访问任何未定义变量一样：会导致 E_NOTICE 级别错误信息，其结果为 NULL。<br> ③ 要修改某个值，通过其键名给该单元赋一个新值。要删除某键值对，对其调用 unset() 函数。<br> ④ 应该始终在用字符串表示的数组索引上加上引号。例如用 $foo[‘bar’] 而不是 $foo[bar]。原因是此代码中有一个未定义的常量（bar）而不是字符串（’bar’－注意引号），而 PHP 可能会在以后定义此常量，不幸的是你的代码中有同样的名字。它能运行，是因为 PHP 自动将裸字符串（没有引号的字符串且不对应于任何已知符号）转换成一个其值为该裸字符串的正常字符串。例如，如果没有常量定义为 bar，PHP 将把它替代为 ‘bar’ 并使用之。<br> 但这并不意味着总是给键名加上引号。用不着给键名为常量或变量的加上引号，否则会使 PHP 不能解析它们。</p>
+<h4 id="对象类型（Object）："><a href="#对象类型（Object）：" class="headerlink" title="对象类型（Object）："></a>对象类型（Object）：</h4><p>要创建一个新的对象 object，使用 new 语句实例化一个类。<br>转换为对象：如果将一个对象转换成对象，它将不会有任何变化。如果其它任何类型的值被转换成对象，将会创建一个内置类 stdClass 的实例。如果该值为 NULL，则新的实例为空。 array 转换成 object 将使键名成为属性名并具有相对应的值，除了数字键，不迭代就无法被访问。 </p>
+<h4 id="资源类型（resource）："><a href="#资源类型（resource）：" class="headerlink" title="资源类型（resource）："></a>资源类型（resource）：</h4><p>资源 resource 是一种特殊变量，保存了到外部资源的一个引用。资源是通过专门的函数来建立和使用的。<br>转换为资源：由于资源类型变量保存有为打开文件、数据库连接、图形画布区域等的特殊句柄，因此将其它类型的值转换为资源没有意义。 </p>
+<h4 id="NULL："><a href="#NULL：" class="headerlink" title="NULL："></a>NULL：</h4><p>特殊的 NULL 值表示一个变量没有值。NULL 类型唯一可能的值就是 NULL。<br><strong>（注：NULL 类型只有一个值，就是不区分大小写的常量 NULL。）</strong><br>在下列情况下一个变量被认为是 NULL： </p>
+<ul>
+<li>被赋值为 NULL。 </li>
+<li>尚未被赋值。 </li>
+<li>被 unset()。</li>
+</ul>
+<h4 id="许的强制转换有："><a href="#许的强制转换有：" class="headerlink" title="许的强制转换有："></a>许的强制转换有：</h4><ul>
+<li>(int), (integer) - 转换为整形 integer </li>
+<li>(bool), (boolean) - 转换为布尔类型 boolean </li>
+<li>(float), (double), (real) - 转换为浮点型 float </li>
+<li>(string) - 转换为字符串 string </li>
+<li>(array) - 转换为数组 array </li>
+<li>(object) - 转换为对象 object </li>
+<li>(unset) - 转换为 NULL (PHP 5) </li>
+<li>(binary) 转换和 b 前缀转换支持为 PHP 5.2.1 新增。 </li>
+</ul>
+<p><strong>（注意在括号内允许有空格和制表符）</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/PHP知识点/" rel="tag"># PHP知识点</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/31/PHP╗∙┤б╒√└эгиPHP╩╓▓с░цгй/" rel="next" title="PHP基础整理（PHP手册版）">
+                <i class="fa fa-chevron-left"></i> PHP基础整理（PHP手册版）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/31/PHP╕▀╝╢╒√└эгиPHP╩╓▓с░цгй/" rel="prev" title="PHP高级整理（PHP手册版）">
+                PHP高级整理（PHP手册版） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#布尔型（boolean）："><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x5E03;&#x5C14;&#x578B;&#xFF08;boolean&#xFF09;&#xFF1A;" class="headerlink" title="&#x5E03;&#x5C14;&#x578B;&#xFF08;boolean&#xFF09;&#xFF1A;"></a>&#x5E03;&#x5C14;&#x578B;&#xFF08;boolean&#xFF09;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#整型（interger）："><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6574;&#x578B;&#xFF08;interger&#xFF09;&#xFF1A;" class="headerlink" title="&#x6574;&#x578B;&#xFF08;interger&#xFF09;&#xFF1A;"></a>&#x6574;&#x578B;&#xFF08;interger&#xFF09;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浮点型（float）："><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x6D6E;&#x70B9;&#x578B;&#xFF08;float&#xFF09;&#xFF1A;" class="headerlink" title="&#x6D6E;&#x70B9;&#x578B;&#xFF08;float&#xFF09;&#xFF1A;"></a>&#x6D6E;&#x70B9;&#x578B;&#xFF08;float&#xFF09;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串（string）："><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5B57;&#x7B26;&#x4E32;&#xFF08;string&#xFF09;&#xFF1A;" class="headerlink" title="&#x5B57;&#x7B26;&#x4E32;&#xFF08;string&#xFF09;&#xFF1A;"></a>&#x5B57;&#x7B26;&#x4E32;&#xFF08;string&#xFF09;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数组（array）："><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x6570;&#x7EC4;&#xFF08;array&#xFF09;&#xFF1A;" class="headerlink" title="&#x6570;&#x7EC4;&#xFF08;array&#xFF09;&#xFF1A;"></a>&#x6570;&#x7EC4;&#xFF08;array&#xFF09;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象类型（Object）："><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#xFF08;Object&#xFF09;&#xFF1A;" class="headerlink" title="&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#xFF08;Object&#xFF09;&#xFF1A;"></a>&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#xFF08;Object&#xFF09;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#资源类型（resource）："><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x8D44;&#x6E90;&#x7C7B;&#x578B;&#xFF08;resource&#xFF09;&#xFF1A;" class="headerlink" title="&#x8D44;&#x6E90;&#x7C7B;&#x578B;&#xFF08;resource&#xFF09;&#xFF1A;"></a>&#x8D44;&#x6E90;&#x7C7B;&#x578B;&#xFF08;resource&#xFF09;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NULL："><span class="nav-number">8.</span> <span class="nav-text"><a href="#NULL&#xFF1A;" class="headerlink" title="NULL&#xFF1A;"></a>NULL&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#许的强制转换有："><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x8BB8;&#x7684;&#x5F3A;&#x5236;&#x8F6C;&#x6362;&#x6709;&#xFF1A;" class="headerlink" title="&#x8BB8;&#x7684;&#x5F3A;&#x5236;&#x8F6C;&#x6362;&#x6709;&#xFF1A;"></a>&#x8BB8;&#x7684;&#x5F3A;&#x5236;&#x8F6C;&#x6362;&#x6709;&#xFF1A;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
