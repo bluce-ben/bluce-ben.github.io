@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,Flask," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、引入模块Flask-WTF（http://pythonhosted.org/Flask-WTF/）扩展可以把处理Web 表单的过程变成一种愉悦的体验。这个扩展对独立的WTForms（http://wtforms.simplecodes.com）包进行了包装，方便集成到Flask 程序中。 Flask-WTF 及其依赖可使用pip 安装：　　(venv) $ pip install flask-">
+<meta name="keywords" content="Python,Flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask 基础模块 - 表单(Flask-WTF)">
+<meta property="og:url" content="http://yoursite.com/2018/03/05/Flask-╗∙┤б─г┐щ-▒э╡е-Flask-WTF/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、引入模块Flask-WTF（http://pythonhosted.org/Flask-WTF/）扩展可以把处理Web 表单的过程变成一种愉悦的体验。这个扩展对独立的WTForms（http://wtforms.simplecodes.com）包进行了包装，方便集成到Flask 程序中。 Flask-WTF 及其依赖可使用pip 安装：　　(venv) $ pip install flask-">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.115Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flask 基础模块 - 表单(Flask-WTF)">
+<meta name="twitter:description" content="1、引入模块Flask-WTF（http://pythonhosted.org/Flask-WTF/）扩展可以把处理Web 表单的过程变成一种愉悦的体验。这个扩展对独立的WTForms（http://wtforms.simplecodes.com）包进行了包装，方便集成到Flask 程序中。 Flask-WTF 及其依赖可使用pip 安装：　　(venv) $ pip install flask-">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/05/Flask-╗∙┤б─г┐щ-▒э╡е-Flask-WTF/"/>
+
+
+
+
+
+  <title>Flask 基础模块 - 表单(Flask-WTF) | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/05/Flask-╗∙┤б─г┐щ-▒э╡е-Flask-WTF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Flask 基础模块 - 表单(Flask-WTF)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T16:02:19+08:00">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/05/Flask-╗∙┤б─г┐щ-▒э╡е-Flask-WTF/" class="leancloud_visitors" data-flag-title="Flask 基础模块 - 表单(Flask-WTF)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、引入模块"><a href="#1、引入模块" class="headerlink" title="1、引入模块"></a>1、引入模块</h4><p>Flask-WTF（<a href="http://pythonhosted.org/Flask-WTF/）扩展可以把处理Web" target="_blank" rel="noopener">http://pythonhosted.org/Flask-WTF/）扩展可以把处理Web</a> 表单的过程变成一种愉悦的体验。这个扩展对独立的WTForms（<a href="http://wtforms.simplecodes.com）包进行了包装，方便集成到Flask" target="_blank" rel="noopener">http://wtforms.simplecodes.com）包进行了包装，方便集成到Flask</a> 程序中。</p>
+<p>Flask-WTF 及其依赖可使用pip 安装：<br>　　<code>(venv) $ pip install flask-wtf</code><br><a id="more"></a></p>
+<h4 id="2、跨站请求伪造保护"><a href="#2、跨站请求伪造保护" class="headerlink" title="2、跨站请求伪造保护"></a>2、跨站请求伪造保护</h4><p>默认情况下，Flask-WTF 能保护所有表单免受跨站请求伪造（Cross-Site Request Forgery，CSRF）的攻击。恶意网站把请求发送到被攻击者已登录的其他网站时就会引发CSRF 攻击。</p>
+<p>为了实现CSRF 保护，Flask-WTF 需要程序设置一个密钥。Flask-WTF 使用这个密钥生成加密令牌，再用令牌验证请求中表单数据的真伪。设置密钥的方法如示例4-1 所示。</p>
+<p>示例4-1　hello.py：设置Flask-WTF<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app = Flask(__name__)</span><br><span class="line">app.config[&apos;SECRET_KEY&apos;] = &apos;hard to guess string&apos;</span><br></pre></td></tr></table></figure></p>
+<p><strong>（注：SECRET_KEY 常量一般放在配置文件中，而常量的值一般放在环境变量中，配置文件从环境变量中获取值。防止他人获取配置文件拿到SECRET_KEY值）</strong></p>
+<h4 id="3、表单类"><a href="#3、表单类" class="headerlink" title="3、表单类"></a>3、表单类</h4><p>使用Flask-WTF 时，每个Web 表单都由一个继承自Form 的类表示。这个类定义表单中的一组字段，每个字段都用对象表示。字段对象可附属一个或多个验证函数。验证函数用来验证用户提交的输入值是否符合要求。<br>示例4-2 是一个简单的Web 表单，包含一个文本字段和一个提交按钮。</p>
+<p>示例4-2 是一个简单的Web 表单，包含一个文本字段和一个提交按钮。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">示例4-2　hello.py：定义表单类</span><br><span class="line">from flask_wtf import Form</span><br><span class="line">from wtforms import StringField, SubmitField</span><br><span class="line">from wtforms.validators import Required</span><br><span class="line"></span><br><span class="line">class NameForm(Form):</span><br><span class="line">    name = StringField(&apos;What is your name?&apos;, validators=[Required()])</span><br><span class="line">    submit = SubmitField(&apos;Submit&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>这个表单中的字段都定义为类变量，类变量的值是相应字段类型的对象。在这个示例中，NameForm 表单中有一个名为name 的文本字段和一个名为submit 的提交按钮。StringField类表示属性为type=”text” 的<code>&lt;input&gt;</code> 元素。SubmitField 类表示属性为type=”submit” 的<code>&lt;input&gt;</code> 元素。字段构造函数的第一个参数是把表单渲染成HTML 时使用的标号。</p>
+<p>StringField 构造函数中的可选参数validators 指定一个由验证函数组成的列表，在接受用户提交的数据之前验证数据。验证函数Required() 确保提交的字段不为空。<br><strong>（注：Form 基类由Flask-WTF 扩展定义，所以从flask.ext.wtf 中导入。字段和验证函数却可以直接从WTForms 包中导入。）</strong></p>
+<p><strong>表4-1　WTForms支持的HTML标准字段</strong></p>
+<table>
+<thead>
+<tr>
+<th>字段类型</th>
+<th>说　　明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StringField</td>
+<td>文本字段</td>
+</tr>
+<tr>
+<td>TextAreaField</td>
+<td>多行文本字段</td>
+</tr>
+<tr>
+<td>PasswordField</td>
+<td>密码文本字段</td>
+</tr>
+<tr>
+<td>HiddenField</td>
+<td>隐藏文本字段</td>
+</tr>
+<tr>
+<td>DateField</td>
+<td>文本字段，值为datetime.date 格式</td>
+</tr>
+<tr>
+<td>DateTimeField</td>
+<td>文本字段，值为datetime.datetime 格式</td>
+</tr>
+<tr>
+<td>IntegerField</td>
+<td>文本字段，值为整数</td>
+</tr>
+<tr>
+<td>DecimalField</td>
+<td>文本字段，值为decimal.Decimal</td>
+</tr>
+<tr>
+<td>FloatField</td>
+<td>文本字段，值为浮点数</td>
+</tr>
+<tr>
+<td>BooleanField</td>
+<td>复选框，值为True 和False</td>
+</tr>
+<tr>
+<td>RadioField</td>
+<td>一组单选框</td>
+</tr>
+<tr>
+<td>SelectField</td>
+<td>下拉列表</td>
+</tr>
+<tr>
+<td>SelectMultipleField</td>
+<td>下拉列表，可选择多个值</td>
+</tr>
+<tr>
+<td>FileField</td>
+<td>文件上传字段</td>
+</tr>
+<tr>
+<td>SubmitField</td>
+<td>表单提交按钮</td>
+</tr>
+<tr>
+<td>FormField</td>
+<td>把表单作为字段嵌入另一个表单</td>
+</tr>
+<tr>
+<td>FieldList</td>
+<td>一组指定类型的字段</td>
+</tr>
+</tbody>
+</table>
+<p><strong>表4-2  WTForms 字段支持的属性</strong></p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>说    明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>label</td>
+<td>字段的标签</td>
+</tr>
+<tr>
+<td>validators</td>
+<td>调用验证时调用的一系列验证器。</td>
+</tr>
+<tr>
+<td>filters</td>
+<td>由进程在输入数据上运行的一系列过滤器。</td>
+</tr>
+<tr>
+<td>description</td>
+<td>字段的描述，通常用于帮助文本。</td>
+</tr>
+<tr>
+<td>id</td>
+<td>用于该字段的id。一个合理的默认设置是由表单设置的，您不需要手动设置它。</td>
+</tr>
+<tr>
+<td>default</td>
+<td>如果没有提供表单或对象输入，则将默认值分配给该字段。可能是一个可调用的。</td>
+</tr>
+<tr>
+<td>widget</td>
+<td>如果提供，则重写用于呈现字段的小部件。</td>
+</tr>
+<tr>
+<td>render_kw (dict)</td>
+<td>如果提供，则提供在呈现时向小部件提供默认关键字的字典。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>表4-2　WTForms验证函数</strong></p>
+<table>
+<thead>
+<tr>
+<th>验证函数</th>
+<th>说　　明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DataRequired(message=None)</td>
+<td>确保字段中有数据</td>
+</tr>
+<tr>
+<td>Email(message=None)</td>
+<td>验证电子邮件地址</td>
+</tr>
+<tr>
+<td>EqualTo(fieldname, message=None)</td>
+<td>比较两个字段的值；常用于要求输入两次密码进行确认的情况</td>
+</tr>
+<tr>
+<td>InputRequired(message=None)</td>
+<td>Validates that input was provided for this field.</td>
+</tr>
+<tr>
+<td>IPAddress(ipv4=True, ipv6=False, message=None)</td>
+<td>验证IPv4 网络地址</td>
+</tr>
+<tr>
+<td>Length(min=-1, max=-1, message=None)</td>
+<td>验证输入字符串的长度</td>
+</tr>
+<tr>
+<td>MacAddress(message=None)</td>
+<td>Validates a MAC address.</td>
+</tr>
+<tr>
+<td>NumberRange(min=None, max=None, message=None)</td>
+<td>验证输入的值在数字范围内</td>
+</tr>
+<tr>
+<td>Optional(strip_whitespace=True)</td>
+<td>无输入值时跳过其他验证函数</td>
+</tr>
+<tr>
+<td>Regexp(regex, flags=0, message=None)</td>
+<td>使用正则表达式验证输入值</td>
+</tr>
+<tr>
+<td>URL(require_tld=True, message=None)</td>
+<td>验证URL</td>
+</tr>
+<tr>
+<td>UUID(message=None)</td>
+<td>Validates a UUID.</td>
+</tr>
+<tr>
+<td>AnyOf(values, message=None, values_formatter=None)</td>
+<td>确保输入值在可选值列表中</td>
+</tr>
+<tr>
+<td>NoneOf(values, message=None, values_formatter=None)</td>
+<td>确保输入值不在可选值列表中</td>
+</tr>
+</tbody>
+</table>
+<h4 id="4、把表单渲染成HTML"><a href="#4、把表单渲染成HTML" class="headerlink" title="4、把表单渲染成HTML"></a>4、把表单渲染成HTML</h4><h5 id="（1）手工方式渲染"><a href="#（1）手工方式渲染" class="headerlink" title="（1）手工方式渲染"></a>（1）手工方式渲染</h5><p>表单字段是可调用的，在模板中调用后会渲染成HTML。假设视图函数把一个NameForm 实例通过参数form 传入模板，在模板中可以生成一个简单的表单，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=&quot;POST&quot;&gt;</span><br><span class="line">	&#123;&#123; form.hidden_tag() &#125;&#125;</span><br><span class="line">	&#123;&#123; form.name.label &#125;&#125; &#123;&#123; form.name() &#125;&#125;</span><br><span class="line">	&#123;&#123; form.submit() &#125;&#125;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当然，这个表单还很简陋。要想改进表单的外观，可以把参数传入渲染字段的函数，传入的参数会被转换成字段的HTML 属性。例如，可以为字段指定id 或class 属性，然后定义CSS 样式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;form method=&quot;POST&quot;&gt;</span><br><span class="line">	&#123;&#123; form.hidden_tag() &#125;&#125;</span><br><span class="line">	&#123;&#123; form.name.label &#125;&#125; &#123;&#123; form.name(id=&apos;my-text-field&apos;) &#125;&#125;</span><br><span class="line">	&#123;&#123; form.submit() &#125;&#125;</span><br><span class="line">&lt;/form&gt;</span><br></pre></td></tr></table></figure></p>
+<p>即便能指定HTML 属性，但按照这种方式渲染表单的工作量还是很大，所以在条件允许的情况下最好能使用Bootstrap 中的表单样式。</p>
+<h5 id="（2）使用Bootstrap表单样式渲染"><a href="#（2）使用Bootstrap表单样式渲染" class="headerlink" title="（2）使用Bootstrap表单样式渲染"></a>（2）使用Bootstrap表单样式渲染</h5><p>Flask-Bootstrap 提供了一个非常高端的辅助函数，可以使用Bootstrap 中预先定义好的表单样式渲染整个Flask-WTF 表单，而这些操作只需一次调用即可完成。使用Flask-Bootstrap，上述表单可使用下面的方式渲染：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% import &quot;bootstrap/wtf.html&quot; as wtf %&#125;</span><br><span class="line">&#123;&#123; wtf.quick_form(form) &#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>import 指令的使用方法和普通Python 代码一样，允许导入模板中的元素并用在多个模板中。导入的bootstrap/wtf.html 文件中定义了一个使用Bootstrap 渲染Falsk-WTF 表单对象的辅助函数。wtf.quick_form() 函数的参数为Flask-WTF 表单对象，使用Bootstrap 的默认样式渲染传入的表单。</p>
+<h4 id="5、在视图函数中处理表单"><a href="#5、在视图函数中处理表单" class="headerlink" title="5、在视图函数中处理表单"></a>5、在视图函数中处理表单</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">示例4-4　hello.py：路由方法</span><br><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</span><br><span class="line">def index():</span><br><span class="line">    name = None</span><br><span class="line">    form = NameForm()</span><br><span class="line">    if form.validate_on_submit():</span><br><span class="line">        name = form.name.data</span><br><span class="line">        form.name.data = &apos;&apos;</span><br><span class="line">    return render_template(&apos;index.html&apos;, form=form, name=name)</span><br></pre></td></tr></table></figure>
+<p>app.route 修饰器中添加的methods 参数告诉Flask 在URL 映射中把这个视图函数注册为GET 和POST 请求的处理程序。如果没指定methods 参数，就只把视图函数注册为GET 请求的处理程序。</p>
+<p>把POST 加入方法列表很有必要，因为将提交表单作为POST 请求进行处理更加便利。表单也可作为GET 请求提交，不过GET 请求没有主体，提交的数据以查询字符串的形式附加到URL 中，可在浏览器的地址栏中看到。基于这个以及其他多个原因，提交表单大都作为POST 请求进行处理。</p>
+<p>局部变量name 用来存放表单中输入的有效名字，如果没有输入，其值为None。如上述代码所示，在视图函数中创建一个NameForm 类实例用于表示表单。提交表单后，如果数据能被所有验证函数接受，那么validate_on_submit() 方法的返回值为True，否则返回False。这个函数的返回值决定是重新渲染表单还是处理表单提交的数据。</p>
+<p>用户第一次访问程序时，服务器会收到一个没有表单数据的GET 请求，所以validate_on_submit() 将返回False。if 语句的内容将被跳过，通过渲染模板处理请求，并传入表单对象和值为None 的name 变量作为参数。用户会看到浏览器中显示了一个表单。</p>
+<p>用户提交表单后，服务器收到一个包含数据的POST 请求。validate_on_submit() 会调用name 字段上附属的Required() 验证函数。如果名字不为空，就能通过验证，validate_on_submit() 返回True。现在，用户输入的名字可通过字段的data 属性获取。在if 语句中，把名字赋值给局部变量name，然后再把data 属性设为空字符串，从而清空表单字段。最后一行调用render_template() 函数渲染模板，但这一次参数name 的值为表单中输入的名字，因此会显示一个针对该用户的欢迎消息。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/05/Flask-╗∙┤б─г┐щ-─г░х╨°-╝п│╔-Twitter-Bootstrap/" rel="next" title="Flask 基础模块 - 模板续(集成 Twitter Bootstrap)">
+                <i class="fa fa-chevron-left"></i> Flask 基础模块 - 模板续(集成 Twitter Bootstrap)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/05/Flask-╗∙┤б─г┐щ-╩¤╛▌┐т╕┼╩Ў/" rel="prev" title="Flask 基础模块 - 数据库概述">
+                Flask 基础模块 - 数据库概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、引入模块"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x5F15;&#x5165;&#x6A21;&#x5757;" class="headerlink" title="1&#x3001;&#x5F15;&#x5165;&#x6A21;&#x5757;"></a>1&#x3001;&#x5F15;&#x5165;&#x6A21;&#x5757;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、跨站请求伪造保护"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x8DE8;&#x7AD9;&#x8BF7;&#x6C42;&#x4F2A;&#x9020;&#x4FDD;&#x62A4;" class="headerlink" title="2&#x3001;&#x8DE8;&#x7AD9;&#x8BF7;&#x6C42;&#x4F2A;&#x9020;&#x4FDD;&#x62A4;"></a>2&#x3001;&#x8DE8;&#x7AD9;&#x8BF7;&#x6C42;&#x4F2A;&#x9020;&#x4FDD;&#x62A4;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、表单类"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x8868;&#x5355;&#x7C7B;" class="headerlink" title="3&#x3001;&#x8868;&#x5355;&#x7C7B;"></a>3&#x3001;&#x8868;&#x5355;&#x7C7B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、把表单渲染成HTML"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x628A;&#x8868;&#x5355;&#x6E32;&#x67D3;&#x6210;HTML" class="headerlink" title="4&#x3001;&#x628A;&#x8868;&#x5355;&#x6E32;&#x67D3;&#x6210;HTML"></a>4&#x3001;&#x628A;&#x8868;&#x5355;&#x6E32;&#x67D3;&#x6210;HTML</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）手工方式渲染"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x624B;&#x5DE5;&#x65B9;&#x5F0F;&#x6E32;&#x67D3;" class="headerlink" title="&#xFF08;1&#xFF09;&#x624B;&#x5DE5;&#x65B9;&#x5F0F;&#x6E32;&#x67D3;"></a>&#xFF08;1&#xFF09;&#x624B;&#x5DE5;&#x65B9;&#x5F0F;&#x6E32;&#x67D3;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）使用Bootstrap表单样式渲染"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x4F7F;&#x7528;Bootstrap&#x8868;&#x5355;&#x6837;&#x5F0F;&#x6E32;&#x67D3;" class="headerlink" title="&#xFF08;2&#xFF09;&#x4F7F;&#x7528;Bootstrap&#x8868;&#x5355;&#x6837;&#x5F0F;&#x6E32;&#x67D3;"></a>&#xFF08;2&#xFF09;&#x4F7F;&#x7528;Bootstrap&#x8868;&#x5355;&#x6837;&#x5F0F;&#x6E32;&#x67D3;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、在视图函数中处理表单"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x5728;&#x89C6;&#x56FE;&#x51FD;&#x6570;&#x4E2D;&#x5904;&#x7406;&#x8868;&#x5355;" class="headerlink" title="5&#x3001;&#x5728;&#x89C6;&#x56FE;&#x51FD;&#x6570;&#x4E2D;&#x5904;&#x7406;&#x8868;&#x5355;"></a>5&#x3001;&#x5728;&#x89C6;&#x56FE;&#x51FD;&#x6570;&#x4E2D;&#x5904;&#x7406;&#x8868;&#x5355;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

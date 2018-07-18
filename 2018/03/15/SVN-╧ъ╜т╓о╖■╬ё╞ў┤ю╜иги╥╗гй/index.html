@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SVN," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、使用 yum 安装SVN[root@singledb ~]# yum install -y subversion 2、验证安装版本及是否成功安装12[root@singledb ~]# svnserve --versionsvnserve, version 1.4.2 (r22196)">
+<meta name="keywords" content="SVN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVN 详解之服务器搭建（一）">
+<meta property="og:url" content="http://yoursite.com/2018/03/15/SVN-╧ъ╜т╓о╖■╬ё╞ў┤ю╜иги╥╗гй/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、使用 yum 安装SVN[root@singledb ~]# yum install -y subversion 2、验证安装版本及是否成功安装12[root@singledb ~]# svnserve --versionsvnserve, version 1.4.2 (r22196)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVN 详解之服务器搭建（一）">
+<meta name="twitter:description" content="1、使用 yum 安装SVN[root@singledb ~]# yum install -y subversion 2、验证安装版本及是否成功安装12[root@singledb ~]# svnserve --versionsvnserve, version 1.4.2 (r22196)">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/15/SVN-╧ъ╜т╓о╖■╬ё╞ў┤ю╜иги╥╗гй/"/>
+
+
+
+
+
+  <title>SVN 详解之服务器搭建（一） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/15/SVN-╧ъ╜т╓о╖■╬ё╞ў┤ю╜иги╥╗гй/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">SVN 详解之服务器搭建（一）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T14:09:57+08:00">
+                2018-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/" itemprop="url" rel="index">
+                    <span itemprop="name">版本控制</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/SVN/" itemprop="url" rel="index">
+                    <span itemprop="name">SVN</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/15/SVN-╧ъ╜т╓о╖■╬ё╞ў┤ю╜иги╥╗гй/" class="leancloud_visitors" data-flag-title="SVN 详解之服务器搭建（一）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、使用-yum-安装SVN"><a href="#1、使用-yum-安装SVN" class="headerlink" title="1、使用 yum 安装SVN"></a>1、使用 yum 安装SVN</h4><p><code>[root@singledb ~]# yum install -y subversion</code></p>
+<h4 id="2、验证安装版本及是否成功安装"><a href="#2、验证安装版本及是否成功安装" class="headerlink" title="2、验证安装版本及是否成功安装"></a>2、验证安装版本及是否成功安装</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@singledb ~]# svnserve --version</span><br><span class="line">svnserve, version 1.4.2 (r22196)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h4 id="3、创建-SVN-版本库"><a href="#3、创建-SVN-版本库" class="headerlink" title="3、创建 SVN 版本库"></a>3、创建 SVN 版本库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@singledb ~]# mkdir /var/svn  //创建存放版本库文件的目录</span><br><span class="line">[root@singledb ~]# svnadmin create /var/svn/testsvn  //创建版本库</span><br></pre></td></tr></table></figure>
+<h4 id="4、SVN-配置"><a href="#4、SVN-配置" class="headerlink" title="4、SVN 配置"></a>4、SVN 配置</h4><p>创建版本库后，在这个目录下会生成3个配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@singledb conf]# pwd</span><br><span class="line">/var/svn/testsvn/conf</span><br><span class="line">[root@singledb conf]# ls</span><br><span class="line">authz  passwd  svnserve.conf</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>（1）svnserve.conf：  svn服务配置文件。<br>（2）passwd： 用户名口令文件，负责账号和密码的用户名单管理。<br>（3）authz： 权限配置文件，控制账号的读写权限。 </p>
+</blockquote>
+<p><strong>svnserve.conf 文件， 该文件配置项分为以下5项：</strong></p>
+<ul>
+<li>anon-access： 控制非鉴权用户访问版本库的权限。</li>
+<li>auth-access：  控制鉴权用户访问版本库的权限。</li>
+<li>password-db： 指定用户名口令文件名。</li>
+<li>authz-db：指定权限配置文件名，通过该文件可以实现以路径为基础的访问控制。</li>
+<li>realm：指定版本库的认证域，即在登录时提示的认证域名称。若两个版本库的认证域相同，建议使用相同的用户名口令数据文件</li>
+</ul>
+<font color="red">（注意：将此五项都给去注释的时候，一定要顶格，不然会报错； realm指要认证的版本库，填写自己要配置的版本库即可）</font>
+
+<p><strong>authz 文件 ：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#这里把不同用户放到不同的组里面，下面在设置目录访问权限的时候，用用户组来操作就可以了。</span><br><span class="line">（注：此处可不使用groups概念，在下方可直接添加可操作的人员即可。）</span><br><span class="line">[groups]</span><br><span class="line">admin = admin</span><br><span class="line">dev = ben,nana</span><br><span class="line">test = test</span><br><span class="line"></span><br><span class="line"># 为所有库指定默认访问规则</span><br><span class="line"># 所有人可以读，管理员可以写</span><br><span class="line">[/]</span><br><span class="line">* = r</span><br><span class="line">@admin = rw</span><br><span class="line"></span><br><span class="line"># 允许开发人员可以完全访问他们的项目版本库</span><br><span class="line">[devproject:/]</span><br><span class="line">@dev = rw</span><br><span class="line"></span><br><span class="line"># 允许测试人员访问其中的test目录</span><br><span class="line">[devproject:/test]</span><br><span class="line">@test = rw</span><br></pre></td></tr></table></figure></p>
+<p><strong>Passwd 文件 ：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[users]</span><br><span class="line"># harry = harryssecret</span><br><span class="line"># sally = sallyssecret</span><br><span class="line">ben = ben1234</span><br><span class="line">nana = nana1234</span><br></pre></td></tr></table></figure></p>
+<h4 id="5、启动和停止SVN服务"><a href="#5、启动和停止SVN服务" class="headerlink" title="5、启动和停止SVN服务"></a>5、启动和停止SVN服务</h4><p>启动SVN服务：<br><code>svnserve -d -r /home/svn   （/home/svn 为版本库的根目录）</code><br>关闭SVN服务：<br>① 使用以下命令查找进程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# ps aux | grep svn</span><br><span class="line">root      8530  0.0  0.0 112660   972 pts/0    R+   14:44   0:00 grep --color=auto svn</span><br><span class="line">root     31964  0.0  0.0 166336   908 ?        Ss   11:28   0:00 svnserve -d -r /var/svn</span><br></pre></td></tr></table></figure></p>
+<p>② 使用Kill命令杀死进程<br><code>kill -s 9 31964        （31964为进程ID）</code></p>
+<h4 id="6、客户端检出访问-svn-服务器"><a href="#6、客户端检出访问-svn-服务器" class="headerlink" title="6、客户端检出访问 svn 服务器"></a>6、客户端检出访问 svn 服务器</h4><p><code>svn co svn://118.24.8.229/&lt;repo&gt;</code> 即可检出代码（注：repo为代码库名称）。会弹出输入用户名和密码。</p>
+<p><strong>注：我们搭建的SVN是独立服务器形式运行的，没有和Apache整合，所以SVN地址为：svn://xxx/xxx，而不是<a href="http://xxx/xxx或https://xxx/xxx。" target="_blank" rel="noopener">http://xxx/xxx或https://xxx/xxx。</a></strong><br>Apache 搭建HTTP方式访问SVN服务器：<a href="http://blog.csdn.net/robertohuang/article/details/55504445" target="_blank" rel="noopener"><font color="red">传送门</font></a></p>
+<hr>
+<h4 id="问题集锦"><a href="#问题集锦" class="headerlink" title="问题集锦"></a>问题集锦</h4><h5 id="（1）SVN-检出错误"><a href="#（1）SVN-检出错误" class="headerlink" title="（1）SVN 检出错误"></a>（1）SVN 检出错误</h5><blockquote>
+<p>在 Windows下检出SVN仓库报错：<br>Unable to connect to a repository at URL ‘svn://118.24.8.229/testsvn’<br>Can’t connect to host ‘118.24.8.229’: 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。</p>
+</blockquote>
+<p>经查找知道，是因为服务器端的对应端口未开启：3690.<br>在服务端开启即可：<br><code>iptables -A INPUT -p tcp -m tcp --dport 3690 -j ACCEPT</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SVN/" rel="tag"># SVN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/15/┤·┬ы░ц▒╛╣▄└э╧╡═│/" rel="next" title="代码版本管理系统">
+                <i class="fa fa-chevron-left"></i> 代码版本管理系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/15/SVN-╧ъ╜т╓о┐═╗з╢╦░▓╫░ги╢■гй/" rel="prev" title="SVN 详解之客户端安装（二）">
+                SVN 详解之客户端安装（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、使用-yum-安装SVN"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4F7F;&#x7528;-yum-&#x5B89;&#x88C5;SVN" class="headerlink" title="1&#x3001;&#x4F7F;&#x7528; yum &#x5B89;&#x88C5;SVN"></a>1&#x3001;&#x4F7F;&#x7528; yum &#x5B89;&#x88C5;SVN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、验证安装版本及是否成功安装"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;" class="headerlink" title="2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;"></a>2&#x3001;&#x9A8C;&#x8BC1;&#x5B89;&#x88C5;&#x7248;&#x672C;&#x53CA;&#x662F;&#x5426;&#x6210;&#x529F;&#x5B89;&#x88C5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、创建-SVN-版本库"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x521B;&#x5EFA;-SVN-&#x7248;&#x672C;&#x5E93;" class="headerlink" title="3&#x3001;&#x521B;&#x5EFA; SVN &#x7248;&#x672C;&#x5E93;"></a>3&#x3001;&#x521B;&#x5EFA; SVN &#x7248;&#x672C;&#x5E93;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、SVN-配置"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;SVN-&#x914D;&#x7F6E;" class="headerlink" title="4&#x3001;SVN &#x914D;&#x7F6E;"></a>4&#x3001;SVN &#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、启动和停止SVN服务"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;" class="headerlink" title="5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;"></a>5&#x3001;&#x542F;&#x52A8;&#x548C;&#x505C;&#x6B62;SVN&#x670D;&#x52A1;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、客户端检出访问-svn-服务器"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE;-svn-&#x670D;&#x52A1;&#x5668;" class="headerlink" title="6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE; svn &#x670D;&#x52A1;&#x5668;"></a>6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x68C0;&#x51FA;&#x8BBF;&#x95EE; svn &#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题集锦"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x96C6;&#x9526;" class="headerlink" title="&#x95EE;&#x9898;&#x96C6;&#x9526;"></a>&#x95EE;&#x9898;&#x96C6;&#x9526;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）SVN-检出错误"><span class="nav-number">7.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;SVN-&#x68C0;&#x51FA;&#x9519;&#x8BEF;" class="headerlink" title="&#xFF08;1&#xFF09;SVN &#x68C0;&#x51FA;&#x9519;&#x8BEF;"></a>&#xFF08;1&#xFF09;SVN &#x68C0;&#x51FA;&#x9519;&#x8BEF;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

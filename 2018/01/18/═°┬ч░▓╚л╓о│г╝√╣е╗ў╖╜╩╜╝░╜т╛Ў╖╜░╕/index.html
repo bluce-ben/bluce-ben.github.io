@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,网络安全," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、网络封包联机进入主机的流程当来自一个网络上的联机要求想进入我们的主机时，这个网络封包在进入主机实际取得数据的整个流程是如何？了解了整个流程之后，你才会发现：了解要如何保护你的主机安全！ 我们要将该流程更细致化说明，因为，透过这个流程分析，你会知道为啥我们的主机需要进行过一些防护之后，系统才能够比较强壮。此外，了解了网络是双向的，那么就能知道服务器与客户端都得要有 IP:port 才能够让彼此的">
+<meta name="keywords" content="书籍,网络安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络安全之常见攻击方式及解决方案">
+<meta property="og:url" content="http://yoursite.com/2018/01/18/═°┬ч░▓╚л╓о│г╝√╣е╗ў╖╜╩╜╝░╜т╛Ў╖╜░╕/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、网络封包联机进入主机的流程当来自一个网络上的联机要求想进入我们的主机时，这个网络封包在进入主机实际取得数据的整个流程是如何？了解了整个流程之后，你才会发现：了解要如何保护你的主机安全！ 我们要将该流程更细致化说明，因为，透过这个流程分析，你会知道为啥我们的主机需要进行过一些防护之后，系统才能够比较强壮。此外，了解了网络是双向的，那么就能知道服务器与客户端都得要有 IP:port 才能够让彼此的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_packet_translate.JPG">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络安全之常见攻击方式及解决方案">
+<meta name="twitter:description" content="1、网络封包联机进入主机的流程当来自一个网络上的联机要求想进入我们的主机时，这个网络封包在进入主机实际取得数据的整个流程是如何？了解了整个流程之后，你才会发现：了解要如何保护你的主机安全！ 我们要将该流程更细致化说明，因为，透过这个流程分析，你会知道为啥我们的主机需要进行过一些防护之后，系统才能够比较强壮。此外，了解了网络是双向的，那么就能知道服务器与客户端都得要有 IP:port 才能够让彼此的">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/01/network_packet_translate.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/18/═°┬ч░▓╚л╓о│г╝√╣е╗ў╖╜╩╜╝░╜т╛Ў╖╜░╕/"/>
+
+
+
+
+
+  <title>网络安全之常见攻击方式及解决方案 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/18/═°┬ч░▓╚л╓о│г╝√╣е╗ў╖╜╩╜╝░╜т╛Ў╖╜░╕/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">网络安全之常见攻击方式及解决方案</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-18T13:50:23+08:00">
+                2018-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/18/═°┬ч░▓╚л╓о│г╝√╣е╗ў╖╜╩╜╝░╜т╛Ў╖╜░╕/" class="leancloud_visitors" data-flag-title="网络安全之常见攻击方式及解决方案">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、网络封包联机进入主机的流程"><a href="#1、网络封包联机进入主机的流程" class="headerlink" title="1、网络封包联机进入主机的流程"></a>1、网络封包联机进入主机的流程</h4><p>当来自一个网络上的联机要求想进入我们的主机时，这个网络封包在进入主机实际取得数据的整个流程是如何？了解了整个流程之后，你才会发现：了解要如何保护你的主机安全！</p>
+<p>我们要将该流程更细致化说明，因为，透过这个流程分析，你会知道为啥我们的主机需要进行过一些防护之后，系统才能够比较强壮。此外，了解了网络是双向的，那么就能知道服务器与客户端都得要有 IP:port 才能够让彼此的软件互相沟通。现在，假设你的主机是 WWW 服务器，透过底下的图标，网络封包如何进入你的主机呢？<br><a id="more"></a><br><img src="/uploads/2018/01/network_packet_translate.JPG" alt="" title="网络封包进入主机的流程"></p>
+<h5 id="1-经过防火墙的分析："><a href="#1-经过防火墙的分析：" class="headerlink" title="1. 经过防火墙的分析："></a>1. 经过防火墙的分析：</h5><p>Linux 系统有内建的防火墙机制，因此你的联机能不能成功，得要先看防火墙的脸色才行。预设的 Linux 防火墙就有两个机制，这两个机制都是独立存在的，因此我们预设就有两层防火墙。第一层是封包过滤式的 netfilter 防火墙，另一个则是透过软件管控的 TCP Wrappers 防火墙。</p>
+<ul>
+<li><strong>封包过滤防火墙：IP Filtering 或 Net Filter</strong><br>   要进入 Linux 本机的封包都会先通过 Linux 核心的预设防火墙，就是称为 netfilter 的咚咚，简单的说，就是 iptables 这个软件所提供的防火墙功能。为何称为封包过滤呢？因为他主要是分析 TCP/IP 的封包表头来进行过滤的机制，主要分析的是 OSI 的第二、三、四层，主要控制的就是 MAC, IP, ICMP, TCP 与 UDP 的端口与状态 (SYN, ACK…) 等。</li>
+<li><strong>第二层防火墙：TCP Wrappers</strong><br>   通过 netfilter 之后，网络封包会开始接受 Super daemons 及 TCP_Wrappers 的检验，那个是什么呢？说穿了就是 /etc/hosts.allow 与 /etc/hosts.deny 的配置文件功能。这个功能也是针对 TCP 的 Header 进行再次的分析，同样你可以设定一些机制来抵制某些 IP 或 Port ，好让来源端的封包被丢弃或通过检验；</li>
+</ul>
+<p>透过防火墙的管控，我们可以将大部分来自因特网的垃圾联机丢弃，只允许自己开放的服务的联机进入本机而已，可以达到最基础的安全防护。</p>
+<h5 id="2-服务-daemon-的基本功能："><a href="#2-服务-daemon-的基本功能：" class="headerlink" title="2. 服务 (daemon) 的基本功能："></a>2. 服务 (daemon) 的基本功能：</h5><p>预设的防火墙是 Linux 的内建功能，但防火墙主要管理的是 MAC, IP, Port 等封包表头方面的信息，如果想要管控某些目录可以进入，某些目录则无法使用的功能，那就得要透过权限以及服务器软件提供的相关功能了。举例来说，你可以在 httpd.conf 这个配置文件之内规范某些 IP 来源不能使用 httpd 这个服务来取得主机的数据，那么即使该 IP 通过前面两层的过滤，他依旧无法取得主机的资源！但要注意的是，如果 httpd 这支程序本来就有问题的话，那么 client 端将可直接利用 httpd 软件的漏洞来入侵主机，而不需要取得主机内 root 的密码！因此，要小心这些启动在因特网上面的软件！</p>
+<h5 id="3-SELinux-对网络服务的细部权限控制："><a href="#3-SELinux-对网络服务的细部权限控制：" class="headerlink" title="3. SELinux 对网络服务的细部权限控制："></a>3. SELinux 对网络服务的细部权限控制：</h5><p>为了避免前面一个步骤的权限误用，或者是程序有问题所造成的资安状况，因此 Security Enhanced Linux (安全强化 Linux) 就来发挥它的功能！简单的说，SELinux 可以针对网络服务的权限来设定一些规则 (policy) ，让程序能够进行的功能有限，因此即使使用者的档案权限设定错误，以及程序有问题时，该程序能够进行的动作还是被限制的，即使该程序使用的是 root 的权限也一样。举例来说，前一个步骤的 httpd 真的被 cracker 攻击而让对方取得 root 的使用权，由于 httpd 已经被 SELinux 控制在 /var/www/html 里面，且能够进行的功能已经被规范住了，因此 cracker 就无法使用该程序来进行系统的进一步破坏。</p>
+<h5 id="4-使用主机的文件系统资源："><a href="#4-使用主机的文件系统资源：" class="headerlink" title="4. 使用主机的文件系统资源："></a>4. 使用主机的文件系统资源：</h5><p>想一想，你使用浏览器连接到 WWW 主机最主要的目的是什么？当然就是读取主机的 WWW 数据！那 WWW 资料是啥？就是档案啊！所以，最终网络封包其实是要向主机要求文件系统的数据。我们这里假设你要使用 httpd 这支程序来取得系统的档案数据，但 httpd 默认是由一个系统账号名称为 httpd 来启动的，所以：你的网页数据的权限当然就是要让 httpd 这支程序可以读取才行啊！如果你前面三关的设定都 OK ，最终权限设定错误，使用者依旧无法浏览你的网页数据的。</p>
+<p>在这些步骤之外，我们的 Linux 以及相关的软件都可能还会支持登录文件记录的功能，为了记录历史历程，以方便管理者在未来的错误查询与入侵检测，良好的分析登录档的习惯是一定要建立的，尤其是 /var/log/messages 与 /var/log/secure 这些个档案！</p>
+<h4 id="2、常见的攻击手法与相关保护"><a href="#2、常见的攻击手法与相关保护" class="headerlink" title="2、常见的攻击手法与相关保护"></a>2、常见的攻击手法与相关保护</h4><p>上面我们了解到数据传送到本机时所需要经过的几道防线，那个权限是最后的关键！那么 cracker 是如何透过上述的流程还能够攻击你的系统？底下就让我们来分析分析。</p>
+<h5 id="1-取得帐户信息后猜密码"><a href="#1-取得帐户信息后猜密码" class="headerlink" title="1. 取得帐户信息后猜密码"></a>1. 取得帐户信息后猜密码</h5><p>由于很多人喜欢用自己的名字来作为帐户信息，因此账号的取得是很容易的！举例来说，如果你的朋友将你的 email address 不小心泄漏出去，例如：dmtsai@your.host.name 之类的样式，那么人家就会知道你有一部主机，名称为 your.host.name，且在这部主机上面会有一个使用者账号，账号名称为 dmtsai ，之后这个坏家伙再利用某些特殊软件例如 nmap 来进行你主机的 port scan 之后，他就可以开始透过你主机有启动的软件功能来猜你这个账号的密码了！</p>
+<p>另外，如果你常常观察你的主机登录文件，那你也会发现如果你的主机有启动 Mail server 的服务时，你的登录档就会常常出现有些怪家伙尝试以一些奇怪的常见账号在试图猜测你的密码，举例来说像：admin, administrator, webmaster …. 之类的账号，尝试来窃取你的私人信件。如果你的主机真的有这类的账号，而且这类的账号还没有良好的密码规划，那就容易【中标】！所以我们常讲，系统账号千万不能给予密码，容易被猜密码啊！</p>
+<p>这种猜密码的攻击方式算是最早期的入侵模式之一了，攻击者知道你的账号，或者是可以猜出来你的系统有哪些账号，欠缺的就只是密码而已，因此他会【很努力的】去猜你的密码，此时，你的密码规划如果不好的话，很容易就被攻击了！主机也很容易被绑架！所以，良好的密码设置习惯是很重要的。</p>
+<p>不过这种攻击方式比较费时，因为目前很多软件都有密码输入次数的限制，如果连续输入三次密码还不能成功的登入，那该次联机就会被断线！所以，这种攻击方式日益减少，目前偶而还会看到就是！这也是初级 cracker 会使用的方式之一。那我们要如何保护呢？基本方式是这样的：</p>
+<blockquote>
+<p>（1）减少信息的曝光机会：例如不要将 Email Address 随意散布到 Internet 上头；<br>（2）建立较严格的密码设定规则：包括 /etc/shadow, /etc/login.defs 等档案的设定，如果主机够稳定且不会持续加入某些账号时，也可以考虑使用 chattr 来限制账号 (/etc/passwd, /etc/shadow) 的更改；<br>（3）完善的权限设定：由于这类的攻击方式会取得你的某个使用者账号的登入权限，所以如果你的系统权限设定得宜的话，那么攻击者也仅能取得一般使用者的权限而已，对于主机的伤害比较有限！所以说，权限设定是重要的；</p>
+</blockquote>
+<h5 id="2-利用系统的程序漏洞【主动】攻击"><a href="#2-利用系统的程序漏洞【主动】攻击" class="headerlink" title="2. 利用系统的程序漏洞【主动】攻击"></a>2. 利用系统的程序漏洞【主动】攻击</h5><p>由上图中的第二道防线，我们知道如果你的主机有开放网络服务时，就必须有启动某个网络软件！我们也知道由于软件可能撰写方式的问题，可能产生一些会被 cracker 乱用的臭虫程序代码，而这些臭虫程序代码由于产生问题的大小，有分为 bug (臭虫，可能会造成系统的不稳定或当机) 与 Security (安全问题，程序代码撰写方式会导致系统的权限被恶意者所掌握) 等问题。</p>
+<p>当程序的问题被公布后，某些较高阶的 cracker 会尝试撰写一些针对这个漏洞的攻击程序代码，并且将这个程序代码放置到 cracker 常去的网站上面，藉以推销自己的【功力】….. 这种攻击模式是目前最常见的，因为攻击者只要拿到攻击程序就可以进行攻击了，【而且由攻击开始到取得你系统的 root 权限不需要猜密码，不需要两分钟，就能够立刻入侵成功】。但这个玩意儿本身是靠【你主机的程序漏洞】来攻击的，所以，如果你的主机随时保持在实时更新的阶段，或者是关闭大部分不需要的程序，那就可以躲避过这个问题。因此，你应该要这样做：</p>
+<blockquote>
+<p>（1）关闭不需要的网络服务：开的 port 越少，可以被入侵的管道越少，一部主机负责的服务越单纯，越容易找出问题点。<br>（2）随时保持更新：这个没话讲！一定要进行的！<br>（3）关闭不需要的软件功能：举例来说，后面会提到的远程登录服务器 SSH 可以提供 root 由远程登录，那么危险的事情当然要给他取消啊！</p>
+</blockquote>
+<h5 id="3-利用社交工程作欺骗"><a href="#3-利用社交工程作欺骗" class="headerlink" title="3. 利用社交工程作欺骗"></a>3. 利用社交工程作欺骗</h5><p>社交工程 (Social Engineering) 指的其实很简单，就是透过人与人的互动来达到【入侵】的目的！在大公司里面，或许你可能会接到这样的电话：【我是人事部门的经理，我的账号为何突然间不能登入了？你给我看一看，恩？干脆直接帮我另建一个账号，我告诉你我要的密码是….】。如果你一时不查给他账号密码的话，你的主机可能就这样被绑走了！</p>
+<p>社交工程的欺骗方法多的是，包括使用【好心的 email 通知】、【警告信函】、【中奖单】等等，样样都是要欺骗你的账号密码，有的则利用钓鱼方式来欺骗你在某些恶意网站上面输入你的账号密码！举例来说，一般 email 会常常收到一些活动的信件，要我们用账号密码登录，这种的就要小心了！那要如何防范呢？</p>
+<blockquote>
+<p>（1）追踪对谈者：不要一味的相信对方，你必须要有信心的向上呈报，不要一时心慌就中了计！<br>（2）不要随意透露账号/密码等信息：最好不要随意在 Internet 上面填写这些数据，真的很危险！因为在 Internet 上面，你永远不知道对方屏幕前面坐着的是谁？</p>
+</blockquote>
+<h5 id="4-利用程序功能的【被动】攻击"><a href="#4-利用程序功能的【被动】攻击" class="headerlink" title="4. 利用程序功能的【被动】攻击"></a>4. 利用程序功能的【被动】攻击</h5><p>除了主动攻击之外，还有所谓的被动攻击！那就得要由【恶意网站】讲起了。如果你喜欢上网随意浏览的话，那么有的时候可能会连上一些广告很多，或者是一堆弹出式窗口的网站，这些网站有时还会很好心的【提供你很多好用的软件自动下载与安装】的功能，如果该网站是你所信任的，例如 Red Hat, CentOS, Windows 官网的话，那还好，如果是一个你也不清楚他是干嘛的网站，那你是否要同意下载安装该软件？</p>
+<p>如果你常常在注意一些网络危机处理的相关新闻时，常会发现 Windows 的浏览器 (IE) 有问题，有时则是全部的浏览器 (Firefox, Netscap, IE…) 都会出现问题。那你会不会觉得奇怪啊，怎么【浏览器也会有问题？】这是因为很多浏览器会主动的答应对方 WWW 主机所提供的各项程序功能，或者是自动安装来自对方主机的软件，有时浏览器还可能由于程序发生安全问题，让对方 WWW 浏览器得以传送恶意代码给你的主机来执行！</p>
+<p>那你又会想啊，那我干嘛浏览那样的恶意网站？总是会有些粗心大意的时候啊！如果你今天不小心收到一个 email ，里面告诉你你的银行账号有问题，希望你赶紧连上某个网页去看看你的账号是否在有问题的行列中，你会不会去？如果今天有个网络消息说某某网页在提供大特价商品，那你会不会去碰碰运气？都是可能的啊！不过，这也就很容易被对方攻击到了。</p>
+<p>那如何防备啊？当然建立良好的习惯最重要了：</p>
+<blockquote>
+<p>（1）随时更新主机上的所有软件：如果你的浏览器是没有问题的，那对方传递恶意代码时，你的浏览器就不会执行，那自然安全的多了！<br>（2）较小化软件的功能：举例来说，让你的收信软件不要主动的下载文件，让你的浏览器在安装某些软件时，要通过你的确认后才安装，这样就比较容易克服一些小麻烦；<br>（3）不要连接到不明的主机：因为很多时候我们都用 google 在搜寻问题的解决之道，那你如何知道对方是否是骗人的？所以，前面两点防备还是很重要的！不要以为没有连接上恶意网站就不会有问题！</p>
+</blockquote>
+<h5 id="5-蠕虫或木马的-rootkit"><a href="#5-蠕虫或木马的-rootkit" class="headerlink" title="5. 蠕虫或木马的 rootkit"></a>5. 蠕虫或木马的 rootkit</h5><p>rootkit 意思是说可以取得 root 权限的一群工具组 (kit)，就如同前面主动攻击程序漏洞的方法一样，rootkit 主要也是透过主机的程序漏洞。不过，rootkit 也会透过社交工程让用户下载、安装 rootkit 软件，结果让 cracker 得以简单的绑架对方主机！</p>
+<p>rootkit 除了可以透过上述的方法来进行入侵之外，rootkit 还会伪装或者是进行自我复制，举例来说，很多的 rootkit 本身就是蠕虫或者是木马间谍程序。蠕虫会让你的主机一直发送封包向外攻击，结果会让你的网络带宽被吃光光，例如 2001-2003年间的 Nimda, Code Red 等等；至于木马程序 (Trojan Horse) 则会对你的主机进行开启后门 (开一个 port 来让 cracker 主动的入侵)，结果就是….绑架、绑架、绑架！</p>
+<p>rootkit 其实挺不好追踪的，因为很多时候他会主动的去修改系统观察的指令，包括 ls, top, netstat, ps, who, w, last, find 等等，让你看不到某些有问题的程序，如此一来，你的 Linux 主机就很容易被当成是跳板了！有够危险！那如何防备呢？</p>
+<blockquote>
+<p>（1）不要随意安装不明来源的档案或者是不明网站的档案数据；<br>（2）不要让系统有太多危险的指令：例如 SUID/SGID 的程序，这些程序很可能会造成用户不当的使用，而使得木马程序有机可趁！<br>（3）可以定时以 rkhunter 之类的软件来追查：有个网站提供 rootkit 程序的检查，你可以前往下载与分析你的主机：<a href="http://www.rootkit.nl/projects/rootkit_hunter.html" target="_blank" rel="noopener">http://www.rootkit.nl/projects/rootkit_hunter.html</a></p>
+</blockquote>
+<h5 id="6-DDoS-攻击法-Distributed-Denial-of-Service"><a href="#6-DDoS-攻击法-Distributed-Denial-of-Service" class="headerlink" title="6. DDoS 攻击法 (Distributed Denial of Service )"></a>6. DDoS 攻击法 (Distributed Denial of Service )</h5><p>这类型的攻击中文翻译成【分布式阻断服务攻击】，从字面上的意义来看，它就是透过分散在各地的僵尸计算机进行攻击，让你的系统所提供的服务被阻断而无法顺利的提供服务给其他用户的方式。这种攻击法也很要命，而且方法有很多，最常见的就属 SYN Flood 攻击法了！当主机接收了一个带有 SYN 的 TCP 封包之后，就会启用对方要求的 port 来等待联机，并且发送出回应封包(带有 SYN/ACK 旗目标 TCP 封包)，并等待 Client 端的再次回应。</p>
+<p>好了，在这个步骤当中我们来想一想，如果 cient 端在发送出 SYN 的封包后，却将来自 Server 端的确认封包丢弃，那么你的 Server 端就会一直空等，而且 Client 端可以透过软件功能，在短短的时间内持续发送出这样的 SYN 封包，那么你的 Server 就会持续不断的发送确认封包，并且开启大量的 port 在空等！等到全部主机的 port 都启用完毕，那么…..系统就挂了！</p>
+<p>更可怕的是，通常攻击主机的一方不会只有一部！他会透过 Internet 上面的僵尸网络 (已经成为跳板，但网站主却没有发现的主机) 发动全体攻击，让你的主机在短时间内就立刻挂点。这种 DDoS 的攻击手法比较类似【玉石俱焚】的手段，他不是入侵你的系统，而是要让你的系统无法正常提供服务！最常被用来作为阻断式服务的网络服务就是 WWW 了，因为 WWW 通常得对整个 Internet 开放服务。</p>
+<p>这种攻击方法也是最难处理的，因为要嘛就得要系统核心有支持自动抵挡 DDoS 攻击的机制，要嘛你就得要自行撰写侦测软件来判断！而除非你的网站非常大，并且【得罪不少人】，否则应该不会被 DDoS 攻击！</p>
+<h5 id="7-其他"><a href="#7-其他" class="headerlink" title="7. 其他"></a>7. 其他</h5><p>上面提到的都是比较常见的攻击方法，是还有一些高竿的攻击法，不过那些攻击法都需要有比较高的技术水准，例如 IP 欺骗。他可以欺骗你主机告知该封包来源是来自信任网域，而且透过封包传送的机制，由攻击的一方持续的主动发送出确认封包与工作指令。如此一来，你的主机可能就会误判该封包确实有响应，而且是来自内部的主机。</p>
+<p>不过我们知道因特网是有路由的，而每部主机在每一个时段的 ACK 确认码都不相同，所以这个方式要达成可以登入，会比较麻烦，所以说，不太容易发生在我们这些小型主机上面！不过你还是得要注意一下说：</p>
+<blockquote>
+<p>（1）设定规则完善的防火墙：利用 Linux 内建的防火墙软件 iptables 建立较为完善的防火墙，可以防范部分的攻击行为；<br>（2）核心功能：这部份比较复杂，你必须要对系统核心有很深入的了解，才有办法设定好你的核心网络功能。<br>（3）登录文件与系统监控：你可以透过分析登录文件来了解系统的状况，另外也可以透过类似 MRTG 之类的监控软件来实时了解到系统是否有异常，这些工作都是很好的努力方向！</p>
+</blockquote>
+<h5 id="8-小结"><a href="#8-小结" class="headerlink" title="8. 小结"></a>8. 小结</h5><p>不要以为你的主机没有啥重要数据，被入侵或被植入木马也没有关系，因为我们的服务器通常会对内部来源的主机规范的较为宽松，如果你的主机在公司内部，但是不小心被入侵的话，那么贵公司的服务器是否就会暴露在危险的环境当中了？</p>
+<p>所以啊，主机防护还是很重要的！不要小看了！提供几个方向给大家思考看看吧：</p>
+<blockquote>
+<p>1.建立完善的登入密码规则限制；<br>2.完善的主机权限设定；<br>3.设定自动升级与修补软件漏洞、及移除危险软件；<br>4.在每项系统服务的设定当中，强化安全设定的项目；<br>5.利用 iptables, TCP_Wrappers 强化网络防火墙；<br>6.利用主机监控软件如 MRTG 与 logwatch 来分析主机状况与登录文件；</p>
+</blockquote>
+<h4 id="3、关于Linux操作系统网络安全的有效应对措施"><a href="#3、关于Linux操作系统网络安全的有效应对措施" class="headerlink" title="3、关于Linux操作系统网络安全的有效应对措施"></a>3、关于Linux操作系统网络安全的有效应对措施</h4><h5 id="（1）安装防火墙、保证账号安全"><a href="#（1）安装防火墙、保证账号安全" class="headerlink" title="（1）安装防火墙、保证账号安全"></a>（1）安装防火墙、保证账号安全</h5><p>　　在互联网的安全防御中，每台计算机的系统都会自带安全防御工具及防火墙，其主要作用在于提供给用户审核、访问及防病毒等功能的同时，有效防止非授权用户进入系统，获取相关网络资源信息，并通过恰当地配置和调试，达到限制局域网非授权用户的访问，保护系统网络安全的目的，同时，对Linux操作系统用户账号的管理也要注意加密及口令安全的保护。 </p>
+<h5 id="（2）关闭无需服务、重要文件需加密"><a href="#（2）关闭无需服务、重要文件需加密" class="headerlink" title="（2）关闭无需服务、重要文件需加密"></a>（2）关闭无需服务、重要文件需加密</h5><p>　　Linux操作系统本身会自带很多网络服务，其中有很多是没有必要的服务，用户应当及时进行关闭服务，以免因其造成严重的安全隐患，可以先找到 /etc/services 这个文件，对其所包含的网络服务数据库进行筛选，关闭不必要的网络服务，增强安全性。另外对系统中较为重要的文件也要进行加密，以保证一旦受到攻击可以不受到损害和窃取。 </p>
+<h5 id="（3）阻止Ping命令请求以及Finger服务"><a href="#（3）阻止Ping命令请求以及Finger服务" class="headerlink" title="（3）阻止Ping命令请求以及Finger服务"></a>（3）阻止Ping命令请求以及Finger服务</h5><p>　　上文提到，TCP/IP 协议由于自身缺陷极易受到黑客的攻击，利用其漏洞从正常数据包通道传送数据，获得有利信息。如果将系统设置为Ping命令请求阻止，便会减少黑客攻击成功的几率，提高网络的安全性。而禁止Finger服务，删除 /usr/bin 中的Finger命令，则可以防止黑客借助此命令远程或本地侵入系统，得到用户的一切相关信息，进而保护了网络的安全。 </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/网络安全/" rel="tag"># 网络安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/17/Linux-╖└╗Ё╟╜╡─╔ш╢и/" rel="next" title="Linux 防火墙的设定">
+                <i class="fa fa-chevron-left"></i> Linux 防火墙的设定
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/22/╥╗╨й│г╙├╖■╬ё╞ў╕┼╩Ў/" rel="prev" title="一些常用服务器概述">
+                一些常用服务器概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、网络封包联机进入主机的流程"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x7F51;&#x7EDC;&#x5C01;&#x5305;&#x8054;&#x673A;&#x8FDB;&#x5165;&#x4E3B;&#x673A;&#x7684;&#x6D41;&#x7A0B;" class="headerlink" title="1&#x3001;&#x7F51;&#x7EDC;&#x5C01;&#x5305;&#x8054;&#x673A;&#x8FDB;&#x5165;&#x4E3B;&#x673A;&#x7684;&#x6D41;&#x7A0B;"></a>1&#x3001;&#x7F51;&#x7EDC;&#x5C01;&#x5305;&#x8054;&#x673A;&#x8FDB;&#x5165;&#x4E3B;&#x673A;&#x7684;&#x6D41;&#x7A0B;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-经过防火墙的分析："><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1-&#x7ECF;&#x8FC7;&#x9632;&#x706B;&#x5899;&#x7684;&#x5206;&#x6790;&#xFF1A;" class="headerlink" title="1. &#x7ECF;&#x8FC7;&#x9632;&#x706B;&#x5899;&#x7684;&#x5206;&#x6790;&#xFF1A;"></a>1. &#x7ECF;&#x8FC7;&#x9632;&#x706B;&#x5899;&#x7684;&#x5206;&#x6790;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-服务-daemon-的基本功能："><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2-&#x670D;&#x52A1;-daemon-&#x7684;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;" class="headerlink" title="2. &#x670D;&#x52A1; (daemon) &#x7684;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;"></a>2. &#x670D;&#x52A1; (daemon) &#x7684;&#x57FA;&#x672C;&#x529F;&#x80FD;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-SELinux-对网络服务的细部权限控制："><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3-SELinux-&#x5BF9;&#x7F51;&#x7EDC;&#x670D;&#x52A1;&#x7684;&#x7EC6;&#x90E8;&#x6743;&#x9650;&#x63A7;&#x5236;&#xFF1A;" class="headerlink" title="3. SELinux &#x5BF9;&#x7F51;&#x7EDC;&#x670D;&#x52A1;&#x7684;&#x7EC6;&#x90E8;&#x6743;&#x9650;&#x63A7;&#x5236;&#xFF1A;"></a>3. SELinux &#x5BF9;&#x7F51;&#x7EDC;&#x670D;&#x52A1;&#x7684;&#x7EC6;&#x90E8;&#x6743;&#x9650;&#x63A7;&#x5236;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-使用主机的文件系统资源："><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#4-&#x4F7F;&#x7528;&#x4E3B;&#x673A;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x8D44;&#x6E90;&#xFF1A;" class="headerlink" title="4. &#x4F7F;&#x7528;&#x4E3B;&#x673A;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x8D44;&#x6E90;&#xFF1A;"></a>4. &#x4F7F;&#x7528;&#x4E3B;&#x673A;&#x7684;&#x6587;&#x4EF6;&#x7CFB;&#x7EDF;&#x8D44;&#x6E90;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、常见的攻击手法与相关保护"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x5E38;&#x89C1;&#x7684;&#x653B;&#x51FB;&#x624B;&#x6CD5;&#x4E0E;&#x76F8;&#x5173;&#x4FDD;&#x62A4;" class="headerlink" title="2&#x3001;&#x5E38;&#x89C1;&#x7684;&#x653B;&#x51FB;&#x624B;&#x6CD5;&#x4E0E;&#x76F8;&#x5173;&#x4FDD;&#x62A4;"></a>2&#x3001;&#x5E38;&#x89C1;&#x7684;&#x653B;&#x51FB;&#x624B;&#x6CD5;&#x4E0E;&#x76F8;&#x5173;&#x4FDD;&#x62A4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-取得帐户信息后猜密码"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1-&#x53D6;&#x5F97;&#x5E10;&#x6237;&#x4FE1;&#x606F;&#x540E;&#x731C;&#x5BC6;&#x7801;" class="headerlink" title="1. &#x53D6;&#x5F97;&#x5E10;&#x6237;&#x4FE1;&#x606F;&#x540E;&#x731C;&#x5BC6;&#x7801;"></a>1. &#x53D6;&#x5F97;&#x5E10;&#x6237;&#x4FE1;&#x606F;&#x540E;&#x731C;&#x5BC6;&#x7801;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-利用系统的程序漏洞【主动】攻击"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2-&#x5229;&#x7528;&#x7CFB;&#x7EDF;&#x7684;&#x7A0B;&#x5E8F;&#x6F0F;&#x6D1E;&#x3010;&#x4E3B;&#x52A8;&#x3011;&#x653B;&#x51FB;" class="headerlink" title="2. &#x5229;&#x7528;&#x7CFB;&#x7EDF;&#x7684;&#x7A0B;&#x5E8F;&#x6F0F;&#x6D1E;&#x3010;&#x4E3B;&#x52A8;&#x3011;&#x653B;&#x51FB;"></a>2. &#x5229;&#x7528;&#x7CFB;&#x7EDF;&#x7684;&#x7A0B;&#x5E8F;&#x6F0F;&#x6D1E;&#x3010;&#x4E3B;&#x52A8;&#x3011;&#x653B;&#x51FB;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-利用社交工程作欺骗"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3-&#x5229;&#x7528;&#x793E;&#x4EA4;&#x5DE5;&#x7A0B;&#x4F5C;&#x6B3A;&#x9A97;" class="headerlink" title="3. &#x5229;&#x7528;&#x793E;&#x4EA4;&#x5DE5;&#x7A0B;&#x4F5C;&#x6B3A;&#x9A97;"></a>3. &#x5229;&#x7528;&#x793E;&#x4EA4;&#x5DE5;&#x7A0B;&#x4F5C;&#x6B3A;&#x9A97;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-利用程序功能的【被动】攻击"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#4-&#x5229;&#x7528;&#x7A0B;&#x5E8F;&#x529F;&#x80FD;&#x7684;&#x3010;&#x88AB;&#x52A8;&#x3011;&#x653B;&#x51FB;" class="headerlink" title="4. &#x5229;&#x7528;&#x7A0B;&#x5E8F;&#x529F;&#x80FD;&#x7684;&#x3010;&#x88AB;&#x52A8;&#x3011;&#x653B;&#x51FB;"></a>4. &#x5229;&#x7528;&#x7A0B;&#x5E8F;&#x529F;&#x80FD;&#x7684;&#x3010;&#x88AB;&#x52A8;&#x3011;&#x653B;&#x51FB;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-蠕虫或木马的-rootkit"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#5-&#x8815;&#x866B;&#x6216;&#x6728;&#x9A6C;&#x7684;-rootkit" class="headerlink" title="5. &#x8815;&#x866B;&#x6216;&#x6728;&#x9A6C;&#x7684; rootkit"></a>5. &#x8815;&#x866B;&#x6216;&#x6728;&#x9A6C;&#x7684; rootkit</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-DDoS-攻击法-Distributed-Denial-of-Service"><span class="nav-number">2.6.</span> <span class="nav-text"><a href="#6-DDoS-&#x653B;&#x51FB;&#x6CD5;-Distributed-Denial-of-Service" class="headerlink" title="6. DDoS &#x653B;&#x51FB;&#x6CD5; (Distributed Denial of Service )"></a>6. DDoS &#x653B;&#x51FB;&#x6CD5; (Distributed Denial of Service )</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-其他"><span class="nav-number">2.7.</span> <span class="nav-text"><a href="#7-&#x5176;&#x4ED6;" class="headerlink" title="7. &#x5176;&#x4ED6;"></a>7. &#x5176;&#x4ED6;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8-小结"><span class="nav-number">2.8.</span> <span class="nav-text"><a href="#8-&#x5C0F;&#x7ED3;" class="headerlink" title="8. &#x5C0F;&#x7ED3;"></a>8. &#x5C0F;&#x7ED3;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、关于Linux操作系统网络安全的有效应对措施"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x5173;&#x4E8E;Linux&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7F51;&#x7EDC;&#x5B89;&#x5168;&#x7684;&#x6709;&#x6548;&#x5E94;&#x5BF9;&#x63AA;&#x65BD;" class="headerlink" title="3&#x3001;&#x5173;&#x4E8E;Linux&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7F51;&#x7EDC;&#x5B89;&#x5168;&#x7684;&#x6709;&#x6548;&#x5E94;&#x5BF9;&#x63AA;&#x65BD;"></a>3&#x3001;&#x5173;&#x4E8E;Linux&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7F51;&#x7EDC;&#x5B89;&#x5168;&#x7684;&#x6709;&#x6548;&#x5E94;&#x5BF9;&#x63AA;&#x65BD;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）安装防火墙、保证账号安全"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x5B89;&#x88C5;&#x9632;&#x706B;&#x5899;&#x3001;&#x4FDD;&#x8BC1;&#x8D26;&#x53F7;&#x5B89;&#x5168;" class="headerlink" title="&#xFF08;1&#xFF09;&#x5B89;&#x88C5;&#x9632;&#x706B;&#x5899;&#x3001;&#x4FDD;&#x8BC1;&#x8D26;&#x53F7;&#x5B89;&#x5168;"></a>&#xFF08;1&#xFF09;&#x5B89;&#x88C5;&#x9632;&#x706B;&#x5899;&#x3001;&#x4FDD;&#x8BC1;&#x8D26;&#x53F7;&#x5B89;&#x5168;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）关闭无需服务、重要文件需加密"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5173;&#x95ED;&#x65E0;&#x9700;&#x670D;&#x52A1;&#x3001;&#x91CD;&#x8981;&#x6587;&#x4EF6;&#x9700;&#x52A0;&#x5BC6;" class="headerlink" title="&#xFF08;2&#xFF09;&#x5173;&#x95ED;&#x65E0;&#x9700;&#x670D;&#x52A1;&#x3001;&#x91CD;&#x8981;&#x6587;&#x4EF6;&#x9700;&#x52A0;&#x5BC6;"></a>&#xFF08;2&#xFF09;&#x5173;&#x95ED;&#x65E0;&#x9700;&#x670D;&#x52A1;&#x3001;&#x91CD;&#x8981;&#x6587;&#x4EF6;&#x9700;&#x52A0;&#x5BC6;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）阻止Ping命令请求以及Finger服务"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x963B;&#x6B62;Ping&#x547D;&#x4EE4;&#x8BF7;&#x6C42;&#x4EE5;&#x53CA;Finger&#x670D;&#x52A1;" class="headerlink" title="&#xFF08;3&#xFF09;&#x963B;&#x6B62;Ping&#x547D;&#x4EE4;&#x8BF7;&#x6C42;&#x4EE5;&#x53CA;Finger&#x670D;&#x52A1;"></a>&#xFF08;3&#xFF09;&#x963B;&#x6B62;Ping&#x547D;&#x4EE4;&#x8BF7;&#x6C42;&#x4EE5;&#x53CA;Finger&#x670D;&#x52A1;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

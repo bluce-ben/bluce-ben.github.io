@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,阿里技术," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="阿里妹导读：前阵子，阿里科学家王刚、吴翰清同时入选MIT2017年度TR35 开创中国互联网企业先河一文刷爆了朋友圈，阿里巴巴人工智能实验室首席科学家王刚、阿里云首席安全科学家吴翰清同时入选MIT2017。这是自该奖项创立18年以来，第一次中国公司里同时有2人入选榜单。今天，阿里妹分享一篇来自吴翰清（也就是大家熟悉的道哥、小黑）的文章，让我们一起走进道哥的弹性安全网络世界。">
+<meta name="keywords" content="书籍,阿里技术">
+<meta property="og:type" content="article">
+<meta property="og:title" content="道哥自述： 为什么弹性安全网络将诞生最大的人工智能？">
+<meta property="og:url" content="http://yoursite.com/2017/12/21/╡└╕ч╫╘╩Ўг║╬к╩▓├┤╡п╨╘░▓╚л═°┬ч╜л╡о╔·╫ю┤є╡─╚╦╣д╓╟─▄г┐бкбкб╢2017░в└я╝╝╩їб╖/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="阿里妹导读：前阵子，阿里科学家王刚、吴翰清同时入选MIT2017年度TR35 开创中国互联网企业先河一文刷爆了朋友圈，阿里巴巴人工智能实验室首席科学家王刚、阿里云首席安全科学家吴翰清同时入选MIT2017。这是自该奖项创立18年以来，第一次中国公司里同时有2人入选榜单。今天，阿里妹分享一篇来自吴翰清（也就是大家熟悉的道哥、小黑）的文章，让我们一起走进道哥的弹性安全网络世界。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/alibaba_daoge_01.png">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="道哥自述： 为什么弹性安全网络将诞生最大的人工智能？">
+<meta name="twitter:description" content="阿里妹导读：前阵子，阿里科学家王刚、吴翰清同时入选MIT2017年度TR35 开创中国互联网企业先河一文刷爆了朋友圈，阿里巴巴人工智能实验室首席科学家王刚、阿里云首席安全科学家吴翰清同时入选MIT2017。这是自该奖项创立18年以来，第一次中国公司里同时有2人入选榜单。今天，阿里妹分享一篇来自吴翰清（也就是大家熟悉的道哥、小黑）的文章，让我们一起走进道哥的弹性安全网络世界。">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/alibaba_daoge_01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/21/╡└╕ч╫╘╩Ўг║╬к╩▓├┤╡п╨╘░▓╚л═°┬ч╜л╡о╔·╫ю┤є╡─╚╦╣д╓╟─▄г┐бкбкб╢2017░в└я╝╝╩їб╖/"/>
+
+
+
+
+
+  <title>道哥自述： 为什么弹性安全网络将诞生最大的人工智能？ | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/21/╡└╕ч╫╘╩Ўг║╬к╩▓├┤╡п╨╘░▓╚л═°┬ч╜л╡о╔·╫ю┤є╡─╚╦╣д╓╟─▄г┐бкбкб╢2017░в└я╝╝╩їб╖/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">道哥自述： 为什么弹性安全网络将诞生最大的人工智能？</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-21T17:50:54+08:00">
+                2017-12-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《2017阿里技术》/" itemprop="url" rel="index">
+                    <span itemprop="name">《2017阿里技术》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/21/╡└╕ч╫╘╩Ўг║╬к╩▓├┤╡п╨╘░▓╚л═°┬ч╜л╡о╔·╫ю┤є╡─╚╦╣д╓╟─▄г┐бкбкб╢2017░в└я╝╝╩їб╖/" class="leancloud_visitors" data-flag-title="道哥自述： 为什么弹性安全网络将诞生最大的人工智能？">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>　　阿里妹导读：前阵子，阿里科学家王刚、吴翰清同时入选MIT2017年度TR35 开创中国互联网企业先河一文刷爆了朋友圈，阿里巴巴人工智能实验室首席科学家王刚、阿里云首席安全科学家吴翰清同时入选MIT2017。这是自该奖项创立18年以来，第一次中国公司里同时有2人入选榜单。今天，阿里妹分享一篇来自吴翰清（也就是大家熟悉的道哥、小黑）的文章，让我们一起走进道哥的弹性安全网络世界。<br><a id="more"></a><br><img src="/uploads/2017/12/alibaba_daoge_01.png" alt=""><br>　　前些天得知自己入选了MIT的TR35，非常开心。我想这是中国安全技术在国际上被认可的一次证明。但这个荣誉不仅属于我一个人，更属于我团队中所有为此做出过努力和贡献的人，也属于那些敢于和我们一起尝试最新技术的客户们，因为新技术在诞生之初往往是生涩的，但缺少了孵化过程中的磨难，我们永远见不到美丽绽放的那天。我也非常感谢王坚博士、弓峰敏博士、华先胜老师、Dawn Song教授能够成为我的TR35推荐人，感谢你们对我所从事的工作的认可。<br>　　自从参加工作以来，我一直执着于将中国技术推向全球，我认为中国有着最好的安全技术和最好的人，只是缺乏了让他们成长的土壤和展示的舞台。所以我也希望这次MIT对我个人的认可，能够成为一次鼓励中国安全产业的优秀人才和优秀技术成果走向世界的契机。长期以来，我们享受了很多开源技术的红利，但中国技术对世界互联网发展的贡献却非常微薄。我认为这中间有语言的障碍，有文化的障碍，但没有能力的障碍。现在是时候让我们去跨越这些障碍，去解决全球互联网发展过程中遇到的那些问题了。只有中国本土的优秀人才成长起来，中国才会变得更加强大。<br>　　回顾我十多年的工作生涯，期间从事和研究过非常多的技术工作，但我认为唯有「弹性安全网络」的研究是最独特的。「弹性安全网络」不是对现有技术的一种应用， 它是真正的发明了一项此前所没有的技术，提出了一种全新的方法，采用了一个全新的角度来看待现有世界。也因此它能跳出现有的技术框架，带来一些突破性的惊喜。这些惊喜，往往连创造者都没有办法在一开始就想清楚。正如从比特币中抽象出了区块链技术一样，最早我们构建的产品「游戏盾」是用来防御超大流量DDoS攻击，最后抽象出来的「弹性安全网络」技术，却让我们看到了构建下一代互联网的可能性。<br>　　简单来说，弹性安全网络是将DDoS防御前置到网络边缘处。但是，未来真正要做的事情是通过端到端的连接，通过风险控制技术，重新构建一个干净的、安全的互联网。<br>　　前些天《麻省理工学院技术评论》的记者对我做了一次采访，我完整的阐述了一次关于弹性安全网络的构想。我把这次采访的录音放在这里，分享给所有对这项技术感兴趣的人，并附上整理后的文字稿（但依然强烈推荐听录音原文）。未来我希望有更多人参与到对「弹性安全网络」的建设中来。</p>
+<h2 id="为什么要做弹性安全网络"><a href="#为什么要做弹性安全网络" class="headerlink" title="为什么要做弹性安全网络"></a>为什么要做弹性安全网络</h2><p>　　互联网的流量就像流淌在管道里的水，但互联网发展到今天，流量里已经掺杂了太多的东西，变得不再纯粹和健康了。比如说，这些流量里面包含了很多攻击请求，也有很多恶意爬虫请求和一些欺诈行为的请求。<br>　　理想状况下，我们希望未来的流量是干净、健康的，希望把所有的网络攻击前置到整个网络的边缘处。就是说进入这张网络的时候，流量本身就是干净的。这就是clear traffic的概念。<br>　　为了实现这个想法，我们遇到了很多的困难。我们在思考，需要用一个什么样的架构去实现它。刚巧这个时候，我们有一些客户尝试用快速切换的思路来对抗DDoS攻击。这给了我灵感。最终，我把两个东西结合起来，产生了做弹性安全网络的想法。</p>
+<h2 id="什么是弹性安全网络"><a href="#什么是弹性安全网络" class="headerlink" title="什么是弹性安全网络"></a>什么是弹性安全网络</h2><p>　　弹性安全网络真正想要去做的，是替换掉整个互联网最核心的心脏，替换掉DNS，从而让网络变得有弹性，能够快速调度资源，形成一个全新的网络架构。<br>　　事实上，DNS诞生在互联网早期，是互联网1.0时代的产物，是一个开放的协议。到今天，也没有一个独立的运营商来运营整个互联网的DNS Server。它分散在各家不同的运营商。全球可能有上百家运营商，都在提供自己的DNS服务。运营商跟运营商之间的打通，是通过标准的DNS协议进行数据交换。<br>　　这也是为什么这么多年DNS协议都没办法进步的原因，过于碎片化。<br>　　目前，DNS有三个显著问题。第一个，是DNS完全解析的时间过长，这是整个DNS使用中遇到的一个非常大的痛点。<br>　　比如，对于一个大型网站，要把用户的所有流量指向一个新地址。把DNS的解析修改之后，可能需要花两到三天时间，流量才会百分之百的切到新地址去，不会在旧地址上还有残余流量。<br>　　为什么需要两到三天时间？原因是有很多运营商的DNS递归解析服务器，都需要更新自己的数据。而有的运营商还有自己的省级运营商，甚至更下面的地市级的DNS的递归解析。过于碎片化，使得难于进行统一的数据管理，这是今天现实存在的问题。<br>　　第二个问题是今天DNS Server软件中的解析数遇到了瓶颈，没有办法一个名字解析到几千个、甚至上万个，甚至未来十几万个不同地址。一个名字可能最多也就解析到十几个或几十个地址就不能再扩大了。这种瓶颈限制了我们的一些能力拓展。<br>　　第三个就是，原本可以基于DNS去实现的一些安全机制，比如风险控制，并没有建立起来。其实也比较好理解，在互联网1.0时代并没有如今天这般强大的数据能力和计算能力。<br>　　今天，我们要解决这些问题。在整个弹性安全网络的架构下面，我们在构思下一代的互联网应该是什么形态？答案就是通过可靠的快速调度技术把互联网心脏重构掉。<br>　　首先，就是它的快速解析的能力，一定要非常实时以及干净。其次，就是它本身支持的调度能力，要能达到上万的这个级别，规模特别的重要，就是一个名字能够解析到上万个地址、甚至是十几万个地址。<br>　　我们以防御DDoS攻击为切入点，进行尝试。过去防御DDoS攻击时，必须要做的是储备单点大带宽。因为IP是变不了的（在中国的网络环境下由于政策原因暂不考虑anycast的方案）。所以在DNS架构下，就是去硬抗这个IP遇到的流量攻击。比如说300G的流量打过来，必须要有300G的带宽在这里，才能够扛得住。如果只有100G的带宽，那整个机房就被堵死了，甚至可能会影响到运营商的网络稳定。<br>　　这是在过去攻防对抗的思路，就是你攻击打过来多少，我就必须要有多少带宽储备在这儿。这比的是资源，比的是单纯的带宽储备。<br>　　我们现在的思路是，你攻击这个IP，我马上就把这个IP拿掉，不要这个IP了，然后启用一个新的地址，并告诉所有客户，你来访问新地址。<br>　　当然，这时候攻击者会跟随，但是攻击者跟随是有成本的。一般，攻击者跟随到一个新地址，需要大概10多分钟。<br>　　在这个10分钟里，通过数据分析的方式，我们可以分析出攻击者到底是谁，把好人和坏人分离出来，阻止坏人的流量，并同时放干净的流量继续访问，这就是整个弹性安全网络的核心思想。</p>
+<h2 id="如何实现弹性安全网络"><a href="#如何实现弹性安全网络" class="headerlink" title="如何实现弹性安全网络"></a>如何实现弹性安全网络</h2><p>　　弹性安全网络的实现，是通过快速完成上万个地址的调度，从根本上改变过去需要在单点储备大带宽的一种防御方式能力。<br>　　就是，你不需要在单点储备大带宽了，你需要的更多的地址，更强的数据分析能力。<br>　　要知道，单点储备大带宽的价格非常贵。改用这种方式之后，DDoS防御成本可以下降两到三个数量级，因为不需要再单点储备大带宽。<br>　　做完这个之后，我们就发现，其实这个事情，最重要的不是多了一种对抗DDoS攻击的方法，而是改变了DNS本身，这是本质的东西。所以，我们是用一种新技术去解决了一个老问题。</p>
+<h2 id="弹性安全网络将诞生最大的人工智能"><a href="#弹性安全网络将诞生最大的人工智能" class="headerlink" title="弹性安全网络将诞生最大的人工智能"></a>弹性安全网络将诞生最大的人工智能</h2><p>　　沿着弹性安全网络的思路，我们希望通过风险控制来管理整个互联网的资源。<br>　　未来，弹性安全网络将重新定义互联网的入口。通过为每一个访问者建立“足迹库”，分析他是好人还是坏人的概率。一旦判断这次访问请求可能是有风险的，则可以随即让他访问不到这个资源。<br>　　所以，未来最大的人工智能应该是诞生在弹性安全网络，因为整个互联网的资源都被管理起来了，而且是基于每一个访问者的行为沉淀，来判断风险。<br>　　相当于想要进入这个封闭的网络，每个访客要先过安检。只有通过安检才能访问到这个资源。而且，访客所有的历史行为会被积累下来，为未来的风险判断做储备。而今天互联网的心脏– DNS，由于其开放性和碎片性，已经失去了将所有访问数据统一汇聚后进行分析的可能性。<br>　　在一个自成闭环的体系里面，由一家基础设施的提供商，去运营整个网络心脏的这种解析服务。然后也基于这种解析服务，它能够对整个网内的所有访客进行智能分析，最终就能够实现这张网内的所有访客的请求，都是在风险控制之下的，从而构建一个全新的互联网。</p>
+<h2 id="弹性安全网络的未来"><a href="#弹性安全网络的未来" class="headerlink" title="弹性安全网络的未来"></a>弹性安全网络的未来</h2><p>　　今天，一些阿里云上的游戏客户，就是通过弹性安全网络的技术，来调度他们所有的游戏资源，同时对所有玩家进行风险控制的。<br>　　弹性安全网络自成闭环。也就是说，这些使用弹性安全网络的游戏，已经从我们现在的互联网，也就是今天以DNS为支撑的这个互联网里，消失掉了。<br>　　一个玩家，通过DNS，是访问不到弹性安全网络这张网里的所有资源的。未来我们要做的事情就是，不断地去扩大这张网，直到网内可调度的资源覆盖整个互联网的资源。<br>　　目前来看，主要机会就是在IoT和移动互联网，因为这两者实际上是没有DNS的需求的。过去，之所以需要DNS，是因为有一个浏览器，浏览器里面有一个地址栏，这个东西必须通过输入一个好记的地址，才能访问到资源。<br>　　在移动互联网时代，今天手机不需要浏览器，而是直接打开一个App。那这个App访问的是什么东西，它不一定需要DNS来解析。<br>　　这是我们看到今天这个技术有可能走下去的一个非常重要的原因。<br>　　延伸出来，在IoT时代，也是不需要有一个浏览器去访问你所需要访问的服务和资源的。<br>　　所以这是我看到，这张网在未来有可能升级今天整个互联网最重要的一个原因。</p>
+<h2 id="阿里将开放弹性安全网络技术能力"><a href="#阿里将开放弹性安全网络技术能力" class="headerlink" title="阿里将开放弹性安全网络技术能力"></a>阿里将开放弹性安全网络技术能力</h2><p>　　未来，阿里会开放弹性安全网络的技术。<br>　　类似DNS，弹性安全网络本身也不涉及任何访问资源，它只是知道你今天到这个地方来了。就像，一个人今天到某个国家去，需要入关和出关，是一个道理。<br>　　事实上，在很多关键领域，弹性安全网络非常有价值。<br>　　比如，各个国家政府，或者大型企事业单位的专网或内网。如果它是以DNS为核心的话，那这是一个暴露在整张网内的弱点。因为DNS是一个公开的服务。一旦DNS这个单点被瘫痪掉，整张网可能就没法工作了，所以这是非常大的风险。<br>　　所以，弹性安全网络技术，不是为某一个客户设计的，它是为整个互联网设计的。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/阿里技术/" rel="tag"># 阿里技术</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/21/░в└я░═░═CTO╒┼╜и╖цг║╧┬╥╗▓и┤┤╨┬╗·╗сгм╓╪╡у╣╪╫в╒т╚¤╕Ў┴ь╙Є-бкбкб╢2017░в└я╝╝╩їб╖/" rel="next" title="阿里巴巴CTO张建锋： 下一波创新机会，重点关注这三个领域">
+                <i class="fa fa-chevron-left"></i> 阿里巴巴CTO张建锋： 下一波创新机会，重点关注这三个领域
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/22/Linux├№┴ю╓оdateбвcalбвbc/" rel="prev" title="Linux命令之date、cal、bc">
+                Linux命令之date、cal、bc <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要做弹性安全网络"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x505A;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;" class="headerlink" title="&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x505A;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;"></a>&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x505A;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是弹性安全网络"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;"></a>&#x4EC0;&#x4E48;&#x662F;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何实现弹性安全网络"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;" class="headerlink" title="&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;"></a>&#x5982;&#x4F55;&#x5B9E;&#x73B0;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#弹性安全网络将诞生最大的人工智能"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x5C06;&#x8BDE;&#x751F;&#x6700;&#x5927;&#x7684;&#x4EBA;&#x5DE5;&#x667A;&#x80FD;" class="headerlink" title="&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x5C06;&#x8BDE;&#x751F;&#x6700;&#x5927;&#x7684;&#x4EBA;&#x5DE5;&#x667A;&#x80FD;"></a>&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x5C06;&#x8BDE;&#x751F;&#x6700;&#x5927;&#x7684;&#x4EBA;&#x5DE5;&#x667A;&#x80FD;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#弹性安全网络的未来"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x7684;&#x672A;&#x6765;" class="headerlink" title="&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x7684;&#x672A;&#x6765;"></a>&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x7684;&#x672A;&#x6765;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阿里将开放弹性安全网络技术能力"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x963F;&#x91CC;&#x5C06;&#x5F00;&#x653E;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x6280;&#x672F;&#x80FD;&#x529B;" class="headerlink" title="&#x963F;&#x91CC;&#x5C06;&#x5F00;&#x653E;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x6280;&#x672F;&#x80FD;&#x529B;"></a>&#x963F;&#x91CC;&#x5C06;&#x5F00;&#x653E;&#x5F39;&#x6027;&#x5B89;&#x5168;&#x7F51;&#x7EDC;&#x6280;&#x672F;&#x80FD;&#x529B;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
