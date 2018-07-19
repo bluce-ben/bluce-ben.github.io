@@ -81,20 +81,20 @@
 
 
 
-<meta name="description" content="通过Stack Overflow搜索到一个靠谱点的搭建VPN方法，完成搭建，现整理如下： 一、服务器端安装1、软件安装Debian / Ubuntu:　　apt-get install python-pip　　pip install shadowsocks CentOS:　　yum install python-setuptools &amp;amp;&amp;amp; easy_install pip　　pip">
+<meta name="description" content="通过Stack Overflow搜索到一个靠谱点的搭建VPS方法，完成搭建，现整理如下： 一、服务器端安装1、软件安装Debian / Ubuntu:　　apt-get install python-pip　　pip install shadowsocks CentOS:　　yum install python-setuptools &amp;amp;&amp;amp; easy_install pip　　pip">
 <meta name="keywords" content="VPS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="搭建VPN记录">
+<meta property="og:title" content="搭建VPS记录">
 <meta property="og:url" content="http://yoursite.com/2018/07/18/搭建VPN记录/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="通过Stack Overflow搜索到一个靠谱点的搭建VPN方法，完成搭建，现整理如下： 一、服务器端安装1、软件安装Debian / Ubuntu:　　apt-get install python-pip　　pip install shadowsocks CentOS:　　yum install python-setuptools &amp;amp;&amp;amp; easy_install pip　　pip">
+<meta property="og:description" content="通过Stack Overflow搜索到一个靠谱点的搭建VPS方法，完成搭建，现整理如下： 一、服务器端安装1、软件安装Debian / Ubuntu:　　apt-get install python-pip　　pip install shadowsocks CentOS:　　yum install python-setuptools &amp;amp;&amp;amp; easy_install pip　　pip">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/07/18/搭建VPN记录/%27../uploads/2018/07/vpn_01.png%27">
-<meta property="og:updated_time" content="2018-07-19T11:38:19.263Z">
+<meta property="og:image" content="http://yoursite.com/2018/07/18/搭建VPN记录/%27/uploads/2018/07/vpn_01.png%27">
+<meta property="og:updated_time" content="2018-07-19T11:56:09.019Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="搭建VPN记录">
-<meta name="twitter:description" content="通过Stack Overflow搜索到一个靠谱点的搭建VPN方法，完成搭建，现整理如下： 一、服务器端安装1、软件安装Debian / Ubuntu:　　apt-get install python-pip　　pip install shadowsocks CentOS:　　yum install python-setuptools &amp;amp;&amp;amp; easy_install pip　　pip">
-<meta name="twitter:image" content="http://yoursite.com/2018/07/18/搭建VPN记录/%27../uploads/2018/07/vpn_01.png%27">
+<meta name="twitter:title" content="搭建VPS记录">
+<meta name="twitter:description" content="通过Stack Overflow搜索到一个靠谱点的搭建VPS方法，完成搭建，现整理如下： 一、服务器端安装1、软件安装Debian / Ubuntu:　　apt-get install python-pip　　pip install shadowsocks CentOS:　　yum install python-setuptools &amp;amp;&amp;amp; easy_install pip　　pip">
+<meta name="twitter:image" content="http://yoursite.com/2018/07/18/搭建VPN记录/%27/uploads/2018/07/vpn_01.png%27">
 
 
 
@@ -130,7 +130,7 @@
 
 
 
-  <title>搭建VPN记录 | Blog</title>
+  <title>搭建VPS记录 | Blog</title>
   
 
 
@@ -294,7 +294,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">搭建VPN记录</h2>
+          <h2 class="post-title" itemprop="name headline">搭建VPS记录</h2>
         
 
         <div class="post-meta">
@@ -324,7 +324,7 @@
 
           
           
-             <span id="/2018/07/18/搭建VPN记录/" class="leancloud_visitors" data-flag-title="搭建VPN记录">
+             <span id="/2018/07/18/搭建VPN记录/" class="leancloud_visitors" data-flag-title="搭建VPS记录">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -355,7 +355,7 @@
       
 
       
-        <p>通过Stack Overflow搜索到一个靠谱点的搭建VPN方法，完成搭建，现整理如下：</p>
+        <p>通过Stack Overflow搜索到一个靠谱点的搭建VPS方法，完成搭建，现整理如下：</p>
 <h4 id="一、服务器端安装"><a href="#一、服务器端安装" class="headerlink" title="一、服务器端安装"></a>一、服务器端安装</h4><h5 id="1、软件安装"><a href="#1、软件安装" class="headerlink" title="1、软件安装"></a>1、软件安装</h5><p>Debian / Ubuntu:<br>　　apt-get install python-pip<br>　　pip install shadowsocks</p>
 <p>CentOS:<br>　　yum install python-setuptools &amp;&amp; easy_install pip<br>　　pip install shadowsocks</p>
 <p>Windows:<br>　　See [Install Server on Windows]<br><a id="more"></a></p>
@@ -373,7 +373,7 @@
 <p>(1) 用vim打开文件：vim /usr/local/lib/python2.7/dist-packages/shadowsocks/crypto/openssl.py (该路径请根据自己的系统情况自行修改，如果不知道该文件在哪里的话，可以使用find命令查找文件位置)<br>(2) 跳转到52行（shadowsocks2.8.2版本，其他版本搜索一下cleanup）<br>(3) 进入编辑模式<br>(4) 将第52行libcrypto.EVP_CIPHER_CTX_cleanup.argtypes = (c_void_p,)<br>　　改为libcrypto.EVP_CIPHER_CTX_reset.argtypes = (c_void_p,)<br>(5) 再次搜索cleanup（全文件共2处，此处位于111行），将libcrypto.EVP_CIPHER_CTX_cleanup(self._ctx)<br>　　改为libcrypto.EVP_CIPHER_CTX_reset(self._ctx)<br>(6) 保存并退出<br>(7) 启动shadowsocks服务：service shadowsocks start 或 sslocal -c ss配置文件目录<br>(8) 问题解决</p>
 </blockquote>
 <p><strong>插曲：</strong><br>在 Vultr 上面购买的“东京”服务器用来搭建VPN，刚开始购买的是 $2.5/month，上面标注的是 only ipv6，服务器启动后，才发现国内目前还没有普及ipv6，ping都不通，在阿里云服务器上开启ipv6，然后再ping仍然不通。 应该是网络运营商方面没有开启ipv6，所以都出不去，才ping不通。迫不得已，又删除掉服务器，重新购买了 $5/month 的服务器，搭建完毕。</p>
-<p><em>下面查看电脑是否支持IPV6访问：</em><br>登陆<code>http://test-ipv6.com/</code>（如果能上网的话）<br>根据网站给出的信息，判断是否支持IPv6。<br><img src="&#39;../uploads/2018/07/vpn_01.png&#39;" alt=""></p>
+<p><em>下面查看电脑是否支持IPV6访问：</em><br>登陆<code>http://test-ipv6.com/</code>（如果能上网的话）<br>根据网站给出的信息，判断是否支持IPv6。<br><img src="&#39;/uploads/2018/07/vpn_01.png&#39;" alt=""></p>
 
       
     </div>
