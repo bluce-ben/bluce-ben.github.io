@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面试," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、什么是索引?SQL Server 2000里有什么类型的索引?任何有经验的数据库开发人员都应该能够很轻易地回答这个问题。一些经验不太多的开发人员能够回答这个问题，但是有些地方会说不清楚。简单地说，索引是一个数据结构，用来快速访问数据库表格或者视图里的数据。在SQL Server里，它们有两种形式:聚集索引和非聚集索引。聚集索引在索引的叶级保存数据。这意味着不论聚集索引里有表格的哪个(或哪些)字">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面试 - 数据库相关问题">
+<meta property="og:url" content="http://yoursite.com/2018/06/11/面试 - 数据库相关问题/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、什么是索引?SQL Server 2000里有什么类型的索引?任何有经验的数据库开发人员都应该能够很轻易地回答这个问题。一些经验不太多的开发人员能够回答这个问题，但是有些地方会说不清楚。简单地说，索引是一个数据结构，用来快速访问数据库表格或者视图里的数据。在SQL Server里，它们有两种形式:聚集索引和非聚集索引。聚集索引在索引的叶级保存数据。这意味着不论聚集索引里有表格的哪个(或哪些)字">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="面试 - 数据库相关问题">
+<meta name="twitter:description" content="1、什么是索引?SQL Server 2000里有什么类型的索引?任何有经验的数据库开发人员都应该能够很轻易地回答这个问题。一些经验不太多的开发人员能够回答这个问题，但是有些地方会说不清楚。简单地说，索引是一个数据结构，用来快速访问数据库表格或者视图里的数据。在SQL Server里，它们有两种形式:聚集索引和非聚集索引。聚集索引在索引的叶级保存数据。这意味着不论聚集索引里有表格的哪个(或哪些)字">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/11/面试 - 数据库相关问题/"/>
+
+
+
+
+
+  <title>面试 - 数据库相关问题 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/11/面试 - 数据库相关问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">面试 - 数据库相关问题</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-11T17:58:07+08:00">
+                2018-06-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/面试/" itemprop="url" rel="index">
+                    <span itemprop="name">面试</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/06/11/面试 - 数据库相关问题/" class="leancloud_visitors" data-flag-title="面试 - 数据库相关问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h5 id="1、什么是索引-SQL-Server-2000里有什么类型的索引"><a href="#1、什么是索引-SQL-Server-2000里有什么类型的索引" class="headerlink" title="1、什么是索引?SQL Server 2000里有什么类型的索引?"></a>1、什么是索引?SQL Server 2000里有什么类型的索引?</h5><p>任何有经验的数据库开发人员都应该能够很轻易地回答这个问题。一些经验不太多的开发人员能够回答这个问题，但是有些地方会说不清楚。<br>简单地说，索引是一个数据结构，用来快速访问数据库表格或者视图里的数据。在SQL Server里，它们有两种形式:聚集索引和非聚集索引。聚集索引在索引的叶级保存数据。这意味着不论聚集索引里有表格的哪个(或哪些)字段，这些字段都会按顺序被保存在表格。由于存在这种排序，所以每个表格只会有一个聚集索引。非聚集索引在索引的叶级有一个行标识符。这个行标识符是一个指向磁盘上数据的指针。它允许每个表格有多个非聚集索引。</p>
+<a id="more"></a>
+<h5 id="2、什么是主键-什么是外键"><a href="#2、什么是主键-什么是外键" class="headerlink" title="2、什么是主键?什么是外键?"></a>2、什么是主键?什么是外键?</h5><p>主键是表格里的(一个或多个)字段，只用来定义表格里的行;主键里的值总是唯一的。外键是一个用来建立两个表格之间关系的约束。这种关系一般都涉及一个表格里的主键字段与另外一个表格(尽管可能是同一个表格)里的一系列相连的字段。那么这些相连的字段就是外键。</p>
+<h5 id="3、什么是触发器-SQL-Server-2000有什么不同类型的触发器"><a href="#3、什么是触发器-SQL-Server-2000有什么不同类型的触发器" class="headerlink" title="3、什么是触发器?SQL Server 2000有什么不同类型的触发器?"></a>3、什么是触发器?SQL Server 2000有什么不同类型的触发器?</h5><p>让未来的数据库开发人员知道可用的触发器类型以及如何实现它们是非常有益的。<br>触发器是一种专用类型的存储过程，它被捆绑到SQL Server 2000的表格或者视图上。在SQL Server 2000里，有INSTEAD-OF和AFTER两种触发器。INSTEAD-OF触发器是替代数据操控语言(Data Manipulation Language，DML)语句对表格执行语句的存储过程。例如，如果我有一个用于TableA的INSTEAD-OF-UPDATE触发器，同时对这个表格执行一个更新语句，那么INSTEAD-OF-UPDATE触发器里的代码会执行，而不是我执行的更新语句则不会执行操作。<br>AFTER触发器要在DML语句在数据库里使用之后才执行。这些类型的触发器对于监视发生在数据库表格里的数据变化十分好用。</p>
+<p>您如何确一个带有名为Fld1字段的TableB表格里只具有Fld1字段里的那些值，而这些值同时在名为TableA的表格的Fld1字段里?<br>这个与关系相关的问题有两个可能的答案。第一个答案(而且是您希望听到的答案)是使用外键限制。外键限制用来维护引用的完整性。它被用来确保表格里的字段只保存有已经在不同的(或者相同的)表格里的另一个字段里定义了的值。这个字段就是候选键(通常是另外一个表格的主键)。<br>另外一种答案是触发器。触发器可以被用来保证以另外一种方式实现与限制相同的作用，但是它非常难设置与维护，而且性能一般都很糟糕。由于这个原因，微软建议开发人员使用外键限制而不是触发器来维护引用的完整性。</p>
+<h5 id="4、对一个投入使用的在线事务处理表格有过多索引需要有什么样的性能考虑"><a href="#4、对一个投入使用的在线事务处理表格有过多索引需要有什么样的性能考虑" class="headerlink" title="4、对一个投入使用的在线事务处理表格有过多索引需要有什么样的性能考虑?"></a>4、对一个投入使用的在线事务处理表格有过多索引需要有什么样的性能考虑?</h5><p>你正在寻找进行与数据操控有关的应聘人员。对一个表格的索引越多，数据库引擎用来更新、插入或者删除数据所需要的时间就越多，因为在数据操控发生的时候索引也必须要维护。</p>
+<h5 id="5、你可以用什么来确保表格里的字段只接受特定范围里的值"><a href="#5、你可以用什么来确保表格里的字段只接受特定范围里的值" class="headerlink" title="5、你可以用什么来确保表格里的字段只接受特定范围里的值?"></a>5、你可以用什么来确保表格里的字段只接受特定范围里的值?</h5><p>这个问题可以用多种方式来回答，但是只有一个答案是“好”答案。您希望听到的回答是Check限制，它在数据库表格里被定义，用来限制输入该列的值。<br>触发器也可以被用来限制数据库表格里的字段能够接受的值，但是这种办法要求触发器在表格里被定义，这可能会在某些情况下影响到性能。因此，微软建议使用Check限制而不是其他的方式来限制域的完整性。</p>
+<h5 id="6、对关系型数据库而言，索引是相当重要的概念，请回答有关索引几个问题"><a href="#6、对关系型数据库而言，索引是相当重要的概念，请回答有关索引几个问题" class="headerlink" title="6、对关系型数据库而言，索引是相当重要的概念，请回答有关索引几个问题:"></a>6、对关系型数据库而言，索引是相当重要的概念，请回答有关索引几个问题:</h5><p>a) 索引的目的是什么?<br>b) 索引对数据库系统的负面影响是什么?<br>c) 为数据表建立索引的原则有哪些?<br>d) 什么情况下不宜建立索引?</p>
+<p>答：<br>索引的目的：</p>
+<ol>
+<li>快速访问数据表中的特定信息，提高检索速度</li>
+<li>创建唯一性索引，保证数据库表中每一行数据的唯一性</li>
+<li>加速表和表之间的连接</li>
+<li>使用分组和排序子句进行数据检索时，可以显著减少查询中分组和排序的时间</li>
+</ol>
+<p>负面影响：创建索引和维护索引需要耗费时间，这个时间随着数据量的增加而增加；索引需要占用物理空间，不光是表需要占用数据空间，每个索引也需要占用物理空间；当对表进行增、删、改的时候索引也要动态维护，这样就降低了数据的维护速度。</p>
+<p>建立索引的原则：</p>
+<ol>
+<li>在最频繁使用的、用以缩小查询范围的字段上建立索引</li>
+<li>在平频繁使用的、需要排序的字段上建立索引</li>
+</ol>
+<p>什么情况下不宜建立索引：</p>
+<ol>
+<li>对于查询中很少涉及的列或者重复值比较多的列，不宜建立索引</li>
+<li>对于一些特殊的数据类型，不宜建立索引，比如文本字段(text)等。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/11/面试-php易混淆题集锦/" rel="next" title="面试 - php易混淆题集锦">
+                <i class="fa fa-chevron-left"></i> 面试 - php易混淆题集锦
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/18/搭建VPN记录/" rel="prev" title="搭建VPN记录">
+                搭建VPN记录 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">137</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、什么是索引-SQL-Server-2000里有什么类型的索引"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x7D22;&#x5F15;-SQL-Server-2000&#x91CC;&#x6709;&#x4EC0;&#x4E48;&#x7C7B;&#x578B;&#x7684;&#x7D22;&#x5F15;" class="headerlink" title="1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x7D22;&#x5F15;?SQL Server 2000&#x91CC;&#x6709;&#x4EC0;&#x4E48;&#x7C7B;&#x578B;&#x7684;&#x7D22;&#x5F15;?"></a>1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x7D22;&#x5F15;?SQL Server 2000&#x91CC;&#x6709;&#x4EC0;&#x4E48;&#x7C7B;&#x578B;&#x7684;&#x7D22;&#x5F15;?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、什么是主键-什么是外键"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x4E3B;&#x952E;-&#x4EC0;&#x4E48;&#x662F;&#x5916;&#x952E;" class="headerlink" title="2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x4E3B;&#x952E;?&#x4EC0;&#x4E48;&#x662F;&#x5916;&#x952E;?"></a>2&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x4E3B;&#x952E;?&#x4EC0;&#x4E48;&#x662F;&#x5916;&#x952E;?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、什么是触发器-SQL-Server-2000有什么不同类型的触发器"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x89E6;&#x53D1;&#x5668;-SQL-Server-2000&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x89E6;&#x53D1;&#x5668;" class="headerlink" title="3&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x89E6;&#x53D1;&#x5668;?SQL Server 2000&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x89E6;&#x53D1;&#x5668;?"></a>3&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x89E6;&#x53D1;&#x5668;?SQL Server 2000&#x6709;&#x4EC0;&#x4E48;&#x4E0D;&#x540C;&#x7C7B;&#x578B;&#x7684;&#x89E6;&#x53D1;&#x5668;?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、对一个投入使用的在线事务处理表格有过多索引需要有什么样的性能考虑"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x5BF9;&#x4E00;&#x4E2A;&#x6295;&#x5165;&#x4F7F;&#x7528;&#x7684;&#x5728;&#x7EBF;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x8868;&#x683C;&#x6709;&#x8FC7;&#x591A;&#x7D22;&#x5F15;&#x9700;&#x8981;&#x6709;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x6027;&#x80FD;&#x8003;&#x8651;" class="headerlink" title="4&#x3001;&#x5BF9;&#x4E00;&#x4E2A;&#x6295;&#x5165;&#x4F7F;&#x7528;&#x7684;&#x5728;&#x7EBF;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x8868;&#x683C;&#x6709;&#x8FC7;&#x591A;&#x7D22;&#x5F15;&#x9700;&#x8981;&#x6709;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x6027;&#x80FD;&#x8003;&#x8651;?"></a>4&#x3001;&#x5BF9;&#x4E00;&#x4E2A;&#x6295;&#x5165;&#x4F7F;&#x7528;&#x7684;&#x5728;&#x7EBF;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x8868;&#x683C;&#x6709;&#x8FC7;&#x591A;&#x7D22;&#x5F15;&#x9700;&#x8981;&#x6709;&#x4EC0;&#x4E48;&#x6837;&#x7684;&#x6027;&#x80FD;&#x8003;&#x8651;?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、你可以用什么来确保表格里的字段只接受特定范围里的值"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x4EC0;&#x4E48;&#x6765;&#x786E;&#x4FDD;&#x8868;&#x683C;&#x91CC;&#x7684;&#x5B57;&#x6BB5;&#x53EA;&#x63A5;&#x53D7;&#x7279;&#x5B9A;&#x8303;&#x56F4;&#x91CC;&#x7684;&#x503C;" class="headerlink" title="5&#x3001;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x4EC0;&#x4E48;&#x6765;&#x786E;&#x4FDD;&#x8868;&#x683C;&#x91CC;&#x7684;&#x5B57;&#x6BB5;&#x53EA;&#x63A5;&#x53D7;&#x7279;&#x5B9A;&#x8303;&#x56F4;&#x91CC;&#x7684;&#x503C;?"></a>5&#x3001;&#x4F60;&#x53EF;&#x4EE5;&#x7528;&#x4EC0;&#x4E48;&#x6765;&#x786E;&#x4FDD;&#x8868;&#x683C;&#x91CC;&#x7684;&#x5B57;&#x6BB5;&#x53EA;&#x63A5;&#x53D7;&#x7279;&#x5B9A;&#x8303;&#x56F4;&#x91CC;&#x7684;&#x503C;?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、对关系型数据库而言，索引是相当重要的概念，请回答有关索引几个问题"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5BF9;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#x800C;&#x8A00;&#xFF0C;&#x7D22;&#x5F15;&#x662F;&#x76F8;&#x5F53;&#x91CD;&#x8981;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x8BF7;&#x56DE;&#x7B54;&#x6709;&#x5173;&#x7D22;&#x5F15;&#x51E0;&#x4E2A;&#x95EE;&#x9898;" class="headerlink" title="6&#x3001;&#x5BF9;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#x800C;&#x8A00;&#xFF0C;&#x7D22;&#x5F15;&#x662F;&#x76F8;&#x5F53;&#x91CD;&#x8981;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x8BF7;&#x56DE;&#x7B54;&#x6709;&#x5173;&#x7D22;&#x5F15;&#x51E0;&#x4E2A;&#x95EE;&#x9898;:"></a>6&#x3001;&#x5BF9;&#x5173;&#x7CFB;&#x578B;&#x6570;&#x636E;&#x5E93;&#x800C;&#x8A00;&#xFF0C;&#x7D22;&#x5F15;&#x662F;&#x76F8;&#x5F53;&#x91CD;&#x8981;&#x7684;&#x6982;&#x5FF5;&#xFF0C;&#x8BF7;&#x56DE;&#x7B54;&#x6709;&#x5173;&#x7D22;&#x5F15;&#x51E0;&#x4E2A;&#x95EE;&#x9898;:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
