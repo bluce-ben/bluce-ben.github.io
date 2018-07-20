@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一、基础概念篇1、介绍HTTP是Hyper Text Transfer Protocol（超文本传输协议）的缩写。它的发展是万维网协会（World Wide Web Consortium）和Internet工作小组IETF（Internet Engineering Task Force）合作的结果，（他们）最终发布了一系列的RFC，RFC 1945定义了HTTP/1.0版本。其中最著名的就是RFC">
+<meta name="keywords" content="计算机网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTTP 详解">
+<meta property="og:url" content="http://yoursite.com/2018/04/10/HTTP-╧ъ╜т/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="一、基础概念篇1、介绍HTTP是Hyper Text Transfer Protocol（超文本传输协议）的缩写。它的发展是万维网协会（World Wide Web Consortium）和Internet工作小组IETF（Internet Engineering Task Force）合作的结果，（他们）最终发布了一系列的RFC，RFC 1945定义了HTTP/1.0版本。其中最著名的就是RFC">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/04/network_http_01.jpg">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/04/network_http_02.jpg">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HTTP 详解">
+<meta name="twitter:description" content="一、基础概念篇1、介绍HTTP是Hyper Text Transfer Protocol（超文本传输协议）的缩写。它的发展是万维网协会（World Wide Web Consortium）和Internet工作小组IETF（Internet Engineering Task Force）合作的结果，（他们）最终发布了一系列的RFC，RFC 1945定义了HTTP/1.0版本。其中最著名的就是RFC">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/04/network_http_01.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/10/HTTP-╧ъ╜т/"/>
+
+
+
+
+
+  <title>HTTP 详解 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/10/HTTP-╧ъ╜т/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">HTTP 详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-10T16:23:25+08:00">
+                2018-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/10/HTTP-╧ъ╜т/" class="leancloud_visitors" data-flag-title="HTTP 详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、基础概念篇"><a href="#一、基础概念篇" class="headerlink" title="一、基础概念篇"></a>一、基础概念篇</h3><h4 id="1、介绍"><a href="#1、介绍" class="headerlink" title="1、介绍"></a>1、介绍</h4><p>HTTP是Hyper Text Transfer Protocol（超文本传输协议）的缩写。它的发展是万维网协会（World Wide Web Consortium）和Internet工作小组IETF（Internet Engineering Task Force）合作的结果，（他们）最终发布了一系列的RFC，RFC 1945定义了HTTP/1.0版本。其中最著名的就是RFC 2616。RFC 2616定义了今天普遍使用的一个版本——HTTP 1.1。</p>
+<p>HTTP协议（HyperText Transfer Protocol，超文本传输协议）是用于从WWW服务器传输超文本到本地浏览器的传送协议。它可以使浏览器更加高效，使网络传输减少。它不仅保证计算机正确快速地传输超文本文档，还确定传输文档中的哪一部分，以及哪部分内容首先显示(如文本先于图形)等。</p>
+<p>HTTP是一个应用层协议，由请求和响应构成，是一个标准的客户端服务器模型。HTTP是一个无状态的协议。<br><a id="more"></a></p>
+<h4 id="2、在TCP-IP协议栈中的位置"><a href="#2、在TCP-IP协议栈中的位置" class="headerlink" title="2、在TCP/IP协议栈中的位置"></a>2、在TCP/IP协议栈中的位置</h4><p>HTTP协议通常承载于TCP协议之上，有时也承载于TLS或SSL协议层之上，这个时候，就成了我们常说的HTTPS。如下图所示：<br><img src="/uploads/2018/04/network_http_01.jpg" alt=""><br>默认HTTP的端口号为80，HTTPS的端口号为443。</p>
+<h4 id="3、HTTP的请求响应模型"><a href="#3、HTTP的请求响应模型" class="headerlink" title="3、HTTP的请求响应模型"></a>3、HTTP的请求响应模型</h4><p>HTTP协议永远都是客户端发起请求，服务器回送响应。见下图：<br><img src="/uploads/2018/04/network_http_02.jpg" alt=""><br>这样就限制了使用HTTP协议，无法实现在客户端没有发起请求的时候，服务器将消息推送给客户端。<br>HTTP协议是一个无状态的协议，同一个客户端的这次请求和上次请求是没有对应关系。</p>
+<h4 id="4、工作流程"><a href="#4、工作流程" class="headerlink" title="4、工作流程"></a>4、工作流程</h4><p>一次HTTP操作称为一个事务，其工作过程可分为四步：</p>
+<blockquote>
+<p>1）首先客户机与服务器需要建立连接。只要单击某个超级链接，HTTP的工作开始。<br>2）建立连接后，客户机发送一个请求给服务器，请求方式的格式为：统一资源标识符（URL）、协议版本号，后边是MIME信息包括请求修饰符、客户机信息和可能的内容。<br>3）服务器接到请求后，给予相应的响应信息，其格式为一个状态行，包括信息的协议版本号、一个成功或错误的代码，后边是MIME信息包括服务器信息、实体信息和可能的内容。<br>4）客户端接收服务器所返回的信息通过浏览器显示在用户的显示屏上，然后客户机与服务器断开连接。</p>
+</blockquote>
+<p>如果在以上过程中的某一步出现错误，那么产生错误的信息将返回到客户端，有显示屏输出。对于用户来说，这些过程是由HTTP自己完成的，用户只要用鼠标点击，等待信息显示就可以了。</p>
+<h4 id="5、客户端一个请求流程（详细版）"><a href="#5、客户端一个请求流程（详细版）" class="headerlink" title="5、客户端一个请求流程（详细版）"></a>5、客户端一个请求流程（详细版）</h4><p>待补充。。。</p>
+<h3 id="二、协议详解篇"><a href="#二、协议详解篇" class="headerlink" title="二、协议详解篇"></a>二、协议详解篇</h3><h4 id="1、HTTP-1-0-与-HTTP-1-1-比较"><a href="#1、HTTP-1-0-与-HTTP-1-1-比较" class="headerlink" title="1、HTTP/1.0 与 HTTP/1.1 比较"></a>1、HTTP/1.0 与 HTTP/1.1 比较</h4><table>
+<thead>
+<tr>
+<th>异同点</th>
+<th>HTTP/1.0</th>
+<th>HTTP/1.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>建立连接方面</td>
+<td>连接不能复用</td>
+<td>可复用，减少TCP三次握手的开销</td>
+</tr>
+<tr>
+<td>请求方式</td>
+<td>GET、POST、HEAD</td>
+<td>GET、POST、HEAD、OPTIONS、PUT、DELETE、TRACE、CONNECT</td>
+</tr>
+<tr>
+<td>Request消息头</td>
+<td></td>
+<td>新增Host域 </td>
+</tr>
+</tbody>
+</table>
+<h4 id="2、HTTP请求消息"><a href="#2、HTTP请求消息" class="headerlink" title="2、HTTP请求消息"></a>2、HTTP请求消息</h4><h5 id="（1）请求消息格式"><a href="#（1）请求消息格式" class="headerlink" title="（1）请求消息格式"></a>（1）请求消息格式</h5><p>HTTP请求消息实例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">GET /hello.htm HTTP/1.1</span><br><span class="line">Accept: */*</span><br><span class="line">Accept-Language: zh-cn</span><br><span class="line">Accept-Encoding: gzip, deflate</span><br><span class="line">If-Modified-Since: Wed, 17 Oct 2007 02:15:55 GMT</span><br><span class="line">If-None-Match: W/&quot;158-1192587355000&quot;</span><br><span class="line">User-Agent: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)</span><br><span class="line">Host: 192.168.2.162:8080</span><br><span class="line">Connection: Keep-Alive</span><br></pre></td></tr></table></figure></p>
+<p>请求消息格式如下所示：</p>
+<blockquote>
+<p>请求行<br>通用信息头|请求头|实体头<br>CRLF(回车换行)<br>实体内容</p>
+</blockquote>
+<p>其中“请求行”为：请求行 = 方法 [空格] 请求URI [空格] 版本号 [回车换行]</p>
+<h5 id="（2）请求方法"><a href="#（2）请求方法" class="headerlink" title="（2）请求方法"></a>（2）请求方法</h5><p>HTTP的请求方法包括如下几种：<br>GET | POST | HEAD | PUT | DELETE | OPTIONS | TRACE | CONNECT</p>
+<h4 id="3、HTTP响应消息"><a href="#3、HTTP响应消息" class="headerlink" title="3、HTTP响应消息"></a>3、HTTP响应消息</h4><h5 id="（1）响应消息格式"><a href="#（1）响应消息格式" class="headerlink" title="（1）响应消息格式"></a>（1）响应消息格式</h5><p>HTTP响应消息实例如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">ETag: W/&quot;158-1192590101000&quot;</span><br><span class="line">Last-Modified: Wed, 17 Oct 2007 03:01:41 GMT</span><br><span class="line">Content-Type: text/html</span><br><span class="line">Content-Length: 158</span><br><span class="line">Date: Wed, 17 Oct 2007 03:01:59 GMT</span><br><span class="line">Server: Apache-Coyote/1.1</span><br></pre></td></tr></table></figure></p>
+<p>HTTP响应消息的格式如下所示：</p>
+<blockquote>
+<p>状态行<br>通用信息头|响应头|实体头<br>CRLF<br>实体内容</p>
+</blockquote>
+<p>其中：状态行 = 版本号 [空格] 状态码 [空格] 原因 [回车换行]</p>
+<h5 id="（2）响应状态码"><a href="#（2）响应状态码" class="headerlink" title="（2）响应状态码"></a>（2）响应状态码</h5><p><strong>1**：请求收到，继续处理</strong><br>100——客户必须继续发出请求<br>101——客户要求服务器根据请求转换HTTP协议版本</p>
+<p><strong>2**：操作成功收到，分析、接受</strong></p>
+<font color="red">200——交易成功</font><br>201——提示知道新文件的URL<br>202——接受和处理、但处理未完成<br>203——返回信息不确定或不完整<br>204——请求收到，但返回信息为空<br>205——服务器完成了请求，用户代理必须复位当前已经浏览过的文件<br>206——服务器已经完成了部分用户的GET请求<br><br><strong>3**：完成此请求必须进一步处理</strong><br>300——请求的资源可在多处得到<br><font color="red">301——删除请求数据</font><br>302——在其他地址发现了请求数据<br>303——建议客户访问其他URL或访问方式<br>304——客户端已经执行了GET，但文件未变化<br>305——请求的资源必须从服务器指定的地址得到<br>306——前一版本HTTP中使用的代码，现行版本中不再使用<br>307——申明请求的资源临时性删除<br><br><strong>4**：请求包含一个错误语法或不能完成</strong><br><font color="red">400——错误请求，如语法错误</font><br><font color="red">401——未授权</font><br>HTTP 401.1 - 未授权：登录失败<br>　　HTTP 401.2 - 未授权：服务器配置问题导致登录失败<br>　　HTTP 401.3 - ACL 禁止访问资源<br>　　HTTP 401.4 - 未授权：授权被筛选器拒绝<br>　　HTTP 401.5 - 未授权：ISAPI 或 CGI 授权失败<br>402——保留有效ChargeTo头响应<br><font color="red">403——禁止访问</font><br>HTTP 403.1 禁止访问：禁止可执行访问<br>　　HTTP 403.2 - 禁止访问：禁止读访问<br>　　HTTP 403.3 - 禁止访问：禁止写访问<br>　　HTTP 403.4 - 禁止访问：要求 SSL<br>　　HTTP 403.5 - 禁止访问：要求 SSL 128<br>　　HTTP 403.6 - 禁止访问：IP 地址被拒绝<br>　　HTTP 403.7 - 禁止访问：要求客户证书<br>　　HTTP 403.8 - 禁止访问：禁止站点访问<br>　　HTTP 403.9 - 禁止访问：连接的用户过多<br>　　HTTP 403.10 - 禁止访问：配置无效<br>　　HTTP 403.11 - 禁止访问：密码更改<br>　　HTTP 403.12 - 禁止访问：映射器拒绝访问<br>　　HTTP 403.13 - 禁止访问：客户证书已被吊销<br>　　HTTP 403.15 - 禁止访问：客户访问许可过多<br>　　HTTP 403.16 - 禁止访问：客户证书不可信或者无效<br>　　HTTP 403.17 - 禁止访问：客户证书已经到期或者尚未生效<br><font color="red">404——没有发现文件、查询或URl</font><br>405——用户在Request-Line字段定义的方法不允许<br>406——根据用户发送的Accept拖，请求资源不可访问<br>407——类似401，用户必须首先在代理服务器上得到授权<br>408——客户端没有在用户指定的饿时间内完成请求<br>409——对当前资源状态，请求不能完成<br>410——服务器上不再有此资源且无进一步的参考地址<br>411——服务器拒绝用户定义的Content-Length属性请求<br>412——一个或多个请求头字段在当前请求中错误<br>413——请求的资源大于服务器允许的大小<br>414——请求的资源URL长于服务器允许的长度<br>415——请求资源不支持请求项目格式<br>416——请求中包含Range请求头字段，在当前请求资源范围内没有range指示值，请求也不包含If-Range请求头字段<br>417——服务器不满足请求Expect头字段指定的期望值，如果是代理服务器，可能是下一级服务器不能满足请求长。<br><br><strong>5**：服务器执行一个完全有效请求失败</strong><br><font color="red">HTTP 500 - 内部服务器错误</font><br>　　HTTP 500.100 - 内部服务器错误 - ASP 错误<br>　　HTTP 500-11 服务器关闭<br>　　HTTP 500-12 应用程序重新启动<br>　　HTTP 500-13 - 服务器太忙<br>　　HTTP 500-14 - 应用程序无效<br>　　HTTP 500-15 - 不允许请求 global.asa<br>Error 501 - 未实现<br><font color="red">HTTP 502 - 网关错误</font>
+
+
+<h4 id="4、请求头："><a href="#4、请求头：" class="headerlink" title="4、请求头："></a>4、请求头：</h4><p>HTTP最常见的请求头如下：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Accept：</td>
+<td>浏览器可接受的MIME类型；</td>
+</tr>
+<tr>
+<td>Accept-Charset：</td>
+<td>浏览器可接受的字符集；</td>
+</tr>
+<tr>
+<td>Accept-Encoding：</td>
+<td>浏览器能够进行解码的数据编码方式，比如gzip。Servlet能够向支持gzip的浏览器返回经gzip编码的HTML页面。许多情形下这可以减少5到10倍的下载时间；</td>
+</tr>
+<tr>
+<td>Accept-Language：</td>
+<td>浏览器所希望的语言种类，当服务器能够提供一种以上的语言版本时要用到；</td>
+</tr>
+<tr>
+<td>Authorization：</td>
+<td>授权信息，通常出现在对服务器发送的WWW-Authenticate头的应答中；</td>
+</tr>
+<tr>
+<td>Connection：</td>
+<td>表示是否需要持久连接。如果Servlet看到这里的值为“Keep-Alive”，或者看到请求使用的是HTTP 1.1（HTTP 1.1默认进行持久连接），它就可以利用持久连接的优点，当页面包含多个元素时（例如Applet，图片），显著地减少下载所需要的时间。要实现这一点，Servlet需要在应答中发送一个Content-Length头，最简单的实现方法是：先把内容写入ByteArrayOutputStream，然后在正式写出内容之前计算它的大小；</td>
+</tr>
+<tr>
+<td>Content-Length：</td>
+<td>表示请求消息正文的长度；</td>
+</tr>
+<tr>
+<td>Cookie：</td>
+<td>这是最重要的请求头信息之一；</td>
+</tr>
+<tr>
+<td>From：</td>
+<td>请求发送者的email地址，由一些特殊的Web客户程序使用，浏览器不会用到它；</td>
+</tr>
+<tr>
+<td>Host：</td>
+<td>初始URL中的主机和端口；</td>
+</tr>
+<tr>
+<td>If-Modified-Since：</td>
+<td>只有当所请求的内容在指定的日期之后又经过修改才返回它，否则返回304“Not Modified”应答；</td>
+</tr>
+<tr>
+<td>Pragma：</td>
+<td>指定“no-cache”值表示服务器必须返回一个刷新后的文档，即使它是代理服务器而且已经有了页面的本地拷贝；</td>
+</tr>
+<tr>
+<td>Referer：</td>
+<td>包含一个URL，用户从该URL代表的页面出发访问当前请求的页面。</td>
+</tr>
+</tbody>
+</table>
+<p>User-Agent：            | 浏览器类型，如果Servlet返回的内容与浏览器类型有关则该值非常有用；<br>UA-Pixels，UA-Color，UA-OS，UA-CPU： | 由某些版本的IE浏览器所发送的非标准的请求头，表示屏幕大小、颜色深度、操作系统和CPU类型。</p>
+<h4 id="5、响应头："><a href="#5、响应头：" class="headerlink" title="5、响应头："></a>5、响应头：</h4><p>HTTP最常见的响应头如下所示：</p>
+<style type="text/css">
+    table th:first-of-type{
+        width: 24%;
+    }
+</style>
+
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allow：</td>
+<td>服务器支持哪些请求方法（如GET、POST等）；</td>
+</tr>
+<tr>
+<td>Content-Encoding：</td>
+<td>文档的编码（Encode）方法。只有在解码之后才可以得到Content-Type头指定的内容类型。利用gzip压缩文档能够显著地减少HTML文档的下载时间。Java的GZIPOutputStream可以很方便地进行gzip压缩，但只有Unix上的Netscape和Windows上的IE 4、IE 5才支持它。因此，Servlet应该通过查看Accept-Encoding头（即<code>request.getHeader(&quot;Accept-Encoding&quot;)</code>）检查浏览器是否支持gzip，为支持gzip的浏览器返回经gzip压缩的HTML页面，为其他浏览器返回普通页面；</td>
+</tr>
+<tr>
+<td>Content-Length：</td>
+<td>表示内容长度。只有当浏览器使用持久HTTP连接时才需要这个数据。如果你想要利用持久连接的优势，可以把输出文档写入ByteArrayOutputStram，完成后查看其大小，然后把该值放入Content-Length头，最后通过<code>byteArrayStream.writeTo(response.getOutputStream()</code>发送内容；</td>
+</tr>
+<tr>
+<td>Content-Type：</td>
+<td>表示后面的文档属于什么MIME类型。Servlet默认为text/plain，但通常需要显式地指定为text/html。由于经常要设置Content-Type，因此HttpServletResponse提供了一个专用的方法setContentTyep。 可在web.xml文件中配置扩展名和MIME类型的对应关系；</td>
+</tr>
+<tr>
+<td>Date：</td>
+<td>当前的GMT时间。你可以用setDateHeader来设置这个头以避免转换时间格式的麻烦；</td>
+</tr>
+<tr>
+<td>Expires：</td>
+<td>指明应该在什么时候认为文档已经过期，从而不再缓存它。</td>
+</tr>
+<tr>
+<td>Last-Modified：</td>
+<td>文档的最后改动时间。客户可以通过If-Modified-Since请求头提供一个日期，该请求将被视为一个条件GET，只有改动时间迟于指定时间的文档才会返回，否则返回一个304（Not Modified）状态。Last-Modified也可用setDateHeader方法来设置；</td>
+</tr>
+<tr>
+<td>Location：</td>
+<td>表示客户应当到哪里去提取文档。Location通常不是直接设置的，而是通过HttpServletResponse的sendRedirect方法，该方法同时设置状态代码为302；</td>
+</tr>
+<tr>
+<td>Refresh：</td>
+<td>表示浏览器应该在多少时间之后刷新文档，以秒计。除了刷新当前文档之外，你还可以通过<code>setHeader(&quot;Refresh&quot;, &quot;5; URL=http://host/path&quot;)</code>让浏览器读取指定的页面。注意这种功能通常是通过设置HTML页面HEAD区的<code>&lt;META HTTP-EQUIV=&quot;Refresh&quot; CONTENT=&quot;5;URL=http://host/path&quot;&gt;</code>实现，这是因为，自动刷新或重定向对于那些不能使用CGI或Servlet的HTML编写者十分重要。但是，对于Servlet来说，直接设置Refresh头更加方便。注意Refresh的意义是“N秒之后刷新本页面或访问指定页面”，而不是“每隔N秒刷新本页面或访问指定页面”。因此，连续刷新要求每次都发送一个Refresh头，而发送204状态代码则可以阻止浏览器继续刷新，不管是使用Refresh头还是<meta http-equiv="Refresh" ...="">。注意Refresh头不属于HTTP 1.1正式规范的一部分，而是一个扩展，但Netscape和IE都支持它。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="6、实体头"><a href="#6、实体头" class="headerlink" title="6、实体头"></a>6、实体头</h4><p>实体头用坐实体内容的元信息，描述了实体内容的属性，包括实体信息类型，长度，压缩方法，最后一次修改时间，数据有效性等。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Allow：</td>
+<td>GET,POST</td>
+</tr>
+<tr>
+<td>Content-Encoding：</td>
+<td>文档的编码（Encode）方法，例如：gzip，见“2.5 响应头”；</td>
+</tr>
+<tr>
+<td>Content-Language：</td>
+<td>内容的语言类型，例如：zh-cn；</td>
+</tr>
+<tr>
+<td>Content-Length：</td>
+<td>表示内容长度，eg：80，可参考“2.5响应头”；</td>
+</tr>
+<tr>
+<td>Content-Location：</td>
+<td>表示客户应当到哪里去提取文档，例如：<code>http://www.dfdf.org/</code>dfdf.html，可参考“2.5响应头”；</td>
+</tr>
+<tr>
+<td>Content-MD5：</td>
+<td>MD5 实体的一种MD5摘要，用作校验和。发送方和接受方都计算MD5摘要，接受方将其计算的值与此头标中传递的值进行比较。Eg1：Content-MD5: <base64 128="" of="" md5="" digest="">。Eg2：dfdfdfdfdfdfdff==；</base64></td>
+</tr>
+<tr>
+<td>Content-Range：</td>
+<td>随部分实体一同发送；标明被插入字节的低位与高位字节偏移，也标明此实体的总长度。Eg1：Content-Range: 1001-2000/5000，eg2：bytes 2543-4532/7898</td>
+</tr>
+<tr>
+<td>Content-Type：</td>
+<td>标明发送或者接收的实体的MIME类型。Eg：text/html; charset=GB2312       主类型/子类型；</td>
+</tr>
+<tr>
+<td>Expires：</td>
+<td>为0证明不缓存；</td>
+</tr>
+<tr>
+<td>Last-Modified：</td>
+<td>WEB 服务器认为对象的最后修改时间，比如文件的最后修改时间，动态页面的最后产生时间等等。例如：Last-Modified：Tue, 06 May 2008 02:42:43 GMT.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="7、扩展头"><a href="#7、扩展头" class="headerlink" title="7、扩展头"></a>7、扩展头</h4><p>在HTTP消息中，也可以使用一些再HTTP1.1正式规范里没有定义的头字段，这些头字段统称为自定义的HTTP头或者扩展头，他们通常被当作是一种实体头处理。</p>
+<p>现在流行的浏览器实际上都支持Cookie,Set-Cookie,Refresh和Content-Disposition等几个常用的扩展头字段。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Refresh：1;<code>url=http://www.dfdf.org</code></td>
+<td>//过1秒跳转到指定位置；</td>
+</tr>
+<tr>
+<td>Content-Disposition：</td>
+<td>头字段,可参考“2.5响应头”；</td>
+</tr>
+<tr>
+<td>Content-Type：</td>
+<td>WEB 服务器告诉浏览器自己响应的对象的类型。</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/10/socket-╧ъ╜т/" rel="next" title="socket 详解">
+                <i class="fa fa-chevron-left"></i> socket 详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/10/HTTP-║═-Socket-╡─╟°▒Ё/" rel="prev" title="HTTP 和 Socket 的区别">
+                HTTP 和 Socket 的区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">137</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、基础概念篇"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x57FA;&#x7840;&#x6982;&#x5FF5;&#x7BC7;" class="headerlink" title="&#x4E00;&#x3001;&#x57FA;&#x7840;&#x6982;&#x5FF5;&#x7BC7;"></a>&#x4E00;&#x3001;&#x57FA;&#x7840;&#x6982;&#x5FF5;&#x7BC7;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、介绍"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4ECB;&#x7ECD;" class="headerlink" title="1&#x3001;&#x4ECB;&#x7ECD;"></a>1&#x3001;&#x4ECB;&#x7ECD;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、在TCP-IP协议栈中的位置"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x5728;TCP-IP&#x534F;&#x8BAE;&#x6808;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;" class="headerlink" title="2&#x3001;&#x5728;TCP/IP&#x534F;&#x8BAE;&#x6808;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;"></a>2&#x3001;&#x5728;TCP/IP&#x534F;&#x8BAE;&#x6808;&#x4E2D;&#x7684;&#x4F4D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、HTTP的请求响应模型"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;HTTP&#x7684;&#x8BF7;&#x6C42;&#x54CD;&#x5E94;&#x6A21;&#x578B;" class="headerlink" title="3&#x3001;HTTP&#x7684;&#x8BF7;&#x6C42;&#x54CD;&#x5E94;&#x6A21;&#x578B;"></a>3&#x3001;HTTP&#x7684;&#x8BF7;&#x6C42;&#x54CD;&#x5E94;&#x6A21;&#x578B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、工作流程"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;" class="headerlink" title="4&#x3001;&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;"></a>4&#x3001;&#x5DE5;&#x4F5C;&#x6D41;&#x7A0B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、客户端一个请求流程（详细版）"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#5&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x6D41;&#x7A0B;&#xFF08;&#x8BE6;&#x7EC6;&#x7248;&#xFF09;" class="headerlink" title="5&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x6D41;&#x7A0B;&#xFF08;&#x8BE6;&#x7EC6;&#x7248;&#xFF09;"></a>5&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x6D41;&#x7A0B;&#xFF08;&#x8BE6;&#x7EC6;&#x7248;&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、协议详解篇"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x534F;&#x8BAE;&#x8BE6;&#x89E3;&#x7BC7;" class="headerlink" title="&#x4E8C;&#x3001;&#x534F;&#x8BAE;&#x8BE6;&#x89E3;&#x7BC7;"></a>&#x4E8C;&#x3001;&#x534F;&#x8BAE;&#x8BE6;&#x89E3;&#x7BC7;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、HTTP-1-0-与-HTTP-1-1-比较"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;HTTP-1-0-&#x4E0E;-HTTP-1-1-&#x6BD4;&#x8F83;" class="headerlink" title="1&#x3001;HTTP/1.0 &#x4E0E; HTTP/1.1 &#x6BD4;&#x8F83;"></a>1&#x3001;HTTP/1.0 &#x4E0E; HTTP/1.1 &#x6BD4;&#x8F83;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、HTTP请求消息"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;HTTP&#x8BF7;&#x6C42;&#x6D88;&#x606F;" class="headerlink" title="2&#x3001;HTTP&#x8BF7;&#x6C42;&#x6D88;&#x606F;"></a>2&#x3001;HTTP&#x8BF7;&#x6C42;&#x6D88;&#x606F;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）请求消息格式"><span class="nav-number">2.2.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x8BF7;&#x6C42;&#x6D88;&#x606F;&#x683C;&#x5F0F;" class="headerlink" title="&#xFF08;1&#xFF09;&#x8BF7;&#x6C42;&#x6D88;&#x606F;&#x683C;&#x5F0F;"></a>&#xFF08;1&#xFF09;&#x8BF7;&#x6C42;&#x6D88;&#x606F;&#x683C;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）请求方法"><span class="nav-number">2.2.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x8BF7;&#x6C42;&#x65B9;&#x6CD5;" class="headerlink" title="&#xFF08;2&#xFF09;&#x8BF7;&#x6C42;&#x65B9;&#x6CD5;"></a>&#xFF08;2&#xFF09;&#x8BF7;&#x6C42;&#x65B9;&#x6CD5;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、HTTP响应消息"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3&#x3001;HTTP&#x54CD;&#x5E94;&#x6D88;&#x606F;" class="headerlink" title="3&#x3001;HTTP&#x54CD;&#x5E94;&#x6D88;&#x606F;"></a>3&#x3001;HTTP&#x54CD;&#x5E94;&#x6D88;&#x606F;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）响应消息格式"><span class="nav-number">2.3.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x54CD;&#x5E94;&#x6D88;&#x606F;&#x683C;&#x5F0F;" class="headerlink" title="&#xFF08;1&#xFF09;&#x54CD;&#x5E94;&#x6D88;&#x606F;&#x683C;&#x5F0F;"></a>&#xFF08;1&#xFF09;&#x54CD;&#x5E94;&#x6D88;&#x606F;&#x683C;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）响应状态码"><span class="nav-number">2.3.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x54CD;&#x5E94;&#x72B6;&#x6001;&#x7801;" class="headerlink" title="&#xFF08;2&#xFF09;&#x54CD;&#x5E94;&#x72B6;&#x6001;&#x7801;"></a>&#xFF08;2&#xFF09;&#x54CD;&#x5E94;&#x72B6;&#x6001;&#x7801;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、请求头："><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x8BF7;&#x6C42;&#x5934;&#xFF1A;" class="headerlink" title="4&#x3001;&#x8BF7;&#x6C42;&#x5934;&#xFF1A;"></a>4&#x3001;&#x8BF7;&#x6C42;&#x5934;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、响应头："><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#5&#x3001;&#x54CD;&#x5E94;&#x5934;&#xFF1A;" class="headerlink" title="5&#x3001;&#x54CD;&#x5E94;&#x5934;&#xFF1A;"></a>5&#x3001;&#x54CD;&#x5E94;&#x5934;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、实体头"><span class="nav-number">2.6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5B9E;&#x4F53;&#x5934;" class="headerlink" title="6&#x3001;&#x5B9E;&#x4F53;&#x5934;"></a>6&#x3001;&#x5B9E;&#x4F53;&#x5934;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、扩展头"><span class="nav-number">2.7.</span> <span class="nav-text"><a href="#7&#x3001;&#x6269;&#x5C55;&#x5934;" class="headerlink" title="7&#x3001;&#x6269;&#x5C55;&#x5934;"></a>7&#x3001;&#x6269;&#x5C55;&#x5934;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

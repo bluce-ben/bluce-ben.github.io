@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MySQL,架构," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="为什么要分库/分表？　当一张的数据达到几百万时，你查询一次所花的时间会变多，如果有联合查询的话，我想有可能会死在那儿了。分表的目的就在于此，减小数据库的负担，缩短查询时间。　mysql中有一种机制是表锁定和行锁定，为什么要出现这种机制，是为了保证数据的完整 性，我举个例子来说吧，如果有二个sql都要修改同一张表的同一条数据，这个时候怎么办呢，是不是二个sql都可以同时修改这条数据呢？很显然mysq">
+<meta name="keywords" content="MySQL,架构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="总结-MySQL分库分表理论详解">
+<meta property="og:url" content="http://yoursite.com/2017/12/08/╫▄╜с-MySQL╖╓┐т╖╓▒э└э┬█╧ъ╜т/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="为什么要分库/分表？　当一张的数据达到几百万时，你查询一次所花的时间会变多，如果有联合查询的话，我想有可能会死在那儿了。分表的目的就在于此，减小数据库的负担，缩短查询时间。　mysql中有一种机制是表锁定和行锁定，为什么要出现这种机制，是为了保证数据的完整 性，我举个例子来说吧，如果有二个sql都要修改同一张表的同一条数据，这个时候怎么办呢，是不是二个sql都可以同时修改这条数据呢？很显然mysq">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.117Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="总结-MySQL分库分表理论详解">
+<meta name="twitter:description" content="为什么要分库/分表？　当一张的数据达到几百万时，你查询一次所花的时间会变多，如果有联合查询的话，我想有可能会死在那儿了。分表的目的就在于此，减小数据库的负担，缩短查询时间。　mysql中有一种机制是表锁定和行锁定，为什么要出现这种机制，是为了保证数据的完整 性，我举个例子来说吧，如果有二个sql都要修改同一张表的同一条数据，这个时候怎么办呢，是不是二个sql都可以同时修改这条数据呢？很显然mysq">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/08/╫▄╜с-MySQL╖╓┐т╖╓▒э└э┬█╧ъ╜т/"/>
+
+
+
+
+
+  <title>总结-MySQL分库分表理论详解 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/╫▄╜с-MySQL╖╓┐т╖╓▒э└э┬█╧ъ╜т/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">总结-MySQL分库分表理论详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T11:05:56+08:00">
+                2017-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/架构/" itemprop="url" rel="index">
+                    <span itemprop="name">架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/08/╫▄╜с-MySQL╖╓┐т╖╓▒э└э┬█╧ъ╜т/" class="leancloud_visitors" data-flag-title="总结-MySQL分库分表理论详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="为什么要分库-分表？"><a href="#为什么要分库-分表？" class="headerlink" title="为什么要分库/分表？"></a>为什么要分库/分表？</h3><p>　当一张的数据达到几百万时，你查询一次所花的时间会变多，如果有联合查询的话，我想有可能会死在那儿了。分表的目的就在于此，减小数据库的负担，缩短查询时间。<br>　mysql中有一种机制是表锁定和行锁定，为什么要出现这种机制，是为了保证数据的完整 性，我举个例子来说吧，如果有二个sql都要修改同一张表的同一条数据，这个时候怎么办呢，是不是二个sql都可以同时修改这条数据呢？很显然mysql 对这种情况的处理是，一种是表锁定（myisam存储引擎），一个是行锁定（innodb存储引擎）。表锁定表示你们都不能对这张表进行操作，必须等我对 表操作完才行。行锁定也一样，别的sql必须等我对这条数据操作完了，才能对这条数据进行操作。如果数据太多，一次执行的时间太长，等待的时间就越长，这 也是我们为什么要分库/分表的原因。<br><a id="more"></a></p>
+<h3 id="怎么分库-分表？"><a href="#怎么分库-分表？" class="headerlink" title="怎么分库/分表？"></a>怎么分库/分表？</h3><p><strong>分库：</strong><br>（1）mysql集群与主从复制、读写分离：</p>
+<blockquote>
+<p>   　主从复制、读写分离只是一种策略。<br>   　读写分离策略，最大限度提高了应用中读取数据的速度和并发量。（原理是，由于MySQL中有一种机制是表锁定和行锁定，所以写操作会锁定，而且写操作比读操作更费时，因为不仅要写入数据，还要更新索引。因此，把读写分离，可极大提高数据库的性能。）<br>   　主从复制策略，可以降低单台机器的负载，同时最大限度的降低宕机造成的损失。<br>   　集群：解决了数据库宕机带来的单点数据库不能访问的问题。</p>
+</blockquote>
+<p>（2）垂直分库：一般根据业务逻辑来分，例如按照用户、商品、日志等。<br>（3）水平分库：就是对业务进行主从复制、读写分离的操作。当一主一从不能满足时，就需要一主多从的形式满足读操作。<br><strong>分表：</strong><br>（1）垂直分表：根据字段的使用情况来进行划分，把一些常使用的字段放在一个表中。不经常使用（读和写）的放在一个表中，可通过一个外键关联。（使用外键时要注意该表是否读大于写，如果不能使用外键，直接将主表搜索ID放到附表即可一样关联。）<br>（2）水平分表：水平分表方式多样，例如：</p>
+<blockquote>
+<ol>
+<li>按时间分表<br>　这种分表方式有一定的局限性，当数据有较强的实效性，如微博发送记录、微信消息记录等，这种数据很少有用户会查询几个月前的数据，如就可以按月分表。</li>
+<li>按数据迁移的方式<br>　当一些很久之前的数据，很少再查询。比如员工工资表，我们可以只存今年的工资情况。而历史数据我们可以迁移到一张salary_old表中,保证数据不会丢失。但也可以用来查询。每天定期把今年中的最早一天的记录归入旧表中。这样一方面可以解决性能问题，最多也只需要读2张表就完成了。</li>
+<li>按热度拆分<br>　典型的像贴吧这种有高点击率的词条，也有低点击率的词条，如果一个词条一张表，那得多少表啊，所以一般这种情况就会对高点击率的词条生成 一张表，低热度的词条都放在一张大表里，待低热度的词条达到一定的贴数后，比如1W条，再把低热度的表单独拆分成一张表。</li>
+</ol>
+</blockquote>
+<p>（3）分表实现技术方式：</p>
+<pre><code>1. 分两张表的情况，可使用对2取余判断奇偶
+2. 分10张表以内的，可使用对10或10以内数字取模来实现
+3. 数据量大的，可根据MD5哈希取位数来实现（位数越大，表数越大）
+4. 利用merge存储引擎来实现分表
+</code></pre><h3 id="实际工作中如何分库-分表？"><a href="#实际工作中如何分库-分表？" class="headerlink" title="实际工作中如何分库/分表？"></a>实际工作中如何分库/分表？</h3><p>　做什么事都有一个度，超过这个度就会变得很差，不能一味的做数据库服务器集群，硬件是要花钱买的，也不要一味的分表，分出来1000 表，mysql的存储归根到底还以文件的形势存在硬盘上面，一张表对应三个文件，1000个分表就是对应3000个文件，这样检索起来也会变的很慢 。<br>　建议是：硬件与软件一起使用。</p>
+<h3 id="分库-分表后产生的问题？"><a href="#分库-分表后产生的问题？" class="headerlink" title="分库/分表后产生的问题？"></a>分库/分表后产生的问题？</h3><p>（1）分库分表维度的问题<br>　假如用户购买了商品,需要将交易记录保存取来，如果按照用户的纬度分表，则每个用户的交易记录都保存在同一表中，所以很快很方便的查找到某用户的购买情况，但是某商品被购买的情况则很有可能分布在多张表中，查找起来比较麻烦。反之，按照商品维度分表，可以很方便的查找到此商品的购买情况，但要查找到购买人的交易记录比较麻烦。<br>　所以常见的解决方式有： </p>
+<pre><code>1. 通过扫表的方式解决，此方法基本不可能，效率太低了。 
+2. 记录两份数据，一份按照用户纬度分表，一份按照商品维度分表。 
+3. 通过搜索引擎解决，但如果实时性要求很高，又得关系到实时搜索。 
+</code></pre><p>（2）联合查询的问题<br>　联合查询基本不可能，因为关联的表有可能不在同一数据库中。<br>（3）避免跨库事务<br>　避免在一个事务中修改db0中的表的时候同时修改db1中的表，一个是操作起来更复杂，效率也会有一定影响。<br>（4）尽量把同一组数据放到同一DB服务器上<br>　如将卖家a的商品和交易信息都放到db0中，当db1挂了的时候，卖家a相关的东西可以正常使用。也就是说避免数据库中的数据依赖另一数据库中的数据。</p>
+<h3 id="分库时需要注意的问题："><a href="#分库时需要注意的问题：" class="headerlink" title="分库时需要注意的问题："></a>分库时需要注意的问题：</h3><p>（1）联结不能跨库操作<br>（2）InnoDB引擎的外键不能跨库<br>（3）避免跨库事务操作<br>（4）尽量把同一组数据放到同一个数据库上</p>
+<p><strong>参考博文：</strong><br><em><a href="https://yq.aliyun.com/articles/42644" target="_blank" rel="noopener">mysql 分库分表的方法</a></em><br><em><a href="http://www.cnblogs.com/zhongxinWang/p/4262650.html" target="_blank" rel="noopener">数据库水平切分的实现原理解析——分库，分表，主从，集群，负载均衡器</a></em><br><em><a href="http://blog.csdn.net/lzf4712/article/details/47780303" target="_blank" rel="noopener">数据库读写分离和垂直分库、水平分表</a></em><br><em><a href="http://blog.51yip.com/mysql/399.html" target="_blank" rel="noopener">linux mysql proxy 的安装，配置，以及读写分离</a></em></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+            <a href="/tags/架构/" rel="tag"># 架构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/08/MySQL╡е╗·╡╜╝п╚║╡─╝▄╣╣▒ф╟и/" rel="next" title="MySQL单机到集群的架构变迁【摘】">
+                <i class="fa fa-chevron-left"></i> MySQL单机到集群的架构变迁【摘】
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/08/╫▄╜с-MySQL╓ў┤╙╕┤╓╞бв╢┴╨┤╖╓└ы┼ф╓├╧ъ╜т/" rel="prev" title="总结-MySQL主从复制、读写分离配置详解">
+                总结-MySQL主从复制、读写分离配置详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要分库-分表？"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5206;&#x5E93;-&#x5206;&#x8868;&#xFF1F;" class="headerlink" title="&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5206;&#x5E93;/&#x5206;&#x8868;&#xFF1F;"></a>&#x4E3A;&#x4EC0;&#x4E48;&#x8981;&#x5206;&#x5E93;/&#x5206;&#x8868;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎么分库-分表？"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x600E;&#x4E48;&#x5206;&#x5E93;-&#x5206;&#x8868;&#xFF1F;" class="headerlink" title="&#x600E;&#x4E48;&#x5206;&#x5E93;/&#x5206;&#x8868;&#xFF1F;"></a>&#x600E;&#x4E48;&#x5206;&#x5E93;/&#x5206;&#x8868;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际工作中如何分库-分表？"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x5B9E;&#x9645;&#x5DE5;&#x4F5C;&#x4E2D;&#x5982;&#x4F55;&#x5206;&#x5E93;-&#x5206;&#x8868;&#xFF1F;" class="headerlink" title="&#x5B9E;&#x9645;&#x5DE5;&#x4F5C;&#x4E2D;&#x5982;&#x4F55;&#x5206;&#x5E93;/&#x5206;&#x8868;&#xFF1F;"></a>&#x5B9E;&#x9645;&#x5DE5;&#x4F5C;&#x4E2D;&#x5982;&#x4F55;&#x5206;&#x5E93;/&#x5206;&#x8868;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分库-分表后产生的问题？"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5206;&#x5E93;-&#x5206;&#x8868;&#x540E;&#x4EA7;&#x751F;&#x7684;&#x95EE;&#x9898;&#xFF1F;" class="headerlink" title="&#x5206;&#x5E93;/&#x5206;&#x8868;&#x540E;&#x4EA7;&#x751F;&#x7684;&#x95EE;&#x9898;&#xFF1F;"></a>&#x5206;&#x5E93;/&#x5206;&#x8868;&#x540E;&#x4EA7;&#x751F;&#x7684;&#x95EE;&#x9898;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分库时需要注意的问题："><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x5206;&#x5E93;&#x65F6;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x95EE;&#x9898;&#xFF1A;" class="headerlink" title="&#x5206;&#x5E93;&#x65F6;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x95EE;&#x9898;&#xFF1A;"></a>&#x5206;&#x5E93;&#x65F6;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x95EE;&#x9898;&#xFF1A;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

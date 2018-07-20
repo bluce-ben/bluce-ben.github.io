@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="前端,切图篇," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一、传统切图方法使用范围：需要切多张图，带背景的1.打开下载的psd文件出现下面没关系，直接点确定即可">
+<meta name="keywords" content="前端,切图篇">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端切图技巧总结">
+<meta property="og:url" content="http://yoursite.com/2018/03/09/╟░╢╦╟╨═╝╝╝╟╔╫▄╜с/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="一、传统切图方法使用范围：需要切多张图，带背景的1.打开下载的psd文件出现下面没关系，直接点确定即可">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_001.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_01.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_02.gif">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_03.gif">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_04.gif">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_05.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_06.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_07.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_08.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_09.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_10.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_11.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_12.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_13.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_14.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_15.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_16.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_17.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_18.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_19.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_20.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/photoshop_21.JPG">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端切图技巧总结">
+<meta name="twitter:description" content="一、传统切图方法使用范围：需要切多张图，带背景的1.打开下载的psd文件出现下面没关系，直接点确定即可">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/03/photoshop_001.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/09/╟░╢╦╟╨═╝╝╝╟╔╫▄╜с/"/>
+
+
+
+
+
+  <title>前端切图技巧总结 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/09/╟░╢╦╟╨═╝╝╝╟╔╫▄╜с/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">前端切图技巧总结</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-09T16:13:30+08:00">
+                2018-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/09/╟░╢╦╟╨═╝╝╝╟╔╫▄╜с/" class="leancloud_visitors" data-flag-title="前端切图技巧总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="一、传统切图方法"><a href="#一、传统切图方法" class="headerlink" title="一、传统切图方法"></a>一、传统切图方法</h4><p>使用范围：需要切多张图，带背景的<br>1.打开下载的psd文件<br>出现下面没关系，直接点确定即可<br><img src="/uploads/2018/03/photoshop_001.JPG" alt=""><br><a id="more"></a></p>
+<p>打开后，因为文件比较长所以看不清细节，所以我们要放大图片到合适的大小。 </p>
+<blockquote>
+<font color="red">放大图片：”CTRL” +“+”<br>缩小图片：“CTRL”+ “-”</font>
+
+</blockquote>
+<p>然后我们来认识下photoshop中的一些工具<br><img src="/uploads/2018/03/photoshop_01.JPG" alt=""></p>
+<p>2.修改参考线<br>我们可以看到我们的图片中很多条蓝色的参考线，这些线是设计人员用来设计用的，有的文件中的线会直接把我们需要切的东西给包裹出来，但是像我们练习的这个文件中的参考线特别的多，特别的密集，很多我们都不需要，所以我们先把这些参考线都清除掉。</p>
+<p>删除参考线：选择移动工具，然后把要删除的参考线往标尺上拖，往上或者往左都可以</p>
+<p>没有参考线的可能是参考线被隐藏了，通过<font color="red">“CTRL”+“ALT”+“;”</font>就可以显示出来了。<br><img src="/uploads/2018/03/photoshop_02.gif" alt=""></p>
+<p>我们只要把挡住图标的参考线给删除就可以</p>
+<p>3.选择要切的图标<br>这里我们就切几个页面上的图标，文字部分我们都可以通过代码来实现，所以就不切了。<br><img src="/uploads/2018/03/photoshop_03.gif" alt=""></p>
+<blockquote>
+<p>①选择工具栏第一个“移动工具”<br>②然后查看上面选项栏“自动选择”有没有被选中，没有被选中点击选中，将它旁边的“组”改为“图层”，这样我们点击图标的时候，右下角的图层面板就能自动的选中对应的图层<br>③点击我们要切的图标，然后到右下角的图层面板，点击当前选中的这个图层旁边的小眼睛来隐藏当前图层，通过显隐来确定是不是我们要切的图标<br>④确认了我们要切的图标后，分别从水平标尺和竖直标尺的地方拉取参考线来把图标给包裹住。因为我们当前选中的就是我们要切的图层，所以当参考线拖过去的时候会自动吸附到图标的边缘。<br>⑤用同样的方法把图标都用参考线包裹出来，最下面一排，要把图标切成一样高的才好，所以以第一个的上边界和下边界为基准。</p>
+</blockquote>
+<p>4.切片需要的图标<br>现在，我们已经用参考线把我们的图标给包裹出来了，下面，我们要用切片工具来切出我们的图标<br><img src="/uploads/2018/03/photoshop_04.gif" alt=""></p>
+<blockquote>
+<p>①选择切片工具，左边工具栏从上往下数第五个，然后右键就可以找到，然后选中<br>②然后找到我们刚才用参考线包裹的图标，从左上角一直拖到右下角，因为有参考线的帮助，所以软件能够自动吸附到参考线上，所以只要大概找准左上角和右下角就可以选取出来<br>③用同样的方法把剩下的都选取出来 </p>
+</blockquote>
+<p>5.将切片存储为图片</p>
+<blockquote>
+<p>①选择 “文件”=》“存储为Web所用格式”<br><img src="/uploads/2018/03/photoshop_05.JPG" alt=""><br>②调整缩放比例，让图片能完整的在窗口显示<br>③在窗口中，从左上角一直拖到右下角，选中所有切片，这样我们才能把切片都存储为我们想要的格式<br>④存储为png-24格式，png-24格式的图片质量比较高<br><img src="/uploads/2018/03/photoshop_06.JPG" alt=""><br>⑤保存，选择用户所有切片可以只保存我们自己切出来的切片<br><img src="/uploads/2018/03/photoshop_07.JPG" alt=""><br>⑥然后查看保存的文件里面就多了一个images文件夹，里面就是我们切出来的图片</p>
+</blockquote>
+<p><strong>（注：但是这样做会发现png格式的背景还是有的，而且如果只是需要一张图的时候，还要这样切就会比较麻烦，所以(二)中会介绍一些切一两个小图标的方法）</strong></p>
+<h4 id="二、切单个图标方法"><a href="#二、切单个图标方法" class="headerlink" title="二、切单个图标方法"></a>二、切单个图标方法</h4><p>之前介绍了传统的切图技巧，主要用于切多张图片的时候，但很多时候我们可能只需要切一两张图标，如果还用传统的方法就会很繁琐，所以这次分享一种导出单个图标的方法。</p>
+<p>1.还是之前的文件，这次我们就切一个图标<br><img src="/uploads/2018/03/photoshop_08.JPG" alt=""></p>
+<p>2.选择移动工具，并在选项中选中“自动选择”和“图层”<br><img src="/uploads/2018/03/photoshop_09.JPG" alt=""></p>
+<p>3.点击我们要切的图标，这里是点击中间的笔，然后右边的图层面板就会自动聚焦到对应的图层，通过点击左边的小眼睛来确定是不是我们想要的图层。<br><img src="/uploads/2018/03/photoshop_10.JPG" alt=""></p>
+<p>4.这里我们找到了我们需要的图标有两部分组成，里面的笔和外面的圆，两个图层被放在了一个组里面<br><img src="/uploads/2018/03/photoshop_11.JPG" alt=""></p>
+<p>5.在icon文件上右键，选择“转换为智能对象”<br><img src="/uploads/2018/03/photoshop_12.JPG" alt=""></p>
+<p>6.然后，我们会发现，两个图层合并为了一个图层，这个就是我们需要的图标<br><img src="/uploads/2018/03/photoshop_13.JPG" alt=""></p>
+<p>7.在icon图层上右键，选择“编辑内容”，出现提示框的话直接点击“确定”即可<br><img src="/uploads/2018/03/photoshop_14.JPG" alt=""></p>
+<p>8.然后，我们的图标就被单独提取出来了<br><img src="/uploads/2018/03/photoshop_15.JPG" alt=""></p>
+<p>9.选择“文件”=》“存储为”，将我们的图标保存为PNG格式就大功告成了！ </p>
+<h4 id="三、自动生成图标方法"><a href="#三、自动生成图标方法" class="headerlink" title="三、自动生成图标方法"></a>三、自动生成图标方法</h4><p>1.打开给大家准备的psd文件<br>2.选择“编辑”=》“首选项”=》“增效工具”<br><img src="/uploads/2018/03/photoshop_16.JPG" alt=""></p>
+<p>3.勾选“启用生成器”，选择“确定”<br><img src="/uploads/2018/03/photoshop_17.JPG" alt=""></p>
+<p>4.重启一下photoshop</p>
+<p>5.重启后，重新打开我们的文件，感觉参考线太碍事了，我们用快捷键“CTRL”+“；”把参考线隐藏了。</p>
+<p>6.选择“文件”=》“生成”=》“图像资源”<br><img src="/uploads/2018/03/photoshop_18.JPG" alt=""></p>
+<p>7.用之前一样的方法找到我们要的图标的图层<br><img src="/uploads/2018/03/photoshop_19.JPG" alt=""></p>
+<p>8.我们需要的图标放在了icon这个分组中，现在我们将icon重命名为icon.png<br><img src="/uploads/2018/03/photoshop_20.JPG" alt=""></p>
+<p>9.现在我们打开我们存放psd文件的文件夹中，可以发现现在多了一个文件夹<br><img src="/uploads/2018/03/photoshop_21.JPG" alt=""></p>
+<p>10.打开这个多出来的文件夹就会看到我们的图标躺在那里了，是不是很激动！！！<br>11.我们还可以继续把第二个图标重命名为icon.jpg<br>12.然后会发现刚才那个文件夹中又多了一个icon.jpg文件<br>13.当然还可以把图标改为icon.svg（注：有时候不可以，原因未查）<br>16.如果不想要要这个图标，我们可以把文件的命名重新改回来 </p>
+<p>这个方法生成图标非常的方便，很适合我们生成svg图片，可以保存到fontello或者iconfont中，强烈建议！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+            <a href="/tags/切图篇/" rel="tag"># 切图篇</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/Flask-╧р╣╪╓к╩╢╡у╫▄╜с/" rel="next" title="Flask - 相关知识点总结">
+                <i class="fa fa-chevron-left"></i> Flask - 相关知识点总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/13/CSS-╗ё╚б═м└р╓╨╡┌╝╕╕Ў╘к╦╪/" rel="prev" title="CSS 获取同类中第几个元素">
+                CSS 获取同类中第几个元素 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、传统切图方法"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x4F20;&#x7EDF;&#x5207;&#x56FE;&#x65B9;&#x6CD5;" class="headerlink" title="&#x4E00;&#x3001;&#x4F20;&#x7EDF;&#x5207;&#x56FE;&#x65B9;&#x6CD5;"></a>&#x4E00;&#x3001;&#x4F20;&#x7EDF;&#x5207;&#x56FE;&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、切单个图标方法"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x5207;&#x5355;&#x4E2A;&#x56FE;&#x6807;&#x65B9;&#x6CD5;" class="headerlink" title="&#x4E8C;&#x3001;&#x5207;&#x5355;&#x4E2A;&#x56FE;&#x6807;&#x65B9;&#x6CD5;"></a>&#x4E8C;&#x3001;&#x5207;&#x5355;&#x4E2A;&#x56FE;&#x6807;&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、自动生成图标方法"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x56FE;&#x6807;&#x65B9;&#x6CD5;" class="headerlink" title="&#x4E09;&#x3001;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x56FE;&#x6807;&#x65B9;&#x6CD5;"></a>&#x4E09;&#x3001;&#x81EA;&#x52A8;&#x751F;&#x6210;&#x56FE;&#x6807;&#x65B9;&#x6CD5;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

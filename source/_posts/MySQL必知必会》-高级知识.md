@@ -1,0 +1,554 @@
+---
+title: 《MySQL必知必会》-高级知识
+date: 2017-12-07 13:09:00
+categories: 
+- [MySQL]
+- [书籍]
+tags: 
+- MySQL
+- 书籍
+---
+## 二十二、使用视图
+1、视图是什么？
+*（注：MySQL 5添加了对视图的支持，因此，使用视图需要版本在MySQL 5及以后的版本。）*
+视图是虚拟的表。与包含数据的表不一样，视图只包含使用时动态检索数据的查询。
+例如：
+　　`SELECT cust_name,cust_contact FROM customers,orders,orderitems WHERE customers.cust_id = orders.cust_id AND orderitems.order_num = oders.order_num AND prod_id = 'TNT2';`
+此查询用来检索订购了某个特定产品的用户。
+假如可以把整个查询包装成一个名为productcustomers的虚拟表，则可以如下轻松地检索出相同的数据：
+　　`SELECT cust_name,cust_contact FROM productcustomers WERE prod_id = 'TNT2';`
+这就是视图的作用。productcustomers是一个试图，作为视图，它不包含表中应该有的任何列或数据，它包含的是一个SQL查询（与上面用以正确联结表的相同的查询）。
+<!--more-->
+1.2、为什么使用视图？
+下面是视图的一些常见应用：
+	1. 重用SQL语句
+	2. 简化复杂的SQL操作。在编写查询后，可以方便地重用它而不必知道它的基本查询细节。
+	3. 使用表的组成部分而不是整个表。
+	4. 保护数据。可以给用户授予表的特定部分的访问权限而不是整个表的访问权限。
+	5. 更改数据格式和标识。视图可返回与底层表的表示和格式不同的数据。
+　　在视图创建之后，可以用与表基本相同的方式利用它们。可以对视图执行SELECT操作，过滤和排序数据，将视图联结到其他视图或表，甚至能添加和更新数据（添加和更新数据存在某些限制。）。
+　　需要知道的是：视图仅仅是用来查看存储在别处的数据的一种设施。视图本身不包含数据，因此它们返回的数据是从其他表中检索出来的。在添加或更改这些表中的数据时，视图将返回改变过的数据。
+*（性能问题：因为视图不包含数据，所以每次使用视图时，都必须处理查询执行时所需的任一个检索。如果你用多个联结和过滤创建了复杂的视图或者嵌套了视图，可能会发现性能下降得很厉害。因此，在部署使用了大量视图的应用前，应该进行测试。）*
+
+1.3、视图的规则和限制
+下面是关于视图创建和使用的一些最常见的规则和限制：
+    1. 与表一样，视图必须唯一命名（不能给视图取与别的视图或者表相同的名字）。
+    2. 对于可以创建的视图数目没有限制。
+    3. 为了创建视图，必须具有足够的访问权限。这些限制通常由数据库管理人员授予。
+    4. 视图可以嵌套，既可以利用从其它视图中检索数据的查询来构造一个试图。
+    5. ORDER BY可以用在视图中，但如果从该视图检索数据SELECT中也含有ORDER BY，那么该视图中的ORDER BY将被覆盖。
+    6. 视图不能索引，也不能有关联的触发器或默认值。
+    7. 视图可以和表一起使用。例如，编写一条联结表和视图的SELECT语句。
+
+2、视图是怎样工作的？
+　2.1视图的创建：
+    1. 视图用CREATE VIEW语句来创建。
+    2. 使用SHOW CREATE VIEW viewname;来查看创建视图的语句。
+    3. 用DROP删除视图，其语法为DROP VIEW viewname;。
+    4. 更新视图时，可以先用DROP再用CREATE，也可以直接用CREATE OR REPLACE VIEW。
+
+　如果要更新的视图不存在，则第2条更新语句会创建一个试图；如果更新的视图存在，则第2条更新语句会替换原有视图。
+　2.2 常用的视图应用
+    1. 隐藏复杂的SQL，这通常都会涉及联结。
+    ```
+     CREATE VIEW productcustomers AS 
+     SELECT cust_name,cust_contact,prod_id 
+     FROM customers,orders,orderitems
+     WHERE customers.cust_id = orders.cust_id 
+       AND orderitems.order_num = orders.order_num;
+    ```
+    这条语句创建一个名为productcustomers的视图，联结了3个表，以返回已订购了任意产品的所有客户的列表。
+    为检索订购了产品的TNT2的客户，可如下进行：
+    　`SELECT cust_name,cust_contact FROM productcustomers WHERE prod_id='TNT2';`
+	（注：创建可重用的视图：创建不受特定数据限制的视图是一种好办法。）
+
+    2. 用视图重新格式化检索出的数据。
+    ``` 
+     SELECT Concat(RTrim(vend_name), '(', RTrim(vend_country), ')') 
+            AS vend_title 
+     FROM vendors ORDER BY vend_name;
+    ```
+    假如经常需要这个格式的结果，可创建一个试图，每次需要时使用它。
+    ```
+     CREATE VIEW vendorlocations AS
+     SELECT Concat(RTrim(vend_name), '(', RTrim(vend_country), ')')
+            AS vend_title
+     FROM vendors ORDER BY vend_name;
+    ```
+
+    3. 用视图过滤不想要的数据
+    视图对于应用普通的WHERE子句也很有用。例如，可以定义customeremaillist视图，它过滤没有电子邮件地址的客户。
+    ```
+     CREATE VIEW customeremaillist 
+     SELECT cust_id,cust_name,cust_email FROM customers 
+     WHERE cust_email IS NOT NULL;
+     ```
+	（注：WHERE子句与WHERE子句：如果从视图检索数据时使用了一条WHERE子句，则两组子句（一组在视图中，另一组是传递给视图的）将自动组合。）
+
+    4. 使用视图与计算字段
+    视图对于简化计算字段的使用特别有用。下面是它检索某个特定订单中的物品，计算每种物品的总价格：
+    ```
+     CREATE VIEW orderitemsexpanded AS 
+     SELECT order_num,prod_id,quantity,item_price,
+            quantity*item_price AS expanded_price 
+     FROM orderitems;
+    ```
+    为检索订单20005的详细内容可如下操作：
+	`SELECT * FROM orderitemsexpanded WHERE order_num = 20005;`
+
+　2.3 更新视图
+　通常，视图是可更新的（即可以对它们使用INSERT、UPDATE和DELETE）。更新一个视图将更新其基表（可以回忆一下，视图本身没有数据）。
+　但是，并非所有视图都是可更新的。基本上如果MySQL不能正确地确定被更新的基数据，则不允许更新（包括插入和删除）。这实际上意味着，如果视图定义中有以下操作，则不能进行视图的更新：
+    1. 分组（使用GROUP BY和HAVING）
+    2. 联结
+    3. 子查询
+    4. 并
+    5. 聚集涵涵素（Min()、Count()、Sum()等）
+    6. DISTINCT
+    7. 导出（计算）列。
+    因此，一般应该将视图用于检索（SELECT语句）而不用于更新（INSERT、UPDATE和DELETE）。
+
+
+## 二十三、使用存储过程
+1、什么是存储过程？
+*（注：MySQL 5添加了对存储过程的支持，因此需要MySQL 5及以后的版本。）*
+　迄今为止，使用的大多数SQL语句都是针对一个或多个表的单条语句。并非所有操作都这么简单，经常会有一个完整的操作需要多条语句才能完成。例如下面的情形：
+    1. 为了处理订单，需要核对以保证库存中有相应的物品。
+    2. 如果库存有物品，这些物品需要预定以便不将它们再卖给别人，并且要减少可用的物品数量以反映正确的库存量。
+    3. 库存中没有的物品需要订购，这需要与供应商进行某种交互。
+    4. 关于哪些物品入库（并且可以立即发货）和哪些物品退订，需要通知相应的客户。
+　这显然不是一个完整的例子，执行这个处理需要针对许多表的多条MySQL语句。此外，需要执行的具体语句及其次序也不是固定的，它们可能会（和将）根据哪些物品在库存中哪些不在而变化。
+　可以创建存储过程。存储过程简单来说，就是为以后的使用而保存的一条或多条MySQL语句的集合。可将其视为批文件，虽然它们的作用不仅限于批处理。
+
+2、为什么要使用存储过程？
+　下面列出一些主要的理由：
+    1. 通过把处理封装在容易使用的单元中，简化复杂的操作。
+    2. 由于不要求反复建立一系列处理步骤，这保证了数据的完整性。如果所有开发人员和应用程序都使用同一（试验和测试）存储过程，则所使用的代码都是相同的。
+		这一点的延伸就是防止错误。需要执行的步骤越多，出错的可能性就越大。防止错误保证了数据的一致性。
+    3. 简化对变动的管理。如果表名、列名或业务逻辑（或别的内容）有变化，只需要更改存储过程的代码。使用它的人员甚至不需要知道这些变化。
+		这一点的延伸就是安全性。通过存储过程限制对基础数据的访问减少了数据讹误（无意识的或别的原因所导致的数据讹误）的机会。
+    4. 提高性能。因为使用存储过程比使用单独的SQL语句更快。
+    5. 存在一些只能用在单个请求中的MySQL元素和特性，存储过程以使用它们来编写功能更强更灵活的代码。
+　换句话说，使用存储过程有3个主要的好处，即简单、安全、高性能。
+　不过，在将SQL代码转换为存储过程前，也必须知道它的一些缺陷：
+    1. 一般来说，存储过程的编写比基本的SQL语句复杂，编写存储过程需要更高的技能，更丰富的经验
+    2. 你可能没有创建存储过程的安全访问权限。许多数据库管理员限制存储过程的创建权限，允许用户使用存储过程，但不允许他们创建存储过程。
+
+3、如何使用存储过程？
+　存储过程的执行远比其定义更经常遇到，因此，我们将从执行存储过程开始介绍。然后再介绍创建和使用存储过程。
+　3.1 执行存储过程
+　MySQL称存储过程的执行为调用，因此MySQL执行存储过程的语句为CALL。CALL接受存储过程的名字以及需要传递给它的任意参数。
+　例如：
+	``` CALL productpricing(@pricelow,
+                               @pricehigh,
+                               @priceaverage);
+	```
+　其中，执行名为productpricing的存储过程，它计算并返回产品的最低、最高和平均价格。
+　3.2 创建存储过程
+　例子：一个返回产品平均价格的存储过程：
+    ```
+     CREATE PROCEDURE productpricing()
+     BEGIN
+         SELECT Avg(prod_price) AS priceaverage FROM products;
+     END;
+    ```
+　此存储过程名为productpricing，用CREATE PROCUDURE productpricing()语句定义。
+　如果存储过程接受参数，它们将在()中列举出来。此存储过程没有参数，但后跟的()仍然需要。BEGIN和END语句用来限定存储过程体，过程体本身仅是一个简单的SELECT语句。
+　在MySQL处理这段代码时，它创建一个新的存储过程productpricing。没有返回数据，因为这段代码并未调用存储过程，这里只是为以后使用而创建它。
+
+　（注：mysql命令行客户机的分隔符，如果你使用的是mysql命令行实用程序，请往下看：默认的MySQL语句分隔符;（正如你已经在迄今为止所使用的MySQL语句中所看到的那样）。mysql命令行实用程序也使用;作为语句分隔符。如果命令行使用程序要解释存储过程自身内的;字符，则它们最终不会成为存储过程的成分，这会使存储过程中的SQL出现句法错误。解决办法是临时更改命令行使用程序的语句分隔符，如下所示：
+	```
+    DELIMITER //
+    
+    CREATE PROCEDURE productpricing()
+    BEGIN
+      SELECT Avg(prod_price) AS priceaverage FROM products;
+    END //
+
+    DELIMITER ;
+    ```
+其中，`DELIMITER //` 告诉命令行实用程序使用//作为新的语句结束分隔符，可以看到标志存储过程结束的END定义为END//而不是END;。这样，存储过程体内的;仍然保持不动，并且正确地传递给数据库引擎。最后，为恢复为原来的语句分隔符，可使用DELIMITER ;。除\符号外，任何字符都可以用作语句分隔符。如果你使用的是mysql命令行实用程序，在阅读本章时请记住这里的内容。）
+
+　3.3 使用存储过程
+　　`CALL productpricing();` 
+　执行刚创建的存储过程并显示返回的结果。因为存储过程实际上是一种函数，所以存储过程名后需要有()符号（即使不传递参数也需要）。
+   
+　3.4 删除存储过程
+　　`DROP PROCEDURE productpricing;`
+　请注意没有使用后面的()，只给出存储过程名。
+　*（注：如果指定的过程不存在，则DROP PROCEDURE将产生一个错误。当过程存在想删除它时（如果过程不存在也不产生错误）可使用DROP PROCEDURE IF EXISTS。）*
+
+　3.4 使用参数
+　以下是productpricing的修改版本(如果不先删除此存储过程，则不能再次创建它)：
+    ```
+     CREATE PROCEDURE productpricing(
+         OUT pl DECIMAL(8, 2),
+         OUT ph DECIMAL(8, 2),
+         OUT pa DECIMAL(8, 2)
+     )
+     BEGIN
+         SELECT Min(prod_price) INTO pl FROM products;
+         SELECT Max(prod_price) INTO ph FROM products;
+         SELECT Avg(prod_price) INTO pa FROM products;
+     END;
+    ```
+　此存储过程接受3个参数：pl存储产品的最低价格，ph存储产品的最高价格，pa存储产品的平均价格。每个参数必须具有指定的类型，这里使用十进制值。
+　关键字OUT指出相应的参数用来从存储过程传出一个值（返回给调用者）。
+　MySQL支持IN（传递给存储过程）、OUT（从存储过程传出）和INOUT（对存储过程传入和传出）类型的参数。
+　*（注：存储过程的参数允许的数据类型与表中使用的数据类型相同。）*
+　调用此修改过的存储过程，必须指定3个变量名。
+　　`CALL productpricing(@pricelow, @pricehigh, @priceaverage);`
+　*（注：所有MySQL变量都必须以@开始。）*
+　为了显示检索出的值，可以使用以下语句：
+　　`SELECT @pricehigh, @pricelow, @priceaverage;`
+
+　3.5 建立智能存储过程
+　只有在存储过程内包含业务规则和智能处理时，它们的威力才真正显现出来。
+　考虑这个场景。你需要获得与以前一样的订单合计，但需要对合计增加营业税，不过只针对某些顾客。那么，你需要做下面几件事情：
+    1. 获得合计（与以前一样）；
+    2. 把营业税有条件地添加到合计；
+    3. 返回合计（带或不带税）。
+　存储过程的完整工作如下：
+    ```
+     -- Name: ordertotal
+     -- Parameters: onumber = order number
+     --             taxable = 0 if not taxable,1 if taxable
+     --             ototal  = order total variable
+     CREATE PROCEDURE ordertotal(
+         IN onumber INT,
+         IN taxable BOOLEAN,
+         OUT ototal DECIMAL(8,2)
+     ) COMMENT 'Obtain order total, optionally adding tax'
+     BEGIN
+         -- Declare variable for total
+         DECLARE total DECIMAL(8,2);
+         -- Declare tax percentage
+         DECLARE taxrate INT DEFAULT 6;
+
+         -- Get the order total
+         SELECT Sum(item_price*quantity) FROM orderitems
+         WHERE order_num = onumber
+         INTO total;
+
+         -- Is this taxable?
+         IF taxable THEN
+             -- Yes, so add taxrate to the total
+             SELECT total+(total/100*taxrate) INTO total;
+         END IF;
+  
+         -- AND finally, save to out variable
+         SELECT total INTO ototal;
+     END;
+    ```
+　此存储过程有很大的变动。首先，增加了注释（前面放置--）。添加了另外一个参数taxable，它是一个布尔值。在存储过程体中，用DECLARE语句定义了两个局部变量。DECLARE要求指定变量名和数据类型，它也支持可选的默认值（这个例子中的taxable的默认值被设置为6%）。SELECT语句已经改变，因此其结果存储到total（局部变量）而不ototal。IF语句检查taxable是否为真，如果为真，则用另一SELECT语句增加营业税到局部变量total。最后，用另一SELECT语句将total（它增加或许不增加营业税）保存到ototal。
+　*（注：COMMENT关键字：它不是必需的，但如果给出，将在SHOW PROCEDURE STATUS的结果中显示。）*
+　*（注：IF语句：IF语句还支持ELSEIF和ELSE子句（前者还使用THEN子句，后者不使用）。）*
+
+　3.6 检查存储过程
+　为显示用来创建一个存储过程的CREATE语句，使用SHOW CREATE PROCEDURE语句：
+　　`SHOW CREATE PROCEDURE ordertotal;`
+　为了获得包括何时、由谁创建等详细信息的存储过程列表，使用SHOW PROCUDURE STATUS语句：
+　　`SHOW PROCEDURE STATUS LIKE 'ordertotal';`
+　*（注：SHOW PROCEDURE STATUS列出所有存储过程，为了限制其输出，可使用LIKE指定一个过滤模式。）*
+
+
+## 二十四、使用游标
+1、什么是游标？
+*（注：MySQL 5添加了对游标的支持）*
+　使用简单的SELECT语句，没有办法得到第一行、下一行或前10行，也不存在每次一行地处理所有行的简单方法。有时，需要在检索出来的行中前进或后退一行或多行。这就是使用游标的原因。
+　游标（cursor）是一个存储在MySQL服务器上的数据库查询，它不是一条SELECT语句，而是被该语句检索出来的结果集。在存储了游标之后，应用程序可以根据需要滚动或浏览其中的数据。
+　游标主要用于交互式应用，其中用户需要滚动屏幕上的数据，并对数据进行浏览或做出更改。
+*（注：MySQL游标只能用于存储过程（和函数）。）*
+
+2、如何使用游标？
+　2.1使用游标涉及几个明确的步骤：
+    1. 在能够使用游标前，必须声明（定义）它。这个过程实际上没有检索数据，它只是定义要使用的SELECT语句。
+    2. 一旦声明后，必须打开游标以供使用。这个过程用前面定义的SELECT语句把数据实际检索出来。
+    3. 对于填有数据的游标，根据需要取出（检索）各行。
+    4. 在结束游标使用时，必须关闭游标。
+
+　2.2 创建游标
+　游标用DECLARE语句创建。DECLARE命名游标，并定义相应的SELECT语句，根据需要带WHERE和其它子句。
+　例如：下面语句定义了名为ordernumbers的游标：
+    ```
+     CREATE PROCEDURE processorders()
+     BEGIN
+         DECLARE ordernumbers CURSOR
+         FOR
+         SELECT order_num FROM orders;
+     END;
+    ```
+　2.3 打开和关闭游标
+　在定义游标之后，可以打开它。
+　游标用OPEN CURSOR语句来打开：
+　　`OPEN ordernumbers;`
+　游标处理完成后，应当使用如下语句关闭游标：
+　　`CLOSE ordernumbers;`
+　在一个游标关闭后，如果没有重新打开，则不能使用它。但是，使用声明过的游标不需要再次声明，用OPEN语句打开它就可以了。
+　2.4 使用游标数据
+　在一个游标被打开后，可以使用FETCH语句分别访问它的每一行。FETCH指定检索什么数据（所需的列），检索出来的数据存储在什么地方。它还向前移动游标中的内部行指针，使下一条FETCH语句检索下一行（不重复读取同一行）。
+　下面给出游标存储过程对取出的数据进行某种实际的处理：
+    ```
+     CREATE PROCEDURE processorders()
+     BEGIN
+         -- Declare local variables
+         DECLARE done BOOLEAN DEFAULT 0;
+         DECLARE o INT;
+         DECLARE t DECIMAL(8,2);
+
+         -- Declare the cursor
+         DECLARE ordernumbers CURSOR 
+         FOR
+         SELECT order_num FROM orders;
+         
+         -- Declare continue handler
+         DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done=1;
+
+         -- Create a table to store the results
+         CREATE TABLE IF NOT EXISTS ordertotals
+             (order_num INT, total DECIMAL(8,2));
+
+         -- Open the cursor
+         OPEN ordernumbers;
+
+         -- Loop through all rows
+         REPEAT
+           
+             -- Get order number
+             FETCH ordernumbers INTO o;
+             -- Get the total for this order
+             CALL ordertotal(o, 1, t);
+             -- Insert order and total into ordertotals
+             INSERT INTO ordertotals(order_num, total) VALUES(o, t);
+         -- End of loop
+         UNTIL done END REPEAT;
+ 
+         -- Close the cursor
+         CLOSE ordernumbers;
+     END;
+    ```
+　此例子中，FETCH是在REPEAT内，因此它反复执行直到done为真（由UNTIL done END REPEAT;规定）。为使它起作用，用一个DEFAULT 0(假，不结束)定义变量done。
+　而done是通过以下语句设置结束条件：
+　　`DECLARE CONTINUE HANDLER FOR SQLSTATE '02000' SET done=1;`
+　这条语句定义了一个CONTINUE HANDLER，它是在条件出现时被执行的代码。这里，它指出当SQLSTATE '02000'出现时，SET done=1。SQLSTATE '02000'是一个未找到条件，当REPEAT由于没有更多的行供循环而不能继续时，出现这个条件。
+　*（注：DECLARE语句的次序：用DECLARE语句定义的局部变量必须在定义任意游标或句柄之前定义，而句柄必须在游标之后定义。不遵守此顺序将产生错误信息。）*
+　*（注：重复或循环：除这里使用的REPEAT语句外，MySQL还支持循环语句，它可用来重复执行代码，直到使用LEAVE语句手动退出位置。通常REPEAT语句的语法使它更适合于对游标进行循环。）*
+
+
+## 二十五、触发器
+*（注：MySQL 5增加了对触发器的支持。）*
+1、什么是触发器？
+　MySQL语句在需要时被执行，存储过程也是如此。但是，如果你想要某条语句（或某些语句）在事件发生时自动执行。例如：
+	1. 每当增加一个顾客到某个数据表时，都检查其电话号码格式是否正确等；
+	2. 每当订购一个产品时，都从库存数量中减去订购的数量；
+	3. 无论何时删除一行，都在某个存档表中保留一个副本。
+　所有这些例子的共同之处是它们都需要在某个表发生更改时自动处理。这确切地说就是触发器。触发器是MySQL相应以下任意语句而自动执行的一条MySQL语句（或位于BEGIN和END语句之间的一组语句）：
+　　`DELETE、INSERT、UPDATE`
+　其它MySQL语句不支持触发器。
+
+2、为什么要使用触发器？
+　2.1 创建触发器
+　在创建触发器时，需要给出4条信息：
+	1. 唯一的触发器名；（保持每个数据库的触发器名唯一）
+	2. 触发器关联的表；
+    3. 触发器应该响应的活动（DELETE、INSERT或UPDATE）；
+    4. 触发器何时执行（处理之前或之后）。
+　触发器用CREATE TRIGGER语句创建。下面是一个例子：
+    ```
+     CREATE TRIGGER newproduct AFTER INSERT ON products
+     FOR EACH ROW SELECT 'Product added';
+    ```
+　在这个例子中，文本Product added将对每个插入的行显示一次。
+　*（注：只有表才支持触发器，视图不支持（临时表也不支持）。）*
+　触发器按每个表每个事件每次地定义，每个表每个事件每次只允许一个触发器。因此，每个表最多支持6个触发器（每条INSERT、UPDATE和DELETE的之前和之后）。单一触发器不能与多个时间或多个表关联，所以，如果你需要一个对INSERT和UPDATE操作执行的触发器，则应该定义两个触发器。
+　*（注：如果BEFORE触发器失败，则MySQL将不执行请求的操作。此外，如果BEFORE触发器或语句本身失败，MySQL将不执行AFTER触发器（如果有的话）。）*
+　2.2 删除触发器
+　使用 DROP TRIGGER语句，如下所示：
+　　`DROP TRIGGER newproduct;`
+　触发器不能更新或覆盖。为了修改一个触发器，必须先删除它，然后再重新创建。
+
+3、如何使用触发器？
+　查看已有触发器： `show triggers;`
+　3.1 INSERT触发器
+　INSERT触发器在INSERT语句执行之前或之后执行。需要知道以下几点：
+     1. 在INSERT触发器代码内，可引用一个名为NEW的虚拟表，访问被插入的行；
+     2. 在BEFORE INSERT触发器中，NEW中的值也可以被更新（允许更改被插入的值）；
+     3. 对于AUTO_INCREMENT列，NEW在INSERT执行之前包含0，在INSERT执行之后包含新的自动生成值。
+　示例：
+    ```
+     CREATE TRIGGER neworder AFTER INSERT ON orders
+     FOR EACH ROW SELECT NEW.order_num;
+    ```
+　此代码创建一个名为neworder的触发器，它按照AFTER INSERT ON orders执行。在插入一个新订单到orders表时，MySQL生成一个新订单号并保存到order_num中。触发器从NEW.order_num取得这个值并返回它。此触发器必须按照AFTER INSERT执行，因为在BEFORE INSERT语句执行之前，新order_num还没有生成。对于orders的每次插入使用这个触发器将总是返回新的订单号。
+　*（注：通常，将BEFORE用于数据验证和净化（目的是保证插入表中的数据确实是需要的数据）。本提示也适用于UPDATE触发器。）*
+　3.2 DELETE触发器
+　DELETE触发器在DELETE语句执行之前或之后执行。需要知道以下两点：
+     1. 在DELETE触发器代码内，你可以引用一个名为OLD的虚拟表，访问被删除的行；
+     2. OLD中的值全都是只读的，不能更新。
+　示例：
+    ```
+     CREATE TRIGGER deleteorder BEFORE DELETE ON orders
+     FOR EACH ROW
+     BEGIN
+         INSERT INTO archive_orders(order_num, order_date, cust_id) 
+         VALUES(OLD.order_num, OLD.order_date, OLD.cust_id);
+     END;
+    ```
+　在任意订单被删除前将执行此触发器。它使用一条INSERT语句将OLD中的值（要被删除的订单）保存到一个名为archive_orders的存档表中。
+　使用BEFORE DELETE触发器的优点（相对于AFTER DELETE触发器来说）为，如果由于某种原因，订单不能存档，DELETE本身将被放弃。
+　*（注：多语句触发器。触发器deleteorder使用BEGIN和END语句标记触发器体。使用BEGIN END块的好处是触发器能容纳多条SQL语句。）*
+　3.3 UPDATE触发器
+　UPDATE触发器在UPDATE语句执行之前或之后执行。需要知道以下几点：
+     1. 在UPDATE触发器代码中，你可以引用一个名为OLD的虚拟表访问以前（UPDATE语句前）的值，引用一个名为NEW的虚拟表访问新更新的值。
+     2. 在BEFORE UPDATE触发器中，NEW中的值可能也被更新（允许更改将要用于UPDATE语句中的值）；
+     3. OLD中的值全都是只读的，不能更新。
+　下面的例子保证州名缩写总是大写（不管UPDATE语句中给出的是大写还是小写）：
+    ```
+     CREATE TRIGGER updatevendor BEFORE UPDATE ON vendors
+     FOR EACH ROW SET NEW.vend_state = Upper(NEW.vend_state);
+    ```
+　显然，任何数据净化都需要在UPDATE语句之前进行，就像这个例子中一样。每次更新一个行时，NEW.vend_state中的值（将用来更新表行的值）都用Upper(NEW.vend_state)替换。
+4、关于触发器的进一步介绍
+　再介绍一些使用触发器时需要记住的重点：
+     1. 与其他DBMS相比，MySQL 5中支持的触发器相当初级。未来会有一些改进和增强触发器支持的计划。
+     2. 创建触发器可能需要特殊的安全访问权限，但是，触发器的执行时自动的。如果INSERT、UPDATE、DELETE语句能够执行，则相关的触发器也能执行。
+     3. 应该用触发器来保证数据的一致性（大小写、格式等）。在触发器中执行这种类型的处理优点是它总是进行这种处理，而且是透明地进行，与客户机应用无关。
+     4. 触发器的一种非常有意义的使用是创建审计跟踪。使用触发器，把更改（如果需要，甚至还有之前和之后的状态）记录到另一个表非常容易。
+     5. 遗憾的是，MySQL触发器中不支持CALL语句。这表示不能从触发器内调用存储过程。所需的存储过程代码需要复制到触发器内。
+
+
+## 二十六、管理事务处理
+（MyISAM和InnoDB是两种常用的引擎，前者不支持事务处理，而后者支持。）
+1、什么是事务处理
+　事务处理（transaction processing）可以用来维护数据库的完整性，它保证成批的MySQL操作要么完全执行，要么完全不执行。
+　下面是关于事务处理需要知道的几个术语：
+     1. 事务（transaction）指一组SQL语句；
+     2. 回退（rollback）指撤销指定SQL语句的过程；
+     3. 提交（commit）指将未存储的SQL语句结果写入数据库表；
+     4. 保留点（savepoint）指事务处理中设置的临时占位符（placeholder），你可以对它发布回退（与回退整个事务处理不同）。
+2、如何利用COMMIT和ROLLBACK语句来管理事务处理
+
+
+## 二十七、全球化和本地化
+1、字符集和校对顺序
+　数据库表被用来存储和检索数据。不同的语言和字符集需要以不同的方式存储和检索。
+　重要术语：
+     1. 字符集 为字母和符号的集合；
+     2. 编码 为某个字符集成员的内部表示；
+     3. 校对 为规定字符如何比较的指令。
+　*（注：校对为什么重要。考虑词APE、apex和Apple。它们处于正确的排序顺序吗？这有赖于你是否想区分大小写。使用区分大小写的校对顺序，这些词有一种排序方式，使用不区分大小写的校对顺序有另外一种排序方式。这不仅影响（如用ORDER BY排序数据），还影响搜索（例如，寻找apple的WHERE子句是否能够找到APPLE）。）*
+2、使用字符集和校对顺序
+　MySQL支持众多的字符集。
+　为查看所有支持的字符集完整列表，使用以下语句：
+　　`SHOW CHARACTER SET;`
+　这条语句显示所有可用的字符集以及每个字符集的描述和默认校对。
+　为了查看所支持校对的完整列表，使用以下语句：
+　　`SHOW COLLATION;`
+　此语句显示所有可用的校对，以及它们适用的字符集。可以看到有的字符集具有不止一种校对。
+　通常系统管理在安装时定义一个默认的字符集和校对。此外，也可以在创建数据库时，指定默认的字符集和校对。为了确定所用的字符集和校对，可以使用以下语句：
+　　`SHOW VARIABLES LIKE 'character%';`
+　　`SHOW VARIABLES LIKE 'collation%';`
+　实际上，字符集很少是服务器范围（甚至数据库范围）的设置。不同的表，甚至不同的列都可能需要不同的字符集，而且两者都可以创建表时指定。
+　一般，MySQL如下确定使用什么样的字符集和校对：
+     1. 如果指定CHARACTER SET和COLLATE两者，则使用这些值。
+     2. 如果只指定CHARACTER SET，则使用此字符集及其默认的校对（如SHOW CHARACTER SET的结果中所示）。
+     3. 如果既不指定CHARACTER SET，也不指定COLLATE，则使用数据库默认。
+　最后，值得注意的是，如果绝对需要，串可以在字符集之间进行转换。为此，使用Cast()或Convert()函数。
+
+
+## 二十八、安全管理
+1、访问控制
+　MySQL服务器的安全基础是：用户应该对他们需要的数据具有适当的访问权，既不能多也不要能少。换句话说，用户不能对过多的数据具有过多的访问权。
+　考虑以下内容：
+	1. 多数用户只需要对表进行读和写，但少数用户甚至需要能创建和删除表。
+	2. 某些用户需要读表，但可能不需要更新表；
+	3. 你可能想允许用户添加数据，但不允许它们删除数据；
+	4. 某些用户（管理员）可能需要处理用户账号的权限，但多数用户不需要；
+	5. 你可能想让用户通过存储过程访问数据，但不允许他们直接访问数据；
+	6. 你可能想根据用户登录的地点限制对某些功能的访问。
+2、管理用户
+　MySQL用户账号和信息存储在名为mysql的MySQL数据库中。一般不需要直接访问mysql数据库和表，但有时需要直接访问。需要直接访问它的时机之一是需要获得所有用户的账号列表时。
+　mysql数据库有一个名为user的表，它包含所有用户账号。
+　2.1 创建用户账号
+　使用CREATE USER语句：
+　　`CREATE USER ben IDENTIFIED BY 'p@$$wOrd';`
+　2.2 重新命名一个用户账号
+　使用RENAME USER语句：
+　　`RENAME USER ben TO bforta;`
+　*（注：仅MySQL5或之后的版本支持 RENAME USER，为了在以前的MySQL中重命名一个用户，可使用UPDATE直接更新user表。）*
+　2.3 删除用户账号
+　使用DROP USER语句：
+　　`DROP USER bforta;`
+　*（注：自MySQL5以来，DROP USER删除用户账号和所有相关的账号权限。在MySQL5之前，DROP USER只能用来删除用户账号，不能删除相关账号权限。因此，如果使用旧版本的MySQL，需要先用REVOKE删除和账号相关的权限，然后再用DROP USER删除账号。）*
+　2.4 设置访问权限
+    1. 查看赋予用户账号的权限，使用SHOW GRANTS FOR语句，如下：
+     `SHOW GRANTS FOR bforta;`
+    2. 设置权限，使用GRANT语句。GRANT要求至少给出以下信息：
+     （1）要授予的权限；
+     （2）被授予访问权限的数据库或表；
+     （3）用户名。
+    如下例子给出GRANT的用法：
+     `GRANT SELECT ON crashcourse.* TO bforta;`
+    此GRANT允许用户在crashcourse.*（crashcourse数据库的所有表）上使用SELECT。通过只授予SELECT访问权限，用户bforta对crashcourse数据库中的所有数据具有只读访问权限。
+    3. GRANT的反操作为REVOKE，用它来撤销特定的权限。举个例子：
+     `REVOKE SELECT ON crashcourse.* FROM bforta;`
+    这条REVOKE语句取消刚赋予用户bforta的SELECT访问权限。被撤销的访问权限必须存在，否则会出错。
+    GRANT和REVOKE可在几个层次上控制访问权限：
+     （1）整个服务器，使用GRANT ALL和REVOKE ALL;
+     （2）整个数据库，使用ON database.*;
+     （3）特定的表，使用ON database.table;
+     （4）特定的列；
+     （5）特定的存储过程。
+    可以授予或撤销的每个权限：
+     权限            |   说明
+     ----------------|------------------------------
+     ALL             |   除GRANT OPTION外的所有权限
+     SELECT          |   使用SELECT
+     INSERT          |   使用INSERT
+     UPDATE          |   使用UPDATE
+     DELETE          |   使用DELETE
+     CREATE          |   使用CREATE TABLE
+     DROP            |   使用DROP TABLE
+     GRANT OPTION    |   使用GRANT和REVOKE
+     ALTER           |   使用ALTER TABLE
+     ALTER ROUTINE   |   使用ALTER PROCEDURE和DROP PROCEDURE
+     CREATE ROUTINE  |   使用CREATE PROCEDURE
+     CREATE TEMPORARY TABLES |  使用CREATE TEMPORARY TABLE
+     CREATE USER     |   使用CREATE USER、DROP USER、RENAME USER和REVOKE ALL PRIVILEGES
+     CREATE VIEW     |   使用CREATE VIEW
+     INDEX           |   使用CREATE INDEX和DROP INDEX
+     LOCK TABLES     |   使用LOCK TABLES
+     EXECUTE         |   使用CALL和存储过程
+     FILE            |   使用SELECT INTO OUTFILE和LOAD DATA INFILE
+     PROCESS         |   使用SHOW FULL PROCESSLIST
+     RELOAD          |   使用FLUSH
+     REPLICATION CLIENT | 服务器位置的访问
+     REPLICATION SLAVE  | 由复制从属使用
+     SHOW DATABASES  |   使用SHOW DATABASES
+     SHOW VIEW       |   使用SHOW CREATE VIEW
+     SHUTDOWN        |   使用mysqladmin shutdown(用来关闭MySQL)
+     SUPER           |   使用CHANGE MASTER、KILL、LOGS、PURGE、MASTER和SET GLOBAL。还允许mysqladmin调试登录
+     USAGE           |   无访问权限
+    使用GRANT和REVOKE，在结合列出的权限，你能对用户可以就你的宝贵数据做什么事情和不能做什么事情具有完全的控制。
+    （注：多个权限用逗号分隔）
+*（注：未来授权：在使用GRANT和REVOKE时，用户账号必须存在，但对所涉及的对象没有这个要求。这允许管理员在创建数据库和表之前设计和实现安全措施。 这样做的副作用是，当某个数据库或表删除时（用DROP语句），相关的访问权限仍然存在。而且，如果将来重新创建该数据库或表，这些权限仍然起作用。）*
+
+
+## 二十九、数据库维护
+MySQL主要的日志文件有以下几种：
+	1. 错误日志。它包含启动和关闭问题以及任意关键错误的细节。此日志通常名为hostname.err，位于data目录中。此日志名可用--log-error命令行选项更改。
+	2. 查询日志。它记录所有MySQL活动，在诊断问题时非常有用。此日志文件可能会很快地变得非常大，因此不应该长期使用它。此日志通常名为hostname.log，位于data目录中。此名字可以用--log命令行选项更改。
+	3. 二进制日志。它记录更新过数据（或者可能更新过数据）的所有语句。此日志通常名为hostname-bin，位于data目录内。此名字可以用--log-bin命令行选项更改。注意，这个日志文件是MySQL5中添加的，以前的MySQL版本中使用的是更新日志。
+	4. 缓慢查询日志。顾名思义，此日志记录执行缓慢的任何查询。这个日志在确定数据库何处需要优化很有用。此日志通常名为hostname-slow.log，位于data目录中。此名字可以用--log-slow-queries命令行选项更改。
+　在使用日志时，可用FLUSH LOGS语句来刷新和重新开始所有日志文件。
+
+
+## 三十、改善新能
+下面是一些性能优化的技巧：
+	1. 一般来说，使用存储过程比一条一条地执行其中的各条MySQL语句快；
+	2. 使用正确的数据类型；
+	3. 绝不要检索比需求还要多的数据。换言之，不要用SELECT *（除非你真正需要每个列）。
+	4. 必须索引数据库表以改善数据检索的性能；但注意，索引改善数据检索的性能，但损害数据插入、删除和更新的性能；
+	5. 使用多条SELECT语句和连接它们的UNION语句，能够获得极大的性能改进；
+	6. LIKE很慢。一般来说，最好是使用FULLTEXT而不是LIKE；
+	7. 最重要的规则就是，每条规则在某些条件下都会被打破。
