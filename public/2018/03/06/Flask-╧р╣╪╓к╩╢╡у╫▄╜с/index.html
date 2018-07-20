@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,Flask," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、Flask入口文件集成 shell每次启动shell 会话都要导入数据库实例和模型，这真是份枯燥的工作。为了避免一直重复导入，我们可以做些配置，让Flask-Script 的shell 命令自动导入特定的对象。 若想把对象添加到导入列表中，我们要为shell 命令注册一个make_context 回调函数，如示例5-7 所示。">
+<meta name="keywords" content="Python,Flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask - 相关知识点总结">
+<meta property="og:url" content="http://yoursite.com/2018/03/06/Flask-╧р╣╪╓к╩╢╡у╫▄╜с/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、Flask入口文件集成 shell每次启动shell 会话都要导入数据库实例和模型，这真是份枯燥的工作。为了避免一直重复导入，我们可以做些配置，让Flask-Script 的shell 命令自动导入特定的对象。 若想把对象添加到导入列表中，我们要为shell 命令注册一个make_context 回调函数，如示例5-7 所示。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-18T06:59:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flask - 相关知识点总结">
+<meta name="twitter:description" content="1、Flask入口文件集成 shell每次启动shell 会话都要导入数据库实例和模型，这真是份枯燥的工作。为了避免一直重复导入，我们可以做些配置，让Flask-Script 的shell 命令自动导入特定的对象。 若想把对象添加到导入列表中，我们要为shell 命令注册一个make_context 回调函数，如示例5-7 所示。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/06/Flask-╧р╣╪╓к╩╢╡у╫▄╜с/"/>
+
+
+
+
+
+  <title>Flask - 相关知识点总结 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/Flask-╧р╣╪╓к╩╢╡у╫▄╜с/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Flask - 相关知识点总结</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T18:46:40+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/06/Flask-╧р╣╪╓к╩╢╡у╫▄╜с/" class="leancloud_visitors" data-flag-title="Flask - 相关知识点总结">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、Flask入口文件集成-shell"><a href="#1、Flask入口文件集成-shell" class="headerlink" title="1、Flask入口文件集成 shell"></a>1、Flask入口文件集成 shell</h4><p>每次启动shell 会话都要导入数据库实例和模型，这真是份枯燥的工作。为了避免一直重复导入，我们可以做些配置，让Flask-Script 的shell 命令自动导入特定的对象。</p>
+<p>若想把对象添加到导入列表中，我们要为shell 命令注册一个make_context 回调函数，如示例5-7 所示。<br><a id="more"></a><br>示例5-7　hello.py：为shell 命令添加一个上下文<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from flask.ext.script import Shell</span><br><span class="line">def make_shell_context():</span><br><span class="line">    return dict(app=app, db=db, User=User, Role=Role)</span><br><span class="line">manager.add_command(&quot;shell&quot;, Shell(make_context=make_shell_context))</span><br></pre></td></tr></table></figure></p>
+<p>make_shell_context() 函数注册了程序、数据库实例以及模型，因此这些对象能直接导入shell：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ python hello.py shell</span><br><span class="line">&gt;&gt;&gt; app</span><br><span class="line">&lt;Flask &apos;app&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; db</span><br><span class="line">&lt;SQLAlchemy engine=&apos;sqlite:////home/flask/flasky/data.sqlite&apos;&gt;</span><br><span class="line">&gt;&gt;&gt; User</span><br><span class="line">&lt;class &apos;app.User&apos;&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2、Flash消息"><a href="#2、Flash消息" class="headerlink" title="2、Flash消息"></a>2、Flash消息</h4><p>请求完成后，有时需要让用户知道状态发生了变化。这里可以使用确认消息、警告或者错误提醒。一个典型例子是，用户提交了有一项错误的登录表单后，服务器发回的响应重新渲染了登录表单，并在表单上面显示一个消息，提示用户用户名或密码错误。</p>
+<p>这种功能是Flask 的核心特性。如示例所示，flash() 函数可实现这种效果。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, render_template, session, redirect, url_for, flash</span><br><span class="line">@app.route(&apos;/&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</span><br><span class="line">def index():</span><br><span class="line">	form = NameForm()</span><br><span class="line">	if form.validate_on_submit():</span><br><span class="line">	old_name = session.get(&apos;name&apos;)</span><br><span class="line">	if old_name is not None and old_name != form.name.data:</span><br><span class="line">		flash(&apos;Looks like you have changed your name!&apos;)</span><br><span class="line">		session[&apos;name&apos;] = form.name.data</span><br><span class="line">		return redirect(url_for(&apos;index&apos;))</span><br><span class="line">	return render_template(&apos;index.html&apos;, form = form, name = session.get(&apos;name&apos;))</span><br></pre></td></tr></table></figure></p>
+<p>在这个示例中，每次提交的名字都会和存储在用户会话中的名字进行比较，而会话中存储的名字是前一次在这个表单中提交的数据。如果两个名字不一样，就会调用flash() 函数，在发给客户端的下一个响应中显示一个消息。</p>
+<p>仅调用flash() 函数并不能把消息显示出来，程序使用的模板要渲染这些消息。最好在基模板中渲染Flash 消息，因为这样所有页面都能使用这些消息。Flask 把get_flashed_messages() 函数开放给模板，用来获取并渲染消息，如示例所示。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;% block content %&#125;</span><br><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">	&#123;% for message in get_flashed_messages() %&#125;</span><br><span class="line">	&lt;div class=&quot;alert alert-warning&quot;&gt;</span><br><span class="line">		&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;alert&quot;&gt;&amp;times;&lt;/button&gt;</span><br><span class="line">		&#123;&#123; message &#125;&#125;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">	&#123;% endfor %&#125;</span><br><span class="line">	</span><br><span class="line">	&#123;% block page_content %&#125;&#123;% endblock %&#125;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在模板中使用循环是因为在之前的请求循环中每次调用flash() 函数时都会生成一个消息，所以可能有多个消息在排队等待显示。get_flashed_messages() 函数获取的消息在下次调用时不会再次返回，因此Flash 消息只显示一次，然后就消失了。</p>
+<p><strong>进阶用法：区别类别分别显示（使用category_filter字段）</strong></p>
+<ul>
+<li><p>首先，在视图文件中使用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">flash(message, category)</span><br><span class="line"># 例如</span><br><span class="line">flash(&apos;Change your name success!&apos;, &apos;ok&apos;)</span><br><span class="line">flash(&apos;Change your name faild!&apos;, &apos;error&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其次，在模板中使用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for message in get_flashed_messages(category_filter=[&apos;ok&apos;]) %&#125;</span><br><span class="line">&#123;% for message in get_flashed_messages(category_filter=[&apos;error&apos;]) %&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3、使用Flask-Moment进行日期时间的管理"><a href="#3、使用Flask-Moment进行日期时间的管理" class="headerlink" title="3、使用Flask-Moment进行日期时间的管理"></a>3、使用Flask-Moment进行日期时间的管理</h4><p>Flask-Moment又是一个flask的扩展模块，用来处理时间日期等信息。用这个模块主要是考虑到两点，第一是为了让不同时区的用户看到的都是各自时区的实际时间，而不是服务器所在地的时间。第二是对于一些时间间隔的处理，如果要手动处理很麻烦，如果有模块就很好了。</p>
+<p>1、安装该模块<br><code>pip install flask-moment</code></p>
+<p>2、初始化框架的时候引入<br>app文件 app/__init__.py：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from flask_moment import Moment</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"># 实例化</span><br><span class="line">moment = Moment()</span><br><span class="line"></span><br><span class="line"># 传入app进行初始化</span><br><span class="line">moment.init_app(app)</span><br></pre></td></tr></table></figure></p>
+<p>（注：因为我使用了Flask-Scripts来管理项目，所以此处分为两步引入框架。）</p>
+<p>3、在base.html模板中引入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;% block scripts %&#125;</span><br><span class="line">&#123;&#123; super() &#125;&#125;</span><br><span class="line">&#123;&#123; moment.include_moment() &#125;&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4、Flask-前后台分离登录问题"><a href="#4、Flask-前后台分离登录问题" class="headerlink" title="4、Flask 前后台分离登录问题"></a>4、Flask 前后台分离登录问题</h4><p><strong>使用的扩展模块：</strong><code>Flask-Login</code><br><strong>说明：</strong>前台用户表：User; 后台管理员表：Manager;（注：前后台是一个app应用）<br><strong>代码实现，如下：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@login_manager.user_loader</span><br><span class="line">def load_user(user_id):</span><br><span class="line">    if Manager.query.get(int(user_id)):</span><br><span class="line">        return Manager.query.get(int(user_id))</span><br><span class="line">    return User.query.get(int(user_id))</span><br></pre></td></tr></table></figure></p>
+<p><strong>注释：</strong><code>load_user(user_id)</code>,这个方法只负责加载用户对象，所以这里只要通过<code>user_id</code>能够返回正确的用户对象即可。<br><strong>实现效果：</strong>前后台同时在一个浏览器中只能登录一个。因为同时都使用了<code>Flask-Login</code>，同一个session，相同的KEY，所以在同一浏览器中只能实现其中一个。相对的，可以在两个浏览器中同时分别登录前后台，使用的cookie就是不同的，可实现前后台同时使用<code>Flask-Login</code>验证的效果。<br>（注：为实现效果，前后台不能同时登录的问题。）</p>
+<h4 id="5、Flask-中-url-for-函数中参数问题"><a href="#5、Flask-中-url-for-函数中参数问题" class="headerlink" title="5、Flask 中 url_for() 函数中参数问题"></a>5、Flask 中 <code>url_for()</code> 函数中参数问题</h4><p>此问题是我在分页需要传递参数中遇到的，在此记录一下。<br>按照正常理解，<code>url_for()</code> 函数传递多参数，仅仅相应的在参数中增加即可。刚开始按照此思路测试，一直报错，传不到视图函数中。<br>然后，我查找官方文档，如下：<br><code>flask.url_for(endpoint, **values)</code><br>由文档可知，<code>url_for()</code> 函数的第一个参数为视图函数地址，第二个参数为关键字参数，即 <code>key=value</code> 键值对。<br>因此，依据我的理解，刚才的想法是正确的，然后继续梳理，最后验证成功。<br>附分页带参数代码如下：<br><strong>分页调用：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; pg.page(page_data, &quot;home.loginlog&quot;, id=current_user.id) &#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>分页函数相关代码：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;% macro page(data, url, id=None) %&#125;</span><br><span class="line">...</span><br><span class="line">&lt;a href=&quot;&#123;&#123; url_for(url, id=id, page=1) &#125;&#125;&quot; aria-label=&quot;First&quot;&gt;</span><br><span class="line">    &lt;span aria-hidden=&quot;true&quot;&gt;首页&lt;/span&gt;</span><br><span class="line">&lt;/a&gt;</span><br><span class="line">...</span><br><span class="line">（注：其它类似）</span><br></pre></td></tr></table></figure></p>
+<p><strong>小技巧：</strong>对 id的初始值设为None，下面使用时不需要再判断是否传递 id，如果没有传递，<code>id=None</code>，下面<code>url_for()</code>函数的参数中 id就不传了。</p>
+<h4 id="6、Flask-获取编辑器中的内容包含转义字符问题"><a href="#6、Flask-获取编辑器中的内容包含转义字符问题" class="headerlink" title="6、Flask 获取编辑器中的内容包含转义字符问题"></a>6、Flask 获取编辑器中的内容包含转义字符问题</h4><p>编辑器可以使用 emotion特效图片，存储到 MySQL 数据表中的数据自动被 jinja2 模板转义了。转义的效果如下：<br><code>&lt;p&gt;增加图片评论：&amp;nbsp;&lt;img src=&quot;http://img.baidu.com/hi/jx2/j_0062.gif&quot;/&gt;&lt;/p&gt;</code></p>
+<p>但是，当我取出来的时候做显示的时候，仍然是这样。那肯定是不行了。我查看了下取出来的数据类型是字符串。并没有实现反转义。原因应该是 模板文件不认为该数据为安全的，所以没有自动反转义。因此，需要让模板信任该数据，实现转义，做如下操作：<br><code></code><br>即通过 <code>|safe</code> 过滤器来表示字符串是安全的，渲染的时候可进行反转义。</p>
+<h4 id="常用技巧篇"><a href="#常用技巧篇" class="headerlink" title="常用技巧篇"></a>常用技巧篇</h4><p><strong>1、Flask 表单中上传文件的大小获取</strong><br>filesize = len(form.logo.data.read())</p>
+<p><strong>2、Flask 获取用户ip</strong><br>ip = request.remote_addr</p>
+<p><strong>3、Flask 前后台需要登录的问题</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/06/Flask-╚╧╓д└й╒╣/" rel="next" title="Flask - 认证扩展">
+                <i class="fa fa-chevron-left"></i> Flask - 认证扩展
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/09/╟░╢╦╟╨═╝╝╝╟╔╫▄╜с/" rel="prev" title="前端切图技巧总结">
+                前端切图技巧总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、Flask入口文件集成-shell"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210;-shell" class="headerlink" title="1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210; shell"></a>1&#x3001;Flask&#x5165;&#x53E3;&#x6587;&#x4EF6;&#x96C6;&#x6210; shell</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、Flash消息"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;Flash&#x6D88;&#x606F;" class="headerlink" title="2&#x3001;Flash&#x6D88;&#x606F;"></a>2&#x3001;Flash&#x6D88;&#x606F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、使用Flask-Moment进行日期时间的管理"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x4F7F;&#x7528;Flask-Moment&#x8FDB;&#x884C;&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7684;&#x7BA1;&#x7406;" class="headerlink" title="3&#x3001;&#x4F7F;&#x7528;Flask-Moment&#x8FDB;&#x884C;&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7684;&#x7BA1;&#x7406;"></a>3&#x3001;&#x4F7F;&#x7528;Flask-Moment&#x8FDB;&#x884C;&#x65E5;&#x671F;&#x65F6;&#x95F4;&#x7684;&#x7BA1;&#x7406;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、Flask-前后台分离登录问题"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;Flask-&#x524D;&#x540E;&#x53F0;&#x5206;&#x79BB;&#x767B;&#x5F55;&#x95EE;&#x9898;" class="headerlink" title="4&#x3001;Flask &#x524D;&#x540E;&#x53F0;&#x5206;&#x79BB;&#x767B;&#x5F55;&#x95EE;&#x9898;"></a>4&#x3001;Flask &#x524D;&#x540E;&#x53F0;&#x5206;&#x79BB;&#x767B;&#x5F55;&#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、Flask-中-url-for-函数中参数问题"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;Flask-&#x4E2D;-url-for-&#x51FD;&#x6570;&#x4E2D;&#x53C2;&#x6570;&#x95EE;&#x9898;" class="headerlink" title="5&#x3001;Flask &#x4E2D; url_for() &#x51FD;&#x6570;&#x4E2D;&#x53C2;&#x6570;&#x95EE;&#x9898;"></a>5&#x3001;Flask &#x4E2D; <code>url_for()</code> &#x51FD;&#x6570;&#x4E2D;&#x53C2;&#x6570;&#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、Flask-获取编辑器中的内容包含转义字符问题"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;Flask-&#x83B7;&#x53D6;&#x7F16;&#x8F91;&#x5668;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x5305;&#x542B;&#x8F6C;&#x4E49;&#x5B57;&#x7B26;&#x95EE;&#x9898;" class="headerlink" title="6&#x3001;Flask &#x83B7;&#x53D6;&#x7F16;&#x8F91;&#x5668;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x5305;&#x542B;&#x8F6C;&#x4E49;&#x5B57;&#x7B26;&#x95EE;&#x9898;"></a>6&#x3001;Flask &#x83B7;&#x53D6;&#x7F16;&#x8F91;&#x5668;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x5305;&#x542B;&#x8F6C;&#x4E49;&#x5B57;&#x7B26;&#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用技巧篇"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x5E38;&#x7528;&#x6280;&#x5DE7;&#x7BC7;" class="headerlink" title="&#x5E38;&#x7528;&#x6280;&#x5DE7;&#x7BC7;"></a>&#x5E38;&#x7528;&#x6280;&#x5DE7;&#x7BC7;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
