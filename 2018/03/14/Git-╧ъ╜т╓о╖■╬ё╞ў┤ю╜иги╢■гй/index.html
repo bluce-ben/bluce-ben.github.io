@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Git," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]# git versiongit version 1.8.3.1">
+<meta name="keywords" content="Git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git 详解之服务器搭建（二）">
+<meta property="og:url" content="http://yoursite.com/2018/03/14/Git-╧ъ╜т╓о╖■╬ё╞ў┤ю╜иги╢■гй/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]# git versiongit version 1.8.3.1">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git 详解之服务器搭建（二）">
+<meta name="twitter:description" content="服务器环境：CentOS7 + Git(version 1.8.3.1) 1、安装Git　　yum install -y git安装完后，查看 Git 版本12[root@VM_0_7_centos ~]# git versiongit version 1.8.3.1">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/14/Git-╧ъ╜т╓о╖■╬ё╞ў┤ю╜иги╢■гй/"/>
+
+
+
+
+
+  <title>Git 详解之服务器搭建（二） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/14/Git-╧ъ╜т╓о╖■╬ё╞ў┤ю╜иги╢■гй/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Git 详解之服务器搭建（二）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-14T17:46:31+08:00">
+                2018-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/" itemprop="url" rel="index">
+                    <span itemprop="name">版本控制</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/Git/" itemprop="url" rel="index">
+                    <span itemprop="name">Git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/14/Git-╧ъ╜т╓о╖■╬ё╞ў┤ю╜иги╢■гй/" class="leancloud_visitors" data-flag-title="Git 详解之服务器搭建（二）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>服务器环境：CentOS7 + Git(version 1.8.3.1)</p>
+<h4 id="1、安装Git"><a href="#1、安装Git" class="headerlink" title="1、安装Git"></a>1、安装Git</h4><p>　　<code>yum install -y git</code><br>安装完后，查看 Git 版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# git version</span><br><span class="line">git version 1.8.3.1</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<h4 id="2、新建Git账号，用来管理Git服务"><a href="#2、新建Git账号，用来管理Git服务" class="headerlink" title="2、新建Git账号，用来管理Git服务"></a>2、新建Git账号，用来管理Git服务</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# id git</span><br><span class="line">id: git：无此用户</span><br><span class="line">[root@VM_0_7_centos ~]# useradd git</span><br><span class="line">[root@VM_0_7_centos ~]# passwd git</span><br></pre></td></tr></table></figure>
+<h4 id="3、服务器端创建Git仓库"><a href="#3、服务器端创建Git仓库" class="headerlink" title="3、服务器端创建Git仓库"></a>3、服务器端创建Git仓库</h4><p>设置 /data/git/gittest.git 为 Git 仓库<br>然后把 Git 仓库的 owner 修改为 git<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# mkdir -p /data/git/gittest.git</span><br><span class="line">[root@VM_0_7_centos ~]# git init --bare /data/git/gittest.git</span><br><span class="line">Initialized empty Git repository in /data/git/gittest.git/</span><br><span class="line">[root@VM_0_7_centos ~]# cd /data/git/</span><br><span class="line">[root@VM_0_7_centos git]# chown -R git:git gittest.git/</span><br></pre></td></tr></table></figure></p>
+<h4 id="4、客户端首次-clone-远程仓库"><a href="#4、客户端首次-clone-远程仓库" class="headerlink" title="4、客户端首次 clone 远程仓库"></a>4、客户端首次 clone 远程仓库</h4><p>进入 Git Bash 命令行客户端，创建项目地址（设置在  /d/MyProjects/gittest.git）并进入；<br>然后从 Linux Git 服务器上 clone 项目：<br><code>$ git clone git@118.24.8.229:/data/git/gittest.git</code></p>
+<p>如果SSH用的不是默认的22端口，则需要使用以下的命令（假设SSH端口号是7700）：<br><code>$ git clone ssh://git@118.24.8.229:7700/home/data/gittest.git</code></p>
+<p>当第一次连接到目标 Git 服务器时会得到一个提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Cloning into &apos;gittest&apos;...</span><br><span class="line">The authenticity of host &apos;118.24.8.229 (118.24.8.229)&apos; can&apos;t be established.</span><br><span class="line">ECDSA key fingerprint is SHA256:witKSLOMzfgWBcs78t5LfqmSJ+JEm2/PBEaR0d9mnqA.</span><br><span class="line">Are you sure you want to continue connecting (yes/no)? yes</span><br></pre></td></tr></table></figure></p>
+<p>选择 yes：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Warning: Permanently added &apos;118.24.8.229&apos; (ECDSA) to the list of known hosts.</span><br><span class="line">git@118.24.8.229&apos;s password:</span><br><span class="line">warning: You appear to have cloned an empty repository.</span><br></pre></td></tr></table></figure></p>
+<p>后面提示要输入密码，可以采用 SSH 公钥来进行验证（下面会进行说明）。</p>
+<h4 id="5、服务器端Git打开RSA认证"><a href="#5、服务器端Git打开RSA认证" class="headerlink" title="5、服务器端Git打开RSA认证"></a>5、服务器端Git打开RSA认证</h4><p>进入 /etc/ssh 目录，编辑 sshd_config，打开以下三个配置的注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#RSAAuthentication yes</span><br><span class="line">#PubkeyAuthentication yes</span><br><span class="line">#AuthorizedKeysFile     .ssh/authorized_keys</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>##RSAAuthentication用来设置是否开启RSA密钥验证，只针对SSH1<font color="red">（注：对于SSH2来说，没有此项配置）</font></p>
+<p>##PubkeyAuthentication用来设置是否开启公钥验证，如果使用公钥验证的方式登录时，则设置为yes</p>
+<p>##AuthorizedKeysFile用来设置公钥验证文件的路径，与PubkeyAuthentication配合使用,默认值是”.ssh/authorized_keys”。</p>
+</blockquote>
+<p>保存并重启 sshd 服务：<br><code>[root@VM_0_7_centos git]# systemctl restart sshd</code></p>
+<p>由AuthorizedKeysFile 得知公钥的存放路径是 <code>.ssh/authorized_keys</code>，实际上是 <code>$Home/.ssh/authorized_keys</code>，由于管理 Git 服务的用户是 git，所以实际存放公钥的路径是 <code>/home/git/.ssh/authorized_keys</code>。</p>
+<h4 id="6、客户端创建SSH公钥和私钥并将公钥导入服务器端"><a href="#6、客户端创建SSH公钥和私钥并将公钥导入服务器端" class="headerlink" title="6、客户端创建SSH公钥和私钥并将公钥导入服务器端"></a>6、客户端创建SSH公钥和私钥并将公钥导入服务器端</h4><p><code>$ ssh-keygen -t rsa</code><br>此时 C:\Users\用户名.ssh 下会多出两个文件 id_rsa 和 id_rsa.pub</p>
+<blockquote>
+<p>id_rsa 是私钥<br>id_rsa.pub 是公钥</p>
+</blockquote>
+<p>回到 Git Bash下，导入文件：（注：需要输入服务器端 git 用户的密码）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ ssh git@118.24.8.229</span><br><span class="line">git@118.24.8.229&apos;s password:</span><br><span class="line">Last login: Sun Mar 18 09:43:25 2018 from 113.46.182.66</span><br><span class="line">[git@VM_0_7_centos ~]# ll -h .ssh/authorized_keys</span><br><span class="line">-rw-rw-r-- 1 git git 0 Mar 18 09:37 .ssh/authorized_keys</span><br><span class="line">[git@VM_0_7_centos ~]$ cat &gt;&gt; ~/.ssh/authorized_keys &lt; ~/.ssh/id_rsa.pub</span><br><span class="line">[git@VM_0_7_centos ~]# ll -h .ssh/authorized_keys</span><br><span class="line">-rw-rw-r-- 1 git git 399 Mar 18 09:44 .ssh/authorized_keys</span><br><span class="line">[git@VM_0_7_centos ~]$ exit</span><br><span class="line">logout</span><br><span class="line">Connection to 118.24.8.229 closed.</span><br></pre></td></tr></table></figure></p>
+<p>由上面可知道 公钥已经被导入到 git用户的认证文件中。</p>
+<font color="red"><br>&gt;重要（对于服务器端）：<br>修改 .ssh 目录的权限为 700<br>修改 .ssh/authorized_keys 文件的权限为 600</font>
+
+
+<h4 id="7、客户端再次-clone-远程仓库"><a href="#7、客户端再次-clone-远程仓库" class="headerlink" title="7、客户端再次 clone 远程仓库"></a>7、客户端再次 clone 远程仓库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@118.24.8.229:/data/git/gittest.git</span><br><span class="line">fatal: destination path &apos;gittest&apos; already exists and is not an empty directory.</span><br></pre></td></tr></table></figure>
+<p>项目已经 clone 了。（注：已经不需要输入密码了）</p>
+<h4 id="8、禁止-Git-用户-SSH-登录服务器"><a href="#8、禁止-Git-用户-SSH-登录服务器" class="headerlink" title="8、禁止 Git 用户 SSH 登录服务器"></a>8、禁止 Git 用户 SSH 登录服务器</h4><p>编辑 /etc/passwd<br>找到：<br><code>git:x:502:504::/home/git:/bin/bash</code><br>修改为<br><code>git:x:502:504::/home/git:/bin/git-shell</code><br>此时 git 用户可以正常通过 ssh 使用 git，但无法通过 ssh 登录系统：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ssh git@118.24.8.229</span><br><span class="line">git@118.24.8.229&apos;s password:</span><br><span class="line">Last login: Sun Mar 18 09:44:11 2018 from 113.46.182.66</span><br><span class="line">fatal: Interactive git shell is not enabled.</span><br><span class="line">hint: ~/git-shell-commands should exist and have read and execute access.</span><br><span class="line">Connection to 118.24.8.229 closed.</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h4 id="问题集锦"><a href="#问题集锦" class="headerlink" title="问题集锦"></a>问题集锦</h4><h5 id="（1）Git本地公钥导入服务器失败"><a href="#（1）Git本地公钥导入服务器失败" class="headerlink" title="（1）Git本地公钥导入服务器失败"></a>（1）Git本地公钥导入服务器失败</h5><blockquote>
+<p>本地 Git Bash 登陆服务器报错：<br>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@<br>@    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @<br>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@<br>IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!<br>Someone could be eavesdropping on you right now (man-in-the-middle attack)!<br>It is also possible that the RSA host key has just been changed.<br>The fingerprint for the RSA key sent by the remote host is<br>d0:00:7c:bc:88:5c:dc:de:89:61:44:30:00:60:f9:b2.<br>Please contact your system administrator.<br>Add correct host key in /root/.ssh/known_hosts to get rid of this message.<br>Offending key in /root/.ssh/known_hosts:1<br>RSA host key for 192.168.4.222 has changed and you have requested strict checking.<br>Host key verification failed.</p>
+</blockquote>
+<p><strong>解决方法：</strong><br>先查一下本地家目录的 .ssh/know_hosts 文件中是否存在服务器端的信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat ~/.ssh/known_hosts</span><br><span class="line">118.24.8.229 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHrKfe2igdpfAMhukTCC0ki3gZEO4bFQviqsO6T+F/8Uqjt+XoVzKs7zmNgMEkodfpkZJ93bZyRMc2JdDRlCp9w=</span><br></pre></td></tr></table></figure></p>
+<p>由此可知，本地已经保存了服务器端的信息，因为我是重装了Git 服务器，所以此时保存的信息已经过时了，才会报次错误。<br>解决方法就是删除已存在信息：<br>由于我本地保存的只有一条服务器端信息，可使用如下命令：<br><code>$ cat /dev/null &gt; ~/.ssh/known_hosts</code><br>如果有多条服务器信息，可使用 <code>$ vim ~/.ssh/known_hosts</code>手动删除，或者window下直接打开文件删除对应信息即可。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/14/Git-╧ъ╜т╓о╨н╥щ╞кги╥╗гй/" rel="next" title="Git 详解之协议篇（一）">
+                <i class="fa fa-chevron-left"></i> Git 详解之协议篇（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/14/Git-╧ъ╜т╓о┐═╗з╢╦░▓╫░ги╚¤гй/" rel="prev" title="Git 详解之客户端安装（三）">
+                Git 详解之客户端安装（三） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">137</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、安装Git"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x5B89;&#x88C5;Git" class="headerlink" title="1&#x3001;&#x5B89;&#x88C5;Git"></a>1&#x3001;&#x5B89;&#x88C5;Git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、新建Git账号，用来管理Git服务"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x65B0;&#x5EFA;Git&#x8D26;&#x53F7;&#xFF0C;&#x7528;&#x6765;&#x7BA1;&#x7406;Git&#x670D;&#x52A1;" class="headerlink" title="2&#x3001;&#x65B0;&#x5EFA;Git&#x8D26;&#x53F7;&#xFF0C;&#x7528;&#x6765;&#x7BA1;&#x7406;Git&#x670D;&#x52A1;"></a>2&#x3001;&#x65B0;&#x5EFA;Git&#x8D26;&#x53F7;&#xFF0C;&#x7528;&#x6765;&#x7BA1;&#x7406;Git&#x670D;&#x52A1;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、服务器端创建Git仓库"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x521B;&#x5EFA;Git&#x4ED3;&#x5E93;" class="headerlink" title="3&#x3001;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x521B;&#x5EFA;Git&#x4ED3;&#x5E93;"></a>3&#x3001;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x521B;&#x5EFA;Git&#x4ED3;&#x5E93;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、客户端首次-clone-远程仓库"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x9996;&#x6B21;-clone-&#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;" class="headerlink" title="4&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x9996;&#x6B21; clone &#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;"></a>4&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x9996;&#x6B21; clone &#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、服务器端Git打开RSA认证"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x670D;&#x52A1;&#x5668;&#x7AEF;Git&#x6253;&#x5F00;RSA&#x8BA4;&#x8BC1;" class="headerlink" title="5&#x3001;&#x670D;&#x52A1;&#x5668;&#x7AEF;Git&#x6253;&#x5F00;RSA&#x8BA4;&#x8BC1;"></a>5&#x3001;&#x670D;&#x52A1;&#x5668;&#x7AEF;Git&#x6253;&#x5F00;RSA&#x8BA4;&#x8BC1;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、客户端创建SSH公钥和私钥并将公钥导入服务器端"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x521B;&#x5EFA;SSH&#x516C;&#x94A5;&#x548C;&#x79C1;&#x94A5;&#x5E76;&#x5C06;&#x516C;&#x94A5;&#x5BFC;&#x5165;&#x670D;&#x52A1;&#x5668;&#x7AEF;" class="headerlink" title="6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x521B;&#x5EFA;SSH&#x516C;&#x94A5;&#x548C;&#x79C1;&#x94A5;&#x5E76;&#x5C06;&#x516C;&#x94A5;&#x5BFC;&#x5165;&#x670D;&#x52A1;&#x5668;&#x7AEF;"></a>6&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x521B;&#x5EFA;SSH&#x516C;&#x94A5;&#x548C;&#x79C1;&#x94A5;&#x5E76;&#x5C06;&#x516C;&#x94A5;&#x5BFC;&#x5165;&#x670D;&#x52A1;&#x5668;&#x7AEF;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、客户端再次-clone-远程仓库"><span class="nav-number">7.</span> <span class="nav-text"><a href="#7&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x518D;&#x6B21;-clone-&#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;" class="headerlink" title="7&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x518D;&#x6B21; clone &#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;"></a>7&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x518D;&#x6B21; clone &#x8FDC;&#x7A0B;&#x4ED3;&#x5E93;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8、禁止-Git-用户-SSH-登录服务器"><span class="nav-number">8.</span> <span class="nav-text"><a href="#8&#x3001;&#x7981;&#x6B62;-Git-&#x7528;&#x6237;-SSH-&#x767B;&#x5F55;&#x670D;&#x52A1;&#x5668;" class="headerlink" title="8&#x3001;&#x7981;&#x6B62; Git &#x7528;&#x6237; SSH &#x767B;&#x5F55;&#x670D;&#x52A1;&#x5668;"></a>8&#x3001;&#x7981;&#x6B62; Git &#x7528;&#x6237; SSH &#x767B;&#x5F55;&#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题集锦"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x96C6;&#x9526;" class="headerlink" title="&#x95EE;&#x9898;&#x96C6;&#x9526;"></a>&#x95EE;&#x9898;&#x96C6;&#x9526;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）Git本地公钥导入服务器失败"><span class="nav-number">9.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;Git&#x672C;&#x5730;&#x516C;&#x94A5;&#x5BFC;&#x5165;&#x670D;&#x52A1;&#x5668;&#x5931;&#x8D25;" class="headerlink" title="&#xFF08;1&#xFF09;Git&#x672C;&#x5730;&#x516C;&#x94A5;&#x5BFC;&#x5165;&#x670D;&#x52A1;&#x5668;&#x5931;&#x8D25;"></a>&#xFF08;1&#xFF09;Git&#x672C;&#x5730;&#x516C;&#x94A5;&#x5BFC;&#x5165;&#x670D;&#x52A1;&#x5668;&#x5931;&#x8D25;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

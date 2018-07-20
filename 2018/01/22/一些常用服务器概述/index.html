@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="服务器," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="NAT服务器NAT服务器可以说为是一个路由器的延伸服务器，简单地说，你可以称他为内部LAN主机的【IP分享器】。NAT 的全名是 Network Address Translation，字面上的意思是【网络地址的转换】。下面来看一下，若内部 LAN 有任何一部主机想要传送封包出去时，那么这个封包要如何透过 Linux 主机而传送出去？他是这样的：  1.先经过 NAT table 的 PREROU">
+<meta name="keywords" content="服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一些常用服务器概述">
+<meta property="og:url" content="http://yoursite.com/2018/01/22/一些常用服务器概述/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="NAT服务器NAT服务器可以说为是一个路由器的延伸服务器，简单地说，你可以称他为内部LAN主机的【IP分享器】。NAT 的全名是 Network Address Translation，字面上的意思是【网络地址的转换】。下面来看一下，若内部 LAN 有任何一部主机想要传送封包出去时，那么这个封包要如何透过 Linux 主机而传送出去？他是这样的：  1.先经过 NAT table 的 PREROU">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-18T03:04:49.118Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一些常用服务器概述">
+<meta name="twitter:description" content="NAT服务器NAT服务器可以说为是一个路由器的延伸服务器，简单地说，你可以称他为内部LAN主机的【IP分享器】。NAT 的全名是 Network Address Translation，字面上的意思是【网络地址的转换】。下面来看一下，若内部 LAN 有任何一部主机想要传送封包出去时，那么这个封包要如何透过 Linux 主机而传送出去？他是这样的：  1.先经过 NAT table 的 PREROU">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/22/一些常用服务器概述/"/>
+
+
+
+
+
+  <title>一些常用服务器概述 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/一些常用服务器概述/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">一些常用服务器概述</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T13:28:35+08:00">
+                2018-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/22/一些常用服务器概述/" class="leancloud_visitors" data-flag-title="一些常用服务器概述">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="NAT服务器"><a href="#NAT服务器" class="headerlink" title="NAT服务器"></a>NAT服务器</h4><p>NAT服务器可以说为是一个路由器的延伸服务器，简单地说，你可以称他为内部LAN主机的【IP分享器】。<br>NAT 的全名是 Network Address Translation，字面上的意思是【网络地址的转换】。下面来看一下，若内部 LAN 有任何一部主机想要传送封包出去时，那么这个封包要如何透过 Linux 主机而传送出去？他是这样的：</p>
+<blockquote>
+<p>1.先经过 NAT table 的 PREROUTING 链；<br>2.经由路由判断确定这个封包是要进入本机与否，若不进入本机，则下一步；<br>3.再经过 Filter table 的 FORWARD 链；<br>4.通过 NAT table 的 POSTROUTING 链，最后传送出去。</p>
+</blockquote>
+<a id="more"></a>
+<p>NAT 服务器的重点就在于上面流程的第 1,4 步骤，也就是 NAT table 的两条重要的链：PREROUTING 与 POSTROUTING。那这两条链有什么重要的功能呢？重点在于修改 IP！但是这两条链修改的 IP 是不一样的！POSTROUTING 在修改来源 IP，PREROUTING 则在修改目标 IP。由于修改的 IP 不一样，所以就称为来源 NAT(Source NAT, SNAT) 及目标 NAT(Destination NAT, DNAT)。</p>
+<h4 id="DHCP服务器"><a href="#DHCP服务器" class="headerlink" title="DHCP服务器"></a>DHCP服务器</h4><p>动态主机设定协议( Dynamic Host Configuration Protocol ，DHCP )，这个服务可以自动的分配 IP 与相关的网络参数给客户端，来提供客户端自动以服务器提供的参数来设定他们的网络。使用者只要将自己的笔电设定好经由 DHCP 协议来取得网络参数后，一插上网络线，马上就可以享受 Internet 的服务</p>
+<p>要设定好一个网络的环境，使计算机可以顺利的连上 Internet ，那么你的计算机里面一定要有底下几个网络的参数才行，分别是：</p>
+<blockquote>
+<p>IP, netmask, network, broadcast, gateway, DNS IP</p>
+</blockquote>
+<p>其中，那个 IP, netmask, network, broadcast 与 gateway 都可以在 /etc/sysconfig/network-scripts/ifcfg-eth[0-n] 这档案里面设定，DNS 服务器的地址则是在 /etc/resolv.conf 里头设定。只要这几个项目设定正确，那么计算机应该就没问题的可以上网了！所以说，你家里面的 3, 4 部计算机，你都可以手动的来设定好你所需要的网络参数，然后利用 NAT 服务器的功能，就可以连上 Internet 了！</p>
+<p>如果是管理的学生计算机大概有 100 部好了，那么你怎么设定好这 100 部的计算机呢？<br>这个就是 DHCP 服务器最主要的工作，就是自动的将网络参数正确的分配给网域中的每部计算机，让客户端的计算机可以在开机的时候就立即自动的设定好网络的参数值，这些参数值可以包括了 IP、netmask、network、gateway 与 DNS 的地址等等。如此一来，身为管理员的你，只要注意到这一部提供网络参数的主机有没有挂掉就好了，其他同学们的个人计算机！你想都不必想要怎么去帮忙！因为 DHCP 主机已经完全都帮你搞定了！</p>
+<h4 id="SSH服务器"><a href="#SSH服务器" class="headerlink" title="SSH服务器"></a>SSH服务器</h4><p>什么是 SSH 呢？它有什么特异功能？简单的来说，SSH 是 Secure SHell protocol 的简写 (安全的壳程序协议)，它可以透过数据封包加密技术，将等待传输的封包加密后再传输到网络上，因此，数据讯息就比较安全！这个 SSH 可以用来取代较不安全的 finger, R Shell (rcp, rlogin, rsh等), talk 及 telnet 等联机模式。<br>特别注意：这个 SSH 协议，在预设的状态中，本身就提供两个服务器功能：</p>
+<ol>
+<li>一个就是类似 telnet 的远程联机使用 shell 的服务器，亦即是俗称的 ssh ；</li>
+<li>另一个就是类似 FTP 服务的 sftp-server ！提供更安全的 FTP 服务。</li>
+</ol>
+<h4 id="FTP服务器"><a href="#FTP服务器" class="headerlink" title="FTP服务器"></a>FTP服务器</h4><p>FTP (File Transfer Protocol) 可说是最古老的协议之一了，主要是用来进行档案的传输，尤其是大型档案的传输使用 FTP 更是方便！不过，值得注意的是，使用 FTP 来传输时，其实是具有一定程度的【危险性】，因为数据在因特网上面是完全没有受到保护的【明码】传输方式！但是单纯的 FTP 服务还是有其必要性的，例如很多学校就有 FTP 服务器的架设需求等！想要使用更安全的 FTP 协议，就可选择 vsftpd（Very Secure FTP Daemon） 这个软件。</p>
+<h4 id="DNS服务器"><a href="#DNS服务器" class="headerlink" title="DNS服务器"></a>DNS服务器</h4><p>目前的因特网世界使用的是所谓的 TCP/IP 协议，其中 IP 有第四版的 IPv4(32位) 及第六版的 IPv6(128位)。不过，这个 IPv4 为了人脑已经转成四组十进制的数字了，例如12.34.56.78 这样的格式。当我们利用 Internet 传送数据的时候，就需要这个 IP ，<br>否则数据封包就不知道要送到哪里。<br>那么四组十进制的数字仍然不容易记忆，因此就诞生了域名服务系统（Domain Name System,DNS），DNS 的作用就是将数字IP转换为人们容易记忆的域名。</p>
+<h4 id="WWW服务器"><a href="#WWW服务器" class="headerlink" title="WWW服务器"></a>WWW服务器</h4><p>我们最常讲的【架站】其实就是架设一个 Web 网站！那么什么是 Web 呢？那就是全球信息广播的意思 (World Wide Web)，或者也可以称之为互连网吧！这个是我们目前的人类最常使用的 Internet 的协议之一！通常说的上网就是使用 WWW 来查询用户所需要的信息！目前在 Unix-Like 系统中的 WWW 服务器主要就是透过 Apache 这个服务器软件来达成的，而为了动态网站，于是 LAMP (Linux + Apache + MySQL + PHP) 就这么产生了。</p>
+<h4 id="Proxy服务器"><a href="#Proxy服务器" class="headerlink" title="Proxy服务器"></a>Proxy服务器</h4><p>代理服务器 (Proxy Server) 的原理其实很简单！就是以类似代理人的身份去取得用户所需要的数据就是了！但是由于它的【代理】能力，使得我们可以透过代理服务器来达成防火墙功能与用户浏览数据的分析！此外，也可以藉由代理服务器来达成节省带宽的目的（代理服务器缓存常用数据），以及加快内部网络对因特网的 WWW 访问速度！总之，代理服务器对于企业来说，是一个非常不错的工具！<br>（注：代理服务器还能够再次代理服务器，即上层代理。上层代理服务器最大的功能就是分流，内部代理服务器( Local proxy )可代理多个外部上层代理服务器达到分流的目的，实现更快的速度访问 Internat 服务！）</p>
+<p>同时，代理服务器可分为正向代理与反向代理。区分很简单，正向代理就是代理服务器位于客户端，用户主机都通过代理服务器访问 Internat 服务，可以实现内部主机的 IP 隐藏的功能，同时，也可起到 Local 端防火墙的目的。反向代理就是代理服务器位于服务端，所有的外部访问都通过代理服务器来向内部服务请求数据，可以实现过滤用户请求，缓存常用数据增加访问速度及降低带宽，隔绝用户直接访问服务器的请求，达到保护服务器的作用，实现服务端的防火墙功能。</p>
+<h4 id="Postfix服务器"><a href="#Postfix服务器" class="headerlink" title="Postfix服务器"></a>Postfix服务器</h4><p>邮件服务器（Postfix Server）即发送与接受邮件的服务器。那么电子邮件是个啥玩意儿？它是利用网络传递一些信息给远程服务器的一种信息传递行为，虽然消息正文是很冷很硬的计算机文字，确实比不上手写信件来的让人觉得温暖，不过，对于具有时效性的信息来说，电子邮件可是起到很重要的作用啊！不管你在任何有网络的地方，连上 Internat 就可收取的你的信件。而相对的，也会有很多问题出现，例如夹带病毒的电子邮件问题、怪客透过邮件程序入侵、广告及垃圾信息和不实的信件内容等。因此，就出现了免费与付费一说，一般免费的即可满足个人使用，付费的可避免一些问题，免遭损失！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/服务器/" rel="tag"># 服务器</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/18/网络安全之常见攻击方式及解决方案/" rel="next" title="网络安全之常见攻击方式及解决方案">
+                <i class="fa fa-chevron-left"></i> 网络安全之常见攻击方式及解决方案
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/22/Linux-╡╡░╕╚и╧▐╙ы─┐┬╝┼ф╓├/" rel="prev" title="Linux 档案权限与目录配置">
+                Linux 档案权限与目录配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">137</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#NAT服务器"><span class="nav-number">1.</span> <span class="nav-text"><a href="#NAT&#x670D;&#x52A1;&#x5668;" class="headerlink" title="NAT&#x670D;&#x52A1;&#x5668;"></a>NAT&#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DHCP服务器"><span class="nav-number">2.</span> <span class="nav-text"><a href="#DHCP&#x670D;&#x52A1;&#x5668;" class="headerlink" title="DHCP&#x670D;&#x52A1;&#x5668;"></a>DHCP&#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SSH服务器"><span class="nav-number">3.</span> <span class="nav-text"><a href="#SSH&#x670D;&#x52A1;&#x5668;" class="headerlink" title="SSH&#x670D;&#x52A1;&#x5668;"></a>SSH&#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FTP服务器"><span class="nav-number">4.</span> <span class="nav-text"><a href="#FTP&#x670D;&#x52A1;&#x5668;" class="headerlink" title="FTP&#x670D;&#x52A1;&#x5668;"></a>FTP&#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DNS服务器"><span class="nav-number">5.</span> <span class="nav-text"><a href="#DNS&#x670D;&#x52A1;&#x5668;" class="headerlink" title="DNS&#x670D;&#x52A1;&#x5668;"></a>DNS&#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WWW服务器"><span class="nav-number">6.</span> <span class="nav-text"><a href="#WWW&#x670D;&#x52A1;&#x5668;" class="headerlink" title="WWW&#x670D;&#x52A1;&#x5668;"></a>WWW&#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Proxy服务器"><span class="nav-number">7.</span> <span class="nav-text"><a href="#Proxy&#x670D;&#x52A1;&#x5668;" class="headerlink" title="Proxy&#x670D;&#x52A1;&#x5668;"></a>Proxy&#x670D;&#x52A1;&#x5668;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Postfix服务器"><span class="nav-number">8.</span> <span class="nav-text"><a href="#Postfix&#x670D;&#x52A1;&#x5668;" class="headerlink" title="Postfix&#x670D;&#x52A1;&#x5668;"></a>Postfix&#x670D;&#x52A1;&#x5668;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
