@@ -1,0 +1,109 @@
+---
+title: MySQL 的事务处理以及隔离级别
+date: 2018-03-28 18:47:09
+categories:
+- MySQL
+tags:
+- MySQL
+---
+以下内容出自《高性能MySQL》第三版，了解事务的ACID及四种隔离级有助于我们更好的理解事务运作。
+下面举一个银行应用是解释事务必要性的一个经典例子。假如一个银行的数据库有两张表：支票表（checking）和储蓄表（savings）。现在要从用户Jane的支票账户转移200美元到她的储蓄账户，那么至少需要三个步骤：
+>1、检查支票账户的余额高于或者等于200美元。
+2、从支票账户余额中减去200美元。
+3、在储蓄帐户余额中增加200美元。
+
+上述三个步骤的操作必须打包在一个事务中，任何一个步骤失败，则必须回滚所有的步骤。
+<!--more-->
+
+#### 1、事务处理的基本语法
+可以用START TRANSACTION语句开始一个事务，然后要么使用COMMIT提交将修改的数据持久保存，要么使用ROLLBACK撤销所有的修改。事务SQL的样本如下：
+>1.start transaction;
+2.select balance from checking where customer_id = 10233276;
+3.update checking set balance = balance - 200.00 where customer_id = 10233276;
+4.update savings set balance = balance + 200.00 where customer_id = 10233276;
+5.commit;
+
+
+#### 2、事务处理的特性
+ACID表示原子性（atomicity）、一致性（consistency）、隔离性（isolation）和持久性（durability）。一个很好的事务处理系统，必须具备这些标准特性：
+##### 原子性（atomicity）
+　　一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作，这就是事务的原子性
+##### 一致性（consistency）
+　　数据库总是从一个一致性的状态转换到另一个一致性的状态。（在前面的例子中，一致性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户中也不会损失200美元，因为事务最终没有提交，所以事务中所做的修改也不会保存到数据库中。）
+##### 隔离性（isolation）
+　　通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。（在前面的例子中，当执行完第三条语句、第四条语句还未开始时，此时有另外的一个账户汇总程序开始运行，则其看到支票帐户的余额并没有被减去200美元。）
+##### 持久性（durability）
+　　一旦事务提交，则其所做的修改不会永久保存到数据库。（此时即使系统崩溃，修改的数据也不会丢失。持久性是个有占模糊的概念，因为实际上持久性也分很多不同的级别。有些持久性策略能够提供非常强的安全保障，而有些则未必，而且不可能有能做到100%的持久性保证的策略。）
+
+
+#### 3、事务处理的隔离级别
+##### READ UNCOMMITTED（未提交读）
+　　在READ UNCOMMITTED级别，事务中的修改，即使没有提交，对其他事务也都是可见的。事务可以读取未提交的数据，这也被称为脏读（Dirty Read）。这个级别会导致很多问题，从性能上来说，READ UNCOMMITTED不会比其他的级别好太多，但却缺乏其他级别的很多好处，除非真的有非常必要的理由，在实际应用中一般很少使用。
+##### READ COMMITTED（提交读）
+　　大多数数据库系统的默认隔离级别都是READ COMMTTED（但MySQL不是）。READ COMMITTED满足前面提到的隔离性的简单定义：一个事务开始时，只能"看见"已经提交的事务所做的修改。换句话说，一个事务从开始直到提交之前，所做的任何修改对其他事务都是不可见的。这个级别有时候叫做不可重复读（nonrepeatble read），因为两次执行同样的查询，可能会得到不一样的结果
+##### REPEATABLE READ(可重复读)
+　　REPEATABLE READ解决了脏读的问题。该隔离级别保证了在同一个事务中多次读取同样记录结果是一致的。但是理论上，可重复读隔离级别还是无法解决另外一个幻读（Phantom Read）的问题。所谓幻读，指的是当某个事务在读取某个范围内的记录时，另一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围的记录时，会产生幻行（Phantom Row）。InnoDB和XtraDB存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）解决了幻读的问题。
+##### SERIALIZABLE（可串行化）
+　　SERIALIZABLE是最高的隔离级别。它通过强制事务串行执行，避免了前面说的幻读的问题。简单来说，SERIALIZABLE会在读取每一行数据都加锁，所以可能导致大量的超时和锁争用问题。实际应用中也很少用到这个隔离级别，只有在非常需要确保数据的一致性而且可以接受没有并发的情况下，才考虑采用该级别。
+
+下面对隔离级别进行汇总，如下表：
+![](/uploads/2018/03/mysql_transaction_character.png)
+
+
+#### 4、事务处理的相关语法总结
+##### 1、查询当前这个点的下一个事务隔离级别：
+`select @@tx_isolation;`
+![](/uploads/2018/03/mysql_transaction_level_01.png)
+
+##### 2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别：
+`select @@global.tx_isolation;`
+![](/uploads/2018/03/mysql_transaction_level_02.png)
+
+##### 3、查询当前所在的事务的隔离级别：
+`select @@session.tx_isolation;`
+![](/uploads/2018/03/mysql_transaction_level_03.png)
+
+##### 4、设置事务隔离级别
+1.在my.cnf文件中的mysqld中进行更改。可供更改的leve 【READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE】
+如：`transaction_isolation = SERIALIZABLE`
+
+2.用mysql语句进行更改，语法 `set tx_isolation= level`   level级别【READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE】
+
+注：可通过上述语法查询是否更改。
+
+
+#### 5、事务隔离级别示例详解
+##### 1、**脏读：**
+脏读指的是一个事务修改本事务的数据，但没有提交的情况下，本事务可以查看到更改了却没有提交的数据。这种情况只可能发生在未提交读readuncommitted的隔离级别里。
+>首先设置事务隔离级别为read-uncommited
+事务一：给t表添加数据a=1但并不提交！查询t表的结果里本事务是可以看到未提交的操作结果的。
+![](/uploads/2018/03/mysql_transaction_example_01.png)
+事务二：查询t表的数据，这个时候事务一是没有提交的!要确保事务二的隔离级别是read-uncommited。
+![](/uploads/2018/03/mysql_transaction_example_02.png)
+
+这个情况就是所谓的脏读！只可能出现在read-uncommit隔离级别里！自己可尝试其他级别试试
+
+##### 2、**不重复读：**
+指的是一个事务多次读取同一个数据，但此过程中第二个事务对第一个事务进行了修改，这就造成了第一个事务的多次读取过程中的结果出现了前后不一致的情况，这就是不可重复读！这个情况可以出现在read-uncommited和read-committed两个隔离级别里！
+>先看反例repeatable-read隔离级别下的情况，这种级别下只会读取首次select的点的数据结果，以避免出现不重复读的情况：
+事务一：查询t表a=5，然后update进行修改a=22，查看修改后的结果最后提交
+![](/uploads/2018/03/mysql_transaction_example_03.png)
+事务二：在事务一开始后select操作时同时也进行两次查询，查询结果和事务一的结果一致，都是5，等到事务一update操作后事务二进行第三次查询，查询结果依旧为5，事务一提交后，事务二进行第四次查询，结果依旧是5，没有任何改变，所以repeatable-read的隔离级别解决了重复读的问题。
+![](/uploads/2018/03/mysql_transaction_example_04.png)
+
+**下面我们再来看read-commit隔离级别下的情况：**
+事务一：
+![](/uploads/2018/03/mysql_transaction_example_05.png)
+事务二：
+![](/uploads/2018/03/mysql_transaction_example_06.png)
+
+##### 3、**幻读：**
+在repeatable-read级别下解决了不可重复读的问题，但是还有没有解决的地方，那就是幻读，幻读是指在一个事务中，事务一对数据进行了更改并提交了，而事务二也对该数据进行了更改，但是更改的情况可能会受到事务一更改的影响，从而引起更改仿佛不存在，这就是幻读！这是由于repeatable-read的隔离措施只读取初次select的点导致的。
+>t表的有一行数据，a=5
+事务一：首先读取t表，发现有一个a=5的数据，然后更改该数据为25并提交
+![](/uploads/2018/03/mysql_transaction_example_07.png)
+事务二：首先读取t表，发现有一个a=5的数据，这个时候事务一已经删除数据并期间了，但是由于隔离级别是repeatable-read导致读取的结果是a=5的数据还在，这个时候如果事务二对该数据进行更改，改为26，提交后发现之前的更改无效，该行数据a=25，这是因为事务一已经对a=5的数据进行了更改，改为了25，这个时候a=5的数据已经不存在了，因此这次更改无效，等同于幻影，这就是幻读！
+![](/uploads/2018/03/mysql_transaction_example_08.png)
+
+
+可以从这里看出，提交读解决了脏读问题，而重复读解决了不重复读的问题，串行化解决幻读的问题，但是也会造成锁竞争，可能造成大量的超时问题，因为串行化是给每个读的数据行加上共享锁，通过强制事务进行排序，以此防止相互冲突，具体原理以后再做说明。
