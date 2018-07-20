@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,vim," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="vi：文本编辑器vim：程序编辑器 为什么要学vi？因为所有的UNIX Like系统都会内建vi文本编辑器，其它的文本编辑器则不一定会存在。 vi与vim的区别？其实你可以将 vim 规作 vi 的进阶版本，vim 可以用颜色或底线等方式来显示一些特殊的信息。举例来说，当你使用 vim 去编辑一个 C 程序语言的档案，或者是我们后续会谈到的shell script 程序时，vim 会依据档案的扩展">
+<meta name="keywords" content="书籍,vim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim程序编辑器">
+<meta property="og:url" content="http://yoursite.com/2017/12/27/vim│╠╨Є▒р╝н╞ў/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="vi：文本编辑器vim：程序编辑器 为什么要学vi？因为所有的UNIX Like系统都会内建vi文本编辑器，其它的文本编辑器则不一定会存在。 vi与vim的区别？其实你可以将 vim 规作 vi 的进阶版本，vim 可以用颜色或底线等方式来显示一些特殊的信息。举例来说，当你使用 vim 去编辑一个 C 程序语言的档案，或者是我们后续会谈到的shell script 程序时，vim 会依据档案的扩展">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_01.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_02.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_03.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_04.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_05.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_06.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_07.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_vb.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_multifiles.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_multiwindows.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_environment_set_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_vi_environment_set_02.png">
+<meta property="og:updated_time" content="2018-01-24T09:58:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vim程序编辑器">
+<meta name="twitter:description" content="vi：文本编辑器vim：程序编辑器 为什么要学vi？因为所有的UNIX Like系统都会内建vi文本编辑器，其它的文本编辑器则不一定会存在。 vi与vim的区别？其实你可以将 vim 规作 vi 的进阶版本，vim 可以用颜色或底线等方式来显示一些特殊的信息。举例来说，当你使用 vim 去编辑一个 C 程序语言的档案，或者是我们后续会谈到的shell script 程序时，vim 会依据档案的扩展">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/linux_vi_01.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/27/vim│╠╨Є▒р╝н╞ў/"/>
+
+
+
+
+
+  <title>vim程序编辑器 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/27/vim│╠╨Є▒р╝н╞ў/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">vim程序编辑器</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-27T15:07:51+08:00">
+                2017-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《鸟哥的Linux私房菜基础篇（第三版）》/" itemprop="url" rel="index">
+                    <span itemprop="name">《鸟哥的Linux私房菜基础篇（第三版）》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/27/vim│╠╨Є▒р╝н╞ў/" class="leancloud_visitors" data-flag-title="vim程序编辑器">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>vi：文本编辑器<br>vim：程序编辑器</p>
+<p>为什么要学vi？<br>因为所有的UNIX Like系统都会内建vi文本编辑器，其它的文本编辑器则不一定会存在。</p>
+<p>vi与vim的区别？<br>其实你可以将 vim 规作 vi 的进阶版本，vim 可以用颜色或底线等方式来显示一些特殊的信息。举例来说，当你使用 vim 去编辑一个 C 程序语言的档案，或者是我们后续会谈到的shell script 程序时，vim 会依据档案的扩展名或者是档案内的开头信息，判断该档案的内容而自动的呼叫该程序的语法判断式，再以颜色来显示程序代码与一般信息。也就是说，这个 vim 是个【程序编辑器】。甚至一些 Linux 基础配置文件内的语法，都能够用 vim 来检查。<br><a id="more"></a><br>首先，先简单的对vi做个介绍，然后再说一下vim的额外功能与用法。</p>
+<h2 id="vi的使用："><a href="#vi的使用：" class="headerlink" title="vi的使用："></a>vi的使用：</h2><p>基本上 vi 共分为三种模式，分别是【一般模式】、【编辑模式】与【指令列命令模式】。 这三种模式的作用分别是：</p>
+<h3 id="一般模式："><a href="#一般模式：" class="headerlink" title="一般模式："></a>一般模式：</h3><p>以 vi 打开一个档案就直接进入一般模式了(这是默认的模式)。在这个模式中，你可以使用【上下左右】按键来移动光标，你可以使用【删除字符】或【删除整行】来处理档案内容，也可以使用【复制、粘贴】来处理你的文件数据。</p>
+<h3 id="编辑模式："><a href="#编辑模式：" class="headerlink" title="编辑模式："></a>编辑模式：</h3><p>在一般模式中可以进行删除、复制、粘贴等等的动作，但是却无法编辑文件内容。要等到你按下【i, I, o, O, a, A, r, R】等任何一个字母之后才会进入编辑模式。注意了！通常在 Linux 中，按下这些按键时，在画面的左下方会出现【INSERT 或 REPLACE】的字样，此时才可以进行编辑。而如果要回到一般模式时，则必须要按下【Esc】这个按键即可退出编辑模式。</p>
+<h3 id="指令列命令模式："><a href="#指令列命令模式：" class="headerlink" title="指令列命令模式："></a>指令列命令模式：</h3><p>在一般模式当中，输入【: / ?】三个中的任何一个按钮，就可以将光标移动到最底下那一行。在这个模式当中，可以提供你【搜寻资料】的动作，而读取、存盘、大量取代字符、离开 vi 、显示行号等等的动作则是在此模式中达成的。</p>
+<p>简单的说，我们可以将这三个模式想成底下的图标来表示：<br><img src="/uploads/2017/12/linux_vi_01.JPG" alt=""><br>注意到上面的图标，你会发现一般模式可与编辑模式及指令列模式切换，但编辑模式与指令列模式之间不可互相切换。</p>
+<h2 id="按键说明："><a href="#按键说明：" class="headerlink" title="按键说明："></a>按键说明：</h2><h3 id="第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等"><a href="#第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等" class="headerlink" title="第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等"></a>第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等</h3><p><img src="/uploads/2017/12/linux_vi_01.png" alt=""><br><img src="/uploads/2017/12/linux_vi_02.png" alt=""><br><img src="/uploads/2017/12/linux_vi_03.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">替换语法总结：</span><br><span class="line">基础语法：:[range]substitute/old/new/[flags]</span><br><span class="line">（注：substitute 常用缩写形式“:s”。）</span><br><span class="line">range:</span><br><span class="line">  . : 当前行</span><br><span class="line">  n : 对应行数</span><br><span class="line">  % : 所有行</span><br><span class="line">  $ : 最后一行</span><br><span class="line">flags:</span><br><span class="line">  空: 将光标所在行第一个 old 替换为 new</span><br><span class="line">  g : 将光标所在行所有 old 替换为 new</span><br><span class="line">  c : 表示进行确认</span><br><span class="line">  i : 不区分大小写</span><br></pre></td></tr></table></figure></p>
+<p><img src="/uploads/2017/12/linux_vi_04.png" alt=""><br><img src="/uploads/2017/12/linux_vi_05.png" alt=""></p>
+<h3 id="第二部份：一般模式切换到编辑模式的可用的按钮说明"><a href="#第二部份：一般模式切换到编辑模式的可用的按钮说明" class="headerlink" title="第二部份：一般模式切换到编辑模式的可用的按钮说明"></a>第二部份：一般模式切换到编辑模式的可用的按钮说明</h3><p><img src="/uploads/2017/12/linux_vi_06.png" alt=""></p>
+<h3 id="第三部份：一般模式切换到指令列模式的可用的按钮说明"><a href="#第三部份：一般模式切换到指令列模式的可用的按钮说明" class="headerlink" title="第三部份：一般模式切换到指令列模式的可用的按钮说明"></a>第三部份：一般模式切换到指令列模式的可用的按钮说明</h3><p><img src="/uploads/2017/12/linux_vi_07.png" alt=""></p>
+<h2 id="vim的暂存档、救援恢复与开启时的警告讯息"><a href="#vim的暂存档、救援恢复与开启时的警告讯息" class="headerlink" title="vim的暂存档、救援恢复与开启时的警告讯息"></a>vim的暂存档、救援恢复与开启时的警告讯息</h2><h3 id="什么是暂存档？"><a href="#什么是暂存档？" class="headerlink" title="什么是暂存档？"></a>什么是暂存档？</h3><p>当我们在使用 vim 编辑时， vim 会在不被编辑的档案的目录下，再建立一个名为 .filename.swp 的档案。当然，前提是由于各种原因导致的不正常的中断，才会产生该暂存档文件。如果对文件没有修改或正确存储则不会生成该暂存档文件。该暂存档文件的作用就是保留文件修改内容，防止文件因为系统或网络原因等导致丢失。</p>
+<h3 id="警告讯息"><a href="#警告讯息" class="headerlink" title="警告讯息"></a>警告讯息</h3><p>团队工作中，有可能会有多人同时操作同一个文件的情况，这种情况就会产生警告讯息。至于这个发现暂存盘警告讯息的画面中，有出现六个可用按钮，各按钮的说明如下：</p>
+<ul>
+<li>[O]pen Read-Only：打开此档案成为只读档，可以用在你只是想要查阅该档案内容并不想要进行编辑行为时。一般来说，在上课时，如果你是登入到同学的计算机去看他的配置文件，结果发现其实同学他自己也在编辑时，可以使用这个模式；</li>
+<li>(E)dit anyway：还是用正常的方式打开你要编辑的那个档案，并不会载入暂存盘的内容。不过很容易出现两个使用者互相改变对方的档案等问题！不好不好！</li>
+<li>(R)ecover：就是加载暂存盘的内容，用在你要救回之前未储存的工作。不过当你救回来并且储存离开 vim 后，还是要手动自行删除那个暂存档。</li>
+<li>(D)elete it：你确定那个暂存档是无用的。那么开启档案前会先将这个暂存盘删除！这个动作其实是比较常做的！因为你可能不确定这个暂存档是怎么来的，所以就删除掉他吧！</li>
+<li>(Q)uit：按下 q 就离开 vim ，不会进行任何动作回到命令提示字符。</li>
+<li>(A)bort：忽略这个编辑行为，感觉上与 quit 非常类似，也会送你回到命令提示字符。</li>
+</ul>
+<h2 id="vim的额外功能："><a href="#vim的额外功能：" class="headerlink" title="vim的额外功能："></a>vim的额外功能：</h2><p>查看vi是否被vim替代：alias<br>    <code>alias vi=&#39;vim&#39; &lt;==重点在这行</code><br>这表示当你使用 vi 这个指令时，其实就是执行 vim。如果你没有这一行，那么你就必须要使用 vimfilename 来启动 vim 。基本上， vim 的一般用法与 vi 完全一模一样。</p>
+<h4 id="1、区块选择-Visual-Block"><a href="#1、区块选择-Visual-Block" class="headerlink" title="1、区块选择(Visual Block)"></a>1、区块选择(Visual Block)</h4><p>刚刚我们提到的简单的 vi 操作过程中，几乎提到的都是以行为单位的操作。那么如果我想要搞定的是一个区块范围呢？<br>那就使用区块选择 (Visual Block) 吧！当我们按下 v 或者 V 或者 [Ctrl]+v 时，这个时候光标移动过的地方就会开始反白，这三个按键的意义分别是：<br><img src="/uploads/2017/12/linux_vi_vb.png" alt=""><br>透过上述的功能，你可以复制一个区块，并且是贴在某个【区块的范围】内，而不是以行为单位来处理你的整份文件。</p>
+<h4 id="2、多档案编辑"><a href="#2、多档案编辑" class="headerlink" title="2、多档案编辑"></a>2、多档案编辑</h4><p>如果我想要将 A 档案内的十条消息『移动』到 B 档案去，通常要开两个 vim 窗口来复制，偏偏每个 vim 都是独立的，因此并没有办法在 A 档案下达【nyy】再跑到 B 档案去【p】。 在这种情况下最常用的方法就是透过鼠标圈选， 复制后粘贴。不过这样一来还是有问题，因为用 [Tab] 按键进行编排对齐动作，透过鼠标却会将 [Tab] 转成空格键，这样内容就不一样了。此时这个多档案编辑就派上用场了！</p>
+<p>我们可以使用 vim 后面同时接好几个档案来同时开启。相关的按键有：<br><img src="/uploads/2017/12/linux_vi_multifiles.png" alt=""></p>
+<p>示例：将hosts 内的前四行 IP 资料复制到你的/etc/hosts 档案内，那可以怎么进行呢？可以这样：</p>
+<pre><code>1. 透过【vim hosts /etc/hosts】指令来使用一个 vim 开启两个档案；
+2. 在 vim 中先使用【:files】察看一下编辑的档案数据有啥？结果如下所示。至于下图的最后一行显示的是【按下任意键】就会回到 vim 的一般模式中；
+3. 在第一行输入【4yy】复制前四行；
+4. 在 vim 的环境下输入【:n】会来到第二个编辑的档案，亦即 /etc/hosts 内；
+5. 在 /etc/hosts 下按【G】到最后一行，再输入【p】粘贴；
+6. 按下多次的【u】来还原原本的档案数据；
+7. 最终按下【:q】来离开 vim 的多档案编辑。
+</code></pre><h4 id="3、多窗口功能"><a href="#3、多窗口功能" class="headerlink" title="3、多窗口功能"></a>3、多窗口功能</h4><p>在开始这个小节前，先来想象两个情况：</p>
+<ul>
+<li>当我有一个档案非常的大，我查阅到后面的数据时，想要【对照】前面的数据，是否需要使用[ctrl]+f 与 [ctrl]+b (或 pageup, pagedown 功能键) 来跑前跑后查阅？</li>
+<li>我有两个需要对照着看的档案，不想使用前一小节提到的多档案编辑功能；</li>
+</ul>
+<p>在一般窗口接口下的编辑软件大多有【分割窗口】或者是【冻结窗口】的功能来将一个档案分割成多个窗口的展现，那么 vim 能不能达到这个功能？可以啊。在指令列模式输入【:sp {filename}】即可！那个 filename 可有可无，如果想要在新窗口启动另一个档案，就加入档名，否则仅输入 :sp 时，出现的则是同一个档案在两个窗口。<br>下面是一些常用命令的说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">:sp [filename] &lt;=&gt;  :split [filename]   #横向切分窗口</span><br><span class="line">:vsp [filename] &lt;=&gt;  :vsplit [filename]   #竖向切分窗口</span><br><span class="line">:clo  &lt;=&gt;  :close   #关闭当前窗口</span><br><span class="line">:on   &lt;=&gt;  :only    #仅保留当前窗口，其它窗口都关闭</span><br><span class="line">:ctrl + w + [h/j/k/l]   #切换窗口</span><br></pre></td></tr></table></figure></p>
+<p>这样的话，复制啊、查阅啊等等的，就变的很简单。分割窗口的相关指令功能有很多，不过只要记得这几个就好了：<br><img src="/uploads/2017/12/linux_vi_multiwindows.png" alt=""></p>
+<h4 id="4、vim-环境设定与记录：-vimrc-viminfo"><a href="#4、vim-环境设定与记录：-vimrc-viminfo" class="headerlink" title="4、vim 环境设定与记录： ~/.vimrc, ~/.viminfo"></a>4、vim 环境设定与记录： ~/.vimrc, ~/.viminfo</h4><p>有没有发现，如果我们以 vim 软件来搜寻一个档案内部的某个字符串时，这个字符串会被反白，而下次我们再次以 vim 编辑这个档案时，该搜寻的字符串反白情况还是存在呢！甚至于在编辑其他档案时，如果其他档案内也存在这个字符串，竟然还是主动反白。另外，当我们重复编辑同一个档案时，当第二次进入该档案时，光标竟然就在上次离开的那一行上头，真是好方便。但是，怎么会这样呢？</p>
+<p>这是因为我们的 vim 会主动的将你曾经做过的行为登录下来，好让你下次可以轻松的作业。那个记录动作的档案就是： ~/.viminfo ！如果你曾经使用过 vim，那你的家目录应该会存在这个档案才对。这个档案是自动产生的，你不必自行建立。而你在 vim 里头所做过的动作，就可以在这个档案内部查询到。</p>
+<p>此外，每个 distributions 对 vim 的预设环境都不太相同，举例来说，某些版本在搜寻到关键词时并不会高亮度反白，有些版本则会主动的帮你进行缩排的行为。但这些其实都可以自行设定的，那就是vim 癿环境设定。vim 的环境设定参数有很多，如果你想要知道目前的设定值，可以在一般模式时输入【:set all】 来查阅，不过…..设定项目实在太多了。所以，在这里仅列出一些平时比较常用的一些简单的设定值，提供参考。<br><img src="/uploads/2017/12/linux_vi_environment_set_01.png" alt=""><br><img src="/uploads/2017/12/linux_vi_environment_set_02.png" alt=""></p>
+<p>总之，这些设定值很有用处的。但是……我是否每次使用 vim 都要重新设定一次各个参数值？这不太合理吧。所以，我们可以透过配置文件来直接规定我们习惯的 vim 操作环境。整体 vim 的设定值一般是放置在 /etc/vimrc 这个档案，不过，不建议你修改该文件，你可以修改 ~/.vimrc 这个档案(预设不存在，可以自行手动建立！)，将你所希望的设定值写入！举例来说，可以是这样的一个档案：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# vim ~/.vimrc</span><br><span class="line">&quot;这个档案的双引号 (&quot;) 是批注</span><br><span class="line">set hlsearch &quot;高亮度反白</span><br><span class="line">set backspace=2 &quot;可随时用退格键删除</span><br><span class="line">set autoindent &quot;自动缩排</span><br><span class="line">set ruler &quot;可显示最后一行的状态</span><br><span class="line">set showmode &quot;左下角那一行的状态</span><br><span class="line">set nu &quot;可以在每一行的最前面显示行号</span><br><span class="line">set bg=dark &quot;显示不同的底色色调</span><br><span class="line">syntax on &quot;进行语法检验，颜色显示。</span><br></pre></td></tr></table></figure></p>
+<p>在这个档案中，使用【set hlsearch】或【:set hlsearch】，亦即最前面有没有冒号【:】效果都是一样的！至于双引号则是批注符号，不要用错批注符号，否则每次使用 vim 时都会发生警告讯息。建立好这个档案后，当你下次重新以 vim 编辑某个档案时，该档案的预设环境设定就是上头写的。这样，是否很方便你的操作，多多利用 vim 的环境设定功能。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/vim/" rel="tag"># vim</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/27/╬─╝■╧╡═│╡─╤╣╦ї╧ъ╜т/" rel="next" title="文件系统的压缩详解">
+                <i class="fa fa-chevron-left"></i> 文件系统的压缩详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/28/╚╧╩╢╙ы╤з╧░BASH╓оBASH╕┼╩Ў/" rel="prev" title="认识与学习BASH之BASH概述">
+                认识与学习BASH之BASH概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#vi的使用："><span class="nav-number">1.</span> <span class="nav-text"><a href="#vi&#x7684;&#x4F7F;&#x7528;&#xFF1A;" class="headerlink" title="vi&#x7684;&#x4F7F;&#x7528;&#xFF1A;"></a>vi&#x7684;&#x4F7F;&#x7528;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一般模式："><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#xFF1A;" class="headerlink" title="&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#xFF1A;"></a>&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑模式："><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x7F16;&#x8F91;&#x6A21;&#x5F0F;&#xFF1A;" class="headerlink" title="&#x7F16;&#x8F91;&#x6A21;&#x5F0F;&#xFF1A;"></a>&#x7F16;&#x8F91;&#x6A21;&#x5F0F;&#xFF1A;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指令列命令模式："><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x6307;&#x4EE4;&#x5217;&#x547D;&#x4EE4;&#x6A21;&#x5F0F;&#xFF1A;" class="headerlink" title="&#x6307;&#x4EE4;&#x5217;&#x547D;&#x4EE4;&#x6A21;&#x5F0F;&#xFF1A;"></a>&#x6307;&#x4EE4;&#x5217;&#x547D;&#x4EE4;&#x6A21;&#x5F0F;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#按键说明："><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6309;&#x952E;&#x8BF4;&#x660E;&#xFF1A;" class="headerlink" title="&#x6309;&#x952E;&#x8BF4;&#x660E;&#xFF1A;"></a>&#x6309;&#x952E;&#x8BF4;&#x660E;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一部份：一般模式可用的按钮说明，光标移动、复制粘贴、搜寻取代等"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E00;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;&#xFF0C;&#x5149;&#x6807;&#x79FB;&#x52A8;&#x3001;&#x590D;&#x5236;&#x7C98;&#x8D34;&#x3001;&#x641C;&#x5BFB;&#x53D6;&#x4EE3;&#x7B49;" class="headerlink" title="&#x7B2C;&#x4E00;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;&#xFF0C;&#x5149;&#x6807;&#x79FB;&#x52A8;&#x3001;&#x590D;&#x5236;&#x7C98;&#x8D34;&#x3001;&#x641C;&#x5BFB;&#x53D6;&#x4EE3;&#x7B49;"></a>&#x7B2C;&#x4E00;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;&#xFF0C;&#x5149;&#x6807;&#x79FB;&#x52A8;&#x3001;&#x590D;&#x5236;&#x7C98;&#x8D34;&#x3001;&#x641C;&#x5BFB;&#x53D6;&#x4EE3;&#x7B49;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二部份：一般模式切换到编辑模式的可用的按钮说明"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E8C;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x5207;&#x6362;&#x5230;&#x7F16;&#x8F91;&#x6A21;&#x5F0F;&#x7684;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;" class="headerlink" title="&#x7B2C;&#x4E8C;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x5207;&#x6362;&#x5230;&#x7F16;&#x8F91;&#x6A21;&#x5F0F;&#x7684;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;"></a>&#x7B2C;&#x4E8C;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x5207;&#x6362;&#x5230;&#x7F16;&#x8F91;&#x6A21;&#x5F0F;&#x7684;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三部份：一般模式切换到指令列模式的可用的按钮说明"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E09;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x5207;&#x6362;&#x5230;&#x6307;&#x4EE4;&#x5217;&#x6A21;&#x5F0F;&#x7684;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;" class="headerlink" title="&#x7B2C;&#x4E09;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x5207;&#x6362;&#x5230;&#x6307;&#x4EE4;&#x5217;&#x6A21;&#x5F0F;&#x7684;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;"></a>&#x7B2C;&#x4E09;&#x90E8;&#x4EFD;&#xFF1A;&#x4E00;&#x822C;&#x6A21;&#x5F0F;&#x5207;&#x6362;&#x5230;&#x6307;&#x4EE4;&#x5217;&#x6A21;&#x5F0F;&#x7684;&#x53EF;&#x7528;&#x7684;&#x6309;&#x94AE;&#x8BF4;&#x660E;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim的暂存档、救援恢复与开启时的警告讯息"><span class="nav-number">3.</span> <span class="nav-text"><a href="#vim&#x7684;&#x6682;&#x5B58;&#x6863;&#x3001;&#x6551;&#x63F4;&#x6062;&#x590D;&#x4E0E;&#x5F00;&#x542F;&#x65F6;&#x7684;&#x8B66;&#x544A;&#x8BAF;&#x606F;" class="headerlink" title="vim&#x7684;&#x6682;&#x5B58;&#x6863;&#x3001;&#x6551;&#x63F4;&#x6062;&#x590D;&#x4E0E;&#x5F00;&#x542F;&#x65F6;&#x7684;&#x8B66;&#x544A;&#x8BAF;&#x606F;"></a>vim&#x7684;&#x6682;&#x5B58;&#x6863;&#x3001;&#x6551;&#x63F4;&#x6062;&#x590D;&#x4E0E;&#x5F00;&#x542F;&#x65F6;&#x7684;&#x8B66;&#x544A;&#x8BAF;&#x606F;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是暂存档？"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x4EC0;&#x4E48;&#x662F;&#x6682;&#x5B58;&#x6863;&#xFF1F;" class="headerlink" title="&#x4EC0;&#x4E48;&#x662F;&#x6682;&#x5B58;&#x6863;&#xFF1F;"></a>&#x4EC0;&#x4E48;&#x662F;&#x6682;&#x5B58;&#x6863;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#警告讯息"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x8B66;&#x544A;&#x8BAF;&#x606F;" class="headerlink" title="&#x8B66;&#x544A;&#x8BAF;&#x606F;"></a>&#x8B66;&#x544A;&#x8BAF;&#x606F;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim的额外功能："><span class="nav-number">4.</span> <span class="nav-text"><a href="#vim&#x7684;&#x989D;&#x5916;&#x529F;&#x80FD;&#xFF1A;" class="headerlink" title="vim&#x7684;&#x989D;&#x5916;&#x529F;&#x80FD;&#xFF1A;"></a>vim&#x7684;&#x989D;&#x5916;&#x529F;&#x80FD;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、区块选择-Visual-Block"><span class="nav-number">4.0.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x533A;&#x5757;&#x9009;&#x62E9;-Visual-Block" class="headerlink" title="1&#x3001;&#x533A;&#x5757;&#x9009;&#x62E9;(Visual Block)"></a>1&#x3001;&#x533A;&#x5757;&#x9009;&#x62E9;(Visual Block)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、多档案编辑"><span class="nav-number">4.0.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x591A;&#x6863;&#x6848;&#x7F16;&#x8F91;" class="headerlink" title="2&#x3001;&#x591A;&#x6863;&#x6848;&#x7F16;&#x8F91;"></a>2&#x3001;&#x591A;&#x6863;&#x6848;&#x7F16;&#x8F91;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、多窗口功能"><span class="nav-number">4.0.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x591A;&#x7A97;&#x53E3;&#x529F;&#x80FD;" class="headerlink" title="3&#x3001;&#x591A;&#x7A97;&#x53E3;&#x529F;&#x80FD;"></a>3&#x3001;&#x591A;&#x7A97;&#x53E3;&#x529F;&#x80FD;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、vim-环境设定与记录：-vimrc-viminfo"><span class="nav-number">4.0.4.</span> <span class="nav-text"><a href="#4&#x3001;vim-&#x73AF;&#x5883;&#x8BBE;&#x5B9A;&#x4E0E;&#x8BB0;&#x5F55;&#xFF1A;-vimrc-viminfo" class="headerlink" title="4&#x3001;vim &#x73AF;&#x5883;&#x8BBE;&#x5B9A;&#x4E0E;&#x8BB0;&#x5F55;&#xFF1A; ~/.vimrc, ~/.viminfo"></a>4&#x3001;vim &#x73AF;&#x5883;&#x8BBE;&#x5B9A;&#x4E0E;&#x8BB0;&#x5F55;&#xFF1A; ~/.vimrc, ~/.viminfo</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

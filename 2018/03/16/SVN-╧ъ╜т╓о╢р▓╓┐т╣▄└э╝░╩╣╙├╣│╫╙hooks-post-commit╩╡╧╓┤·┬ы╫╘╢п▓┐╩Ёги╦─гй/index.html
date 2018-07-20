@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SVN," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
+<meta name="keywords" content="SVN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVN 详解之多仓库管理及使用钩子hooks&#x2F;post-commit实现代码自动部署（四）">
+<meta property="og:url" content="http://yoursite.com/2018/03/16/SVN-╧ъ╜т╓о╢р▓╓┐т╣▄└э╝░╩╣╙├╣│╫╙hooks-post-commit╩╡╧╓┤·┬ы╫╘╢п▓┐╩Ёги╦─гй/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-16T03:24:00.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVN 详解之多仓库管理及使用钩子hooks&#x2F;post-commit实现代码自动部署（四）">
+<meta name="twitter:description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/16/SVN-╧ъ╜т╓о╢р▓╓┐т╣▄└э╝░╩╣╙├╣│╫╙hooks-post-commit╩╡╧╓┤·┬ы╫╘╢п▓┐╩Ёги╦─гй/"/>
+
+
+
+
+
+  <title>SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/SVN-╧ъ╜т╓о╢р▓╓┐т╣▄└э╝░╩╣╙├╣│╫╙hooks-post-commit╩╡╧╓┤·┬ы╫╘╢п▓┐╩Ёги╦─гй/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T10:42:33+08:00">
+                2018-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/" itemprop="url" rel="index">
+                    <span itemprop="name">版本控制</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/SVN/" itemprop="url" rel="index">
+                    <span itemprop="name">SVN</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/16/SVN-╧ъ╜т╓о╢р▓╓┐т╣▄└э╝░╩╣╙├╣│╫╙hooks-post-commit╩╡╧╓┤·┬ы╫╘╢п▓┐╩Ёги╦─гй/" class="leancloud_visitors" data-flag-title="SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="多仓库管理"><a href="#多仓库管理" class="headerlink" title="多仓库管理"></a>多仓库管理</h4><h5 id="1、首先，需要明白几个概念："><a href="#1、首先，需要明白几个概念：" class="headerlink" title="1、首先，需要明白几个概念："></a>1、首先，需要明白几个概念：</h5><p>（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。</p>
+<p>（2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。<br><a id="more"></a></p>
+<h5 id="2、实战演示"><a href="#2、实战演示" class="headerlink" title="2、实战演示"></a>2、实战演示</h5><p>首先，新建2个仓库，project和common。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svnadmin create /var/svn/project	//开放仓库</span><br><span class="line">svnadmin create /var/svn/common		//共享资源仓库</span><br></pre></td></tr></table></figure></p>
+<p>分别对应仓库的conf/ 下文件进行配置，passwd与svnserve.conf配置类似，不予说明。其中，authz文件内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># project:</span><br><span class="line">[groups]</span><br><span class="line">admin = admin, ben</span><br><span class="line">test = nana</span><br><span class="line"></span><br><span class="line">[/] == [project:/]</span><br><span class="line">@admin = rw</span><br><span class="line">@test = r 	@只有读的权限，可用于测试</span><br><span class="line"></span><br><span class="line"># common:</span><br><span class="line">[common:/]</span><br><span class="line">@test = rw</span><br><span class="line">ben = rw</span><br></pre></td></tr></table></figure></p>
+<p><strong>注：对于用户享有单独某个目录权限，可如下操作：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[svn:/special1] == [/special1]</span><br><span class="line">ben = rw</span><br><span class="line">[svn:/special1/special2]</span><br><span class="line">nana = rw</span><br></pre></td></tr></table></figure></p>
+<h5 id="3、问题解决"><a href="#3、问题解决" class="headerlink" title="3、问题解决"></a>3、问题解决</h5><blockquote>
+<p>Invalid authz configuration<br>svn: Authorization failed解决办法</p>
+</blockquote>
+<p>报此类错误，都是因为auth权限文件配置错误，仔细检查就可发现原因。</p>
+<h4 id="使用钩子hooks-post-commit实现代码自动部署"><a href="#使用钩子hooks-post-commit实现代码自动部署" class="headerlink" title="使用钩子hooks/post-commit实现代码自动部署"></a>使用钩子hooks/post-commit实现代码自动部署</h4><p>配置了台svn服务器，用来保存公司项目的代码，同时svn服务器也是一台web服务器。因此希望当我本地代码commit到svn服务器时,能够触发svn服务器的钩子hooks/post-commit将新版本的代码自动update到站点目录上去。</p>
+<blockquote>
+<p>svn 目录：/var/svn/project<br>站点目录：/data/www/project/</p>
+</blockquote>
+<h5 id="1、新建post-commit钩子"><a href="#1、新建post-commit钩子" class="headerlink" title="1、新建post-commit钩子"></a>1、新建post-commit钩子</h5><p>找到svn项目的hooks目录，这里是/var/svn/project/hooks。目录中默认会几个对应操作的钩子模板，我们需要创建一个post-commit的文件。<br>复制钩子文件，进行修改：<br><code>cp hooks/post-commit.tmpl hooks/post-commit</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">REPOS=&quot;$1&quot;</span><br><span class="line">REV=&quot;$2&quot;</span><br><span class="line"></span><br><span class="line">SVN_PATH=/usr/bin	#svn命令路径</span><br><span class="line">WEB_PATH=/data/www/project/python_movie		#项目路径，即已经检出的项目，具体到项目目录</span><br><span class="line">LOG_PATH=/data/www/project/python_movie/logs/svn_deploy.log		#日志文件</span><br><span class="line">SVN_USER=ben</span><br><span class="line">SVN_PASS=ben1234</span><br><span class="line"></span><br><span class="line">echo `date &quot;+%Y-%m-%d %H:%M:%S&quot;` &gt;&gt; $LOG_PATH</span><br><span class="line">echo `whoami`,$REPOS,%REV &gt;&gt; %LOG_PATH</span><br><span class="line"></span><br><span class="line">$SVN_PATH/svn update $WEB_PATH --username $SVN_USER --password $SVN_PASS --no-auth-cache &gt;&gt; $LOG_PATH</span><br></pre></td></tr></table></figure></p>
+<font color="red">说明：<br>whoami #执行此程序的用户<br>REPOS=”$1” #svn项目绝对路径值<br>REV=”$2” #最新版本号<br>–no-auth-cache #不保存账户认证信息</font>
+
+<h5 id="2、修改post-commit文件权限"><a href="#2、修改post-commit文件权限" class="headerlink" title="2、修改post-commit文件权限"></a>2、修改post-commit文件权限</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown www:www /var/svn/python_movie/hooks/post-commit #设置脚本所属用户组，www为web服务运行账户和组</span><br><span class="line">chmod +x /var/svn/python_movie/hooks/post-commit #添加脚本执行权限</span><br></pre></td></tr></table></figure>
+<h5 id="3、客户端测试"><a href="#3、客户端测试" class="headerlink" title="3、客户端测试"></a>3、客户端测试</h5><p>测试的话，我这里是在本地修改版本库，点commit，然后再看web(nginx)服务器上的数据是否更新来测试。</p>
+<h5 id="4、问题解决"><a href="#4、问题解决" class="headerlink" title="4、问题解决"></a>4、问题解决</h5><p>Checkout一份代码到web服务器上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd /data/www/project/python_movie</span><br><span class="line"># /usr/bin/svn checkout svn://127.0.0.1/python_movie</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>在日志文件中提示<br>Skipped “/data/www/project/python_movie”<br>然后提交的文件并没有自动更新到web目录下</p>
+</blockquote>
+<p>解决方法是：<br>首先，需要在Web目录下检出SVN项目，生成 .svn目录。原因是 Web目录下没有 .svn目录，更新时钩子不能识别Web目录下的 .svn（因为没有），因此会跳过Web目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/www/project/python_movie</span><br><span class="line">svn checkout svn://服务器的ip地址/python_movie ./</span><br></pre></td></tr></table></figure></p>
+<p>然后再次提交的文件就可以自动更新到web目录下了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SVN/" rel="tag"># SVN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/15/Linux-╘┤┬ы░№╙ыRPM░№╧ъ╜т/" rel="next" title="Linux 源码包与RPM包详解">
+                <i class="fa fa-chevron-left"></i> Linux 源码包与RPM包详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/16/╖└╗Ё╟╜╓оiptables║═firewalld/" rel="prev" title="防火墙之iptables和firewalld">
+                防火墙之iptables和firewalld <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#多仓库管理"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;" class="headerlink" title="&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;"></a>&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、首先，需要明白几个概念："><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;" class="headerlink" title="1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;"></a>1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、实战演示"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;" class="headerlink" title="2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;"></a>2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、问题解决"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;" class="headerlink" title="3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;"></a>3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用钩子hooks-post-commit实现代码自动部署"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks-post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;" class="headerlink" title="&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks/post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;"></a>&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks/post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、新建post-commit钩子"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;" class="headerlink" title="1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;"></a>1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、修改post-commit文件权限"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;" class="headerlink" title="2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;"></a>2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、客户端测试"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;" class="headerlink" title="3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;"></a>3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、问题解决"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;" class="headerlink" title="4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;"></a>4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

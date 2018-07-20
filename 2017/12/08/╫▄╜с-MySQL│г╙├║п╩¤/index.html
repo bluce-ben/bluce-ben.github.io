@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MySQL," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一、聚合函数(常用于GROUP BY从句的SELECT查询中)　下面五个函数会忽略值为NULL的行    函数名 说明     AVG(col) 返回指定列的平均值   COUNT(col) 返回指定列中非NULL值/行的个数（当函数参数为星号*时不会忽略）   MIN(col) 返回指定列的最小值   MAX(col) 返回指定列的最大值   SUM(col) 返回指定列的所有值之和   GRO">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="总结-MySQL常用函数">
+<meta property="og:url" content="http://yoursite.com/2017/12/08/╫▄╜с-MySQL│г╙├║п╩¤/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="一、聚合函数(常用于GROUP BY从句的SELECT查询中)　下面五个函数会忽略值为NULL的行    函数名 说明     AVG(col) 返回指定列的平均值   COUNT(col) 返回指定列中非NULL值/行的个数（当函数参数为星号*时不会忽略）   MIN(col) 返回指定列的最小值   MAX(col) 返回指定列的最大值   SUM(col) 返回指定列的所有值之和   GRO">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-08T04:44:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="总结-MySQL常用函数">
+<meta name="twitter:description" content="一、聚合函数(常用于GROUP BY从句的SELECT查询中)　下面五个函数会忽略值为NULL的行    函数名 说明     AVG(col) 返回指定列的平均值   COUNT(col) 返回指定列中非NULL值/行的个数（当函数参数为星号*时不会忽略）   MIN(col) 返回指定列的最小值   MAX(col) 返回指定列的最大值   SUM(col) 返回指定列的所有值之和   GRO">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/08/╫▄╜с-MySQL│г╙├║п╩¤/"/>
+
+
+
+
+
+  <title>总结-MySQL常用函数 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/╫▄╜с-MySQL│г╙├║п╩¤/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">总结-MySQL常用函数</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T11:59:00+08:00">
+                2017-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/08/╫▄╜с-MySQL│г╙├║п╩¤/" class="leancloud_visitors" data-flag-title="总结-MySQL常用函数">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、聚合函数-常用于GROUP-BY从句的SELECT查询中"><a href="#一、聚合函数-常用于GROUP-BY从句的SELECT查询中" class="headerlink" title="一、聚合函数(常用于GROUP BY从句的SELECT查询中)"></a>一、聚合函数(常用于GROUP BY从句的SELECT查询中)</h3><p>　下面五个函数会忽略值为NULL的行</p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AVG(col)</td>
+<td>返回指定列的平均值</td>
+</tr>
+<tr>
+<td>COUNT(col)</td>
+<td>返回指定列中非NULL值/行的个数（当函数参数为星号*时不会忽略）</td>
+</tr>
+<tr>
+<td>MIN(col)</td>
+<td>返回指定列的最小值</td>
+</tr>
+<tr>
+<td>MAX(col)</td>
+<td>返回指定列的最大值</td>
+</tr>
+<tr>
+<td>SUM(col)</td>
+<td>返回指定列的所有值之和</td>
+</tr>
+<tr>
+<td>GROUP_CONCAT(col)</td>
+<td>返回由属于一组的列值连接组合而成的结果</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h3 id="二、数学函数"><a href="#二、数学函数" class="headerlink" title="二、数学函数"></a>二、数学函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABS(x)</td>
+<td>返回x的绝对值</td>
+</tr>
+<tr>
+<td>BIN(x)</td>
+<td>返回x的二进制（OCT返回八进制，HEX返回十六进制）</td>
+</tr>
+<tr>
+<td>EXP(x)</td>
+<td>返回值e（自然对数的底）的x次方</td>
+</tr>
+<tr>
+<td>GREATEST(x1,x2,…,xn)</td>
+<td>返回集合中最大的值</td>
+</tr>
+<tr>
+<td>LEAST(x1,x2,…,xn)</td>
+<td>返回集合中最小的值</td>
+</tr>
+<tr>
+<td>LN(x)</td>
+<td>返回x的自然对数</td>
+</tr>
+<tr>
+<td>LOG(x,y)</td>
+<td>返回x的以y为底的对数</td>
+</tr>
+<tr>
+<td>MOD(x,y)</td>
+<td>返回x/y的模（余数）</td>
+</tr>
+<tr>
+<td>PI()</td>
+<td>返回pi的值（圆周率）</td>
+</tr>
+<tr>
+<td>RAND()</td>
+<td>返回0到1内的随机值,可以通过提供一个参数(种子)使RAND()随机数生成器生成一个指定的值。</td>
+</tr>
+<tr>
+<td>FLOOR(x)</td>
+<td>返回小于x的最大整数值，（去掉小数取整）</td>
+</tr>
+<tr>
+<td>CEILING(x)</td>
+<td>返回大于x的最小整数值，（进一取整）</td>
+</tr>
+<tr>
+<td>ROUND(x,y)</td>
+<td>返回参数x的四舍五入的有y位小数的值，（四舍五入）</td>
+</tr>
+<tr>
+<td>TRUNCATE(x,y)</td>
+<td>返回数字x截短为y位小数的结果</td>
+</tr>
+<tr>
+<td>SIGN(x)</td>
+<td>返回代表数字x的符号的值（正数返回1，负数返回-1，0返回0）</td>
+</tr>
+<tr>
+<td>SQRT(x)</td>
+<td>返回一个数的平方根</td>
+</tr>
+</tbody>
+</table>
+<h3 id="三、字符串函数"><a href="#三、字符串函数" class="headerlink" title="三、字符串函数"></a>三、字符串函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASCII(char)</td>
+<td>返回字符的ASCII码值</td>
+</tr>
+<tr>
+<td>BIT_LENGTH(str)</td>
+<td>返回字符串的比特长度</td>
+</tr>
+<tr>
+<td>CONCAT(s1,s2…,sn)</td>
+<td>将s1,s2…,sn连接成字符串</td>
+</tr>
+<tr>
+<td>CONCAT_WS(sep,s1,s2…,sn)</td>
+<td>将s1,s2…,sn连接成字符串，并用sep字符间隔</td>
+</tr>
+<tr>
+<td>INSERT(str,x,y,instr)</td>
+<td>将字符串str从第x位置开始，y个字符长的子串替换为字符串instr，返回结果</td>
+</tr>
+<tr>
+<td>FIND_IN_SET(str,list)</td>
+<td>分析逗号分隔的list列表，如果发现str，返回str在list中的位置</td>
+</tr>
+<tr>
+<td>LCASE(str)或LOWER(str)</td>
+<td>返回将字符串str中所有字符改变为小写后的结果</td>
+</tr>
+<tr>
+<td>UCASE(str)或UPPER(str)</td>
+<td>返回将字符串str中所有字符转变为大写后的结果</td>
+</tr>
+<tr>
+<td>LEFT(str,x)</td>
+<td>返回字符串str中最左边的x个字符</td>
+</tr>
+<tr>
+<td>RIGHT(str,x)</td>
+<td>返回字符串str中最右边的x个字符</td>
+</tr>
+<tr>
+<td>LENGTH(str)</td>
+<td>返回字符串str中的字符数</td>
+</tr>
+<tr>
+<td>POSITION(substr,str)</td>
+<td>返回子串substr在字符串str中第一次出现的位置</td>
+</tr>
+<tr>
+<td>QUOTE(str)</td>
+<td>用反斜杠转义str中的单引号</td>
+</tr>
+<tr>
+<td>REPEAT(str,srchstr,rplcstr)</td>
+<td>返回字符串str重复x次的结果</td>
+</tr>
+<tr>
+<td>REVERSE(str)</td>
+<td>返回颠倒字符串str的结果</td>
+</tr>
+<tr>
+<td>LTRIM(str)</td>
+<td>去掉字符串str开头的空格</td>
+</tr>
+<tr>
+<td>RTRIM(str)</td>
+<td>去掉字符串str尾部的空格</td>
+</tr>
+<tr>
+<td>TRIM(str)</td>
+<td>去除字符串首部和尾部的所有空格</td>
+</tr>
+</tbody>
+</table>
+<h3 id="四、日期和时间函数"><a href="#四、日期和时间函数" class="headerlink" title="四、日期和时间函数"></a>四、日期和时间函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE_ADD(date,INTERVAL int keyword)</td>
+<td>返回日期date加上间隔时间int的结果(int必须按照关键字进行格式化),如：SELECTDATE_ADD(CURRENT_DATE,INTERVAL 6 MONTH);</td>
+</tr>
+<tr>
+<td>DATE_SUB(date,INTERVAL int keyword)</td>
+<td>返回日期date加上间隔时间int的结果(int必须按照关键字进行格式化),如：SELECTDATE_SUB(CURRENT_DATE,INTERVAL 6 MONTH);</td>
+</tr>
+<tr>
+<td>DATE_FORMAT(date,fmt)</td>
+<td>依照指定的fmt格式格式化日期date值</td>
+</tr>
+<tr>
+<td>FROM_UNIXTIME(ts,fmt)</td>
+<td>根据指定的fmt格式，格式化UNIX时间戳ts</td>
+</tr>
+<tr>
+<td>MONTHNAME(date)</td>
+<td>返回date的月份名(英语月份，如October)</td>
+</tr>
+<tr>
+<td>DAYNAME(date)</td>
+<td>返回date的星期名(英语星期几，如Saturday)</td>
+</tr>
+<tr>
+<td>NOW()</td>
+<td>返回当前的日期和时间 如：2016-10-08 18:57:39</td>
+</tr>
+<tr>
+<td>CURDATE()或CURRENT_DATE()</td>
+<td>返回当前的日期</td>
+</tr>
+<tr>
+<td>CURTIME()或CURRENT_TIME()</td>
+<td>返回当前的时间</td>
+</tr>
+<tr>
+<td>QUARTER(date)</td>
+<td>返回date在一年中的季度(1~4)</td>
+</tr>
+<tr>
+<td>WEEK(date)</td>
+<td>返回日期date为一年中第几周(0~53)</td>
+</tr>
+<tr>
+<td>DAYOFYEAR(date)</td>
+<td>返回date是一年的第几天(1~366)</td>
+</tr>
+<tr>
+<td>DAYOFMONTH(date)</td>
+<td>返回date是一个月的第几天(1~31)</td>
+</tr>
+<tr>
+<td>DAYOFWEEK(date)</td>
+<td>返回date所代表的一星期中的第几天(1~7)</td>
+</tr>
+<tr>
+<td>YEAR(date)</td>
+<td>返回日期date的年份(1000~9999)</td>
+</tr>
+<tr>
+<td>MONTH(date)</td>
+<td>返回date的月份值(1~12)</td>
+</tr>
+<tr>
+<td>DAY(date)</td>
+<td>返回date的天数部分</td>
+</tr>
+<tr>
+<td>HOUR(time)</td>
+<td>返回time的小时值(0~23)</td>
+</tr>
+<tr>
+<td>MINUTE(time)</td>
+<td>返回time的分钟值(0~59)</td>
+</tr>
+<tr>
+<td>SECOND(time)</td>
+<td>返回time的秒值（0-59）</td>
+</tr>
+<tr>
+<td>DATE(datetime)</td>
+<td>返回datetime的日期值</td>
+</tr>
+<tr>
+<td>TIME(datetime)</td>
+<td>返回datetime的时间值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="五、加密函数"><a href="#五、加密函数" class="headerlink" title="五、加密函数"></a>五、加密函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AES_ENCRYPT(str,key)</td>
+<td>返回用密钥key对字符串str利用高级加密标准算法加密后的结果，调用AES_ENCRYPT的结果是一个二进制字符串，以BLOB类型存储</td>
+</tr>
+<tr>
+<td>AES_DECRYPT(str,key)</td>
+<td>返回用密钥key对字符串str利用高级加密标准算法解密后的结果</td>
+</tr>
+<tr>
+<td>DECODE(str,key)</td>
+<td>使用key作为密钥解密加密字符串str</td>
+</tr>
+<tr>
+<td>ENCRYPT(str,salt)</td>
+<td>使用UNIXcrypt()函数，用关键词salt(一个可以惟一确定口令的字符串，就像钥匙一样)加密字符串str</td>
+</tr>
+<tr>
+<td>ENCODE(str,key)</td>
+<td>使用key作为密钥加密字符串str，调用ENCODE()的结果是一个二进制字符串，它以BLOB类型存储</td>
+</tr>
+<tr>
+<td>MD5()</td>
+<td>计算字符串str的MD5校验和</td>
+</tr>
+<tr>
+<td>PASSWORD(str)</td>
+<td>返回字符串str的加密版本，这个加密过程是不可逆转的，和UNIX密码加密过程使用不同的算法。</td>
+</tr>
+<tr>
+<td>SHA()</td>
+<td>计算字符串str的安全散列算法(SHA)校验和</td>
+</tr>
+</tbody>
+</table>
+<h3 id="六、格式化函数"><a href="#六、格式化函数" class="headerlink" title="六、格式化函数"></a>六、格式化函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE_FORMAT(date,fmt)</td>
+<td>依照字符串fmt格式化日期date值</td>
+</tr>
+<tr>
+<td>FORMAT(x,y)</td>
+<td>把x格式化为以逗号隔开的数字序列，y是结果的小数位数</td>
+</tr>
+<tr>
+<td>INET_ATON(ip)</td>
+<td>返回IP地址的数字表示</td>
+</tr>
+<tr>
+<td>INET_NTOA(num)</td>
+<td>返回数字所代表的IP地址</td>
+</tr>
+<tr>
+<td>TIME_FORMAT(time,fmt)</td>
+<td>依照字符串fmt格式化时间time值,其中最简单的是FORMAT()函数，它可以把大的数值格式化为以逗号间隔的易读的序列。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="七、数据类型转换函数"><a href="#七、数据类型转换函数" class="headerlink" title="七、数据类型转换函数"></a>七、数据类型转换函数</h3><p>　CAST()函数，将一个值转换为指定的数据类型（类型有：BINARY,CHAR,DATE,TIME,DATETIME,SIGNED,UNSIGNED）<br><code>SELECT CAST(NOW() AS SIGNED INTEGER),CURDATE()+0;</code></p>
+<h3 id="八、系统信息函数"><a href="#八、系统信息函数" class="headerlink" title="八、系统信息函数"></a>八、系统信息函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATABASE()</td>
+<td>返回当前数据库名</td>
+</tr>
+<tr>
+<td>BENCHMARK(count,expr)</td>
+<td>将表达式expr重复运行count次</td>
+</tr>
+<tr>
+<td>CONNECTION_ID()</td>
+<td>返回当前客户的连接ID</td>
+</tr>
+<tr>
+<td>FOUND_ROWS()</td>
+<td>返回最后一个SELECT查询进行检索的总行数</td>
+</tr>
+<tr>
+<td>USER()或SYSTEM_USER()</td>
+<td>返回当前登陆用户名</td>
+</tr>
+<tr>
+<td>VERSION()</td>
+<td>返回MySQL服务器的版本</td>
+</tr>
+</tbody>
+</table>
+<h3 id="九、条件判断函数"><a href="#九、条件判断函数" class="headerlink" title="九、条件判断函数"></a>九、条件判断函数</h3><table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>isnull(expr)</td>
+<td>如expr为null，那么isnull()的返回值为1，否则返回值为0。</td>
+</tr>
+<tr>
+<td>ifnull(expr1,expr2)</td>
+<td>假如expr1不为NULL，则IFNULL()的返回值为expr1; 否则其返回值为expr2。IFNULL()的返回值是数字或是字符串，具体情况取决于其所使用的语境。</td>
+</tr>
+<tr>
+<td>nullif(expr1,expr2)</td>
+<td>如果expr1=expr2成立，那么返回值为NULL，否则返回值为expr1。</td>
+</tr>
+<tr>
+<td>IF(expr1,expr2,expr3)</td>
+<td>如果 expr1 是TRUE (expr1 &lt;&gt; 0 and expr1 &lt;&gt; NULL)，则 IF()的返回值为expr2; 否则返回值则为 expr3。IF() 的返回值为数字值或字符串值，具体情况视其所在语境而定。</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/08/╫▄╜с-MySQL╓ў┤╙╕┤╓╞бв╢┴╨┤╖╓└ы┼ф╓├╧ъ╜т/" rel="next" title="总结-MySQL主从复制、读写分离配置详解">
+                <i class="fa fa-chevron-left"></i> 总结-MySQL主从复制、读写分离配置详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/08/╫▄╜с-MySQL╩¤╛▌┐т╔ш╝╞/" rel="prev" title="总结-MySQL数据库设计">
+                总结-MySQL数据库设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">135</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、聚合函数-常用于GROUP-BY从句的SELECT查询中"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x805A;&#x5408;&#x51FD;&#x6570;-&#x5E38;&#x7528;&#x4E8E;GROUP-BY&#x4ECE;&#x53E5;&#x7684;SELECT&#x67E5;&#x8BE2;&#x4E2D;" class="headerlink" title="&#x4E00;&#x3001;&#x805A;&#x5408;&#x51FD;&#x6570;(&#x5E38;&#x7528;&#x4E8E;GROUP BY&#x4ECE;&#x53E5;&#x7684;SELECT&#x67E5;&#x8BE2;&#x4E2D;)"></a>&#x4E00;&#x3001;&#x805A;&#x5408;&#x51FD;&#x6570;(&#x5E38;&#x7528;&#x4E8E;GROUP BY&#x4ECE;&#x53E5;&#x7684;SELECT&#x67E5;&#x8BE2;&#x4E2D;)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、数学函数"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x6570;&#x5B66;&#x51FD;&#x6570;" class="headerlink" title="&#x4E8C;&#x3001;&#x6570;&#x5B66;&#x51FD;&#x6570;"></a>&#x4E8C;&#x3001;&#x6570;&#x5B66;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、字符串函数"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x51FD;&#x6570;" class="headerlink" title="&#x4E09;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x51FD;&#x6570;"></a>&#x4E09;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、日期和时间函数"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x65E5;&#x671F;&#x548C;&#x65F6;&#x95F4;&#x51FD;&#x6570;" class="headerlink" title="&#x56DB;&#x3001;&#x65E5;&#x671F;&#x548C;&#x65F6;&#x95F4;&#x51FD;&#x6570;"></a>&#x56DB;&#x3001;&#x65E5;&#x671F;&#x548C;&#x65F6;&#x95F4;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、加密函数"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x4E94;&#x3001;&#x52A0;&#x5BC6;&#x51FD;&#x6570;" class="headerlink" title="&#x4E94;&#x3001;&#x52A0;&#x5BC6;&#x51FD;&#x6570;"></a>&#x4E94;&#x3001;&#x52A0;&#x5BC6;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、格式化函数"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x516D;&#x3001;&#x683C;&#x5F0F;&#x5316;&#x51FD;&#x6570;" class="headerlink" title="&#x516D;&#x3001;&#x683C;&#x5F0F;&#x5316;&#x51FD;&#x6570;"></a>&#x516D;&#x3001;&#x683C;&#x5F0F;&#x5316;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、数据类型转换函数"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x4E03;&#x3001;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x51FD;&#x6570;" class="headerlink" title="&#x4E03;&#x3001;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x51FD;&#x6570;"></a>&#x4E03;&#x3001;&#x6570;&#x636E;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八、系统信息函数"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x516B;&#x3001;&#x7CFB;&#x7EDF;&#x4FE1;&#x606F;&#x51FD;&#x6570;" class="headerlink" title="&#x516B;&#x3001;&#x7CFB;&#x7EDF;&#x4FE1;&#x606F;&#x51FD;&#x6570;"></a>&#x516B;&#x3001;&#x7CFB;&#x7EDF;&#x4FE1;&#x606F;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九、条件判断函数"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x4E5D;&#x3001;&#x6761;&#x4EF6;&#x5224;&#x65AD;&#x51FD;&#x6570;" class="headerlink" title="&#x4E5D;&#x3001;&#x6761;&#x4EF6;&#x5224;&#x65AD;&#x51FD;&#x6570;"></a>&#x4E5D;&#x3001;&#x6761;&#x4EF6;&#x5224;&#x65AD;&#x51FD;&#x6570;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
