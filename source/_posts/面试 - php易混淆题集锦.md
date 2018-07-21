@@ -18,21 +18,21 @@ $a6 = 'null';
 $a7 = array();
 $a8 = array(array());
 
-echo empty($a1) ? 'true' : 'false';		//true
+echo empty($a1) ? 'true' : 'false';             //true
 echo "<br/>";
-echo empty($a2) ? 'true' : 'false';		//true
+echo empty($a2) ? 'true' : 'false';             //true
 echo "<br/>";
-echo empty($a3) ? 'true' : 'false';		//true
+echo empty($a3) ? 'true' : 'false';             //true
 echo "<br/>";
-echo empty($a4) ? 'true' : 'false';		//true
+echo empty($a4) ? 'true' : 'false';             //true
 echo "<br/>";
-echo empty($a5) ? 'true' : 'false';		//false  true
+echo empty($a5) ? 'true' : 'false';             //false  true
 echo "<br/>";
-echo empty($a6) ? 'true' : 'false';		//false
+echo empty($a6) ? 'true' : 'false';             //false
 echo "<br/>";
-echo empty($a7) ? 'true' : 'false';		//true
+echo empty($a7) ? 'true' : 'false';             //true
 echo "<br/>";
-echo empty($a8) ? 'true' : 'false';		//true 	false
+echo empty($a8) ? 'true' : 'false';             //true  false
 echo "<hr/>";
 ```
 <!--more-->
@@ -44,8 +44,8 @@ $test = 'aaaaaa';
 $abc = &$test;
 unset($test);
 
-echo $abc;		//aaaaaa
-echo $test;		//undefined valiable
+echo $abc;              //aaaaaa
+echo $test;             //undefined valiable
 
 echo "<hr/>";
 ```
@@ -56,14 +56,14 @@ echo "<hr/>";
 ```
 $count = 5;
 function get_count(){
-	static $count = 0;
-	return $count++;
+        static $count = 0;
+        return $count++;
 }
-echo $count;		//5
+echo $count;            //5
 ++$count;
 
-echo get_count();	//0
-echo get_count();	//1
+echo get_count();       //0
+echo get_count();       //1
 
 echo "<hr/>";
 ```
@@ -75,14 +75,14 @@ echo "<hr/>";
 $GLOBALS['var1'] = 5;
 $var2 = 1;
 function get_value(){
-	global $var2;
-	$var1 = 0;
-	return $var2++;
+        global $var2;
+        $var1 = 0;
+        return $var2++;
 }
 get_value();
 
-echo $var1;	//5
-echo $var2;	//2
+echo $var1;     //5
+echo $var2;     //2
 
 echo "<hr/>";
 ```
@@ -91,14 +91,14 @@ echo "<hr/>";
 ```
 function destroy_foo() 
 {
-	global $foo;
-	unset($foo);
-	// unset($GLOBALS['foo']);//清除全局变量$foo
+        global $foo;
+        unset($foo);
+        // unset($GLOBALS['foo']);//清除全局变量$foo
 }
 
 $foo = 'bar';
 destroy_foo();
-echo $foo;	//bar
+echo $foo;      //bar
 ```
 unset($foo) 的作用是清除函数内的 $foo变量，并没有清除全局变量的$foo，因此执行此函数后，变量仍存在。想要彻底清除$foo，需要清除掉全局变量里的$foo值。
 
@@ -107,10 +107,10 @@ unset($foo) 的作用是清除函数内的 $foo变量，并没有清除全局变
 ##### 5. 写出如下程序的输出结果（考点：unset对于数组的作用）
 ```
 function get_arr($arr){
-	unset($arr[0]);
+        unset($arr[0]);
 }
 function get_arr2(&$arr){
-	unset($arr[0]);
+        unset($arr[0]);
 }
 
 $arr1 = array(1, 2);
@@ -119,8 +119,8 @@ $arr2 = array(1, 2);
 get_arr($arr1);
 get_arr2($arr2);
 
-echo count($arr1);	//2
-echo count($arr2);	//1
+echo count($arr1);      //2
+echo count($arr2);      //1
 
 echo "<hr/>";
 ```
@@ -131,7 +131,7 @@ echo "<hr/>";
 例如：
 ```
 "a1"  => 0  //首字母a为字符，强制转换为整型为0
-"1a"  => 1 	//首字母1为数字，强制转换为整型为1
+"1a"  => 1      //首字母1为数字，强制转换为整型为1
 ```
 
 ---
@@ -155,19 +155,19 @@ echo $b;
 ##### 8. unset对于数组的作用
 ```
 $arr = array(
-	1=> 'a',
-	2=> 'bb',
-	3=> 'c',
-	4=> 'dd'
-	);
+        1=> 'a',
+        2=> 'bb',
+        3=> 'c',
+        4=> 'dd'
+        );
 foreach($arr as $k=>&$v){
-	if($k == 3){
-		$v = 'x';
-	}
-	// unset($v);	//保持键4 的值不变
+        if($k == 3){
+                $v = 'x';
+        }
+        // unset($v);   //保持键4 的值不变
 }
 foreach($arr as $k=>$v){
-	echo "{$k}\t{$v}<br/>";
+        echo "{$k}\t{$v}<br/>";
 }
 ```
 输出结果为：array('a', 'bb', 'x', 'x');

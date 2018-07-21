@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="firewalld," />
+  <meta name="keywords" content="MySQL," />
 
 
 
@@ -81,18 +81,20 @@
 
 
 
-<meta name="description" content="在命令行下执行报错提示：12345[root@VM_0_7_centos ~]# firewall-cmd -hTraceback (most recent call last):  File &amp;quot;/usr/bin/firewall-cmd&amp;quot;, line 24, in &amp;lt;module&amp;gt;    from gi.repository import GObjectModu">
-<meta name="keywords" content="firewalld">
+<meta name="description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
+<meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CentOS 7下执行firewall-cmd显示ImportError: No module named &#39;gi&#39;">
-<meta property="og:url" content="http://yoursite.com/2018/03/16/CentOS 7下执行firewall-cms报错/index.html">
+<meta property="og:title" content="总结-MySQL数据库设计">
+<meta property="og:url" content="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="在命令行下执行报错提示：12345[root@VM_0_7_centos ~]# firewall-cmd -hTraceback (most recent call last):  File &amp;quot;/usr/bin/firewall-cmd&amp;quot;, line 24, in &amp;lt;module&amp;gt;    from gi.repository import GObjectModu">
+<meta property="og:description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-20T06:07:55.051Z">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/mysql_database_01.jpg">
+<meta property="og:updated_time" content="2018-07-21T09:20:39.265Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CentOS 7下执行firewall-cmd显示ImportError: No module named &#39;gi&#39;">
-<meta name="twitter:description" content="在命令行下执行报错提示：12345[root@VM_0_7_centos ~]# firewall-cmd -hTraceback (most recent call last):  File &amp;quot;/usr/bin/firewall-cmd&amp;quot;, line 24, in &amp;lt;module&amp;gt;    from gi.repository import GObjectModu">
+<meta name="twitter:title" content="总结-MySQL数据库设计">
+<meta name="twitter:description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/mysql_database_01.jpg">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/16/CentOS 7下执行firewall-cms报错/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/"/>
 
 
 
 
 
-  <title>CentOS 7下执行firewall-cmd显示ImportError: No module named 'gi' | Blog</title>
+  <title>总结-MySQL数据库设计 | Blog</title>
   
 
 
@@ -275,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/CentOS 7下执行firewall-cms报错/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Benwu">
@@ -292,7 +294,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">CentOS 7下执行firewall-cmd显示ImportError: No module named 'gi'</h2>
+          <h2 class="post-title" itemprop="name headline">总结-MySQL数据库设计</h2>
         
 
         <div class="post-meta">
@@ -304,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T13:17:26+08:00">
-                2018-03-16
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T13:13:28+08:00">
+                2017-12-08
               </time>
             
 
@@ -327,19 +329,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/Linux问题/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux问题</span>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
                   </a>
                 </span>
 
@@ -355,7 +346,7 @@
 
           
           
-             <span id="/2018/03/16/CentOS 7下执行firewall-cms报错/" class="leancloud_visitors" data-flag-title="CentOS 7下执行firewall-cmd显示ImportError: No module named 'gi'">
+             <span id="/2017/12/08/总结-MySQL数据库设计/" class="leancloud_visitors" data-flag-title="总结-MySQL数据库设计">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -386,12 +377,67 @@
       
 
       
-        <blockquote>
-<p>在命令行下执行报错提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# firewall-cmd -h</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/usr/bin/firewall-cmd&quot;, line 24, in &lt;module&gt;</span><br><span class="line">    from gi.repository import GObject</span><br><span class="line">ModuleNotFoundError: No module named &apos;gi&apos;</span><br></pre></td></tr></table></figure></p>
-</blockquote>
+        <h2 id="一、什么是数据库设计"><a href="#一、什么是数据库设计" class="headerlink" title="一、什么是数据库设计"></a>一、什么是数据库设计</h2><p><strong>１、数据库设计概念</strong><br>　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。<br><strong>２、设计对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>优良的设计</th>
+<th>槽糕的设计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>减少数据冗余</td>
+<td>存在大量的数据冗余</td>
+</tr>
+<tr>
+<td>避免数据维护异常</td>
+<td>存在数据插入、更新、删除异常</td>
+</tr>
+<tr>
+<td>节约存储空间(偶尔会用空间换时间)</td>
+<td>浪费大量存储空间</td>
+</tr>
+<tr>
+<td>高效的访问</td>
+<td>访问数据低效</td>
+</tr>
+</tbody>
+</table>
 <a id="more"></a>
-<p>由错误信息也能够看出来是因为缺少 ‘gi’ 模块。<br>CentOS7 默认自带安装的是Python2.7版本，由于我前段时间安装了最新版的 Python3.6，且是共存的。更改了默认的Python版本为Python3，因此一些Linux命令不能使用，原因就是这些命令使用的Python2版本，由于我安装的Python3版本，并没有把所有的需要的包都安装，因此会提示缺少某些模块。（注：由此处就说明，升级Python2到Python3的时候，要保留Python2）</p>
-<p>正确的做法就是，如果使用一些命令提示类似错误的时候，就把命令文件的头部Python版本改为CentOS默认的2.7版本即可。<br>更改方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">第一步，vim /usr/bin/firewall-cmd</span><br><span class="line">将#！/usr/bin/python -Es 改为 #！/usr/bin/python2 -Es（到目前为止，上面提到的问题已解决）</span><br><span class="line">第二步，vim /usr/sbin/firewalld</span><br><span class="line">将#！/usr/bin/python -Es 改为 #！/usr/bin/python2 -Es (这一步是针对于防火墙报错，进行的修改)</span><br></pre></td></tr></table></figure></p>
+<h2 id="二、数据库设计的步骤"><a href="#二、数据库设计的步骤" class="headerlink" title="二、数据库设计的步骤"></a>二、数据库设计的步骤</h2><p><strong>1). 需求分析</strong><br>　需求分析主要完成的内容：业务系统中有哪些数据？这些数据又有哪些属性？数据和属性的各自特点有哪些？<br><strong>2). 逻辑设计</strong><br>　使用ER图设计工具对数据库进行ER图逻辑建模：首先将需求转化为数据库的逻辑模型，其次，通过ER图形式将逻辑模型描述展示出来，最后这个逻辑设计与所选择的DBMS无关，也就是说这个逻辑设计应该适合所有的DBMS。<br><strong>3). 物理设计</strong><br>　这个阶段是进入到与DBMS相关的阶段，因此首先需要选择DBMS，并且将第二步的逻辑模型转为物理模型。<br>　这个阶段会涉及到数据库中建表，选择字段类型的问题。在MySQL中遵循以下原则：<br>　列的数据类型一方面影响相应数据的存储空间的开销，另一方面也会影响数据查询性能。当一个列可以选择多种数据类型时，应该优先考虑数字类型，其次是日期或二进制，最后是字符串类型。对于相同级别的数据类型，在满足业务的情况下，应该优先选择占用空间小的数据类型。<br>　mysql中部分字段空间占用情况：<br><img src="/uploads/2017/12/mysql_database_01.jpg" alt=""><br><em>额外注意几点：</em></p>
+<ul>
+<li>在对数据进行比较(where、join 、order by)操作时，同样的数据，字符串处理比数字处理更慢。</li>
+<li>在MySql中，UTF-8占用3个字节。</li>
+</ul>
+<p><strong>4). 维护优化</strong></p>
+<ul>
+<li>针对新的需求建立新的数据库表(这里补充说明下，在进行数据库最初的设计过程中，不建议在表中预留不确定的字段，这并不能实现数据库良好的扩展性问题，它的代价与后期新加一个字段一样，甚至更大)</li>
+<li>索引优化</li>
+<li>大表拆分：拆分又分为两种方式 <ul>
+<li>水平拆分：控制表的长度，即数据的行数。会将每个表中的数据量减少。</li>
+<li>垂直拆分：数据库中的存储是以页为单位的，当每一行的宽度比较小时(列数比较少时)，每页中存储的内容就多，IO效率就高(数据中的数据是存放在磁盘上，每次IO的内容越多越好)。因此常常对于非常宽的表，进行表的垂直拆分。拆表后的数据量不应该发生变化，但是表的数量增加，每张表的宽度减少。</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、数据库中的几大范式"><a href="#三、数据库中的几大范式" class="headerlink" title="三、数据库中的几大范式"></a>三、数据库中的几大范式</h2><p><strong>第一范式(1NF)</strong></p>
+<blockquote>
+<p>概念：数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。<br>作用：确保每列保持原子性 （每个表中的字段不可再拆分）<br>举例：本来正常情况下，设计地址，只需要一个字段，但是若在实际业务系统中需要访问其中的国家、省、市时，此时就应该将地址这个字段进行拆分才符合1NF。</p>
+</blockquote>
+<p><strong>第二范式(2NF)</strong></p>
+<blockquote>
+<p>概念：基于1NF基础之上，第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。此外：所有单关键字段的表都符合第二范式。<br>作用：确保表中的每列都和主键相关（一个表中只能有一个主键）</p>
+</blockquote>
+<p><strong>第三范式(3NF)</strong></p>
+<blockquote>
+<p>概念：基于2NF基础上的，如果数据表中不存在非关键字段对任意候选关键字段的传递函数依赖则符合第三范式。<br>作用：确保每列都和主键列直接相关,而不是间接相关 （表中字段都与主键直接相关）</p>
+</blockquote>
+<h2 id="四、高手的境界都是无招胜有招"><a href="#四、高手的境界都是无招胜有招" class="headerlink" title="四、高手的境界都是无招胜有招"></a>四、高手的境界都是无招胜有招</h2><p>　为了设计出优良的数据库，我们需要遵循数据库的范式，但是有时候如果你设计的数据库完全遵循了这些范式，反而会降低你的某些性能。这里提几点： </p>
+<ul>
+<li>数据库连接会带来一部分性能损失，因此有时候为了减少冗余，将数据存放在多张表中，往往会降低查询性能，而互联网的世界，读写比例大概是3:1甚至4:1 </li>
+<li>减少表与表之间的关联数量(减少了对磁盘的IO)，增加数据的读取效率。 </li>
+<li>反范式化一定要适度。凡事过度适得其反。</li>
+</ul>
 
       
     </div>
@@ -409,7 +455,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/firewalld/" rel="tag"># firewalld</a>
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
         </div>
       
@@ -422,8 +468,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/16/防火墙之iptables和firewalld/" rel="next" title="防火墙之iptables和firewalld">
-                <i class="fa fa-chevron-left"></i> 防火墙之iptables和firewalld
+              <a href="/2017/12/08/总结-MySQL常用函数/" rel="next" title="总结-MySQL常用函数">
+                <i class="fa fa-chevron-left"></i> 总结-MySQL常用函数
               </a>
             
           </div>
@@ -432,8 +478,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/16/系统服务管理详解/" rel="prev" title="系统服务管理详解">
-                系统服务管理详解 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/08/Git-Error-Failed-to-connect-to-github-com-port-443-Timed-out/" rel="prev" title="Git Error: Failed to connect to github.com port 443: Timed out">
+                Git Error: Failed to connect to github.com port 443: Timed out <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -486,8 +532,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -506,7 +561,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">137</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -574,6 +629,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是数据库设计"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;" class="headerlink" title="&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;"></a>&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、数据库设计的步骤"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;" class="headerlink" title="&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;"></a>&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、数据库中的几大范式"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;" class="headerlink" title="&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;"></a>&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、高手的境界都是无招胜有招"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;" class="headerlink" title="&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;"></a>&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

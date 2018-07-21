@@ -17,8 +17,8 @@ tags:
 ##### 2、实战演示
 首先，新建2个仓库，project和common。
 ```
-svnadmin create /var/svn/project	//开放仓库
-svnadmin create /var/svn/common		//共享资源仓库
+svnadmin create /var/svn/project        //开放仓库
+svnadmin create /var/svn/common         //共享资源仓库
 ```
 分别对应仓库的conf/ 下文件进行配置，passwd与svnserve.conf配置类似，不予说明。其中，authz文件内容如下：
 ```
@@ -29,7 +29,7 @@ test = nana
 
 [/] == [project:/]
 @admin = rw
-@test = r 	@只有读的权限，可用于测试
+@test = r       @只有读的权限，可用于测试
 
 # common:
 [common:/]
@@ -68,9 +68,9 @@ export LANG=zh_CN.UTF-8
 REPOS="$1"
 REV="$2"
 
-SVN_PATH=/usr/bin	#svn命令路径
-WEB_PATH=/data/www/project/python_movie		#项目路径，即已经检出的项目，具体到项目目录
-LOG_PATH=/data/www/project/python_movie/logs/svn_deploy.log		#日志文件
+SVN_PATH=/usr/bin       #svn命令路径
+WEB_PATH=/data/www/project/python_movie         #项目路径，即已经检出的项目，具体到项目目录
+LOG_PATH=/data/www/project/python_movie/logs/svn_deploy.log             #日志文件
 SVN_USER=ben
 SVN_PASS=ben1234
 

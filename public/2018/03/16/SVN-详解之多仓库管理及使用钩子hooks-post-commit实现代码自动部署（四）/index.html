@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="MySQL," />
+  <meta name="keywords" content="SVN," />
 
 
 
@@ -81,20 +81,18 @@
 
 
 
-<meta name="description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
-<meta name="keywords" content="MySQL">
+<meta name="description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
+<meta name="keywords" content="SVN">
 <meta property="og:type" content="article">
-<meta property="og:title" content="总结-MySQL数据库设计">
-<meta property="og:url" content="http://yoursite.com/2017/12/08/结-MySQL数据库设计/index.html">
+<meta property="og:title" content="SVN 详解之多仓库管理及使用钩子hooks&#x2F;post-commit实现代码自动部署（四）">
+<meta property="og:url" content="http://yoursite.com/2018/03/16/SVN-详解之多仓库管理及使用钩子hooks-post-commit实现代码自动部署（四）/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
+<meta property="og:description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/uploads/2017/12/mysql_database_01.jpg">
-<meta property="og:updated_time" content="2018-07-20T06:07:55.286Z">
+<meta property="og:updated_time" content="2018-07-21T09:43:06.557Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="总结-MySQL数据库设计">
-<meta name="twitter:description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
-<meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/mysql_database_01.jpg">
+<meta name="twitter:title" content="SVN 详解之多仓库管理及使用钩子hooks&#x2F;post-commit实现代码自动部署（四）">
+<meta name="twitter:description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
 
 
 
@@ -124,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/08/结-MySQL数据库设计/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/16/SVN-详解之多仓库管理及使用钩子hooks-post-commit实现代码自动部署（四）/"/>
 
 
 
 
 
-  <title>总结-MySQL数据库设计 | Blog</title>
+  <title>SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四） | Blog</title>
   
 
 
@@ -277,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/结-MySQL数据库设计/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/SVN-详解之多仓库管理及使用钩子hooks-post-commit实现代码自动部署（四）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Benwu">
@@ -294,7 +292,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">总结-MySQL数据库设计</h2>
+          <h2 class="post-title" itemprop="name headline">SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四）</h2>
         
 
         <div class="post-meta">
@@ -306,8 +304,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T13:13:28+08:00">
-                2017-12-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T10:42:33+08:00">
+                2018-03-16
               </time>
             
 
@@ -329,8 +327,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MySQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MySQL</span>
+                  <a href="/categories/版本控制/" itemprop="url" rel="index">
+                    <span itemprop="name">版本控制</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/SVN/" itemprop="url" rel="index">
+                    <span itemprop="name">SVN</span>
                   </a>
                 </span>
 
@@ -346,7 +355,7 @@
 
           
           
-             <span id="/2017/12/08/结-MySQL数据库设计/" class="leancloud_visitors" data-flag-title="总结-MySQL数据库设计">
+             <span id="/2018/03/16/SVN-详解之多仓库管理及使用钩子hooks-post-commit实现代码自动部署（四）/" class="leancloud_visitors" data-flag-title="SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,67 +386,30 @@
       
 
       
-        <h2 id="一、什么是数据库设计"><a href="#一、什么是数据库设计" class="headerlink" title="一、什么是数据库设计"></a>一、什么是数据库设计</h2><p><strong>１、数据库设计概念</strong><br>　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。<br><strong>２、设计对比</strong></p>
-<table>
-<thead>
-<tr>
-<th>优良的设计</th>
-<th>槽糕的设计</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>减少数据冗余</td>
-<td>存在大量的数据冗余</td>
-</tr>
-<tr>
-<td>避免数据维护异常</td>
-<td>存在数据插入、更新、删除异常</td>
-</tr>
-<tr>
-<td>节约存储空间(偶尔会用空间换时间)</td>
-<td>浪费大量存储空间</td>
-</tr>
-<tr>
-<td>高效的访问</td>
-<td>访问数据低效</td>
-</tr>
-</tbody>
-</table>
-<a id="more"></a>
-<h2 id="二、数据库设计的步骤"><a href="#二、数据库设计的步骤" class="headerlink" title="二、数据库设计的步骤"></a>二、数据库设计的步骤</h2><p><strong>1). 需求分析</strong><br>　需求分析主要完成的内容：业务系统中有哪些数据？这些数据又有哪些属性？数据和属性的各自特点有哪些？<br><strong>2). 逻辑设计</strong><br>　使用ER图设计工具对数据库进行ER图逻辑建模：首先将需求转化为数据库的逻辑模型，其次，通过ER图形式将逻辑模型描述展示出来，最后这个逻辑设计与所选择的DBMS无关，也就是说这个逻辑设计应该适合所有的DBMS。<br><strong>3). 物理设计</strong><br>　这个阶段是进入到与DBMS相关的阶段，因此首先需要选择DBMS，并且将第二步的逻辑模型转为物理模型。<br>　这个阶段会涉及到数据库中建表，选择字段类型的问题。在MySQL中遵循以下原则：<br>　列的数据类型一方面影响相应数据的存储空间的开销，另一方面也会影响数据查询性能。当一个列可以选择多种数据类型时，应该优先考虑数字类型，其次是日期或二进制，最后是字符串类型。对于相同级别的数据类型，在满足业务的情况下，应该优先选择占用空间小的数据类型。<br>　mysql中部分字段空间占用情况：<br><img src="/uploads/2017/12/mysql_database_01.jpg" alt=""><br><em>额外注意几点：</em></p>
-<ul>
-<li>在对数据进行比较(where、join 、order by)操作时，同样的数据，字符串处理比数字处理更慢。</li>
-<li>在MySql中，UTF-8占用3个字节。</li>
-</ul>
-<p><strong>4). 维护优化</strong></p>
-<ul>
-<li>针对新的需求建立新的数据库表(这里补充说明下，在进行数据库最初的设计过程中，不建议在表中预留不确定的字段，这并不能实现数据库良好的扩展性问题，它的代价与后期新加一个字段一样，甚至更大)</li>
-<li>索引优化</li>
-<li>大表拆分：拆分又分为两种方式 <ul>
-<li>水平拆分：控制表的长度，即数据的行数。会将每个表中的数据量减少。</li>
-<li>垂直拆分：数据库中的存储是以页为单位的，当每一行的宽度比较小时(列数比较少时)，每页中存储的内容就多，IO效率就高(数据中的数据是存放在磁盘上，每次IO的内容越多越好)。因此常常对于非常宽的表，进行表的垂直拆分。拆表后的数据量不应该发生变化，但是表的数量增加，每张表的宽度减少。</li>
-</ul>
-</li>
-</ul>
-<h2 id="三、数据库中的几大范式"><a href="#三、数据库中的几大范式" class="headerlink" title="三、数据库中的几大范式"></a>三、数据库中的几大范式</h2><p><strong>第一范式(1NF)</strong></p>
-<blockquote>
-<p>概念：数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。<br>作用：确保每列保持原子性 （每个表中的字段不可再拆分）<br>举例：本来正常情况下，设计地址，只需要一个字段，但是若在实际业务系统中需要访问其中的国家、省、市时，此时就应该将地址这个字段进行拆分才符合1NF。</p>
+        <h4 id="多仓库管理"><a href="#多仓库管理" class="headerlink" title="多仓库管理"></a>多仓库管理</h4><h5 id="1、首先，需要明白几个概念："><a href="#1、首先，需要明白几个概念：" class="headerlink" title="1、首先，需要明白几个概念："></a>1、首先，需要明白几个概念：</h5><p>（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。</p>
+<p>（2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。<br><a id="more"></a></p>
+<h5 id="2、实战演示"><a href="#2、实战演示" class="headerlink" title="2、实战演示"></a>2、实战演示</h5><p>首先，新建2个仓库，project和common。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svnadmin create /var/svn/project        //开放仓库</span><br><span class="line">svnadmin create /var/svn/common         //共享资源仓库</span><br></pre></td></tr></table></figure></p>
+<p>分别对应仓库的conf/ 下文件进行配置，passwd与svnserve.conf配置类似，不予说明。其中，authz文件内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># project:</span><br><span class="line">[groups]</span><br><span class="line">admin = admin, ben</span><br><span class="line">test = nana</span><br><span class="line"></span><br><span class="line">[/] == [project:/]</span><br><span class="line">@admin = rw</span><br><span class="line">@test = r       @只有读的权限，可用于测试</span><br><span class="line"></span><br><span class="line"># common:</span><br><span class="line">[common:/]</span><br><span class="line">@test = rw</span><br><span class="line">ben = rw</span><br></pre></td></tr></table></figure></p>
+<p><strong>注：对于用户享有单独某个目录权限，可如下操作：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[svn:/special1] == [/special1]</span><br><span class="line">ben = rw</span><br><span class="line">[svn:/special1/special2]</span><br><span class="line">nana = rw</span><br></pre></td></tr></table></figure></p>
+<h5 id="3、问题解决"><a href="#3、问题解决" class="headerlink" title="3、问题解决"></a>3、问题解决</h5><blockquote>
+<p>Invalid authz configuration<br>svn: Authorization failed解决办法</p>
 </blockquote>
-<p><strong>第二范式(2NF)</strong></p>
+<p>报此类错误，都是因为auth权限文件配置错误，仔细检查就可发现原因。</p>
+<h4 id="使用钩子hooks-post-commit实现代码自动部署"><a href="#使用钩子hooks-post-commit实现代码自动部署" class="headerlink" title="使用钩子hooks/post-commit实现代码自动部署"></a>使用钩子hooks/post-commit实现代码自动部署</h4><p>配置了台svn服务器，用来保存公司项目的代码，同时svn服务器也是一台web服务器。因此希望当我本地代码commit到svn服务器时,能够触发svn服务器的钩子hooks/post-commit将新版本的代码自动update到站点目录上去。</p>
 <blockquote>
-<p>概念：基于1NF基础之上，第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。此外：所有单关键字段的表都符合第二范式。<br>作用：确保表中的每列都和主键相关（一个表中只能有一个主键）</p>
+<p>svn 目录：/var/svn/project<br>站点目录：/data/www/project/</p>
 </blockquote>
-<p><strong>第三范式(3NF)</strong></p>
+<h5 id="1、新建post-commit钩子"><a href="#1、新建post-commit钩子" class="headerlink" title="1、新建post-commit钩子"></a>1、新建post-commit钩子</h5><p>找到svn项目的hooks目录，这里是/var/svn/project/hooks。目录中默认会几个对应操作的钩子模板，我们需要创建一个post-commit的文件。<br>复制钩子文件，进行修改：<br><code>cp hooks/post-commit.tmpl hooks/post-commit</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">REPOS=&quot;$1&quot;</span><br><span class="line">REV=&quot;$2&quot;</span><br><span class="line"></span><br><span class="line">SVN_PATH=/usr/bin       #svn命令路径</span><br><span class="line">WEB_PATH=/data/www/project/python_movie         #项目路径，即已经检出的项目，具体到项目目录</span><br><span class="line">LOG_PATH=/data/www/project/python_movie/logs/svn_deploy.log             #日志文件</span><br><span class="line">SVN_USER=ben</span><br><span class="line">SVN_PASS=ben1234</span><br><span class="line"></span><br><span class="line">echo `date &quot;+%Y-%m-%d %H:%M:%S&quot;` &gt;&gt; $LOG_PATH</span><br><span class="line">echo `whoami`,$REPOS,%REV &gt;&gt; %LOG_PATH</span><br><span class="line"></span><br><span class="line">$SVN_PATH/svn update $WEB_PATH --username $SVN_USER --password $SVN_PASS --no-auth-cache &gt;&gt; $LOG_PATH</span><br></pre></td></tr></table></figure></p>
+<font color="red">说明：<br>whoami #执行此程序的用户<br>REPOS=”$1” #svn项目绝对路径值<br>REV=”$2” #最新版本号<br>–no-auth-cache #不保存账户认证信息</font>
+
+<h5 id="2、修改post-commit文件权限"><a href="#2、修改post-commit文件权限" class="headerlink" title="2、修改post-commit文件权限"></a>2、修改post-commit文件权限</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown www:www /var/svn/python_movie/hooks/post-commit #设置脚本所属用户组，www为web服务运行账户和组</span><br><span class="line">chmod +x /var/svn/python_movie/hooks/post-commit #添加脚本执行权限</span><br></pre></td></tr></table></figure>
+<h5 id="3、客户端测试"><a href="#3、客户端测试" class="headerlink" title="3、客户端测试"></a>3、客户端测试</h5><p>测试的话，我这里是在本地修改版本库，点commit，然后再看web(nginx)服务器上的数据是否更新来测试。</p>
+<h5 id="4、问题解决"><a href="#4、问题解决" class="headerlink" title="4、问题解决"></a>4、问题解决</h5><p>Checkout一份代码到web服务器上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd /data/www/project/python_movie</span><br><span class="line"># /usr/bin/svn checkout svn://127.0.0.1/python_movie</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>概念：基于2NF基础上的，如果数据表中不存在非关键字段对任意候选关键字段的传递函数依赖则符合第三范式。<br>作用：确保每列都和主键列直接相关,而不是间接相关 （表中字段都与主键直接相关）</p>
+<p>在日志文件中提示<br>Skipped “/data/www/project/python_movie”<br>然后提交的文件并没有自动更新到web目录下</p>
 </blockquote>
-<h2 id="四、高手的境界都是无招胜有招"><a href="#四、高手的境界都是无招胜有招" class="headerlink" title="四、高手的境界都是无招胜有招"></a>四、高手的境界都是无招胜有招</h2><p>　为了设计出优良的数据库，我们需要遵循数据库的范式，但是有时候如果你设计的数据库完全遵循了这些范式，反而会降低你的某些性能。这里提几点： </p>
-<ul>
-<li>数据库连接会带来一部分性能损失，因此有时候为了减少冗余，将数据存放在多张表中，往往会降低查询性能，而互联网的世界，读写比例大概是3:1甚至4:1 </li>
-<li>减少表与表之间的关联数量(减少了对磁盘的IO)，增加数据的读取效率。 </li>
-<li>反范式化一定要适度。凡事过度适得其反。</li>
-</ul>
+<p>解决方法是：<br>首先，需要在Web目录下检出SVN项目，生成 .svn目录。原因是 Web目录下没有 .svn目录，更新时钩子不能识别Web目录下的 .svn（因为没有），因此会跳过Web目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/www/project/python_movie</span><br><span class="line">svn checkout svn://服务器的ip地址/python_movie ./</span><br></pre></td></tr></table></figure></p>
+<p>然后再次提交的文件就可以自动更新到web目录下了。</p>
 
       
     </div>
@@ -455,7 +427,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+            <a href="/tags/SVN/" rel="tag"># SVN</a>
           
         </div>
       
@@ -468,8 +440,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/08/总结-MySQL常用函数/" rel="next" title="总结-MySQL常用函数">
-                <i class="fa fa-chevron-left"></i> 总结-MySQL常用函数
+              <a href="/2018/03/15/Linux 源码包与RPM包详解/" rel="next" title="Linux 源码包与RPM包详解">
+                <i class="fa fa-chevron-left"></i> Linux 源码包与RPM包详解
               </a>
             
           </div>
@@ -478,8 +450,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/08/Git-Error-Failed-to-connect-to-github-com-port-443-Timed-out/" rel="prev" title="Git Error: Failed to connect to github.com port 443: Timed out">
-                Git Error: Failed to connect to github.com port 443: Timed out <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/16/防火墙之iptables和firewalld/" rel="prev" title="防火墙之iptables和firewalld">
+                防火墙之iptables和firewalld <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -561,7 +533,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">137</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -639,7 +611,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是数据库设计"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;" class="headerlink" title="&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;"></a>&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、数据库设计的步骤"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;" class="headerlink" title="&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;"></a>&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、数据库中的几大范式"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;" class="headerlink" title="&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;"></a>&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、高手的境界都是无招胜有招"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;" class="headerlink" title="&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;"></a>&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#多仓库管理"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;" class="headerlink" title="&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;"></a>&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、首先，需要明白几个概念："><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;" class="headerlink" title="1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;"></a>1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、实战演示"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;" class="headerlink" title="2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;"></a>2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、问题解决"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;" class="headerlink" title="3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;"></a>3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用钩子hooks-post-commit实现代码自动部署"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks-post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;" class="headerlink" title="&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks/post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;"></a>&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks/post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、新建post-commit钩子"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;" class="headerlink" title="1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;"></a>1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、修改post-commit文件权限"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;" class="headerlink" title="2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;"></a>2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、客户端测试"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;" class="headerlink" title="3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;"></a>3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、问题解决"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;" class="headerlink" title="4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;"></a>4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;</span></a></li></ol></li></ol></div>
             
 
           </div>
