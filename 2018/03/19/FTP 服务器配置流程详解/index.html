@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="FTP," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、修改 FTP服务器配置文件① 安装完之后在/etc/vsftpd/路径下会存在三个配置文件。  vsftpd.conf： 主配置文件ftpusers： 指定哪些用户不能访问FTP服务器,这里的用户包括root在内的一些重要用户。user_list： 指定的用户是否可以访问ftp服务器，通过vsftpd.conf文件中的userlist_deny的配置来决定配置中的用户是否可以访问，userli">
+<meta name="keywords" content="FTP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FTP 服务器配置流程详解">
+<meta property="og:url" content="http://yoursite.com/2018/03/19/FTP 服务器配置流程详解/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、修改 FTP服务器配置文件① 安装完之后在/etc/vsftpd/路径下会存在三个配置文件。  vsftpd.conf： 主配置文件ftpusers： 指定哪些用户不能访问FTP服务器,这里的用户包括root在内的一些重要用户。user_list： 指定的用户是否可以访问ftp服务器，通过vsftpd.conf文件中的userlist_deny的配置来决定配置中的用户是否可以访问，userli">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/ftp_filezilla_setting.png">
+<meta property="og:updated_time" content="2018-07-20T06:07:55.420Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FTP 服务器配置流程详解">
+<meta name="twitter:description" content="1、修改 FTP服务器配置文件① 安装完之后在/etc/vsftpd/路径下会存在三个配置文件。  vsftpd.conf： 主配置文件ftpusers： 指定哪些用户不能访问FTP服务器,这里的用户包括root在内的一些重要用户。user_list： 指定的用户是否可以访问ftp服务器，通过vsftpd.conf文件中的userlist_deny的配置来决定配置中的用户是否可以访问，userli">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/03/ftp_filezilla_setting.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/19/FTP 服务器配置流程详解/"/>
+
+
+
+
+
+  <title>FTP 服务器配置流程详解 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/FTP 服务器配置流程详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">FTP 服务器配置流程详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T11:19:06+08:00">
+                2018-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/FTP/" itemprop="url" rel="index">
+                    <span itemprop="name">FTP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/19/FTP 服务器配置流程详解/" class="leancloud_visitors" data-flag-title="FTP 服务器配置流程详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、修改-FTP服务器配置文件"><a href="#1、修改-FTP服务器配置文件" class="headerlink" title="1、修改 FTP服务器配置文件"></a>1、修改 FTP服务器配置文件</h4><p>① 安装完之后在/etc/vsftpd/路径下会存在三个配置文件。</p>
+<blockquote>
+<p><strong>vsftpd.conf：</strong> 主配置文件<br><strong>ftpusers：</strong> 指定哪些用户不能访问FTP服务器,这里的用户包括root在内的一些重要用户。<br><strong>user_list：</strong> 指定的用户是否可以访问ftp服务器，通过vsftpd.conf文件中的userlist_deny的配置来决定配置中的用户是否可以访问，userlist_enable=YES ，userlist_deny=YES ，userlist_file=/etc/vsftpd/user_list 这三个配置允许文件中的用户访问FTP。（<font color="red">注：文件中用户名一行一个</font>）</p>
+</blockquote>
+<a id="more"></a>
+<blockquote>
+<blockquote>
+<ul>
+<li>userlist_enable=YES, userlist_deny=NO(或缺省), user_list文件中的用户允许登陆，未出现在此文件中的用户不允许（默认）</li>
+<li>userlist_enable=NO(或缺省), userlist_deny=YES, user_list文件中的用户不允许登陆，未出现再次文件中的用户允许</li>
+<li>userlist_enable=YES, userlist_deny=YES, user_list文件中的用户不能访问FTP<br>（<font color="red">注：ftpusers文件中的用户为禁止登陆用户，此文件的权限大于user_list文件的权限</font>）</li>
+</ul>
+</blockquote>
+</blockquote>
+<p>② vsftpd.conf 默认配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# cat /etc/vsftpd/vsftpd.conf.bak | grep &apos;^[^#]&apos;</span><br><span class="line">anonymous_enable=YES</span><br><span class="line">local_enable=YES</span><br><span class="line">write_enable=YES</span><br><span class="line">local_umask=022</span><br><span class="line">dirmessage_enable=YES</span><br><span class="line">xferlog_enable=YES</span><br><span class="line">connect_from_port_20=YES</span><br><span class="line">xferlog_std_format=YES</span><br><span class="line">listen=NO</span><br><span class="line">listen_ipv6=YES</span><br><span class="line">pam_service_name=vsftpd</span><br><span class="line">userlist_enable=YES</span><br><span class="line">tcp_wrappers=YES</span><br></pre></td></tr></table></figure></p>
+<p>③ 设置 chroot 来限制用户根目录（一般此处是为了限制FTP用户到网站根目录）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">chroot_local_user=YES</span><br><span class="line">chroot_list_file=/etc/vsftpd/chroot_list</span><br><span class="line">allow_writeable_chroot=YES</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<ul>
+<li>选项 <code>chroot_local_user=YES</code> 意味着本地用户将进入 chroot 环境，当登录以后默认情况下是其 home 目录。</li>
+<li>选项 <code>chroot_list_file=/etc/vsftpd/chroot_list</code> 指定在此文件中的用户被限制在根目录中。（此文件缺省时，表示所有用户都被限制）</li>
+<li>选项 <code>allow_writeable_chroot=YES</code> 可以允许 chroot 目录具有可写权限。（注：vsftpd默认是不允许chroot目录有可写权限）</li>
+</ul>
+</blockquote>
+<h4 id="2、创建-FTP用户"><a href="#2、创建-FTP用户" class="headerlink" title="2、创建 FTP用户"></a>2、创建 FTP用户</h4><p>① 增加 FTP组<br><code>groupadd ftpgroup</code></p>
+<p>② 增加用户并设置其目录为 /data/www/ceshi<br><code>useradd -g ftpgroup -d /data/www/ceshi -M ftp1</code></p>
+<p>③ 设置用户口令<br><code>passwd ftp1</code></p>
+<p>④ 更改用户根目录所属组及权限<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown -R :ftpgroup /data/www/ceshi</span><br><span class="line">chmod -R g+w /data/www/ceshi</span><br></pre></td></tr></table></figure></p>
+<p>⑤ 将用户添加进 chroot_list文件：（即设置用户根目录）<br><code>vi /etc/vsftpd/chroot_list</code><br>（注：一行一个用户名）</p>
+<p>⑥ 重启vsftpd<br><code>systemctl restart vsftpd.service</code></p>
+<h4 id="3、测试-FTP"><a href="#3、测试-FTP" class="headerlink" title="3、测试 FTP"></a>3、测试 FTP</h4><p>可通过 FileZilla 连接FTP服务器<br><img src="/uploads/2018/03/ftp_filezilla_setting.png" alt="" title="FileZilla设置"></p>
+<blockquote>
+<p>① 点击‘文件’，打开站点管理器<br>② 如果有跳过此步，如果没有设置新站点<br>③ 协议选择“FTP文件传输协议”即可<br>④ 加密选择“普通FTP”即可<br>⑤ 传输设置 选择主动模式（即PORT模式）<br>⑥ 其它信息填写完整，点击连接</p>
+</blockquote>
+<p>如果报错，请看另一篇《FTP 客户端报错集锦》。</p>
+<h4 id="4、常用-FTP命令总结"><a href="#4、常用-FTP命令总结" class="headerlink" title="4、常用 FTP命令总结"></a>4、常用 FTP命令总结</h4><h5 id="（1）建立用户账号"><a href="#（1）建立用户账号" class="headerlink" title="（1）建立用户账号"></a>（1）建立用户账号</h5><blockquote>
+<p>useradd<br>　-c（备注）    加上备注文字<br>　-d（登入目录）        指定用户登入时的起始目录<br>　-g（群组）    指定用户所属的群组<br>　-s         指定用户登入后所使用的shell<br>例如：<code>useradd -d /alidata/www81/ceshi -g ftp -s /sbin/nologin ftp3</code></p>
+</blockquote>
+<h5 id="（2）删除用户账号"><a href="#（2）删除用户账号" class="headerlink" title="（2）删除用户账号"></a>（2）删除用户账号</h5><blockquote>
+<p>userdel<br>语法： <code>userdel [-r] [用户账号]</code><br>补充说明：userdel 可删除用户账号与相关的文件。若不加参数，则仅删除用户账号，而不删除相关文件。<br>例如：<code>userdel -r ftp3</code></p>
+</blockquote>
+<h5 id="（3）修改用户账号"><a href="#（3）修改用户账号" class="headerlink" title="（3）修改用户账号"></a>（3）修改用户账号</h5><blockquote>
+<p>usermod<br>语法： <code>usermod [-LU][-c &lt;备注&gt;][-d &lt;登入目录&gt;][-g &lt;群组&gt;][-s ]</code><br>补充说明：可用来修改用户账号的各项设定<br>例如：<code>usermod -s /sbin/nologin tes</code></p>
+</blockquote>
+<h4 id="5、附本人配置的-vsftpd-conf"><a href="#5、附本人配置的-vsftpd-conf" class="headerlink" title="5、附本人配置的 vsftpd.conf"></a>5、附本人配置的 vsftpd.conf</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">anonymous_enable=YES</span><br><span class="line">local_enable=YES</span><br><span class="line">write_enable=YES</span><br><span class="line">local_umask=022</span><br><span class="line">dirmessage_enable=YES</span><br><span class="line">xferlog_enable=YES</span><br><span class="line">connect_from_port_20=YES</span><br><span class="line">xferlog_std_format=YES</span><br><span class="line">chroot_local_user=YES</span><br><span class="line">chroot_list_file=/etc/vsftpd/chroot_list</span><br><span class="line">listen=NO</span><br><span class="line">listen_ipv6=YES</span><br><span class="line">pam_service_name=vsftpd</span><br><span class="line">userlist_enable=YES</span><br><span class="line">tcp_wrappers=YES</span><br><span class="line">allow_writeable_chroot=YES</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/FTP/" rel="tag"># FTP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/19/FTP 服务器概述及安装、卸载/" rel="next" title="FTP 服务器概述及安装、卸载">
+                <i class="fa fa-chevron-left"></i> FTP 服务器概述及安装、卸载
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/19/FTP 客户端报错集锦/" rel="prev" title="FTP 客户端报错集锦">
+                FTP 客户端报错集锦 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、修改-FTP服务器配置文件"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4FEE;&#x6539;-FTP&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;&#x6587;&#x4EF6;" class="headerlink" title="1&#x3001;&#x4FEE;&#x6539; FTP&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;&#x6587;&#x4EF6;"></a>1&#x3001;&#x4FEE;&#x6539; FTP&#x670D;&#x52A1;&#x5668;&#x914D;&#x7F6E;&#x6587;&#x4EF6;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、创建-FTP用户"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x521B;&#x5EFA;-FTP&#x7528;&#x6237;" class="headerlink" title="2&#x3001;&#x521B;&#x5EFA; FTP&#x7528;&#x6237;"></a>2&#x3001;&#x521B;&#x5EFA; FTP&#x7528;&#x6237;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、测试-FTP"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x6D4B;&#x8BD5;-FTP" class="headerlink" title="3&#x3001;&#x6D4B;&#x8BD5; FTP"></a>3&#x3001;&#x6D4B;&#x8BD5; FTP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、常用-FTP命令总结"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x5E38;&#x7528;-FTP&#x547D;&#x4EE4;&#x603B;&#x7ED3;" class="headerlink" title="4&#x3001;&#x5E38;&#x7528; FTP&#x547D;&#x4EE4;&#x603B;&#x7ED3;"></a>4&#x3001;&#x5E38;&#x7528; FTP&#x547D;&#x4EE4;&#x603B;&#x7ED3;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）建立用户账号"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x5EFA;&#x7ACB;&#x7528;&#x6237;&#x8D26;&#x53F7;" class="headerlink" title="&#xFF08;1&#xFF09;&#x5EFA;&#x7ACB;&#x7528;&#x6237;&#x8D26;&#x53F7;"></a>&#xFF08;1&#xFF09;&#x5EFA;&#x7ACB;&#x7528;&#x6237;&#x8D26;&#x53F7;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）删除用户账号"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5220;&#x9664;&#x7528;&#x6237;&#x8D26;&#x53F7;" class="headerlink" title="&#xFF08;2&#xFF09;&#x5220;&#x9664;&#x7528;&#x6237;&#x8D26;&#x53F7;"></a>&#xFF08;2&#xFF09;&#x5220;&#x9664;&#x7528;&#x6237;&#x8D26;&#x53F7;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）修改用户账号"><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x4FEE;&#x6539;&#x7528;&#x6237;&#x8D26;&#x53F7;" class="headerlink" title="&#xFF08;3&#xFF09;&#x4FEE;&#x6539;&#x7528;&#x6237;&#x8D26;&#x53F7;"></a>&#xFF08;3&#xFF09;&#x4FEE;&#x6539;&#x7528;&#x6237;&#x8D26;&#x53F7;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、附本人配置的-vsftpd-conf"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x9644;&#x672C;&#x4EBA;&#x914D;&#x7F6E;&#x7684;-vsftpd-conf" class="headerlink" title="5&#x3001;&#x9644;&#x672C;&#x4EBA;&#x914D;&#x7F6E;&#x7684; vsftpd.conf"></a>5&#x3001;&#x9644;&#x672C;&#x4EBA;&#x914D;&#x7F6E;&#x7684; vsftpd.conf</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

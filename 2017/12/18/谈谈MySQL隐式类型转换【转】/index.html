@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MySQL," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="前言　　今天我们继续回到MySQL系列文章中,谈一谈MySQL中隐式类型转换。(其实我最早知道是在慢SQL优化中知道的隐式类型转换概念的),在说隐式类型转换之前,首先我们通过一个实例来看看是怎么回事。">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谈谈MySQL隐式类型转换【转】">
+<meta property="og:url" content="http://yoursite.com/2017/12/18/谈谈MySQL隐式类型转换【转】/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="前言　　今天我们继续回到MySQL系列文章中,谈一谈MySQL中隐式类型转换。(其实我最早知道是在慢SQL优化中知道的隐式类型转换概念的),在说隐式类型转换之前,首先我们通过一个实例来看看是怎么回事。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-20T06:07:55.568Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="谈谈MySQL隐式类型转换【转】">
+<meta name="twitter:description" content="前言　　今天我们继续回到MySQL系列文章中,谈一谈MySQL中隐式类型转换。(其实我最早知道是在慢SQL优化中知道的隐式类型转换概念的),在说隐式类型转换之前,首先我们通过一个实例来看看是怎么回事。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/18/谈谈MySQL隐式类型转换【转】/"/>
+
+
+
+
+
+  <title>谈谈MySQL隐式类型转换【转】 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/18/谈谈MySQL隐式类型转换【转】/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">谈谈MySQL隐式类型转换【转】</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-18T11:52:21+08:00">
+                2017-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/18/谈谈MySQL隐式类型转换【转】/" class="leancloud_visitors" data-flag-title="谈谈MySQL隐式类型转换【转】">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>　　今天我们继续回到MySQL系列文章中,谈一谈MySQL中隐式类型转换。(其实我最早知道是在慢SQL优化中知道的隐式类型转换概念的),在说隐式类型转换之前,首先我们通过一个实例来看看是怎么回事。<br><a id="more"></a></p>
+<h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>本文中所有的操作,都是基于该数据结构(有兴趣的童鞋,可以实验):</p>
+<pre><code>create table t_base_user(   
+oid bigint(20) not null primary key auto_increment,  
+name varchar(30) null comment &quot;name&quot;,  
+email varchar(30) null comment &quot;email&quot;,  
+age int null comment &quot;age&quot;,  
+telephone varchar(30) null comment &quot;telephone&quot;,  
+status tinyint(4) null comment &quot;0 无效 1 有效&quot;,  
+created_at datetime null default now() comment &quot;创建时间&quot;,  
+updated_at datetime null default now() comment &quot;修改时间&quot;  
+)
+
+### 新建索引
+alter table t_base_user add index idx_email(email);
+alter table t_base_user add index idx_name(name);
+alter table t_base_user add index idx_telephone(telephone);
+
+### 新增记录: 
+INSERT INTO `test`.`t_base_user` (`name`, `email`, `age`, `telephone`, `status`, `created_at`, `updated_at`) 
+VALUES (&apos;111111&apos;, &apos;andytohome@gmail.com&apos;, &apos;111&apos;, &apos;12345678901&apos;, &apos;1&apos;, now(),now());
+</code></pre><h3 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h3><p>  首先我们基于上述数据结构中,我们来看看下面这个执行计划:</p>
+<blockquote>
+<p>explain select * from t_base_user where telephone=12345678901;</p>
+</blockquote>
+<p>执行计划结果:</p>
+<pre><code>id | select_type |    table    | type | possible_keys | key  | key_len | ref  | rows | Extra
+-- | ----------- | ----------- | ---- | ------------- | ---- | ------- | ---- | ---- | ------------
+1  | SIMPLE      | t_base_user | ALL  | idx_telephone | NULL | NULL    | NULL | 1    | Using where
+</code></pre><p>细心的童鞋应该已经看出来了,为什么数据结构中已经在telephone字段上新建了idx_telephone，而上述语句并没有走索引,而是全表扫描。这是为什么呢？带着这疑问,我们来看看今天的主角–MySQL隐式类型转换</p>
+<h3 id="什么隐式类型转换？"><a href="#什么隐式类型转换？" class="headerlink" title="什么隐式类型转换？"></a>什么隐式类型转换？</h3><p>  在MySQL中:</p>
+<blockquote>
+<p>当操作符与不同类型的操作数一起使用时，会发生类型转换以使操作数兼容。则会发生转换隐式</p>
+</blockquote>
+<p>也就是说,MySQL会根据需要自动将数字转换为字符串，将字符串转换数字。看到这个概念之后,是不是有一种茅塞顿开的感觉。哦… 原来在数据结构中telephone字段为字符串(varchar)类型,而我们传的手机号是数字类型。现在我们将SQL修改下:</p>
+<blockquote>
+<p>select * from t_base_user where telephone=”1234567890”;</p>
+</blockquote>
+<p>再看看执行计划上述语句的执行计划:</p>
+<blockquote>
+<p>explain select * from t_base_user where telephone=”1234567890”;</p>
+</blockquote>
+<p>结果:</p>
+<pre><code>id | select_type |    table    | type | possible_keys |      key      | key_len | ref  | rows | Extra
+-- | ----------- | ----------- | ---- | ------------- | ------------- | ------- | ---- | ---- | ------------
+1  | SIMPLE      | t_base_user | ref  | idx_telephone | idx_telephone |   63    | const|   1  | Using index condition
+</code></pre><p>从这里看,现在语句已经走索引了。为了加深我们对隐式类型转换的印象,我们再多看看几个隐式类型转换案例:<br>案例一: 字符串转换为数字</p>
+<blockquote>
+<p>mysql &gt; SELECT 1+’1’;</p>
+</blockquote>
+<p>结果:</p>
+<blockquote>
+<p>mysql &gt; 2</p>
+</blockquote>
+<p>案例二: 数字转换为字符串</p>
+<blockquote>
+<p>mysql -&gt; SELECT CONCAT(1024,’ andyqian’);</p>
+</blockquote>
+<p>结果:<br>‘1,’ test’;</p>
+<p>此时CONCAT(字符拼接)函数就进行了隐式类型转换。</p>
+<h3 id="如何避免隐式类型转换"><a href="#如何避免隐式类型转换" class="headerlink" title="如何避免隐式类型转换?"></a>如何避免隐式类型转换?</h3><p>　　只有当清楚的知道隐式类型转换的规则，才能从根本上避免产生隐式类型转换。MySQL也在官网描述了进行隐式类型转换的一些规则如下:</p>
+<p><strong>1. 隐式类型转换规则:</strong></p>
+<ul>
+<li>如果一个或两个参数都是NULL，比较的结果是NULL，除了NULL安全的&lt;=&gt;相等比较运算符。对于NULL &lt;=&gt; NULL，结果为true。不需要转换</li>
+<li>如果比较操作中的两个参数都是字符串，则将它们作为字符串进行比较。</li>
+<li>如果两个参数都是整数，则将它们作为整数进行比较。</li>
+<li>如果不与数字进行比较，则将十六进制值视为二进制字符串</li>
+<li>如果其中一个参数是十进制值，则比较取决于另一个参数。 如果另一个参数是十进制或整数值，则将参数与十进制值进行比较，如果另一个参数是浮点值，则将参数与浮点值进行比较</li>
+<li>如果其中一个参数是TIMESTAMP或DATETIME列，另一个参数是常量，则在执行比较之前将常量转换为时间戳。</li>
+<li>在所有其他情况下，参数都是作为浮点数（实数）比较的。</li>
+</ul>
+<p><strong>2. 使用CAST函数显示转换</strong><br>我们可以使用CAST显示的将类型进行转换,如下所示:</p>
+<blockquote>
+<p>mysql&gt; SELECT 38.8, CAST(38.8 AS CHAR);</p>
+</blockquote>
+<p>结果:</p>
+<blockquote>
+<p>mysql &gt; 38.8, ‘38.8’</p>
+</blockquote>
+<p>如上述中:</p>
+<blockquote>
+<p>select * from t_base_user where telephone=cast(15608464487 as char);</p>
+</blockquote>
+<p>查看执行计划,我们也可以看出,这个时候也走索引了。</p>
+<p><strong>3. 类型一致</strong><br>  这里说的类型一致,指的是在写SQL时,参数类型一定要与数据库中的类型一致,避免产生隐式类型转换,就如刚才在文首时,如果多检查,写的SQL的参数类型与数据库中字段类型一致，也就不会不走索引了，你说是不是？</p>
+<h3 id="小心隐式类型转换"><a href="#小心隐式类型转换" class="headerlink" title="小心隐式类型转换"></a>小心隐式类型转换</h3><p>　　这里再重申一次,写SQL时一定要检查参数类型与数据库字段类型一致,(如果参数不一致,也要使用CAST函数显示转换成一致)否则造成隐式类型转换,不走索引,后果简直不堪设想, 在前面《写会MySQL索引》这篇文章中提到过,不走索引,轻则造成慢查询，重则造成数据库服务器CPU100%。唉,说到这里,不瞒你说，我就吃过不少MySQL隐式类型转换的亏,导致了慢查询。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>　　看到这里,是不是有一种，数据表设计还真不是件容易的事情。需要考虑的因素太多太多了,需要考虑字段类型,索引设计,还有各种约束条件等等。也一定要谨慎谨慎再谨慎！其实换个角度就更容易理解了,大家都知道高楼大厦都是需要一个好的地基的,在数据库表设计中,前期的表结构设计就是这个地基，其重要性可想而知。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/14/互联网行业职位简称总结/" rel="next" title="互联网行业职位简称总结">
+                <i class="fa fa-chevron-left"></i> 互联网行业职位简称总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/20/技术变化那么快，程序员如何做到不被淘汰？/" rel="prev" title="技术变化那么快，程序员如何做到不被淘汰？">
+                技术变化那么快，程序员如何做到不被淘汰？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x6570;&#x636E;&#x7ED3;&#x6784;" class="headerlink" title="&#x6570;&#x636E;&#x7ED3;&#x6784;"></a>&#x6570;&#x636E;&#x7ED3;&#x6784;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引子"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x5F15;&#x5B50;" class="headerlink" title="&#x5F15;&#x5B50;"></a>&#x5F15;&#x5B50;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么隐式类型转换？"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x4EC0;&#x4E48;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#xFF1F;" class="headerlink" title="&#x4EC0;&#x4E48;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#xFF1F;"></a>&#x4EC0;&#x4E48;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何避免隐式类型转换"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x5982;&#x4F55;&#x907F;&#x514D;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;" class="headerlink" title="&#x5982;&#x4F55;&#x907F;&#x514D;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;?"></a>&#x5982;&#x4F55;&#x907F;&#x514D;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小心隐式类型转换"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x5C0F;&#x5FC3;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;" class="headerlink" title="&#x5C0F;&#x5FC3;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;"></a>&#x5C0F;&#x5FC3;&#x9690;&#x5F0F;&#x7C7B;&#x578B;&#x8F6C;&#x6362;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x5C0F;&#x7ED3;" class="headerlink" title="&#x5C0F;&#x7ED3;"></a>&#x5C0F;&#x7ED3;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

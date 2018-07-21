@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="区块链,科技前沿," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、区块链是什么？区块链是一种防篡改的、共享的数字化账本，用于记录公有或私有对等网络中的交易。账本分发给网络中的所有成员节点，在通过哈希密码算法链接的区块的顺序链中，永久记录网络中的对等节点之间发生的资产交易的历史记录。 所有经过确认和证明的交易都从链的开头一直链接到最新的区块，因此得名区块链。区块链可以充当单一事实来源，而且区块链网络中的成员只能查看与他们相关的交易。">
+<meta name="keywords" content="区块链,科技前沿">
+<meta property="og:type" content="article">
+<meta property="og:title" content="区块链入门必备">
+<meta property="og:url" content="http://yoursite.com/2018/03/06/区块链入门必备/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、区块链是什么？区块链是一种防篡改的、共享的数字化账本，用于记录公有或私有对等网络中的交易。账本分发给网络中的所有成员节点，在通过哈希密码算法链接的区块的顺序链中，永久记录网络中的对等节点之间发生的资产交易的历史记录。 所有经过确认和证明的交易都从链的开头一直链接到最新的区块，因此得名区块链。区块链可以充当单一事实来源，而且区块链网络中的成员只能查看与他们相关的交易。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-20T06:07:54.704Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="区块链入门必备">
+<meta name="twitter:description" content="1、区块链是什么？区块链是一种防篡改的、共享的数字化账本，用于记录公有或私有对等网络中的交易。账本分发给网络中的所有成员节点，在通过哈希密码算法链接的区块的顺序链中，永久记录网络中的对等节点之间发生的资产交易的历史记录。 所有经过确认和证明的交易都从链的开头一直链接到最新的区块，因此得名区块链。区块链可以充当单一事实来源，而且区块链网络中的成员只能查看与他们相关的交易。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/06/区块链入门必备/"/>
+
+
+
+
+
+  <title>区块链入门必备 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/06/区块链入门必备/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">区块链入门必备</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-06T10:44:47+08:00">
+                2018-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/区块链/" itemprop="url" rel="index">
+                    <span itemprop="name">区块链</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/06/区块链入门必备/" class="leancloud_visitors" data-flag-title="区块链入门必备">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、区块链是什么？"><a href="#1、区块链是什么？" class="headerlink" title="1、区块链是什么？"></a>1、区块链是什么？</h4><p>区块链是一种防篡改的、共享的数字化账本，用于记录公有或私有对等网络中的交易。账本分发给网络中的所有成员节点，在通过哈希密码算法链接的区块的顺序链中，永久记录网络中的对等节点之间发生的资产交易的历史记录。</p>
+<p>所有经过确认和证明的交易都从链的开头一直链接到最新的区块，因此得名区块链。区块链可以充当单一事实来源，而且区块链网络中的成员只能查看与他们相关的交易。<br><a id="more"></a></p>
+<h4 id="2、区块链网络的工作原理"><a href="#2、区块链网络的工作原理" class="headerlink" title="2、区块链网络的工作原理"></a>2、区块链网络的工作原理</h4><p>区块链网络中的成员节点不依赖于第三方（比如金融机构）来仲裁交易，它们使用共识协议来协商账本内容，使用哈希加密算法和数字签名来确保交易的完整性。</p>
+<p>共识性能确保共享账本是精确副本，并降低了发生交易欺诈的风险，因为篡改需要在许多地方同时执行。哈希加密算法（比如 SHA256 计算算法）能确保对交易输入的任何改动 — 甚至是最细微的改动 — 都会计算出一个不同的哈希值，表明交易输入可能被损坏。数字签名确保交易源自发送方（已使用私钥签名）而不是冒名顶替者。</p>
+<p>去中心化对等区块链网络可阻止任何单个或一组参与者控制底层基础架构或破坏整个系统。网络中的参与者是平等的，都遵守相同的协议。它们可以是个人、国家代表、企业或所有这三种参与者的组合。</p>
+<p>在其核心，该系统会记录交易的时间顺序，而且所有节点都使用选定的共识模型来协商交易的有效性。这会使交易不可逆并被网络中的所有成员接受。</p>
+<h4 id="3、区块链技术的商业优势"><a href="#3、区块链技术的商业优势" class="headerlink" title="3、区块链技术的商业优势"></a>3、区块链技术的商业优势</h4><p>在传统业务网络中，所有参与者都维护着自己的账本，这些账本之间的重复和差异会导致争议、更长的结算时间，而且因为需要中介，还会导致相关的间接管理成本。但是，通过使用基于区块链的共享账本，交易在通过共识性验证并写入账本后，就不能再更改，这样企业就能节省时间和成本，同时减少风险。</p>
+<p>区块链共识机制提供了经过整合的、一致的数据集的优势，减少了错误，拥有近实时的引用数据，而且参与者能够灵活更改其拥有的资产的描述。</p>
+<p>因为没有参与成员拥有共享账本中所含信息的来源，所以区块链技术会提高参与成员之间的交易信息流中的可信度和完整性。</p>
+<p>区块链技术的不变性机制降低了审计和合规性成本，增加了透明性。而且在使用区块链技术的业务网络上，合约得以智能、自动化执行并最终确认，所以企业会获得更高的执行速度、更低的成本和更少的风险，所有这些使企业能构建新收入流来与客户交互。</p>
+<h4 id="4、如何才算是好的区块链用例？"><a href="#4、如何才算是好的区块链用例？" class="headerlink" title="4、如何才算是好的区块链用例？"></a>4、如何才算是好的区块链用例？</h4><p>要确定您的用例是否适合使用区块链，请询问自己以下问题：</p>
+<ol>
+<li>是否涉及业务网络？</li>
+<li>是否使用共识性来验证交易？</li>
+<li>是否需要审计线索或来源？</li>
+<li>交易记录是否必须不可变或防篡改？</li>
+<li>争议的解决方法是否会是最终解决方法？<br>如果第一个问题和其他问题中的至少一个问题的答案为“是”，那么您的用例就会从区块链技术受益。要成为合适的解决方案，区块链必须涉及一个网络，但该网络可以具有多种形式。该网络可位于企业之间，比如供应链，或者该网络可以在一个企业内。例如：在企业内，可以使用区块链网络在部门之间共享参考数据，或者创建审计或合规性网络。该网络也可存在于个人之间，比如需要在区块链上存储数据、数字资产或合约的人。</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+            <a href="/tags/科技前沿/" rel="tag"># 科技前沿</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/05/Flask 基础模块 - 大型程序的结构/" rel="next" title="Flask 基础模块 - 大型程序的结构">
+                <i class="fa fa-chevron-left"></i> Flask 基础模块 - 大型程序的结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/06/物联网入门必备/" rel="prev" title="物联网入门必备">
+                物联网入门必备 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、区块链是什么？"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x533A;&#x5757;&#x94FE;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;" class="headerlink" title="1&#x3001;&#x533A;&#x5757;&#x94FE;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;"></a>1&#x3001;&#x533A;&#x5757;&#x94FE;&#x662F;&#x4EC0;&#x4E48;&#xFF1F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、区块链网络的工作原理"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x533A;&#x5757;&#x94FE;&#x7F51;&#x7EDC;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;" class="headerlink" title="2&#x3001;&#x533A;&#x5757;&#x94FE;&#x7F51;&#x7EDC;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;"></a>2&#x3001;&#x533A;&#x5757;&#x94FE;&#x7F51;&#x7EDC;&#x7684;&#x5DE5;&#x4F5C;&#x539F;&#x7406;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、区块链技术的商业优势"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x533A;&#x5757;&#x94FE;&#x6280;&#x672F;&#x7684;&#x5546;&#x4E1A;&#x4F18;&#x52BF;" class="headerlink" title="3&#x3001;&#x533A;&#x5757;&#x94FE;&#x6280;&#x672F;&#x7684;&#x5546;&#x4E1A;&#x4F18;&#x52BF;"></a>3&#x3001;&#x533A;&#x5757;&#x94FE;&#x6280;&#x672F;&#x7684;&#x5546;&#x4E1A;&#x4F18;&#x52BF;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、如何才算是好的区块链用例？"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x5982;&#x4F55;&#x624D;&#x7B97;&#x662F;&#x597D;&#x7684;&#x533A;&#x5757;&#x94FE;&#x7528;&#x4F8B;&#xFF1F;" class="headerlink" title="4&#x3001;&#x5982;&#x4F55;&#x624D;&#x7B97;&#x662F;&#x597D;&#x7684;&#x533A;&#x5757;&#x94FE;&#x7528;&#x4F8B;&#xFF1F;"></a>4&#x3001;&#x5982;&#x4F55;&#x624D;&#x7B97;&#x662F;&#x597D;&#x7684;&#x533A;&#x5757;&#x94FE;&#x7528;&#x4F8B;&#xFF1F;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

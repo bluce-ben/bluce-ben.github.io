@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,Linux命令," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="sed 本身也是一个管线命令，可以分析 standard input 的，而且 sed 还可以将数据进行取代、删除、新增、撷取特定行等等的功能。我们先来了解一下 sed 的用法，再来聊他的用途。">
+<meta name="keywords" content="Linux,Linux命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux命令之sed">
+<meta property="og:url" content="http://yoursite.com/2017/12/29/Linux命令之sed/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="sed 本身也是一个管线命令，可以分析 standard input 的，而且 sed 还可以将数据进行取代、删除、新增、撷取特定行等等的功能。我们先来了解一下 sed 的用法，再来聊他的用途。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-20T06:07:55.272Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux命令之sed">
+<meta name="twitter:description" content="sed 本身也是一个管线命令，可以分析 standard input 的，而且 sed 还可以将数据进行取代、删除、新增、撷取特定行等等的功能。我们先来了解一下 sed 的用法，再来聊他的用途。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/29/Linux命令之sed/"/>
+
+
+
+
+
+  <title>Linux命令之sed | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/29/Linux命令之sed/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Linux命令之sed</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-29T17:56:35+08:00">
+                2017-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/29/Linux命令之sed/" class="leancloud_visitors" data-flag-title="Linux命令之sed">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>sed 本身也是一个管线命令，可以分析 standard input 的，而且 sed 还可以将数据进行取代、删除、新增、撷取特定行等等的功能。我们先来了解一下 sed 的用法，再来聊他的用途。<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# sed [-nefr] [动作]</span><br><span class="line">选项与参数：</span><br><span class="line">    -n ：使用安静(silent)模式。在一般 sed 的用法中，所有来自 STDIN 的数据一般都会被列出到屏幕上。</span><br><span class="line">         但如果加上 -n 参数后，则只有经过 sed 特殊处理的那一行(或者动作)才会被列出来。</span><br><span class="line">    -e ：直接在指令列模式上进行 sed 的动作编辑；</span><br><span class="line">    -f ：直接将 sed 的动作写在一个档案内，-f filename 则可以执行 filename 内的 sed 动作；</span><br><span class="line">    -r ：sed 的动作支持的是延伸型正规表示法的语法。(预设是基础正规表示法语法)</span><br><span class="line">    -i ：直接修改读取的档案内容，而不是由屏幕输出。</span><br><span class="line"></span><br><span class="line">动作说明： [n1[,n2]]function</span><br><span class="line">n1, n2 ：不见得会存在，一般代表【选择进行动作的行数】，</span><br><span class="line">        举例来说，如果我的动作是需要在 10 到 20 行之间进行的，则【 10,20[动作行为] 】</span><br><span class="line">function 有底下这些咚咚：</span><br><span class="line">    a ：新增， a 的后面可以接字符串，而这些字符串会在新的一行出现(目前的下一行)</span><br><span class="line">    c ：取代， c 的后面可以接字符串，这些字符串可以取代 n1,n2 之间的行！</span><br><span class="line">    d ：删除，因为是删除，所以 d 后面通常不接任何咚咚；</span><br><span class="line">    i ：插入， i 的后面可以接字符串，而这些字符串会在新的一行出现(目前的上一行)；</span><br><span class="line">    p ：打印，亦即将某个选择的数据打印出。通常 p 会与参数 sed -n 一起运作</span><br><span class="line">    s ：取代，可以直接进行取代的工作。通常这个 s 的动作可以搭配正规表示法。例如 1,20s/old/new/g 就是</span><br></pre></td></tr></table></figure></p>
+<p>下面进行一些示例：</p>
+<h4 id="1、以行为单位的新增-删除功能"><a href="#1、以行为单位的新增-删除功能" class="headerlink" title="1、以行为单位的新增/删除功能"></a>1、以行为单位的新增/删除功能</h4><h5 id="范例一：将-etc-passwd-的内容列出并且打印行号，同时，请将第-2-5-行删除"><a href="#范例一：将-etc-passwd-的内容列出并且打印行号，同时，请将第-2-5-行删除" class="headerlink" title="范例一：将 /etc/passwd 的内容列出并且打印行号，同时，请将第 2~5 行删除"></a>范例一：将 /etc/passwd 的内容列出并且打印行号，同时，请将第 2~5 行删除</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# nl /etc/passwd | sed &apos;2,5d&apos;</span><br><span class="line">1 root:x:0:0:root:/root:/bin/bash</span><br><span class="line">6 sync:x:5:0:sync:/sbin:/bin/sync</span><br><span class="line">7 shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown</span><br><span class="line">.....(后面省略).....</span><br></pre></td></tr></table></figure>
+<p>sed 的动作为 ‘2,5d’ ，那个 d 就是删除。因为 2-5 行给他删除了，所以显示的数据就没有 2-5 行了。另外，注意一下，原本应该是要下达 sed -e 才对，没有 -e 也行。同时也要注意的是，sed 后面接的动作，请务必以 ‘’ 两个单引号括住。</p>
+<p>如果题型变化一下，举例来说，如果只要删除第 2 行，可以使用<code>【 nl /etc/passwd | sed &#39;2d&#39; 】</code>来达成，至于若是要删除第 3 到最后一行，则是<code>【 nl /etc/passwd | sed &#39;3,$d&#39; 】</code>，那个钱字号【 $ 】代表最后一行。</p>
+<h5 id="范例二：承上题，在第二行后-亦即是加在第三行-加上【drink-tea-】字样"><a href="#范例二：承上题，在第二行后-亦即是加在第三行-加上【drink-tea-】字样" class="headerlink" title="范例二：承上题，在第二行后(亦即是加在第三行)加上【drink tea?】字样"></a>范例二：承上题，在第二行后(亦即是加在第三行)加上【drink tea?】字样</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# nl /etc/passwd | sed &apos;2a drink tea&apos;</span><br><span class="line">1 root:x:0:0:root:/root:/bin/bash</span><br><span class="line">2 bin:x:1:1:bin:/bin:/sbin/nologin</span><br><span class="line">drink tea</span><br><span class="line">3 daemon:x:2:2:daemon:/sbin:/sbin/nologin</span><br><span class="line">.....(后面省略).....</span><br></pre></td></tr></table></figure>
+<p>在 a 后面加上的字符串就已将出现在第二行后面。那如果是要在第二行前呢？<code>【 nl /etc/passwd | sed &#39;2i drink tea&#39; 】</code>就对了。就是将【 a 】变成【 i 】即可。增加一行很简单，那如果是要增将两行以上呢？</p>
+<h5 id="范例三：在第二行后面加入两行字，例如【Drink-tea-or-…-】与【drink-beer-】"><a href="#范例三：在第二行后面加入两行字，例如【Drink-tea-or-…-】与【drink-beer-】" class="headerlink" title="范例三：在第二行后面加入两行字，例如【Drink tea or …..】与【drink beer?】"></a>范例三：在第二行后面加入两行字，例如【Drink tea or …..】与【drink beer?】</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# nl /etc/passwd | sed &apos;2a Drink tea or ......\</span><br><span class="line">&gt; drink beer ?&apos;</span><br><span class="line">1 root:x:0:0:root:/root:/bin/bash</span><br><span class="line">2 bin:x:1:1:bin:/bin:/sbin/nologin</span><br><span class="line">Drink tea or ......</span><br><span class="line">drink beer ?</span><br><span class="line">3 daemon:x:2:2:daemon:/sbin:/sbin/nologin</span><br><span class="line">.....(后面省略).....</span><br></pre></td></tr></table></figure>
+<p>这个范例的重点是【我们可以新增不只一行，可以新增好几行】但是每一行之间都必须要以反斜杠【 \ 】来进行新行的增加。所以，上面的例子中，我们可以发现在第一行的最后面就有 \ 存在，那是一定要的。</p>
+<h4 id="2、以行为单位的取代与显示功能"><a href="#2、以行为单位的取代与显示功能" class="headerlink" title="2、以行为单位的取代与显示功能"></a>2、以行为单位的取代与显示功能</h4><h5 id="范例四：我想将第-2-5-行的内容取代成为【No-2-5-number】"><a href="#范例四：我想将第-2-5-行的内容取代成为【No-2-5-number】" class="headerlink" title="范例四：我想将第 2-5 行的内容取代成为【No 2-5 number】"></a>范例四：我想将第 2-5 行的内容取代成为【No 2-5 number】</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# nl /etc/passwd | sed &apos;2,5c No 2-5 number&apos;</span><br><span class="line">1 root:x:0:0:root:/root:/bin/bash</span><br><span class="line">No 2-5 number</span><br><span class="line">6 sync:x:5:0:sync:/sbin:/bin/sync</span><br><span class="line">.....(后面省略).....</span><br></pre></td></tr></table></figure>
+<p>透过这个方法我们就能够将数据整行取代了，非常容易吧，sed 还有更好用的。我们以前想要列出第 11~20 行，得要透过<code>【head -n 20 | tail -n 10】</code>之类的方法来处理，很麻烦。sed 则可以简单的直接取出你想要的那几行，是透过行号来的。看看底下的范例：</p>
+<h5 id="范例五：仅列出-etc-passwd-档案内的第-5-7-行"><a href="#范例五：仅列出-etc-passwd-档案内的第-5-7-行" class="headerlink" title="范例五：仅列出 /etc/passwd 档案内的第 5-7 行"></a>范例五：仅列出 /etc/passwd 档案内的第 5-7 行</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# nl /etc/passwd | sed -n &apos;5,7p&apos;</span><br><span class="line">5 lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin</span><br><span class="line">6 sync:x:5:0:sync:/sbin:/bin/sync</span><br><span class="line">7 shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown</span><br></pre></td></tr></table></figure>
+<p>上述的指令中有个重要的选项【 -n 】，按照说明文件，这个 -n 代表的是【安静模式】。那么为什么要使用安静模式呢？你可以自行下达 sed ‘5,7p’ 就知道了 (5-7 行会重复输出)。有没有加上 -n 的参数时，输出的数据可是差很多的。你可以透过这个 sed 的以行为单位的显示功能，就能够将某一个档案内的某些行号捉出来查阅。很棒的功能！</p>
+<h4 id="3、部分数据的搜寻并取代的功能"><a href="#3、部分数据的搜寻并取代的功能" class="headerlink" title="3、部分数据的搜寻并取代的功能"></a>3、部分数据的搜寻并取代的功能</h4><p>除了整行的处理模式之外，sed 还可以用行为单位进行部分数据的搜寻并取代的功能。基本上 sed 的搜寻与取代的与 vi 相当的类似！他有点像这样：<br><code>sed &#39;s/要被取代的字符串/新的字符串/g&#39;</code></p>
+<p>我们使用底下这个取得 ifconfig 中 IP 数据的范例来了解一下什么是咱们所谓的搜寻并取代：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">步骤一：先观察原始讯息，利用 /sbin/ifconfig 查询 IP 为何？</span><br><span class="line">[root@www ~]# /sbin/ifconfig eth0</span><br><span class="line">eth0 Link encap:Ethernet HWaddr 00:90:CC:A6:34:84</span><br><span class="line">inet addr:192.168.1.100 Bcast:192.168.1.255 Mask:255.255.255.0</span><br><span class="line">inet6 addr: fe80::290:ccff:fea6:3484/64 Scope:Link</span><br><span class="line">UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1</span><br><span class="line">.....(以下省略).....</span><br><span class="line"># 我们的重点在第二行，也就是 192.168.1.100 这一行。先利用关键词捉出那一行！</span><br><span class="line"></span><br><span class="line">步骤二：利用关键词配合 grep 撷取出关键的一行数据</span><br><span class="line">[root@www ~]# /sbin/ifconfig eth0 | grep &apos;inet addr&apos;</span><br><span class="line">inet addr:192.168.1.100 Bcast:192.168.1.255 Mask:255.255.255.0</span><br><span class="line"># 当场仅剩下一行，接下来，我们要将开始到 addr: 通通删除，就是像底下这样：</span><br><span class="line"># inet addr:192.168.1.100 Bcast:192.168.1.255 Mask:255.255.255.0</span><br><span class="line"># 上面的删除关键在于【 ^.*inet addr: 】。正规表示法出现！</span><br><span class="line"></span><br><span class="line">步骤三：将 IP 前面的部分予以删除</span><br><span class="line">[root@www ~]# /sbin/ifconfig eth0 | grep &apos;inet addr&apos; | \</span><br><span class="line">&gt; sed &apos;s/^.*addr://g&apos;</span><br><span class="line">192.168.1.100 Bcast:192.168.1.255 Mask:255.255.255.0</span><br><span class="line"># 仔细与上个步骤比较一下，前面的部分不见了！接下来则是删除后续的部分，亦即：</span><br><span class="line"># 192.168.1.100 Bcast:192.168.1.255 Mask:255.255.255.0</span><br><span class="line"># 此时所需的正规表示法为：【 Bcast.*$ 】</span><br><span class="line"></span><br><span class="line">步骤四：将 IP 后面的部分予以删除</span><br><span class="line">[root@www ~]# /sbin/ifconfig eth0 | grep &apos;inet addr&apos; | \</span><br><span class="line">&gt; sed &apos;s/^.*addr://g&apos; | sed &apos;s/Bcast.*$//g&apos;</span><br><span class="line">192.168.1.100</span><br></pre></td></tr></table></figure></p>
+<h4 id="4、直接修改档案内容-危险动作"><a href="#4、直接修改档案内容-危险动作" class="headerlink" title="4、直接修改档案内容(危险动作)"></a>4、直接修改档案内容(危险动作)</h4><p>sed 甚至可以直接修改档案的内容。而不必使用管线命令或数据流重导向。不过，由于这个动作会直接修改到原始的档案，所以千万不要随便拿系统配置文件来测试，可以使用测试档案 regular_express.txt 来测试看看。</p>
+<h5 id="范例六：利用-sed-将-regular-express-txt-内每一行结尾若为-则换成"><a href="#范例六：利用-sed-将-regular-express-txt-内每一行结尾若为-则换成" class="headerlink" title="范例六：利用 sed 将 regular_express.txt 内每一行结尾若为 . 则换成 !"></a>范例六：利用 sed 将 regular_express.txt 内每一行结尾若为 . 则换成 !</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# sed -i &apos;s/\.$/\!/g&apos; regular_express.txt</span><br><span class="line"># 上头的 -i 选项可以让你的 sed 直接去修改后面接的档案内容而不是由屏幕输出</span><br><span class="line"># 这个范例是用在取代，可自行 cat 该档案去查阅结果</span><br></pre></td></tr></table></figure>
+<h5 id="范例七：利用-sed-直接在-regular-express-txt-最后一行加入【-This-is-a-test】"><a href="#范例七：利用-sed-直接在-regular-express-txt-最后一行加入【-This-is-a-test】" class="headerlink" title="范例七：利用 sed 直接在 regular_express.txt 最后一行加入【# This is a test】"></a>范例七：利用 sed 直接在 regular_express.txt 最后一行加入【# This is a test】</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# sed -i &apos;$a # This is a test&apos; regular_express.txt</span><br><span class="line"># 由于 $ 代表的是最后一行，而 a 的动作是新增，因此该档案是最后新增</span><br></pre></td></tr></table></figure>
+<p>sed 的【 -i 】选项可以直接修改档案内容，这功能非常有帮助。举例来说，如果你有一个 100 万行的档案，你要在第 100 行加某些文字，此时使用 vim 可能会疯掉！因为档案太大了！那怎办？就利用 sed 啊！透过 sed 直接修改/取代的功能，你甚至不需要使用 vim 去修订。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Linux命令/" rel="tag"># Linux命令</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/29/认识与学习BASH之正规表示法与延伸正规表示法/" rel="next" title="认识与学习BASH之正规表示法与延伸正规表示法">
+                <i class="fa fa-chevron-left"></i> 认识与学习BASH之正规表示法与延伸正规表示法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/29/Linux命令之awk/" rel="prev" title="Linux命令之awk">
+                Linux命令之awk <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、以行为单位的新增-删除功能"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4EE5;&#x884C;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x65B0;&#x589E;-&#x5220;&#x9664;&#x529F;&#x80FD;" class="headerlink" title="1&#x3001;&#x4EE5;&#x884C;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x65B0;&#x589E;/&#x5220;&#x9664;&#x529F;&#x80FD;"></a>1&#x3001;&#x4EE5;&#x884C;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x65B0;&#x589E;/&#x5220;&#x9664;&#x529F;&#x80FD;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#范例一：将-etc-passwd-的内容列出并且打印行号，同时，请将第-2-5-行删除"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x8303;&#x4F8B;&#x4E00;&#xFF1A;&#x5C06;-etc-passwd-&#x7684;&#x5185;&#x5BB9;&#x5217;&#x51FA;&#x5E76;&#x4E14;&#x6253;&#x5370;&#x884C;&#x53F7;&#xFF0C;&#x540C;&#x65F6;&#xFF0C;&#x8BF7;&#x5C06;&#x7B2C;-2-5-&#x884C;&#x5220;&#x9664;" class="headerlink" title="&#x8303;&#x4F8B;&#x4E00;&#xFF1A;&#x5C06; /etc/passwd &#x7684;&#x5185;&#x5BB9;&#x5217;&#x51FA;&#x5E76;&#x4E14;&#x6253;&#x5370;&#x884C;&#x53F7;&#xFF0C;&#x540C;&#x65F6;&#xFF0C;&#x8BF7;&#x5C06;&#x7B2C; 2~5 &#x884C;&#x5220;&#x9664;"></a>&#x8303;&#x4F8B;&#x4E00;&#xFF1A;&#x5C06; /etc/passwd &#x7684;&#x5185;&#x5BB9;&#x5217;&#x51FA;&#x5E76;&#x4E14;&#x6253;&#x5370;&#x884C;&#x53F7;&#xFF0C;&#x540C;&#x65F6;&#xFF0C;&#x8BF7;&#x5C06;&#x7B2C; 2~5 &#x884C;&#x5220;&#x9664;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#范例二：承上题，在第二行后-亦即是加在第三行-加上【drink-tea-】字样"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x8303;&#x4F8B;&#x4E8C;&#xFF1A;&#x627F;&#x4E0A;&#x9898;&#xFF0C;&#x5728;&#x7B2C;&#x4E8C;&#x884C;&#x540E;-&#x4EA6;&#x5373;&#x662F;&#x52A0;&#x5728;&#x7B2C;&#x4E09;&#x884C;-&#x52A0;&#x4E0A;&#x3010;drink-tea-&#x3011;&#x5B57;&#x6837;" class="headerlink" title="&#x8303;&#x4F8B;&#x4E8C;&#xFF1A;&#x627F;&#x4E0A;&#x9898;&#xFF0C;&#x5728;&#x7B2C;&#x4E8C;&#x884C;&#x540E;(&#x4EA6;&#x5373;&#x662F;&#x52A0;&#x5728;&#x7B2C;&#x4E09;&#x884C;)&#x52A0;&#x4E0A;&#x3010;drink tea?&#x3011;&#x5B57;&#x6837;"></a>&#x8303;&#x4F8B;&#x4E8C;&#xFF1A;&#x627F;&#x4E0A;&#x9898;&#xFF0C;&#x5728;&#x7B2C;&#x4E8C;&#x884C;&#x540E;(&#x4EA6;&#x5373;&#x662F;&#x52A0;&#x5728;&#x7B2C;&#x4E09;&#x884C;)&#x52A0;&#x4E0A;&#x3010;drink tea?&#x3011;&#x5B57;&#x6837;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#范例三：在第二行后面加入两行字，例如【Drink-tea-or-…-】与【drink-beer-】"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x8303;&#x4F8B;&#x4E09;&#xFF1A;&#x5728;&#x7B2C;&#x4E8C;&#x884C;&#x540E;&#x9762;&#x52A0;&#x5165;&#x4E24;&#x884C;&#x5B57;&#xFF0C;&#x4F8B;&#x5982;&#x3010;Drink-tea-or-&#x2026;-&#x3011;&#x4E0E;&#x3010;drink-beer-&#x3011;" class="headerlink" title="&#x8303;&#x4F8B;&#x4E09;&#xFF1A;&#x5728;&#x7B2C;&#x4E8C;&#x884C;&#x540E;&#x9762;&#x52A0;&#x5165;&#x4E24;&#x884C;&#x5B57;&#xFF0C;&#x4F8B;&#x5982;&#x3010;Drink tea or &#x2026;..&#x3011;&#x4E0E;&#x3010;drink beer?&#x3011;"></a>&#x8303;&#x4F8B;&#x4E09;&#xFF1A;&#x5728;&#x7B2C;&#x4E8C;&#x884C;&#x540E;&#x9762;&#x52A0;&#x5165;&#x4E24;&#x884C;&#x5B57;&#xFF0C;&#x4F8B;&#x5982;&#x3010;Drink tea or &#x2026;..&#x3011;&#x4E0E;&#x3010;drink beer?&#x3011;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、以行为单位的取代与显示功能"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4EE5;&#x884C;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x53D6;&#x4EE3;&#x4E0E;&#x663E;&#x793A;&#x529F;&#x80FD;" class="headerlink" title="2&#x3001;&#x4EE5;&#x884C;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x53D6;&#x4EE3;&#x4E0E;&#x663E;&#x793A;&#x529F;&#x80FD;"></a>2&#x3001;&#x4EE5;&#x884C;&#x4E3A;&#x5355;&#x4F4D;&#x7684;&#x53D6;&#x4EE3;&#x4E0E;&#x663E;&#x793A;&#x529F;&#x80FD;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#范例四：我想将第-2-5-行的内容取代成为【No-2-5-number】"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x8303;&#x4F8B;&#x56DB;&#xFF1A;&#x6211;&#x60F3;&#x5C06;&#x7B2C;-2-5-&#x884C;&#x7684;&#x5185;&#x5BB9;&#x53D6;&#x4EE3;&#x6210;&#x4E3A;&#x3010;No-2-5-number&#x3011;" class="headerlink" title="&#x8303;&#x4F8B;&#x56DB;&#xFF1A;&#x6211;&#x60F3;&#x5C06;&#x7B2C; 2-5 &#x884C;&#x7684;&#x5185;&#x5BB9;&#x53D6;&#x4EE3;&#x6210;&#x4E3A;&#x3010;No 2-5 number&#x3011;"></a>&#x8303;&#x4F8B;&#x56DB;&#xFF1A;&#x6211;&#x60F3;&#x5C06;&#x7B2C; 2-5 &#x884C;&#x7684;&#x5185;&#x5BB9;&#x53D6;&#x4EE3;&#x6210;&#x4E3A;&#x3010;No 2-5 number&#x3011;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#范例五：仅列出-etc-passwd-档案内的第-5-7-行"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x8303;&#x4F8B;&#x4E94;&#xFF1A;&#x4EC5;&#x5217;&#x51FA;-etc-passwd-&#x6863;&#x6848;&#x5185;&#x7684;&#x7B2C;-5-7-&#x884C;" class="headerlink" title="&#x8303;&#x4F8B;&#x4E94;&#xFF1A;&#x4EC5;&#x5217;&#x51FA; /etc/passwd &#x6863;&#x6848;&#x5185;&#x7684;&#x7B2C; 5-7 &#x884C;"></a>&#x8303;&#x4F8B;&#x4E94;&#xFF1A;&#x4EC5;&#x5217;&#x51FA; /etc/passwd &#x6863;&#x6848;&#x5185;&#x7684;&#x7B2C; 5-7 &#x884C;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、部分数据的搜寻并取代的功能"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x90E8;&#x5206;&#x6570;&#x636E;&#x7684;&#x641C;&#x5BFB;&#x5E76;&#x53D6;&#x4EE3;&#x7684;&#x529F;&#x80FD;" class="headerlink" title="3&#x3001;&#x90E8;&#x5206;&#x6570;&#x636E;&#x7684;&#x641C;&#x5BFB;&#x5E76;&#x53D6;&#x4EE3;&#x7684;&#x529F;&#x80FD;"></a>3&#x3001;&#x90E8;&#x5206;&#x6570;&#x636E;&#x7684;&#x641C;&#x5BFB;&#x5E76;&#x53D6;&#x4EE3;&#x7684;&#x529F;&#x80FD;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、直接修改档案内容-危险动作"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x76F4;&#x63A5;&#x4FEE;&#x6539;&#x6863;&#x6848;&#x5185;&#x5BB9;-&#x5371;&#x9669;&#x52A8;&#x4F5C;" class="headerlink" title="4&#x3001;&#x76F4;&#x63A5;&#x4FEE;&#x6539;&#x6863;&#x6848;&#x5185;&#x5BB9;(&#x5371;&#x9669;&#x52A8;&#x4F5C;)"></a>4&#x3001;&#x76F4;&#x63A5;&#x4FEE;&#x6539;&#x6863;&#x6848;&#x5185;&#x5BB9;(&#x5371;&#x9669;&#x52A8;&#x4F5C;)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#范例六：利用-sed-将-regular-express-txt-内每一行结尾若为-则换成"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#&#x8303;&#x4F8B;&#x516D;&#xFF1A;&#x5229;&#x7528;-sed-&#x5C06;-regular-express-txt-&#x5185;&#x6BCF;&#x4E00;&#x884C;&#x7ED3;&#x5C3E;&#x82E5;&#x4E3A;-&#x5219;&#x6362;&#x6210;" class="headerlink" title="&#x8303;&#x4F8B;&#x516D;&#xFF1A;&#x5229;&#x7528; sed &#x5C06; regular_express.txt &#x5185;&#x6BCF;&#x4E00;&#x884C;&#x7ED3;&#x5C3E;&#x82E5;&#x4E3A; . &#x5219;&#x6362;&#x6210; !"></a>&#x8303;&#x4F8B;&#x516D;&#xFF1A;&#x5229;&#x7528; sed &#x5C06; regular_express.txt &#x5185;&#x6BCF;&#x4E00;&#x884C;&#x7ED3;&#x5C3E;&#x82E5;&#x4E3A; . &#x5219;&#x6362;&#x6210; !</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#范例七：利用-sed-直接在-regular-express-txt-最后一行加入【-This-is-a-test】"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#&#x8303;&#x4F8B;&#x4E03;&#xFF1A;&#x5229;&#x7528;-sed-&#x76F4;&#x63A5;&#x5728;-regular-express-txt-&#x6700;&#x540E;&#x4E00;&#x884C;&#x52A0;&#x5165;&#x3010;-This-is-a-test&#x3011;" class="headerlink" title="&#x8303;&#x4F8B;&#x4E03;&#xFF1A;&#x5229;&#x7528; sed &#x76F4;&#x63A5;&#x5728; regular_express.txt &#x6700;&#x540E;&#x4E00;&#x884C;&#x52A0;&#x5165;&#x3010;# This is a test&#x3011;"></a>&#x8303;&#x4F8B;&#x4E03;&#xFF1A;&#x5229;&#x7528; sed &#x76F4;&#x63A5;&#x5728; regular_express.txt &#x6700;&#x540E;&#x4E00;&#x884C;&#x52A0;&#x5165;&#x3010;# This is a test&#x3011;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
