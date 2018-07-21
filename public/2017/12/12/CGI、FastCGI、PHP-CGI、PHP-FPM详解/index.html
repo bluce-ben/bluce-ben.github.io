@@ -388,6 +388,8 @@
 <li>FastCGI技术目前支持语言有：C/C++、Java、Perl、Tcl、Python、SmallTalk、Ruby等。相关模块在Apache, ISS, Lighttpd等流行的服务器上也是可用的。</li>
 <li>FastCGI的不依赖于任何Web服务器的内部架构，因此即使服务器技术的变化, FastCGI依然稳定不变。</li>
 </ol>
+</blockquote>
+<blockquote>
 <p><strong>FastCGI的工作原理</strong></p>
 <ol>
 <li>Web Server启动时载入FastCGI进程管理器（IIS ISAPI或Apache Module)</li>
@@ -414,6 +416,8 @@
 <h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><p>　　fastCGI是nginx和php之间的一个通信接口，该接口实际处理过程通过启动php-fpm进程来解析php脚本，即php-fpm相当于一个动态应用服务器，从而实现nginx动态解析php。因此，如果nginx服务器需要支持php解析，需要在nginx.conf中增加php的配置：将php脚本转发到fastCGI进程监听的IP地址和端口（php-fpm.conf中指定）。同时，php安装的时候，需要开启支持fastCGI选项，并且编译安装php-fpm补丁/扩展，同时，需要启动php-fpm进程，才可以解析nginx通过fastCGI转发过来的php脚本。</p>
 <blockquote>
 <p>php-fpm是一个完全独立的程序,不依赖php-cgi,也不依赖php.因为php-fpm是一个内置了php解释器的FastCGI服务,启动时能够自行读取php.ini配置和php-fpm.conf配置.</p>
+</blockquote>
+<blockquote>
 <p>附:PHP FastCGI进程管理器PHP-FPM的架构<br>一个master进程,支持多个pool,每个pool由master进程监听不同的端口,pool中有多个worker进程.<br>每个worker进程都内置PHP解释器,并且进程常驻后台,支持prefork动态增加.<br>每个worker进程支持在运行时编译脚本并在内存中缓存生成的opcode来提升性能.<br>每个worker进程支持配置响应指定请求数后自动重启,master进程会重启挂掉的worker进程.<br>每个worker进程能保持一个到MySQL/Memcached/Redis的持久连接,实现”连接池”,避免重复建立连接,对程序透明.<br>master进程采用epoll模型异步接收和分发请求,listen监听端口,epoll_wait等待连接,<br>然后分发给对应pool里的worker进程,worker进程accpet请求后poll处理连接,<br>如果worker进程不够用,master进程会prefork更多进程,<br>如果prefork达到了pm.max_children上限,worker进程又全都繁忙,<br>这时master进程会把请求挂起到连接队列backlog里(默认值是511).</p>
 </blockquote>
 <p>　web server（比如说nginx）只是内容的分发者。比如，如果请求/index.html，那么web server会去文件系统中找到这个文件，发送给浏览器，这里分发的是静态数据。好了，如果现在请求的是/index.php，根据配置文件，nginx知道这个不是静态文件，需要去找PHP解析器来处理，那么他会把这个请求简单处理后交给PHP解析器。Nginx会传哪些数据给PHP解析器呢？url要有吧，查询字符串也得有吧，POST数据也要有，HTTP header不能少吧，好的，CGI就是规定要传哪些数据、以什么样的格式传递给后方处理这个请求的协议。仔细想想，你在PHP代码中使用的用户从哪里来的。</p>

@@ -423,11 +423,23 @@
 <h3 id="3、环境变量的功能"><a href="#3、环境变量的功能" class="headerlink" title="3、环境变量的功能"></a>3、环境变量的功能</h3><p>用 env 观察环境变量与常见环境变量说明。env 是 environment (环境) 的简写，是列出来所有的环境变量的命令（此处就不贴出 env 命令显示数据）。<br>底下我们对一些常见变量来做一个说明：</p>
 <blockquote>
 <p>HOME<br>    代表用户的家目录。还记得我们可以使用 cd ~ 去到自己的家目录吗？或者利用 cd 就可以直接回到用户家目录了。那就是取用这个变量。有很多程序都可能会取用到这个变量的值。</p>
+</blockquote>
+<blockquote>
 <p>SHELL<br>    告知我们，目前这个环境使用的 SHELL 是哪支程序？ Linux 预设使用 /bin/bash 。</p>
+</blockquote>
+<blockquote>
 <p>HISTSIZE<br>    这个与【历史命令】有关，亦即是，我们曾经下达过的指令可以被系统记录下来，而记录的【笔数】则是由这个值来设定的。</p>
+</blockquote>
+<blockquote>
 <p>MAIL<br>    当我们使用 mail 这个指令在收信时，系统会去读取的邮件信箱档案 (mailbox)。</p>
+</blockquote>
+<blockquote>
 <p>PATH<br>    就是执行文件搜寻的路径，目录与目录中间以冒号(:)分隔，由于档案的搜寻是依序由 PATH 的变量内的目录来查询，所以目录的顺序也是重要的。</p>
+</blockquote>
+<blockquote>
 <p>LANG<br>    这个重要。就是语系数据。很多讯息都会用到他，举例来说，当我们在启动某些 perl 的程序语言档案时，他会主动的去分析语系数据文件，如果发现有他无法解析的编码语系，可能会产生错误。一般来说，我们中文编码通常是 zh_TW.Big5 或者是 zh_TW.UTF-8，这两个编码偏偏不容易被解译出来，所以，有的时候，可能需要修订一下语系数据。</p>
+</blockquote>
+<blockquote>
 <p>RANDOM<br>    这个就是【随机随机数】的变量。目前大多数的 distributions 都会有随机数生成器，那就是 /dev/random 这个档案。 我们可以透过这个随机数档案相关的变量 ($RANDOM) 来随机取得随机数值。在 BASH 的环境下，这个 RANDOM 变量的内容，介于 0~32767 之间，所以，你只要 echo $RANDOM 时，系统就会主动的随机取出一个介于 0~32767 的数值。万一我想要使用 0~9 之间的数值，利用 declare 宣告数值类型，然后这样做就可以了：<br>        <code>declare -i number=$RANDOM*10/32768 ; echo $number ##此时会随机取出 0~9 之间的数值</code></p>
 </blockquote>
 <p>Linux作为一个多用户多任务的操作系统，能够为每个用户提供独立的、合适的工作运行环境，因此，一个相同的变量会因为用户身份的不同而具有不同的值。</p>

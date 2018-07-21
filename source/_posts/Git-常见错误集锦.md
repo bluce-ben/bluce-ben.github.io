@@ -21,3 +21,16 @@ tags:
 （3）在 ./ 下输入”git add A”
 （4）git commit -m “”
 （5）git push origin master
+
+
+#### 二、GitHub上提示package-lock.json中依赖文件需要更新
+**问题场景：**
+将文章更新到GitHub上时，偶然间发现提示一个Warning！package-lock.json 依赖文件有漏洞，提示更新。一下就蒙圈了，package-lock.json是啥？怎么更新？
+经过查找发现，package-lock.json 是npm的包管理文件，即你下载的npm包都记录在里面。
+那需要怎么更新呢？度娘说直接使用“npm install” 即可，会自动的从package.json里面更新对应包，尝试失败。
+
+**解决方法：**
+直接在Hexo根目录下使用命令：
+`npm install packagename`
+直接填写对应包名，更新即可。
+

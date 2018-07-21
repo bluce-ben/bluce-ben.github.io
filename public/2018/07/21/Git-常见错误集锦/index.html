@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="一、git add出现 “in unpopulated submodule ‘A’ “ 问题问题场景：我博客Hexo+GitHub中用到了Next主题，而Next主题是我直接从GitHub上下载使用的。因此我Hexo博客中有.git文件，而Next主题也有.git文件，且这两者文件含义不同。因此，在我git push的时候，报此错误。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-21T10:48:38.833Z">
+<meta property="og:updated_time" content="2018-07-21T11:43:27.444Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 常见错误集锦">
 <meta name="twitter:description" content="一、git add出现 “in unpopulated submodule ‘A’ “ 问题问题场景：我博客Hexo+GitHub中用到了Next主题，而Next主题是我直接从GitHub上下载使用的。因此我Hexo博客中有.git文件，而Next主题也有.git文件，且这两者文件含义不同。因此，在我git push的时候，报此错误。">
@@ -400,6 +400,8 @@
         <h4 id="一、git-add出现-“in-unpopulated-submodule-‘A’-“-问题"><a href="#一、git-add出现-“in-unpopulated-submodule-‘A’-“-问题" class="headerlink" title="一、git add出现 “in unpopulated submodule ‘A’ “ 问题"></a>一、git add出现 “in unpopulated submodule ‘A’ “ 问题</h4><p><strong>问题场景：</strong><br>我博客Hexo+GitHub中用到了Next主题，而Next主题是我直接从GitHub上下载使用的。因此我Hexo博客中有.git文件，而Next主题也有.git文件，且这两者文件含义不同。因此，在我git push的时候，报此错误。<br><a id="more"></a></p>
 <p><strong>原因解释：</strong><br>在 ./ 下有一文件夹 命名为“A”，A/ 有之前建立的仓库，我在 ./ 下add commit push 后发现远程仓库内并没有A/的内容，于是我在 A/ 下执行 ”git add .” 提示：“in unpopulated submodule ‘A’ ”（翻译为”在一个无人居住的子模块“，感觉意思是说位于子模块下，无法 add 0.0） </p>
 <p><strong>解决方法是：</strong><br>（1）删除 A/ 的.git 文件夹<br>（2）在 ./ 下输入”git rm -rf –-cached A/“ //谨记：是 A/ ，意为A目录下<br>（3）在 ./ 下输入”git add A”<br>（4）git commit -m “”<br>（5）git push origin master</p>
+<h4 id="二、GitHub上提示package-lock-json中依赖文件需要更新"><a href="#二、GitHub上提示package-lock-json中依赖文件需要更新" class="headerlink" title="二、GitHub上提示package-lock.json中依赖文件需要更新"></a>二、GitHub上提示package-lock.json中依赖文件需要更新</h4><p><strong>问题场景：</strong><br>将文章更新到GitHub上时，偶然间发现提示一个Warning！package-lock.json 依赖文件有漏洞，提示更新。一下就蒙圈了，package-lock.json是啥？怎么更新？<br>经过查找发现，package-lock.json 是npm的包管理文件，即你下载的npm包都记录在里面。<br>那需要怎么更新呢？度娘说直接使用“npm install” 即可，会自动的从package.json里面更新对应包，尝试失败。</p>
+<p><strong>解决方法：</strong><br>直接在Hexo根目录下使用命令：<br><code>npm install packagename</code><br>直接填写对应包名，更新即可。</p>
 
       
     </div>
@@ -599,7 +601,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、git-add出现-“in-unpopulated-submodule-‘A’-“-问题"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;git-add&#x51FA;&#x73B0;-&#x201C;in-unpopulated-submodule-&#x2018;A&#x2019;-&#x201C;-&#x95EE;&#x9898;" class="headerlink" title="&#x4E00;&#x3001;git add&#x51FA;&#x73B0; &#x201C;in unpopulated submodule &#x2018;A&#x2019; &#x201C; &#x95EE;&#x9898;"></a>&#x4E00;&#x3001;git add&#x51FA;&#x73B0; &#x201C;in unpopulated submodule &#x2018;A&#x2019; &#x201C; &#x95EE;&#x9898;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、git-add出现-“in-unpopulated-submodule-‘A’-“-问题"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;git-add&#x51FA;&#x73B0;-&#x201C;in-unpopulated-submodule-&#x2018;A&#x2019;-&#x201C;-&#x95EE;&#x9898;" class="headerlink" title="&#x4E00;&#x3001;git add&#x51FA;&#x73B0; &#x201C;in unpopulated submodule &#x2018;A&#x2019; &#x201C; &#x95EE;&#x9898;"></a>&#x4E00;&#x3001;git add&#x51FA;&#x73B0; &#x201C;in unpopulated submodule &#x2018;A&#x2019; &#x201C; &#x95EE;&#x9898;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、GitHub上提示package-lock-json中依赖文件需要更新"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;GitHub&#x4E0A;&#x63D0;&#x793A;package-lock-json&#x4E2D;&#x4F9D;&#x8D56;&#x6587;&#x4EF6;&#x9700;&#x8981;&#x66F4;&#x65B0;" class="headerlink" title="&#x4E8C;&#x3001;GitHub&#x4E0A;&#x63D0;&#x793A;package-lock.json&#x4E2D;&#x4F9D;&#x8D56;&#x6587;&#x4EF6;&#x9700;&#x8981;&#x66F4;&#x65B0;"></a>&#x4E8C;&#x3001;GitHub&#x4E0A;&#x63D0;&#x793A;package-lock.json&#x4E2D;&#x4F9D;&#x8D56;&#x6587;&#x4EF6;&#x9700;&#x8981;&#x66F4;&#x65B0;</span></a></li></ol></div>
             
 
           </div>

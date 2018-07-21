@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="错误信息： fatal: unable to access ‘https://github.com/bluce-ben/bluce-ben.github.io.git/‘: Failed to connect to github.com port 443: Timed outFATAL Something’s wrong. Maybe you can find the solution here:">
+<meta name="description" content="错误信息： fatal: unable to access ‘https://github.com/bluce-ben/bluce-ben.github.io.git/&amp;#39;: Failed to connect to github.com port 443: Timed outFATAL Something’s wrong. Maybe you can find the solution h">
 <meta name="keywords" content="Git,Hexo,Git问题,Hexo问题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git Error: Failed to connect to github.com port 443: Timed out">
 <meta property="og:url" content="http://yoursite.com/2017/12/08/Git-Error-Failed-to-connect-to-github-com-port-443-Timed-out/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="错误信息： fatal: unable to access ‘https://github.com/bluce-ben/bluce-ben.github.io.git/‘: Failed to connect to github.com port 443: Timed outFATAL Something’s wrong. Maybe you can find the solution here:">
+<meta property="og:description" content="错误信息： fatal: unable to access ‘https://github.com/bluce-ben/bluce-ben.github.io.git/&amp;#39;: Failed to connect to github.com port 443: Timed outFATAL Something’s wrong. Maybe you can find the solution h">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2018-07-21T10:48:04.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git Error: Failed to connect to github.com port 443: Timed out">
-<meta name="twitter:description" content="错误信息： fatal: unable to access ‘https://github.com/bluce-ben/bluce-ben.github.io.git/‘: Failed to connect to github.com port 443: Timed outFATAL Something’s wrong. Maybe you can find the solution here:">
+<meta name="twitter:description" content="错误信息： fatal: unable to access ‘https://github.com/bluce-ben/bluce-ben.github.io.git/&amp;#39;: Failed to connect to github.com port 443: Timed outFATAL Something’s wrong. Maybe you can find the solution h">
 
 
 
@@ -420,7 +420,7 @@
 
       
         <h3 id="错误信息："><a href="#错误信息：" class="headerlink" title="错误信息："></a>错误信息：</h3><blockquote>
-<p>fatal: unable to access ‘<a href="https://github.com/bluce-ben/bluce-ben.github.io.git/" target="_blank" rel="noopener">https://github.com/bluce-ben/bluce-ben.github.io.git/</a>‘: Failed to connect to github.com port 443: Timed out<br>FATAL Something’s wrong. Maybe you can find the solution here: <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">http://hexo.io/docs/troubleshooting.html</a><br>Error: fatal: unable to access ‘<a href="https://github.com/bluce-ben/bluce-ben.github.io.git/" target="_blank" rel="noopener">https://github.com/bluce-ben/bluce-ben.github.io.git/</a>‘: Failed to connect to github.com port 443: Timed out<br><a id="more"></a><br>　依据错误可清晰知道是因为无法连接Git导致的超时错误。而我配置的Hexo+GitHub Pages中使用的Git仓库就是 HTTPS 协议的，所以是使用443端口，也由此我 hexo deploy 部署Git失败。</p>
+<p>fatal: unable to access ‘<a href="https://github.com/bluce-ben/bluce-ben.github.io.git/&#39;" target="_blank" rel="noopener">https://github.com/bluce-ben/bluce-ben.github.io.git/&#39;</a>: Failed to connect to github.com port 443: Timed out<br>FATAL Something’s wrong. Maybe you can find the solution here: <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">http://hexo.io/docs/troubleshooting.html</a><br>Error: fatal: unable to access ‘<a href="https://github.com/bluce-ben/bluce-ben.github.io.git/&#39;" target="_blank" rel="noopener">https://github.com/bluce-ben/bluce-ben.github.io.git/&#39;</a>: Failed to connect to github.com port 443: Timed out<br><a id="more"></a><br>　依据错误可清晰知道是因为无法连接Git导致的超时错误。而我配置的Hexo+GitHub Pages中使用的Git仓库就是 HTTPS 协议的，所以是使用443端口，也由此我 hexo deploy 部署Git失败。</p>
 </blockquote>
 <h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><p><em>在百度搜索到一个解决方案，现整理如下。</em><br><strong>1、测试git是否成功连接GitHub，使用：</strong><br>　<code>ssh -T git@github.com</code></p>
 <blockquote>
