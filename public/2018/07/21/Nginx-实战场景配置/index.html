@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Nginx," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 实战场景配置">
+<meta property="og:url" content="http://yoursite.com/2018/07/21/Nginx-实战场景配置/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-21T10:31:46.177Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx 实战场景配置">
+<meta name="twitter:description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/21/Nginx-实战场景配置/"/>
+
+
+
+
+
+  <title>Nginx 实战场景配置 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/21/Nginx-实战场景配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Nginx 实战场景配置</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-21T18:26:00+08:00">
+                2018-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/Nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">Nginx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/21/Nginx-实战场景配置/" class="leancloud_visitors" data-flag-title="Nginx 实战场景配置">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、静态资源配置"><a href="#1、静态资源配置" class="headerlink" title="1、静态资源配置"></a>1、静态资源配置</h4><p>配置语法 - sendfile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : sendfile on | off;</span><br><span class="line">Contaxt: http, server, location, if in location</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>配置语法 - tcp_nopush （注：sendfile 开启的情况下，提高网络包的传输效率）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : tcp_nopush on | off;</span><br><span class="line">Contaxt: http, server, location</span><br></pre></td></tr></table></figure></p>
+<p>配置语法 - tcp_nodelay（注：keepalive 连接下，提高网络包的传输实时性）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : tcp_nodelay on | off;</span><br><span class="line">Contaxt: http, server, location</span><br></pre></td></tr></table></figure></p>
+<p>配置语法 - 压缩<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : gzip on | off;</span><br><span class="line">Contaxt: http, server, location, if in location</span><br></pre></td></tr></table></figure></p>
+<p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ~ .*\.(jpg|gif|png)$ &#123;</span><br><span class="line">	#gzip on;</span><br><span class="line">	#gzip_http_version 1.1;</span><br><span class="line">	#gzip_comp_level 2;</span><br><span class="line">	#gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;</span><br><span class="line">	root /opt/app/code/images;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2、浏览器缓存配置"><a href="#2、浏览器缓存配置" class="headerlink" title="2、浏览器缓存配置"></a>2、浏览器缓存配置</h4><p>客户端校验过期机制：</p>
+<table>
+<thead>
+<tr>
+<th>校验是否过期</th>
+<th>Expires、Cache-Control(max-age)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>协议中Etag头信息校验</td>
+<td>Etag</td>
+</tr>
+<tr>
+<td>Last-Modified头信息校验</td>
+<td>Last-Modified</td>
+</tr>
+</tbody>
+</table>
+<p>服务端配置语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax : expires [modified] time;</span><br><span class="line">		 expires epoch | max | off;</span><br><span class="line">Contaxt: http, server, location, if in location</span><br></pre></td></tr></table></figure></p>
+<p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location ~ .*\.(html|htm)$ &#123;</span><br><span class="line">	expires 24h;</span><br><span class="line">	root /opt/app/code;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="3、跨站访问配置"><a href="#3、跨站访问配置" class="headerlink" title="3、跨站访问配置"></a>3、跨站访问配置</h4><p>客户端显示跨域信息：<br><code>Access-Control-Allow-Origin</code><br>服务端设置语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : add_header name value [always];</span><br><span class="line">Contaxt: http, server, location, if in location</span><br></pre></td></tr></table></figure></p>
+<p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location ~ .*\.(html|htm)$ &#123;</span><br><span class="line">	add_header Access-Control-Allow-Origin http://www.url.com;</span><br><span class="line">	add_header Access-Control-Allow-Methods GET,POST,PUT,DELETE,OPTIONS;</span><br><span class="line">	root /opt/app/code;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4、防盗链配置"><a href="#4、防盗链配置" class="headerlink" title="4、防盗链配置"></a>4、防盗链配置</h4><p>基于http_refer防盗链配置模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : valid_referers none | blocked | server_names | string ...;</span><br><span class="line">Contaxt: server, location</span><br></pre></td></tr></table></figure></p>
+<p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ~ .*\.(jpg|gif|png)$ &#123;</span><br><span class="line">	valid_referers none blocked 116.62.103.228; （注：也可使用正则匹配）</span><br><span class="line">	if ($invalid_referer) &#123;</span><br><span class="line">		return 443;</span><br><span class="line">	&#125;</span><br><span class="line">	root /opt/app/code/images;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="5、代理配置"><a href="#5、代理配置" class="headerlink" title="5、代理配置"></a>5、代理配置</h4><blockquote>
+<p>代理区别：区别在于代理的对象不一样<br>　　正向代理代理的对象是客户端<br>　　反向代理代理的对象是服务端</p>
+</blockquote>
+<p>配置语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : proxy_pass URL;</span><br><span class="line">Contaxt: location, if in location, limit_execpt</span><br></pre></td></tr></table></figure></p>
+<h5 id="（1）正向代理"><a href="#（1）正向代理" class="headerlink" title="（1）正向代理"></a>（1）正向代理</h5><p>服务端需限制访问路径，下面服务端只开启对应的IP能够访问：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">	if ( $http_x_forwarded_for !~* &quot;^116\.62\.104\.228&quot; ) &#123;</span><br><span class="line">		return 403;</span><br><span class="line">	&#125;</span><br><span class="line">	root /opt/app/code;</span><br><span class="line">	index index.html index.htm;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><em>（注：$http_x_forwarded_for 为代理的所有信息，包括客户端的IP。）</em><br>然后再对应的116.62.104.228服务器上配置正向代理即可。配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">resolver 8.8.8.8;	//Google的一个dns解析</span><br><span class="line">location / &#123;</span><br><span class="line">	proxy_pass http://$http_host$request_uri;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>之后再客户端配置好代理服务器（116.62.104.228）即可进行访问。<br>（注：此处服务端配置可不限制访问也可。理解正向代理就是客户端通过代理服务器向外访问。）</p>
+<h5 id="（2）反向代理"><a href="#（2）反向代理" class="headerlink" title="（2）反向代理"></a>（2）反向代理</h5><p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ~ /test_proxy.html$ &#123;</span><br><span class="line">	proxy_pass http://127.0.0.1:8080;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其它代理配置语法：可浏览Nginx官网进行查看。</p>
+<h4 id="6、负载均衡配置"><a href="#6、负载均衡配置" class="headerlink" title="6、负载均衡配置"></a>6、负载均衡配置</h4><p>配置语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : upstream name &#123;...&#125;</span><br><span class="line">Context: http</span><br></pre></td></tr></table></figure></p>
+<p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">upstream imooc &#123;</span><br><span class="line">	server 116.62.103.228:8001 down;	//不提供服务</span><br><span class="line">	server 116.62.103.228:8002 backup;	//备份结点</span><br><span class="line">	server 116.62.103.228:8003 max_fails=1 fail_timeout=10s; //能够访问，最大试错为1次，服务暂停时间为10s</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">	location / &#123;</span><br><span class="line">		proxy_pass http://imooc;</span><br><span class="line">		include proxy_params;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>负载均衡默认规则是轮询。会依据访问请求来依次进行分配。当其中一台机器宕机，会停止对其访问。<br><strong>后端服务器在负载均衡调度中的状态：</strong></p>
+<table>
+<thead>
+<tr>
+<th>down</th>
+<th>当前的server暂时不参与负载均衡</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>backup</td>
+<td>预留的备份服务器</td>
+</tr>
+<tr>
+<td>max_fails</td>
+<td>允许请求失败的次数</td>
+</tr>
+<tr>
+<td>fail_timeout</td>
+<td>经过max_fails失败后，服务暂停的时间</td>
+</tr>
+<tr>
+<td>max_conns</td>
+<td>限制最大的接收的连接数</td>
+</tr>
+</tbody>
+</table>
+<h5 id="调度算法："><a href="#调度算法：" class="headerlink" title="调度算法："></a>调度算法：</h5><table>
+<thead>
+<tr>
+<th>轮询</th>
+<th>按时间顺序逐一分配到不同的后端服务器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>加权轮询</td>
+<td>weight值越大，分配到的访问几率越高</td>
+</tr>
+<tr>
+<td>ip_hash</td>
+<td>每个请求按访问IP的hash结果分配，这样来自同一个IP的固定访问一个后端服务器</td>
+</tr>
+<tr>
+<td>url_hash</td>
+<td>按照访问的URL的hash结果分配请求，是每个URL定向到同一个后端服务器</td>
+</tr>
+<tr>
+<td>least_conn</td>
+<td>最少链接数，那个机器连接数少就分发</td>
+</tr>
+<tr>
+<td>hash关键数值</td>
+<td>hash自定义的key</td>
+</tr>
+</tbody>
+</table>
+<p>url_hash 配置语法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Syntax : hash key [consistent];</span><br><span class="line">Context: upstream</span><br><span class="line">（This directive appeared in version 1.7.2）</span><br></pre></td></tr></table></figure></p>
+<p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream imooc &#123;</span><br><span class="line">	hash $request_uri;</span><br><span class="line">	server 116.62.103.228:8001;</span><br><span class="line">	server 116.62.103.228:8002;</span><br><span class="line">	server 116.62.103.228:8003; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面示例的意思就是根据 $request_uri的值来计算hash值。此处的key可自定义，只要在配置文件中定义即可。</p>
+<h4 id="7、缓存服务配置（Nginx）"><a href="#7、缓存服务配置（Nginx）" class="headerlink" title="7、缓存服务配置（Nginx）"></a>7、缓存服务配置（Nginx）</h4><p>proxy_cache 配置语法。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/18/Sublime配置代码追踪/" rel="next" title="Sublime配置代码追踪">
+                <i class="fa fa-chevron-left"></i> Sublime配置代码追踪
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/21/Git-常见错误集锦/" rel="prev" title="Git 常见错误集锦">
+                Git 常见错误集锦 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">139</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、静态资源配置"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;" class="headerlink" title="1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;"></a>1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、浏览器缓存配置"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;" class="headerlink" title="2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;"></a>2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、跨站访问配置"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;" class="headerlink" title="3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;"></a>3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、防盗链配置"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;" class="headerlink" title="4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;"></a>4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、代理配置"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;" class="headerlink" title="5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;"></a>5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）正向代理"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;" class="headerlink" title="&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;"></a>&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）反向代理"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;" class="headerlink" title="&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;"></a>&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、负载均衡配置"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;" class="headerlink" title="6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;"></a>6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调度算法："><span class="nav-number">6.1.</span> <span class="nav-text"><a href="#&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;" class="headerlink" title="&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;"></a>&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、缓存服务配置（Nginx）"><span class="nav-number">7.</span> <span class="nav-text"><a href="#7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;" class="headerlink" title="7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;"></a>7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

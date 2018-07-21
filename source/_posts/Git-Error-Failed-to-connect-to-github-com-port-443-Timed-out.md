@@ -2,7 +2,7 @@
 title: 'Git Error: Failed to connect to github.com port 443: Timed out'
 date: 2017-12-08 14:39:58
 categories:
-- [Git, Git问题]
+- [版本控制, Git, Git问题]
 - [Hexo, Hexo问题]
 tags:
 - Git
