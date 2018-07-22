@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="书籍,BASH,shell," />
+  <meta name="keywords" content="书籍,Shell,BASH," />
 
 
 
@@ -82,7 +82,7 @@
 
 
 <meta name="description" content="就如同《数据流导向》所说的，bash 命令执行的时候有输出的数据会出现，那么如果这群数据必需要经过几道手续之后才能得到我们所想要的格式，应该如何来设定？这就牵涉到管线命令的问题(pipe) ，管线命令使用的是【 | 】这个界定符号。另外，管线命令与【连续下达命令】是不一样的。这点底下我们会再说明。底下我们先举一个例子来说明一下简单的管线命令。12示例：显示/etc/地下有多少个档案，并且利用les">
-<meta name="keywords" content="书籍,BASH,shell">
+<meta name="keywords" content="书籍,Shell,BASH">
 <meta property="og:type" content="article">
 <meta property="og:title" content="认识与学习BASH之管线命令">
 <meta property="og:url" content="http://yoursite.com/2017/12/28/认识与学习BASH之管线命令/index.html">
@@ -90,7 +90,7 @@
 <meta property="og:description" content="就如同《数据流导向》所说的，bash 命令执行的时候有输出的数据会出现，那么如果这群数据必需要经过几道手续之后才能得到我们所想要的格式，应该如何来设定？这就牵涉到管线命令的问题(pipe) ，管线命令使用的是【 | 】这个界定符号。另外，管线命令与【连续下达命令】是不一样的。这点底下我们会再说明。底下我们先举一个例子来说明一下简单的管线命令。12示例：显示/etc/地下有多少个档案，并且利用les">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/uploads/2017/12/linux_pipe_command.JPG">
-<meta property="og:updated_time" content="2018-07-20T06:07:55.322Z">
+<meta property="og:updated_time" content="2018-07-22T11:34:02.881Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="认识与学习BASH之管线命令">
 <meta name="twitter:description" content="就如同《数据流导向》所说的，bash 命令执行的时候有输出的数据会出现，那么如果这群数据必需要经过几道手续之后才能得到我们所想要的格式，应该如何来设定？这就牵涉到管线命令的问题(pipe) ，管线命令使用的是【 | 】这个界定符号。另外，管线命令与【连续下达命令】是不一样的。这点底下我们会再说明。底下我们先举一个例子来说明一下简单的管线命令。12示例：显示/etc/地下有多少个档案，并且利用les">
@@ -413,6 +413,7 @@
 <h4 id="expand"><a href="#expand" class="headerlink" title="expand"></a>expand</h4><p>将 [tab] 按键转成空格键<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# expand [-t] file</span><br><span class="line">选项与参数：</span><br><span class="line">    -t ：后面可以接数字。一般来说，一个 tab 按键可以用 8 个空格键取代。我们也可以自行定义一个 [tab] 按键代表多少个字符</span><br></pre></td></tr></table></figure></p>
 <h3 id="5、分割命令：-split"><a href="#5、分割命令：-split" class="headerlink" title="5、分割命令： split"></a>5、分割命令： split</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# split [-bl] file PREFIX</span><br><span class="line">选项与参数：</span><br><span class="line">    -b ：后面可接欲分割成的档案大小，可加单位，例如 b, k, m 等；</span><br><span class="line">    -l ：以行数来进行分割。</span><br><span class="line">    PREFIX ：代表前导符的意思，可作为分割档案的前导文字。</span><br></pre></td></tr></table></figure>
 <h3 id="6、参数代换：-xargs"><a href="#6、参数代换：-xargs" class="headerlink" title="6、参数代换： xargs"></a>6、参数代换： xargs</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# xargs [-0epn] command</span><br><span class="line">选项与参数：</span><br><span class="line">    -0 ：如果输入的 stdin 含有特殊字符，例如 `, \, 空格键等等字符时，这个 -0 参数可以将他还原成一般字符。这个参数可以用于特殊状态</span><br><span class="line">    -e ：这个是 EOF (end of file) 的意思。后面可以接一个字符串，当 xargs 分析到这个字符串时，就会停止继续工作</span><br><span class="line">    -p ：在执行每个指令的 argument 时，都会询问使用者的意思；</span><br><span class="line">    -n ：后面接次数，每次 command 指令执行时，要使用几个参数的意思。</span><br><span class="line">当 xargs 后面没有接任何的指令时，默认是以 echo 来进行输出。</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -431,9 +432,9 @@
           
             <a href="/tags/书籍/" rel="tag"># 书籍</a>
           
-            <a href="/tags/BASH/" rel="tag"># BASH</a>
+            <a href="/tags/Shell/" rel="tag"># Shell</a>
           
-            <a href="/tags/shell/" rel="tag"># shell</a>
+            <a href="/tags/BASH/" rel="tag"># BASH</a>
           
         </div>
       
@@ -561,7 +562,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
