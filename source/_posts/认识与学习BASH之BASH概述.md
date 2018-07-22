@@ -7,7 +7,7 @@ categories:
 tags:
 - 书籍
 - BASH
-- shell
+- Shell
 ---
 为什么BASH叫做壳程序？ 理解这个就理解了BASH与操作系统的关系，以及BASH是什么，有什么用。
 
