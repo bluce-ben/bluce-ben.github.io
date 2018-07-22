@@ -394,7 +394,7 @@
 <hr>
 <h3 id="hexo部署后，CNAME会被自动删除，怎么办？"><a href="#hexo部署后，CNAME会被自动删除，怎么办？" class="headerlink" title="hexo部署后，CNAME会被自动删除，怎么办？"></a>hexo部署后，CNAME会被自动删除，怎么办？</h3><p><em>（自己的独立域名需要用CNAME连接到github pages）</em><br>解决方案：<br>将需要上传至github的内容放在source文件夹，例如CNAME、favicon.ico、images等，每次上传就不会消失了</p>
 <hr>
-<h3 id="Hexo-部署到GitHub报错：fatal-could-not-read-Username-for-‘https-github-com‘-No-error"><a href="#Hexo-部署到GitHub报错：fatal-could-not-read-Username-for-‘https-github-com‘-No-error" class="headerlink" title="Hexo 部署到GitHub报错：fatal: could not read Username for ‘https://github.com‘: No error"></a>Hexo 部署到GitHub报错：fatal: could not read Username for ‘<a href="https://github.com" target="_blank" rel="noopener">https://github.com</a>‘: No error</h3><p>执行 <code>hexo d</code> 部署时报错，信息如下：<br><img src="/uploads/2018/03/hexo_error_01.JPG" alt=""></p>
+<h3 id="Hexo-部署到GitHub报错：fatal-could-not-read-Username-for-‘https-github-com-39-No-error"><a href="#Hexo-部署到GitHub报错：fatal-could-not-read-Username-for-‘https-github-com-39-No-error" class="headerlink" title="Hexo 部署到GitHub报错：fatal: could not read Username for ‘https://github.com&#39;: No error"></a>Hexo 部署到GitHub报错：fatal: could not read Username for ‘<a href="https://github.com&#39;" target="_blank" rel="noopener">https://github.com&#39;</a>: No error</h3><p>执行 <code>hexo d</code> 部署时报错，信息如下：<br><img src="/uploads/2018/03/hexo_error_01.JPG" alt=""></p>
 <p>由错误信息可知，GitHub 不能够读取 Username。因此我验证了一下本地的SSH KEY是否能够连接到GitHub，执行命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br><span class="line">Hi bluce-ben! You&apos;ve successfully authenticated, but GitHub does not provide shell access.</span><br></pre></td></tr></table></figure></p>
 <p>出现上面的语句说明你的ssh key已经配置好了，并没有错误，能够与 GitHub 连通。 从网上查询说是使用 ssh 登录方式来代替 https，因此进行了代码调整，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https://hexo.io/docs/deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  #repository: https://github.com/bluce-ben/bluce-ben.github.io.git</span><br><span class="line">  repository: git@github.com:bluce-ben/bluce-ben.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></p>
 <p>然后，再次执行 <code>hexo d</code> 命令部署成功！</p>
@@ -440,7 +440,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/07/MySQL必知必会》-基础知识/" rel="prev" title="《MySQL必知必会》-基础知识">
+              <a href="/2017/12/07/MySQL 《必知必会》-基础知识/" rel="prev" title="《MySQL必知必会》-基础知识">
                 《MySQL必知必会》-基础知识 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -523,7 +523,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -534,7 +534,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -601,7 +601,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#博客栏目分类、标签不显示内容"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x535A;&#x5BA2;&#x680F;&#x76EE;&#x5206;&#x7C7B;&#x3001;&#x6807;&#x7B7E;&#x4E0D;&#x663E;&#x793A;&#x5185;&#x5BB9;" class="headerlink" title="&#x535A;&#x5BA2;&#x680F;&#x76EE;&#x5206;&#x7C7B;&#x3001;&#x6807;&#x7B7E;&#x4E0D;&#x663E;&#x793A;&#x5185;&#x5BB9;"></a>&#x535A;&#x5BA2;&#x680F;&#x76EE;&#x5206;&#x7C7B;&#x3001;&#x6807;&#x7B7E;&#x4E0D;&#x663E;&#x793A;&#x5185;&#x5BB9;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo部署后，CNAME会被自动删除，怎么办？"><span class="nav-number">2.</span> <span class="nav-text"><a href="#hexo&#x90E8;&#x7F72;&#x540E;&#xFF0C;CNAME&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x5220;&#x9664;&#xFF0C;&#x600E;&#x4E48;&#x529E;&#xFF1F;" class="headerlink" title="hexo&#x90E8;&#x7F72;&#x540E;&#xFF0C;CNAME&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x5220;&#x9664;&#xFF0C;&#x600E;&#x4E48;&#x529E;&#xFF1F;"></a>hexo&#x90E8;&#x7F72;&#x540E;&#xFF0C;CNAME&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x5220;&#x9664;&#xFF0C;&#x600E;&#x4E48;&#x529E;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-部署到GitHub报错：fatal-could-not-read-Username-for-‘https-github-com‘-No-error"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Hexo-&#x90E8;&#x7F72;&#x5230;GitHub&#x62A5;&#x9519;&#xFF1A;fatal-could-not-read-Username-for-&#x2018;https-github-com&#x2018;-No-error" class="headerlink" title="Hexo &#x90E8;&#x7F72;&#x5230;GitHub&#x62A5;&#x9519;&#xFF1A;fatal: could not read Username for &#x2018;https://github.com&#x2018;: No error"></a>Hexo &#x90E8;&#x7F72;&#x5230;GitHub&#x62A5;&#x9519;&#xFF1A;fatal: could not read Username for &#x2018;<a href="https://github.com" target="_blank" rel="noopener">https://github.com</a>&#x2018;: No error</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#博客栏目分类、标签不显示内容"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x535A;&#x5BA2;&#x680F;&#x76EE;&#x5206;&#x7C7B;&#x3001;&#x6807;&#x7B7E;&#x4E0D;&#x663E;&#x793A;&#x5185;&#x5BB9;" class="headerlink" title="&#x535A;&#x5BA2;&#x680F;&#x76EE;&#x5206;&#x7C7B;&#x3001;&#x6807;&#x7B7E;&#x4E0D;&#x663E;&#x793A;&#x5185;&#x5BB9;"></a>&#x535A;&#x5BA2;&#x680F;&#x76EE;&#x5206;&#x7C7B;&#x3001;&#x6807;&#x7B7E;&#x4E0D;&#x663E;&#x793A;&#x5185;&#x5BB9;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo部署后，CNAME会被自动删除，怎么办？"><span class="nav-number">2.</span> <span class="nav-text"><a href="#hexo&#x90E8;&#x7F72;&#x540E;&#xFF0C;CNAME&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x5220;&#x9664;&#xFF0C;&#x600E;&#x4E48;&#x529E;&#xFF1F;" class="headerlink" title="hexo&#x90E8;&#x7F72;&#x540E;&#xFF0C;CNAME&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x5220;&#x9664;&#xFF0C;&#x600E;&#x4E48;&#x529E;&#xFF1F;"></a>hexo&#x90E8;&#x7F72;&#x540E;&#xFF0C;CNAME&#x4F1A;&#x88AB;&#x81EA;&#x52A8;&#x5220;&#x9664;&#xFF0C;&#x600E;&#x4E48;&#x529E;&#xFF1F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hexo-部署到GitHub报错：fatal-could-not-read-Username-for-‘https-github-com-39-No-error"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Hexo-&#x90E8;&#x7F72;&#x5230;GitHub&#x62A5;&#x9519;&#xFF1A;fatal-could-not-read-Username-for-&#x2018;https-github-com-39-No-error" class="headerlink" title="Hexo &#x90E8;&#x7F72;&#x5230;GitHub&#x62A5;&#x9519;&#xFF1A;fatal: could not read Username for &#x2018;https://github.com&apos;: No error"></a>Hexo &#x90E8;&#x7F72;&#x5230;GitHub&#x62A5;&#x9519;&#xFF1A;fatal: could not read Username for &#x2018;<a href="https://github.com&apos;" target="_blank" rel="noopener">https://github.com&apos;</a>: No error</span></a></li></ol></div>
             
 
           </div>

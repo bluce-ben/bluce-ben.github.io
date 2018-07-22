@@ -420,7 +420,7 @@
 <p>下面是 /etc/crontab 的内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@www ~]# cat /etc/crontab</span><br><span class="line">SHELL=/bin/bash 	&lt;==使用哪种 shell 接口</span><br><span class="line">PATH=/sbin:/bin:/usr/sbin:/usr/bin 	&lt;==执行文件搜寻路径</span><br><span class="line">MAILTO=root 	&lt;==若有额外STDOUT，以 email 将数据送给谁</span><br><span class="line">HOME=/ 	&lt;==默认此 shell 的家目录所在</span><br><span class="line"># run-parts</span><br><span class="line">01 * * * * root run-parts /etc/cron.hourly &lt;==每小时</span><br><span class="line">02 4 * * * root run-parts /etc/cron.daily &lt;==每天</span><br><span class="line">22 4 * * 0 root run-parts /etc/cron.weekly &lt;==每周日</span><br><span class="line">42 4 1 * * root run-parts /etc/cron.monthly &lt;==每个月 1 号</span><br><span class="line">分 时 日 月 周 执行者身份 指令串</span><br></pre></td></tr></table></figure></p>
 <p>看到这个档案的内容你大概就了解了吧。这个档案与将刚刚我们下达 crontab -e 的内容几乎完全一模一样！只是有几个地方不太相同：</p>
 <blockquote>
-<p><strong>MAILTO=root：</strong><br>    这个项目是说，当 /etc/crontab 这个档案中的例行性工作的指令发生错误时，或者是该工作的执行结果有 STDOUT/STDERR 时，会将错误讯息或者是屏幕显示的讯息传给谁？默认当然是由系统直接寄发一封 mail 给 root。不过，由于 root 并无法在客户端中以 POP3 之类的软件收信，因此，通常都将这个 e-mail 改成自己的账号，好随时了解系统的状况！例如：MAILTO=dmtsai@my.host.name<br><strong>PATH=….：</strong><br>    在 BASH 当中一直提到的执行文件路径问题。这里就是输入执行文件的搜寻路径！使用默认的路径设定就已经很足够了。<br><strong>01 <em> </em> <em> </em> root run-parts /etc/cron.hourly：</strong><br>    这个 /etc/crontab 里面默认定义出四项工作任务，分别是每小时、每天、每周及每个月分别进行一次的工作！但是在五个字段后面接的并不是挃令，而是一个新的字段，那就是【执行后面那串指令的身份】为何。这不使用者的 crontab -e 不相同。由于使用者自己的 crontab 并不需要指定身份，但 /etc/crontab 里面当然要指定身份。以上表的内容来说，系统默认的例行性工作是以 root 的身份来进行的。<br>    那么后面那串指令是什么呢？你可以使用【 which run-parts 】搜寻看看，其实那是一个 bash script！如果你直接进入 /usr/bin/run-parts 去看看，会发现这支指令会将后面接的【目录】内的所有档案捉出来执行！这也就是说【如果你想让系统每小时主动帮你执行某个指令，将该指令写成 script，并将该档案放置到 /etc/cron.hourly/ 目录下即可】的意思。<br>    现在你知道系统是如何进行他默认的一堆例行性工作排程了吗？如果你下达【 ll /etc/cron.daily 】就可以看到一堆档案，那些档案就是系统提供的 script ，而这堆 scripts 将会在每天的凌晨 4:02 开始运作！这也是为啥如果你是夜猫族，就会发现奇怪的是，Linux 系统为何早上 4:02 开始会很忙碌的发出一些硬盘跑动的声音！因为他必须要进行 makewhatis,pdatedb, rpm rebuild 等等的任务。</p>
+<p><strong>MAILTO=root：</strong><br>    这个项目是说，当 /etc/crontab 这个档案中的例行性工作的指令发生错误时，或者是该工作的执行结果有 STDOUT/STDERR 时，会将错误讯息或者是屏幕显示的讯息传给谁？默认当然是由系统直接寄发一封 mail 给 root。不过，由于 root 并无法在客户端中以 POP3 之类的软件收信，因此，通常都将这个 e-mail 改成自己的账号，好随时了解系统的状况！例如：<a href="mailto:MAILTO=dmtsai@my.host.name" target="_blank" rel="noopener">MAILTO=dmtsai@my.host.name</a><br><strong>PATH=….：</strong><br>    在 BASH 当中一直提到的执行文件路径问题。这里就是输入执行文件的搜寻路径！使用默认的路径设定就已经很足够了。<br><strong>01 <em> </em> <em> </em> root run-parts /etc/cron.hourly：</strong><br>    这个 /etc/crontab 里面默认定义出四项工作任务，分别是每小时、每天、每周及每个月分别进行一次的工作！但是在五个字段后面接的并不是挃令，而是一个新的字段，那就是【执行后面那串指令的身份】为何。这不使用者的 crontab -e 不相同。由于使用者自己的 crontab 并不需要指定身份，但 /etc/crontab 里面当然要指定身份。以上表的内容来说，系统默认的例行性工作是以 root 的身份来进行的。<br>    那么后面那串指令是什么呢？你可以使用【 which run-parts 】搜寻看看，其实那是一个 bash script！如果你直接进入 /usr/bin/run-parts 去看看，会发现这支指令会将后面接的【目录】内的所有档案捉出来执行！这也就是说【如果你想让系统每小时主动帮你执行某个指令，将该指令写成 script，并将该档案放置到 /etc/cron.hourly/ 目录下即可】的意思。<br>    现在你知道系统是如何进行他默认的一堆例行性工作排程了吗？如果你下达【 ll /etc/cron.daily 】就可以看到一堆档案，那些档案就是系统提供的 script ，而这堆 scripts 将会在每天的凌晨 4:02 开始运作！这也是为啥如果你是夜猫族，就会发现奇怪的是，Linux 系统为何早上 4:02 开始会很忙碌的发出一些硬盘跑动的声音！因为他必须要进行 makewhatis,pdatedb, rpm rebuild 等等的任务。</p>
 </blockquote>
 <p>由于 CentOS 提供的 run-parts 这个 script 的辅助，因此 /etc/crontab 这个档案里面支持两种下达指令的方式，一种是直接下达指令，一种则是以目录来规划，例如：</p>
 <blockquote>
@@ -558,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -569,7 +569,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

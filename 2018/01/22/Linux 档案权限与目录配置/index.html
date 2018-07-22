@@ -422,6 +422,8 @@
 <p>#应用：cp 源档案 目标档案后，新的使用者可能无法使用copy后的档案，这时就需要赋予新档案一个新的拥有者和新的群组了。</p>
 <h5 id="（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性"><a href="#（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性" class="headerlink" title="（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性"></a>（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性</h5><blockquote>
 <p><strong>数字类型改变档案权限</strong><br>各权限的分数如下：r:4 w:2 x:1<br>每种身份各自的权限都是以上3个相加得到。如7=4+2+1,5=4+0+1（不可能是5=2+2+1哦，因为第一个肯定是r，数值要不是4要不是0，不能是2）<br>基本语法：chmod [-R] xyz 档案或目录<br>选项与参数：<br>　　xyz : 就是刚刚提到的数字类型的权限属性，为 rwx 属性数值的相加。<br>　　-R : 进行递归(recursive)的持续变更，亦即连同次目录下的所有档案都会变更<br>示例：<br>chmod 770 .bashrc</p>
+</blockquote>
+<blockquote>
 <p><strong>符号类型改变档案权限</strong><br><img src="/uploads/2018/01/linux_permission.JPG" alt=""><br>基本语法：chmod ugoa +-= rwx 档案或目录  #a代表all即全部的身份<br>示例：<br>chmod u=rwx,go=rx .bashrc   #u=rwx,go=rx是连在一起的，中间没有任何空格符</p>
 </blockquote>
 <h4 id="5、Linux-目录配置"><a href="#5、Linux-目录配置" class="headerlink" title="5、Linux 目录配置"></a>5、Linux 目录配置</h4><h5 id="（1）目录配置依据：FHS（Filesystem-Hierarchy-Standard）"><a href="#（1）目录配置依据：FHS（Filesystem-Hierarchy-Standard）" class="headerlink" title="（1）目录配置依据：FHS（Filesystem Hierarchy Standard）"></a>（1）目录配置依据：FHS（Filesystem Hierarchy Standard）</h5><p>亊实上，FHS 是根据过去的经验一直再持续的改版的，FHS 依据文件系统使用的频繁与否与是否允许使用者随意更动，而将目录定义成为四种交互作用的形态，用表格来说有点像底下这样：<br><img src="/uploads/2018/01/linux_directory_fhs.JPG" alt=""></p>
@@ -578,7 +580,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -589,7 +591,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

@@ -399,9 +399,9 @@
 <h4 id="5、服务器端Git打开RSA认证"><a href="#5、服务器端Git打开RSA认证" class="headerlink" title="5、服务器端Git打开RSA认证"></a>5、服务器端Git打开RSA认证</h4><p>进入 /etc/ssh 目录，编辑 sshd_config，打开以下三个配置的注释：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#RSAAuthentication yes</span><br><span class="line">#PubkeyAuthentication yes</span><br><span class="line">#AuthorizedKeysFile     .ssh/authorized_keys</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>##RSAAuthentication用来设置是否开启RSA密钥验证，只针对SSH1<font color="red">（注：对于SSH2来说，没有此项配置）</font></p>
+</blockquote>
 <p>##PubkeyAuthentication用来设置是否开启公钥验证，如果使用公钥验证的方式登录时，则设置为yes</p>
 <p>##AuthorizedKeysFile用来设置公钥验证文件的路径，与PubkeyAuthentication配合使用,默认值是”.ssh/authorized_keys”。</p>
-</blockquote>
 <p>保存并重启 sshd 服务：<br><code>[root@VM_0_7_centos git]# systemctl restart sshd</code></p>
 <p>由AuthorizedKeysFile 得知公钥的存放路径是 <code>.ssh/authorized_keys</code>，实际上是 <code>$Home/.ssh/authorized_keys</code>，由于管理 Git 服务的用户是 git，所以实际存放公钥的路径是 <code>/home/git/.ssh/authorized_keys</code>。</p>
 <h4 id="6、客户端创建SSH公钥和私钥并将公钥导入服务器端"><a href="#6、客户端创建SSH公钥和私钥并将公钥导入服务器端" class="headerlink" title="6、客户端创建SSH公钥和私钥并将公钥导入服务器端"></a>6、客户端创建SSH公钥和私钥并将公钥导入服务器端</h4><p><code>$ ssh-keygen -t rsa</code><br>此时 C:\Users\用户名.ssh 下会多出两个文件 id_rsa 和 id_rsa.pub</p>
@@ -545,7 +545,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -556,7 +556,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

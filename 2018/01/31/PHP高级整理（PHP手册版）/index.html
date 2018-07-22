@@ -406,7 +406,7 @@
 <p><strong>实现（implements）</strong><br>要实现一个接口，使用 implements 操作符。类中必须实现接口中定义的所有方法，否则会报一个致命错误。类可以实现多个接口，用逗号来分隔多个接口的名称。 </p>
 <p><strong>Note: </strong><br>实现多个接口时，接口中的方法不能有重名。<br><strong>Note: </strong><br>接口也可以继承，通过使用 extends 操作符。<br><strong>Note: </strong><br>类要实现接口，必须使用和接口中所定义的方法完全一致的方式。否则会导致致命错误。 </p>
 <p><strong>常量</strong><br>接口中也可以定义常量。接口常量和类常量的使用完全相同，但是不能被子类或子接口所覆盖。</p>
-<h5 id="（9）魔术方法"><a href="#（9）魔术方法" class="headerlink" title="（9）魔术方法"></a>（9）魔术方法</h5><p>__construct()， __destruct()， __call()， __callStatic()， __get()， __set()， __isset()， __unset()， __sleep()， __wakeup()， __toString()， __invoke()， __set<em>state()， \</em>_clone() 和 __debugInfo() 等方法在 PHP 中被称为”魔术方法”（Magic methods）。在命名自己的类方法时不能使用这些方法名，除非是想使用其魔术功能。 </p>
+<h5 id="（9）魔术方法"><a href="#（9）魔术方法" class="headerlink" title="（9）魔术方法"></a>（9）魔术方法</h5><p>__construct()， __destruct()， __call()， __callStatic()， __get()， __set()， __isset()， __unset()， __sleep()， __wakeup()， __toString()， __invoke()， __set_state()， __clone() 和 __debugInfo() 等方法在 PHP 中被称为”魔术方法”（Magic methods）。在命名自己的类方法时不能使用这些方法名，除非是想使用其魔术功能。 </p>
 <h4 id="10、命名空间"><a href="#10、命名空间" class="headerlink" title="10、命名空间"></a>10、命名空间</h4><h5 id="（1）概述"><a href="#（1）概述" class="headerlink" title="（1）概述"></a>（1）概述</h5><p>什么是命名空间？从广义上来说，命名空间是一种封装事物的方法。在很多地方都可以见到这种抽象概念。例如，在操作系统中目录用来将相关文件分组，对于目录中的文件来说，它就扮演了命名空间的角色。具体举个例子，文件 foo.txt 可以同时在目录/home/greg 和 /home/other 中存在，但在同一个目录中不能存在两个 foo.txt 文件。另外，在目录 /home/greg 外访问 foo.txt 文件时，我们必须将目录名以及目录分隔符放在文件名之前得到 /home/greg/foo.txt。这个原理应用到程序设计领域就是命名空间的概念。 </p>
 <p>在PHP中，命名空间用来解决在编写类库或应用程序时创建可重用的代码如类或函数时碰到的两类问题： </p>
 <ol>
@@ -577,7 +577,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -588,7 +588,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

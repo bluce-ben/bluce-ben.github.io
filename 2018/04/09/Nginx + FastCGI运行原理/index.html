@@ -415,6 +415,8 @@
 <p><strong>当我们安装Nginx和PHP-FPM完后，配置信息：</strong></p>
 <blockquote>
 <p>PHP-FPM的默认配置php-fpm.conf：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">listen_address  127.0.0.1:9000 #这个表示php的fastcgi进程监听的ip地址以及端口</span><br><span class="line">start_servers</span><br><span class="line">min_spare_servers</span><br><span class="line">max_spare_servers</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<blockquote>
 <p>Nginx配置运行php： 编辑nginx.conf加入如下语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    root html;   </span><br><span class="line">    fastcgi_pass 127.0.0.1:9000; 指定了fastcgi进程侦听的端口,nginx就是通过这里与php交互的</span><br><span class="line">    fastcgi_index index.php;</span><br><span class="line">    include fastcgi_params;</span><br><span class="line">    fastcgi_param SCRIPT_FILENAME   /usr/local/nginx/html$fastcgi_script_name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <p>Nginx通过location指令，将所有以php为后缀的文件都交给127.0.0.1:9000来处理，而这里的IP地址和端口就是FastCGI进程监听的IP地址和端口。</p>
@@ -554,7 +556,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +567,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

@@ -393,6 +393,8 @@
 <li>只有 root 才能启动的保留的 port：<br>在小于 1024 的端口，都是需要以 root 的身份才能启动的，这些 port 主要是用于一些常见的通讯服务，在 Linux 系统下，常见的协议与 port 的对应是记录在 /etc/services 里面的。</li>
 <li>大于 1024 用于 client 端的 port：<br>在大于 1024 以上的 port 主要是作为 client 端的软件激活的 port。</li>
 </ul>
+</blockquote>
+<blockquote>
 <p><strong>5、是否需要三向交握：</strong><br>建立可靠的联机服务需要使用到 TCP 协议，也就需要所谓的三向交握了，如果是非面向连接的服务，例如 DNS 与视讯系统，那只要使用 UDP 协议即可。<br><strong>6、通讯协议可以启用在非正规的 port：</strong><br>我们知道浏览器默认会连接到 WWW 主机的 port 80，那么你的 WWW 是否可以启动在非 80 的其他端口？当然可以！你可以透过 WWW 软件的设定功能将该软件使用的 port 启动在非正规的端口，只是如此一来，您的客户端要连接到你的主机时，就得要在浏览器的地方额外指定你所启用的非正规的端口才行。这个启动在非正规的端口功能，常常被用在一些所谓的地下网站！另外，某些软件默认就启动在大于 1024 以上的端口，如 MySQL 数据库软件就启动在 3306。<br><strong>7、所谓的 port 的安全性：</strong><br>事实上，没有所谓的 port 的安全性！因为【Port 的启用是由服务软件所造成的】，也就是说，真正影响网络安全的并不是 port ，而是启动 port 的那个软件 (程序)！或许你偶而会听到：【没有修补过漏洞的 bind 8.x 版，很容易被黑客所入侵，请尽快升级到 bind 9.x 以后版本】，所以，对安全真正有危害的是【某些不安全的服务】而不是【开了哪些 port 】才是！因此，没有必要的服务就将他关闭吧！尤其某些网络服务还会启动一些 port ！另外，那些已启动的软件也需要持续的保持更新！</p>
 </blockquote>
 <p>附属：一些系统必备的软件服务说明</p>
@@ -607,7 +609,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -618,7 +620,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

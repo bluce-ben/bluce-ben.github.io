@@ -447,7 +447,7 @@
 <p>像index() 这样的函数称为<font color="red">视图函数（view function）</font>。视图函数返回的响应可以是包含HTML 的简单字符串，也可以是复杂的表单，当然也可以是接口所需的数据格式（JSON或XML）。</p>
 <p>此处再扩展一下，route 修饰器也支持动态URL，下例定义的路由中就有一部分是动态名字：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@app.route(&apos;/user/&lt;name&gt;&apos;)</span><br><span class="line">def user(name):</span><br><span class="line">    return &apos;&lt;h1&gt;Hello, %s!&lt;/h1&gt;&apos; % name</span><br></pre></td></tr></table></figure></p>
 <p>尖括号中的内容就是动态部分，任何能匹配静态部分的URL 都会映射到这个路由上。调用视图函数时，Flask 会将动态部分作为参数传入函数。在这个视图函数中，参数用于生成针对个人的欢迎消息。</p>
-<p>路由中的动态部分默认使用字符串，不过也可使用类型定义。例如，路由/user/<int:id>只会匹配动态片段id 为整数的URL。Flask 支持在路由中使用int、float 和path 类型。path 类型也是字符串，但不把斜线视作分隔符，而将其当作动态片段的一部分。</int:id></p>
+<p>路由中的动态部分默认使用字符串，不过也可使用类型定义。例如，路由/user/<a href="int:id" target="_blank" rel="noopener">int:id</a>只会匹配动态片段id 为整数的URL。Flask 支持在路由中使用int、float 和path 类型。path 类型也是字符串，但不把斜线视作分隔符，而将其当作动态片段的一部分。</p>
 <h4 id="3、启动服务器"><a href="#3、启动服务器" class="headerlink" title="3、启动服务器"></a>3、启动服务器</h4><p>程序实例用run 方法启动Flask 集成的开发Web 服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">app.run(debug=True)</span><br></pre></td></tr></table></figure></p>
 <p>__name__==’__main__‘ 是Python 的惯常用法，在这里确保直接执行这个脚本时才启动开发Web 服务器。如果这个脚本由其他脚本引入，程序假定父级脚本会启动不同的服务器，因此不会执行app.run()。</p>
 <p>服务器启动后，会进入轮询，等待并处理请求。轮询会一直运行，直到程序停止，比如按Ctrl-C 键。</p>
@@ -579,7 +579,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -590,7 +590,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

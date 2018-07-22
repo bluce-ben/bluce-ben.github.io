@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Git,SVN," />
+  <meta name="keywords" content="MySQL," />
 
 
 
@@ -81,18 +81,20 @@
 
 
 
-<meta name="description" content="代码版本管理系统的概述1、什么是版本控制版本控制的核心是这样一个简单的概念，即对一个或者多个文件的追踪过程，随着这些文件演变成一个或多个产品的过程。特别是版本控制追踪什么变化，是什么改变了它，为什么会这样。版本控制系统提供了一个有益的说明，这些说明在传统的文件管理中是找不到的。 需要注意的是版本控制使用不仅是局限于程序员。版本控制可以被任何人用来维护文件目录，因此即便你不是程序也可以因此受益。">
-<meta name="keywords" content="Git,SVN">
+<meta name="description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
+<meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="代码版本管理系统">
-<meta property="og:url" content="http://yoursite.com/2018/03/15/码版本管理系统/index.html">
+<meta property="og:title" content="总结-MySQL数据库设计">
+<meta property="og:url" content="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="代码版本管理系统的概述1、什么是版本控制版本控制的核心是这样一个简单的概念，即对一个或者多个文件的追踪过程，随着这些文件演变成一个或多个产品的过程。特别是版本控制追踪什么变化，是什么改变了它，为什么会这样。版本控制系统提供了一个有益的说明，这些说明在传统的文件管理中是找不到的。 需要注意的是版本控制使用不仅是局限于程序员。版本控制可以被任何人用来维护文件目录，因此即便你不是程序也可以因此受益。">
+<meta property="og:description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-20T06:07:55.026Z">
+<meta property="og:image" content="http://yoursite.com/uploads/2017/12/mysql_database_01.jpg">
+<meta property="og:updated_time" content="2018-07-21T10:22:41.689Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="代码版本管理系统">
-<meta name="twitter:description" content="代码版本管理系统的概述1、什么是版本控制版本控制的核心是这样一个简单的概念，即对一个或者多个文件的追踪过程，随着这些文件演变成一个或多个产品的过程。特别是版本控制追踪什么变化，是什么改变了它，为什么会这样。版本控制系统提供了一个有益的说明，这些说明在传统的文件管理中是找不到的。 需要注意的是版本控制使用不仅是局限于程序员。版本控制可以被任何人用来维护文件目录，因此即便你不是程序也可以因此受益。">
+<meta name="twitter:title" content="总结-MySQL数据库设计">
+<meta name="twitter:description" content="一、什么是数据库设计１、数据库设计概念　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。２、设计对比    优良的设计 槽糕的设计     减少数据冗余 存在大量的数据冗余   避免数据维护异常 存在数据插入">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/mysql_database_01.jpg">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/15/码版本管理系统/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/"/>
 
 
 
 
 
-  <title>代码版本管理系统 | Blog</title>
+  <title>总结-MySQL数据库设计 | Blog</title>
   
 
 
@@ -275,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/15/码版本管理系统/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/08/总结-MySQL数据库设计/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Benwu">
@@ -292,7 +294,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">代码版本管理系统</h2>
+          <h2 class="post-title" itemprop="name headline">总结-MySQL数据库设计</h2>
         
 
         <div class="post-meta">
@@ -304,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T14:07:43+08:00">
-                2018-03-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-08T13:13:28+08:00">
+                2017-12-08
               </time>
             
 
@@ -327,8 +329,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/版本控制/" itemprop="url" rel="index">
-                    <span itemprop="name">版本控制</span>
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
                   </a>
                 </span>
 
@@ -344,7 +346,7 @@
 
           
           
-             <span id="/2018/03/15/码版本管理系统/" class="leancloud_visitors" data-flag-title="代码版本管理系统">
+             <span id="/2017/12/08/总结-MySQL数据库设计/" class="leancloud_visitors" data-flag-title="总结-MySQL数据库设计">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -375,26 +377,67 @@
       
 
       
-        <h4 id="代码版本管理系统的概述"><a href="#代码版本管理系统的概述" class="headerlink" title="代码版本管理系统的概述"></a>代码版本管理系统的概述</h4><h5 id="1、什么是版本控制"><a href="#1、什么是版本控制" class="headerlink" title="1、什么是版本控制"></a>1、什么是版本控制</h5><p>版本控制的核心是这样一个简单的概念，即对一个或者多个文件的追踪过程，随着这些文件演变成一个或多个产品的过程。特别是版本控制追踪什么变化，是什么改变了它，为什么会这样。版本控制系统提供了一个有益的说明，这些说明在传统的文件管理中是找不到的。</p>
-<p>需要注意的是版本控制使用不仅是局限于程序员。版本控制可以被任何人用来维护文件目录，因此即便你不是程序也可以因此受益。<br><a id="more"></a></p>
-<h5 id="2、集中式版本控制介绍"><a href="#2、集中式版本控制介绍" class="headerlink" title="2、集中式版本控制介绍"></a>2、集中式版本控制介绍</h5><p>集中化的版本控制系统(Centralized Version Control Systems，简称 CVCS)应运而生。 这类系统，诸如 CVS、Subversion 以及 Perforce 等，都有一个单一的集中管理的服务器，保存所有文件的修订版本，而协同工作的人们都通过客户端连到这台服务器，取出最新的文件或者提交更新。 多年以来，这已成为版本控制系统的标准做法。</p>
-<p>这种做法带来了许多好处，特别是相较于老式的本地 VCS 来说。 现在，每个人都可以在一定程度上看到项目中的其他人正在做些什么。 而管理员也可以轻松掌控每个开发者的权限，并且管理一个 CVCS 要远比在各个客户端上维护本地数据库来得轻松容易。</p>
-<p>事分两面，有好有坏。 这么做最显而易见的缺点是中央服务器的单点故障。 如果宕机一小时，那么在这一小时内，谁都无法提交更新，也就无法协同工作。 如果中心数据库所在的磁盘发生损坏，又没有做恰当备份，毫无疑问你将丢失所有数据——包括项目的整个变更历史，只剩下人们在各自机器上保留的单独快照。 本地版本控制系统也存在类似问题，只要整个项目的历史记录被保存在单一位置，就有丢失所有历史更新记录的风险。</p>
-<h5 id="3、分布式版本控制介绍"><a href="#3、分布式版本控制介绍" class="headerlink" title="3、分布式版本控制介绍"></a>3、分布式版本控制介绍</h5><p>于是分布式版本控制系统(Distributed Version Control System，简称 DVCS)面世了。 在这类系统中，像 Git、Mercurial、Bazaar 以及 Darcs 等，客户端并不只提取最新版本的文件快照，而是把代码仓库完整地镜像下来。 这么一来，任何一处协同工作用的服务器发生故障，事后都可以用任何一个镜像出来的本地仓库恢复。 因为每一次的克隆操作，实际上都是一次对代码仓库的完整备份。</p>
-<h5 id="4、SVN与Git的最主要的区别？"><a href="#4、SVN与Git的最主要的区别？" class="headerlink" title="4、SVN与Git的最主要的区别？"></a>4、SVN与Git的最主要的区别？</h5><p>　　SVN是集中式版本控制系统，版本库是集中放在中央服务器的，而干活的时候，用的都是自己的电脑，所以首先要从中央服务器哪里得到最新的版本，然后干活，干完后，需要把自己做完的活推送到中央服务器。集中式版本控制系统是必须联网才能工作，如果在局域网还可以，带宽够大，速度够快，如果在互联网下，如果网速慢的话，就纳闷了。</p>
-<p>　　Git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
-<h5 id="5、总结："><a href="#5、总结：" class="headerlink" title="5、总结："></a>5、总结：</h5><p>分布式代码版本管理系统并不一定适合所有团队，比如中小团队可能更关心的只是成本更低，简单易用，那么SVN等这类集中式版本管理工具还是更为适合。但是不管团队最终选用什么代码版本管理工具，只要适合自己的团队的开发流程和工作方式，并且代码管理顺畅就可以了。</p>
-<h4 id="代码版本管理系统的历史"><a href="#代码版本管理系统的历史" class="headerlink" title="代码版本管理系统的历史"></a>代码版本管理系统的历史</h4><p>代码版本管理系统大致可以分为三个时代：</p>
-<h5 id="第一代：本地式"><a href="#第一代：本地式" class="headerlink" title="第一代：本地式"></a>第一代：本地式</h5><p>这代主要的特点提供本地代码版本控制，比如SCCS(1972)、 PVCS(1985)等。<br>这代主要实现了基本的代码版本管理，但缺点是无法让多人同时对一个版本库进行修改。这个也和当时软件规模不够大有关，也没有这样的需求。</p>
-<h5 id="第二代：客户端-服务器式"><a href="#第二代：客户端-服务器式" class="headerlink" title="第二代：客户端-服务器式"></a>第二代：客户端-服务器式</h5><p>这代主要的特点是提供集中式服务器端代码版本控制,比如 CVS(1986), ClearCase(1992), Visual SourceSafe(1994), Perforce(1995), Subversion(2000) 等。</p>
-<p>这代主要是实现了中心服务器端的代码版本管理，特点是可以让多人同时对一个代码版本库进行同步和修改，但缺点也相当明显：</p>
+        <h2 id="一、什么是数据库设计"><a href="#一、什么是数据库设计" class="headerlink" title="一、什么是数据库设计"></a>一、什么是数据库设计</h2><p><strong>１、数据库设计概念</strong><br>　数据库设计就是根据业务系统的具体需求，结合所选择的DBMS，为这个业务系统构造出最优的数据存储模型。并建立好数据库中表的结构，以及表与表之间的关联关系的过程。使之能有效的对应用系统中的数据进行存储，并可以高效的对已经存储的数据进行查询访问。<br><strong>２、设计对比</strong></p>
+<table>
+<thead>
+<tr>
+<th>优良的设计</th>
+<th>槽糕的设计</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>减少数据冗余</td>
+<td>存在大量的数据冗余</td>
+</tr>
+<tr>
+<td>避免数据维护异常</td>
+<td>存在数据插入、更新、删除异常</td>
+</tr>
+<tr>
+<td>节约存储空间(偶尔会用空间换时间)</td>
+<td>浪费大量存储空间</td>
+</tr>
+<tr>
+<td>高效的访问</td>
+<td>访问数据低效</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h2 id="二、数据库设计的步骤"><a href="#二、数据库设计的步骤" class="headerlink" title="二、数据库设计的步骤"></a>二、数据库设计的步骤</h2><p><strong>1). 需求分析</strong><br>　需求分析主要完成的内容：业务系统中有哪些数据？这些数据又有哪些属性？数据和属性的各自特点有哪些？<br><strong>2). 逻辑设计</strong><br>　使用ER图设计工具对数据库进行ER图逻辑建模：首先将需求转化为数据库的逻辑模型，其次，通过ER图形式将逻辑模型描述展示出来，最后这个逻辑设计与所选择的DBMS无关，也就是说这个逻辑设计应该适合所有的DBMS。<br><strong>3). 物理设计</strong><br>　这个阶段是进入到与DBMS相关的阶段，因此首先需要选择DBMS，并且将第二步的逻辑模型转为物理模型。<br>　这个阶段会涉及到数据库中建表，选择字段类型的问题。在MySQL中遵循以下原则：<br>　列的数据类型一方面影响相应数据的存储空间的开销，另一方面也会影响数据查询性能。当一个列可以选择多种数据类型时，应该优先考虑数字类型，其次是日期或二进制，最后是字符串类型。对于相同级别的数据类型，在满足业务的情况下，应该优先选择占用空间小的数据类型。<br>　mysql中部分字段空间占用情况：<br><img src="/uploads/2017/12/mysql_database_01.jpg" alt=""><br><em>额外注意几点：</em></p>
 <ul>
-<li>在无法连接服务器的情况下，无法查看日志以及提交和比较代码版本（慢速网络和远程异地工作的程序员的痛），以及当服务或者网络出现问题的时候很多人员就会无法工作。</li>
-<li>不支持local branch，导致branch创建管理复杂，并且一旦创建就很难修改（快速迭代开发中的程序员的痛）</li>
-<li>由于只有一个中心端服务器，一旦发生灾难性问题，那么所有日志都会丢失，所以需要经常做备份（备份需要不小的成本）</li>
-<li>如果软件代码量过于庞大，一般会出现速度缓慢的情况，因为每次的日志查询、不同版本之间的代码比较和代码提交等操作都需要和服务器通信，造成服务器端的负载过大。</li>
+<li>在对数据进行比较(where、join 、order by)操作时，同样的数据，字符串处理比数字处理更慢。</li>
+<li>在MySql中，UTF-8占用3个字节。</li>
 </ul>
-<h5 id="第三代：分布式"><a href="#第三代：分布式" class="headerlink" title="第三代：分布式"></a>第三代：分布式</h5><p>这代主要的特点是提供分布式代码版本控制,比如Git(2005), Mercurial(2005)等。<br>这代结合了第一代和第二代的优点并实现了分布式的代码版本管理。<br>这代的优点：分布式管理，在没有和服务器有连接的情况下仍然可以查看日志，提交代码，创建分支；支持local branch，可以快速方便的实现各种分支管理；支持分布式，从而可以实现分块管理，以及负载分流管理。<br>缺点是有一定的学习曲线，比如分布方式下的代码同步，local branch的理解与运用，分布式代码管理的理解与运用等。详细的比较可以参考：这里。</p>
+<p><strong>4). 维护优化</strong></p>
+<ul>
+<li>针对新的需求建立新的数据库表(这里补充说明下，在进行数据库最初的设计过程中，不建议在表中预留不确定的字段，这并不能实现数据库良好的扩展性问题，它的代价与后期新加一个字段一样，甚至更大)</li>
+<li>索引优化</li>
+<li>大表拆分：拆分又分为两种方式 <ul>
+<li>水平拆分：控制表的长度，即数据的行数。会将每个表中的数据量减少。</li>
+<li>垂直拆分：数据库中的存储是以页为单位的，当每一行的宽度比较小时(列数比较少时)，每页中存储的内容就多，IO效率就高(数据中的数据是存放在磁盘上，每次IO的内容越多越好)。因此常常对于非常宽的表，进行表的垂直拆分。拆表后的数据量不应该发生变化，但是表的数量增加，每张表的宽度减少。</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、数据库中的几大范式"><a href="#三、数据库中的几大范式" class="headerlink" title="三、数据库中的几大范式"></a>三、数据库中的几大范式</h2><p><strong>第一范式(1NF)</strong></p>
+<blockquote>
+<p>概念：数据库表中的所有字段值都是不可分解的原子值，就说明该数据库表满足了第一范式。<br>作用：确保每列保持原子性 （每个表中的字段不可再拆分）<br>举例：本来正常情况下，设计地址，只需要一个字段，但是若在实际业务系统中需要访问其中的国家、省、市时，此时就应该将地址这个字段进行拆分才符合1NF。</p>
+</blockquote>
+<p><strong>第二范式(2NF)</strong></p>
+<blockquote>
+<p>概念：基于1NF基础之上，第二范式需要确保数据库表中的每一列都和主键相关，而不能只与主键的某一部分相关（主要针对联合主键而言）。也就是说在一个数据库表中，一个表中只能保存一种数据，不可以把多种数据保存在同一张数据库表中。此外：所有单关键字段的表都符合第二范式。<br>作用：确保表中的每列都和主键相关（一个表中只能有一个主键）</p>
+</blockquote>
+<p><strong>第三范式(3NF)</strong></p>
+<blockquote>
+<p>概念：基于2NF基础上的，如果数据表中不存在非关键字段对任意候选关键字段的传递函数依赖则符合第三范式。<br>作用：确保每列都和主键列直接相关,而不是间接相关 （表中字段都与主键直接相关）</p>
+</blockquote>
+<h2 id="四、高手的境界都是无招胜有招"><a href="#四、高手的境界都是无招胜有招" class="headerlink" title="四、高手的境界都是无招胜有招"></a>四、高手的境界都是无招胜有招</h2><p>　为了设计出优良的数据库，我们需要遵循数据库的范式，但是有时候如果你设计的数据库完全遵循了这些范式，反而会降低你的某些性能。这里提几点： </p>
+<ul>
+<li>数据库连接会带来一部分性能损失，因此有时候为了减少冗余，将数据存放在多张表中，往往会降低查询性能，而互联网的世界，读写比例大概是3:1甚至4:1 </li>
+<li>减少表与表之间的关联数量(减少了对磁盘的IO)，增加数据的读取效率。 </li>
+<li>反范式化一定要适度。凡事过度适得其反。</li>
+</ul>
 
       
     </div>
@@ -412,9 +455,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Git/" rel="tag"># Git</a>
-          
-            <a href="/tags/SVN/" rel="tag"># SVN</a>
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
         </div>
       
@@ -427,8 +468,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/14/Git 详解之常用命令汇总（四）/" rel="next" title="Git 详解之常用命令汇总（四）">
-                <i class="fa fa-chevron-left"></i> Git 详解之常用命令汇总（四）
+              <a href="/2017/12/08/总结-MySQL常用函数/" rel="next" title="总结-MySQL常用函数">
+                <i class="fa fa-chevron-left"></i> 总结-MySQL常用函数
               </a>
             
           </div>
@@ -437,8 +478,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/15/SVN 详解之服务器搭建（一）/" rel="prev" title="SVN 详解之服务器搭建（一）">
-                SVN 详解之服务器搭建（一） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/08/Git-Error-Failed-to-connect-to-github-com-port-443-Timed-out/" rel="prev" title="Git Error: Failed to connect to github.com port 443: Timed out">
+                Git Error: Failed to connect to github.com port 443: Timed out <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -520,7 +561,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -531,7 +572,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -598,7 +639,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码版本管理系统的概述"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;&#x7248;&#x672C;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x7684;&#x6982;&#x8FF0;" class="headerlink" title="&#x4EE3;&#x7801;&#x7248;&#x672C;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x7684;&#x6982;&#x8FF0;"></a>&#x4EE3;&#x7801;&#x7248;&#x672C;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x7684;&#x6982;&#x8FF0;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、什么是版本控制"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x7248;&#x672C;&#x63A7;&#x5236;" class="headerlink" title="1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x7248;&#x672C;&#x63A7;&#x5236;"></a>1&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x7248;&#x672C;&#x63A7;&#x5236;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、集中式版本控制介绍"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x96C6;&#x4E2D;&#x5F0F;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4ECB;&#x7ECD;" class="headerlink" title="2&#x3001;&#x96C6;&#x4E2D;&#x5F0F;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4ECB;&#x7ECD;"></a>2&#x3001;&#x96C6;&#x4E2D;&#x5F0F;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4ECB;&#x7ECD;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、分布式版本控制介绍"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x5206;&#x5E03;&#x5F0F;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4ECB;&#x7ECD;" class="headerlink" title="3&#x3001;&#x5206;&#x5E03;&#x5F0F;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4ECB;&#x7ECD;"></a>3&#x3001;&#x5206;&#x5E03;&#x5F0F;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4ECB;&#x7ECD;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、SVN与Git的最主要的区别？"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#4&#x3001;SVN&#x4E0E;Git&#x7684;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x533A;&#x522B;&#xFF1F;" class="headerlink" title="4&#x3001;SVN&#x4E0E;Git&#x7684;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x533A;&#x522B;&#xFF1F;"></a>4&#x3001;SVN&#x4E0E;Git&#x7684;&#x6700;&#x4E3B;&#x8981;&#x7684;&#x533A;&#x522B;&#xFF1F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、总结："><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#5&#x3001;&#x603B;&#x7ED3;&#xFF1A;" class="headerlink" title="5&#x3001;&#x603B;&#x7ED3;&#xFF1A;"></a>5&#x3001;&#x603B;&#x7ED3;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码版本管理系统的历史"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4EE3;&#x7801;&#x7248;&#x672C;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x7684;&#x5386;&#x53F2;" class="headerlink" title="&#x4EE3;&#x7801;&#x7248;&#x672C;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x7684;&#x5386;&#x53F2;"></a>&#x4EE3;&#x7801;&#x7248;&#x672C;&#x7BA1;&#x7406;&#x7CFB;&#x7EDF;&#x7684;&#x5386;&#x53F2;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一代：本地式"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E00;&#x4EE3;&#xFF1A;&#x672C;&#x5730;&#x5F0F;" class="headerlink" title="&#x7B2C;&#x4E00;&#x4EE3;&#xFF1A;&#x672C;&#x5730;&#x5F0F;"></a>&#x7B2C;&#x4E00;&#x4EE3;&#xFF1A;&#x672C;&#x5730;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第二代：客户端-服务器式"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E8C;&#x4EE3;&#xFF1A;&#x5BA2;&#x6237;&#x7AEF;-&#x670D;&#x52A1;&#x5668;&#x5F0F;" class="headerlink" title="&#x7B2C;&#x4E8C;&#x4EE3;&#xFF1A;&#x5BA2;&#x6237;&#x7AEF;-&#x670D;&#x52A1;&#x5668;&#x5F0F;"></a>&#x7B2C;&#x4E8C;&#x4EE3;&#xFF1A;&#x5BA2;&#x6237;&#x7AEF;-&#x670D;&#x52A1;&#x5668;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#第三代：分布式"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x7B2C;&#x4E09;&#x4EE3;&#xFF1A;&#x5206;&#x5E03;&#x5F0F;" class="headerlink" title="&#x7B2C;&#x4E09;&#x4EE3;&#xFF1A;&#x5206;&#x5E03;&#x5F0F;"></a>&#x7B2C;&#x4E09;&#x4EE3;&#xFF1A;&#x5206;&#x5E03;&#x5F0F;</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、什么是数据库设计"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;" class="headerlink" title="&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;"></a>&#x4E00;&#x3001;&#x4EC0;&#x4E48;&#x662F;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、数据库设计的步骤"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;" class="headerlink" title="&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;"></a>&#x4E8C;&#x3001;&#x6570;&#x636E;&#x5E93;&#x8BBE;&#x8BA1;&#x7684;&#x6B65;&#x9AA4;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、数据库中的几大范式"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;" class="headerlink" title="&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;"></a>&#x4E09;&#x3001;&#x6570;&#x636E;&#x5E93;&#x4E2D;&#x7684;&#x51E0;&#x5927;&#x8303;&#x5F0F;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、高手的境界都是无招胜有招"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;" class="headerlink" title="&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;"></a>&#x56DB;&#x3001;&#x9AD8;&#x624B;&#x7684;&#x5883;&#x754C;&#x90FD;&#x662F;&#x65E0;&#x62DB;&#x80DC;&#x6709;&#x62DB;</span></a></li></ol></div>
             
 
           </div>

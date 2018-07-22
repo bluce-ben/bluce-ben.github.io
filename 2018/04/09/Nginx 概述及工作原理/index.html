@@ -424,8 +424,6 @@
 <p>每个worker进程中只有一个主线程，且采用异步非阻塞的事件处理机制来处理请求。假设机制处理采用的是epoll，主线程就会循环epoll，如果发现事件已经准备好了，就进行处理，否则再次放入epoll，继续循环。epoll中的请求数就是worker进程的连接数。因此就可处理大量的并发了。要注意，worker同一时间只能处理一个请求（因为只有一个主线程），会来回进行请求切换处理。但是，请求间的切换是没有代价的，切换也是因为异步事件未准备好，而主动让出的。</p>
 <blockquote>
 <font color="red"><strong>工作原理要点：</strong><br>1. nginx采用多进程的工作方式，进程模型是master-worker形式。（注：常采用多进程方式，也有多线程，单进程方式）<br>2. worker处理请求时采用异步非阻塞的处理方式。因此可支持高并发。<br>3. 进程间、线程间是没有上下文切换，仅仅只是请求切换，是没有任何代价的。（注：进程与进程间是相互独立的；每个请求仅且只可在一个worker进程中完成；worker进程中只包含一个主线程；请求间的切换是通过循环事件来实现的。）</font>
-
-
 </blockquote>
 <h4 id="四、Nginx相关问题"><a href="#四、Nginx相关问题" class="headerlink" title="四、Nginx相关问题"></a>四、Nginx相关问题</h4><h5 id="1、nginx为啥性能高？"><a href="#1、nginx为啥性能高？" class="headerlink" title="1、nginx为啥性能高？"></a>1、nginx为啥性能高？</h5><p>（1）nginx采用的是多进程模型<br>首先，对于每个worker进程来说，独立的进程，不需要加锁，所以省掉了锁带来的开销，同时在编程以及问题查找时，也会方便很多。<br>其次，采用独立的进程，可以让相互之间不会影响，一个进程退出之后，其它进程还在工作，服务不会中断，master进程则很快启动新的worker进程。当然，worker进程的异常退出，肯定是程序出BUG了，异常退出，会导致当前的worker上的所有请求失败，不过不会影响到所有请求，所以降低了风险。<br>（2）nginx采用多进程事件模型：异步非阻塞<br>虽然nginx采用多worker的方式来处理请求，每个worker里面只有一个主线程，那能够处理的并发数很有限啊，多少个worker就能处理多少个并发，何来高并发呢？非也，这就是nginx的高明之处，nginx采用了异步非阻塞的方式来处理请求，也就是说，nginx是可以同时处理成千上万个请求的。一个worker进程可以同时处理的请求数只受限于内存大小，而且在架构设计上，不同的worker进程之间处理并发请求时几乎没有同步锁的限制，worker进程通常不会进入睡眠状态，因此，当Nginx上的进程数与CPU核心数相等时（最好每一个worker进程都绑定特定的CPU核心），进程间切换的代价是最小的。</p>
 <p>而apache的常用工作方式（apache也有异步非阻塞版本，但因其与自带某些模块冲突，所以不常用），每个进程在一个时刻只处理一个请求，因此，当并发数上到几千时，就同时有几千的进程在处理请求了。这对操作系统来说，是个不小的挑战，进程带来的内存占用非常大，进程的上下文切换带来的cpu开销很大，自然性能就上不去了，而这些开销完全是没有意义的。</p>
@@ -552,7 +550,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -563,7 +561,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

@@ -389,7 +389,9 @@
         <h4 id="1、检出"><a href="#1、检出" class="headerlink" title="1、检出"></a>1、检出</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn  checkout  http://路径(目录或文件的全路径)　[本地目录全路径] --username　用户名</span><br><span class="line">svn  checkout  svn://路径(目录或文件的全路径)　[本地目录全路径]  --username　用户名</span><br><span class="line">简写：svn co xxx</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p><strong>例子：</strong><br>svn checkout svn://localhost/测试工具 /home/testtools –username ben<br>svn checkout <a href="http://localhost/test/testapp" target="_blank" rel="noopener">http://localhost/test/testapp</a> –username ben<br>注：如果不带–password 参数传输密码的话，会提示输入密码，建议不要用明文的–password 选项。<br>　　其中 username 与 password前是两个短线，不是一个。<br>　　不指定本地目录全路径，则检出到当前目录下。<br><a id="more"></a></p>
+</blockquote>
 <h4 id="2、导出"><a href="#2、导出" class="headerlink" title="2、导出"></a>2、导出</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn  export  [-r 版本号]  http://路径(目录或文件的全路径) [本地目录全路径]　--username　用户名</span><br><span class="line">svn  export  [-r 版本号]  svn://路径(目录或文件的全路径) [本地目录全路径]　--username　用户名</span><br><span class="line">svn  export  本地检出的(即带有.svn文件夹的)目录全路径  要导出的本地目录全路径</span><br></pre></td></tr></table></figure>
+<blockquote>
 <p><strong>例子：</strong><br>svn export svn://localhost/测试工具 /home/testtools –username ben<br>svn export svn://localhost/test/testapp –username ben<br>svn export /home/testapp /home/testtools<br>注：第一种从版本库导出干净工作目录树的形式是指定URL，如果指定了修订版本号，会导出相应的版本，如果没有指定修订版本，则会导出最新的，导出到指定位置。如果省略本地目录全路径，URL的最后一部分会作为本地目录的名字。<br>第二种形式是指定 本地检出的目录全路径 到 要导出的本地目录全路径，所有的本地修改将会保留，但是不在版本控制下(即没提交的新文件，因为.svn文件夹里没有与之相关的信息记录)的文件不会拷贝。</p>
 </blockquote>
 <h4 id="3、添加新文件"><a href="#3、添加新文件" class="headerlink" title="3、添加新文件"></a>3、添加新文件</h4><p><code>svn　add　文件名</code><br>注：告诉SVN服务器要添加文件了，还要用svn commint -m真实的上传上去！</p>
@@ -499,8 +501,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/15/Linux 源码包与RPM包详解/" rel="prev" title="Linux 源码包与RPM包详解">
-                Linux 源码包与RPM包详解 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/15/解决CentOS7关闭-开启防火墙出现Unit-iptables-service-failed-to-load-No-such-file-or-directory/" rel="prev" title="解决CentOS7关闭/开启防火墙出现Unit iptables.service failed to load: No such file or directory.">
+                解决CentOS7关闭/开启防火墙出现Unit iptables.service failed to load: No such file or directory. <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -582,7 +584,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -593,7 +595,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

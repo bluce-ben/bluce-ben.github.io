@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="SVN," />
+  <meta name="keywords" content="firewalld," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
-<meta name="keywords" content="SVN">
+<meta name="description" content="在命令行下执行报错提示：12345[root@VM_0_7_centos ~]# firewall-cmd -hTraceback (most recent call last):  File &amp;quot;/usr/bin/firewall-cmd&amp;quot;, line 24, in &amp;lt;module&amp;gt;    from gi.repository import GObjectModu">
+<meta name="keywords" content="firewalld">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SVN 详解之多仓库管理及使用钩子hooks&#x2F;post-commit实现代码自动部署（四）">
-<meta property="og:url" content="http://yoursite.com/2018/03/16/SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四）/index.html">
+<meta property="og:title" content="CentOS 7下执行firewall-cmd显示ImportError: No module named &#39;gi&#39;">
+<meta property="og:url" content="http://yoursite.com/2018/03/16/CentOS 7下执行firewall-cmd显示ImportError No module named 'gi'/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
+<meta property="og:description" content="在命令行下执行报错提示：12345[root@VM_0_7_centos ~]# firewall-cmd -hTraceback (most recent call last):  File &amp;quot;/usr/bin/firewall-cmd&amp;quot;, line 24, in &amp;lt;module&amp;gt;    from gi.repository import GObjectModu">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-20T06:07:55.040Z">
+<meta property="og:updated_time" content="2018-07-21T10:22:41.688Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SVN 详解之多仓库管理及使用钩子hooks&#x2F;post-commit实现代码自动部署（四）">
-<meta name="twitter:description" content="多仓库管理1、首先，需要明白几个概念：（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。 （2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。">
+<meta name="twitter:title" content="CentOS 7下执行firewall-cmd显示ImportError: No module named &#39;gi&#39;">
+<meta name="twitter:description" content="在命令行下执行报错提示：12345[root@VM_0_7_centos ~]# firewall-cmd -hTraceback (most recent call last):  File &amp;quot;/usr/bin/firewall-cmd&amp;quot;, line 24, in &amp;lt;module&amp;gt;    from gi.repository import GObjectModu">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/16/SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四）/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/16/CentOS 7下执行firewall-cmd显示ImportError No module named 'gi'/"/>
 
 
 
 
 
-  <title>SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四） | Blog</title>
+  <title>CentOS 7下执行firewall-cmd显示ImportError: No module named 'gi' | Blog</title>
   
 
 
@@ -275,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/SVN 详解之多仓库管理及使用钩子hooks\post-commit实现代码自动部署（四）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/16/CentOS 7下执行firewall-cmd显示ImportError No module named 'gi'/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Zheng Benwu">
@@ -292,7 +292,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四）</h2>
+          <h2 class="post-title" itemprop="name headline">CentOS 7下执行firewall-cmd显示ImportError: No module named 'gi'</h2>
         
 
         <div class="post-meta">
@@ -304,7 +304,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T10:42:33+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-16T13:17:26+08:00">
                 2018-03-16
               </time>
             
@@ -327,8 +327,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/版本控制/" itemprop="url" rel="index">
-                    <span itemprop="name">版本控制</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -338,8 +338,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/版本控制/SVN/" itemprop="url" rel="index">
-                    <span itemprop="name">SVN</span>
+                  <a href="/categories/Linux/Linux问题/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux问题</span>
                   </a>
                 </span>
 
@@ -355,7 +355,7 @@
 
           
           
-             <span id="/2018/03/16/SVN 详解之多仓库管理及使用钩子hooks\post-commit实现代码自动部署（四）/" class="leancloud_visitors" data-flag-title="SVN 详解之多仓库管理及使用钩子hooks/post-commit实现代码自动部署（四）">
+             <span id="/2018/03/16/CentOS 7下执行firewall-cmd显示ImportError No module named 'gi'/" class="leancloud_visitors" data-flag-title="CentOS 7下执行firewall-cmd显示ImportError: No module named 'gi'">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -386,30 +386,12 @@
       
 
       
-        <h4 id="多仓库管理"><a href="#多仓库管理" class="headerlink" title="多仓库管理"></a>多仓库管理</h4><h5 id="1、首先，需要明白几个概念："><a href="#1、首先，需要明白几个概念：" class="headerlink" title="1、首先，需要明白几个概念："></a>1、首先，需要明白几个概念：</h5><p>（1）多仓库管理，则每个仓库对应的配置都要单独管理。即该仓库允许那些人员访问，人员所具有的的权限等都需设定。</p>
-<p>（2）每个仓库的配置文件只可管理本仓库的属性，不需要涉及到其他仓库，涉及到也没用。即仓库与仓库之间是独立的管理。<br><a id="more"></a></p>
-<h5 id="2、实战演示"><a href="#2、实战演示" class="headerlink" title="2、实战演示"></a>2、实战演示</h5><p>首先，新建2个仓库，project和common。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svnadmin create /var/svn/project	//开放仓库</span><br><span class="line">svnadmin create /var/svn/common		//共享资源仓库</span><br></pre></td></tr></table></figure></p>
-<p>分别对应仓库的conf/ 下文件进行配置，passwd与svnserve.conf配置类似，不予说明。其中，authz文件内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># project:</span><br><span class="line">[groups]</span><br><span class="line">admin = admin, ben</span><br><span class="line">test = nana</span><br><span class="line"></span><br><span class="line">[/] == [project:/]</span><br><span class="line">@admin = rw</span><br><span class="line">@test = r 	@只有读的权限，可用于测试</span><br><span class="line"></span><br><span class="line"># common:</span><br><span class="line">[common:/]</span><br><span class="line">@test = rw</span><br><span class="line">ben = rw</span><br></pre></td></tr></table></figure></p>
-<p><strong>注：对于用户享有单独某个目录权限，可如下操作：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[svn:/special1] == [/special1]</span><br><span class="line">ben = rw</span><br><span class="line">[svn:/special1/special2]</span><br><span class="line">nana = rw</span><br></pre></td></tr></table></figure></p>
-<h5 id="3、问题解决"><a href="#3、问题解决" class="headerlink" title="3、问题解决"></a>3、问题解决</h5><blockquote>
-<p>Invalid authz configuration<br>svn: Authorization failed解决办法</p>
+        <blockquote>
+<p>在命令行下执行报错提示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos ~]# firewall-cmd -h</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/usr/bin/firewall-cmd&quot;, line 24, in &lt;module&gt;</span><br><span class="line">    from gi.repository import GObject</span><br><span class="line">ModuleNotFoundError: No module named &apos;gi&apos;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<p>报此类错误，都是因为auth权限文件配置错误，仔细检查就可发现原因。</p>
-<h4 id="使用钩子hooks-post-commit实现代码自动部署"><a href="#使用钩子hooks-post-commit实现代码自动部署" class="headerlink" title="使用钩子hooks/post-commit实现代码自动部署"></a>使用钩子hooks/post-commit实现代码自动部署</h4><p>配置了台svn服务器，用来保存公司项目的代码，同时svn服务器也是一台web服务器。因此希望当我本地代码commit到svn服务器时,能够触发svn服务器的钩子hooks/post-commit将新版本的代码自动update到站点目录上去。</p>
-<blockquote>
-<p>svn 目录：/var/svn/project<br>站点目录：/data/www/project/</p>
-</blockquote>
-<h5 id="1、新建post-commit钩子"><a href="#1、新建post-commit钩子" class="headerlink" title="1、新建post-commit钩子"></a>1、新建post-commit钩子</h5><p>找到svn项目的hooks目录，这里是/var/svn/project/hooks。目录中默认会几个对应操作的钩子模板，我们需要创建一个post-commit的文件。<br>复制钩子文件，进行修改：<br><code>cp hooks/post-commit.tmpl hooks/post-commit</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line"></span><br><span class="line">export LANG=zh_CN.UTF-8</span><br><span class="line">REPOS=&quot;$1&quot;</span><br><span class="line">REV=&quot;$2&quot;</span><br><span class="line"></span><br><span class="line">SVN_PATH=/usr/bin	#svn命令路径</span><br><span class="line">WEB_PATH=/data/www/project/python_movie		#项目路径，即已经检出的项目，具体到项目目录</span><br><span class="line">LOG_PATH=/data/www/project/python_movie/logs/svn_deploy.log		#日志文件</span><br><span class="line">SVN_USER=ben</span><br><span class="line">SVN_PASS=ben1234</span><br><span class="line"></span><br><span class="line">echo `date &quot;+%Y-%m-%d %H:%M:%S&quot;` &gt;&gt; $LOG_PATH</span><br><span class="line">echo `whoami`,$REPOS,%REV &gt;&gt; %LOG_PATH</span><br><span class="line"></span><br><span class="line">$SVN_PATH/svn update $WEB_PATH --username $SVN_USER --password $SVN_PASS --no-auth-cache &gt;&gt; $LOG_PATH</span><br></pre></td></tr></table></figure></p>
-<font color="red">说明：<br>whoami #执行此程序的用户<br>REPOS=”$1” #svn项目绝对路径值<br>REV=”$2” #最新版本号<br>–no-auth-cache #不保存账户认证信息</font>
-
-<h5 id="2、修改post-commit文件权限"><a href="#2、修改post-commit文件权限" class="headerlink" title="2、修改post-commit文件权限"></a>2、修改post-commit文件权限</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown www:www /var/svn/python_movie/hooks/post-commit #设置脚本所属用户组，www为web服务运行账户和组</span><br><span class="line">chmod +x /var/svn/python_movie/hooks/post-commit #添加脚本执行权限</span><br></pre></td></tr></table></figure>
-<h5 id="3、客户端测试"><a href="#3、客户端测试" class="headerlink" title="3、客户端测试"></a>3、客户端测试</h5><p>测试的话，我这里是在本地修改版本库，点commit，然后再看web(nginx)服务器上的数据是否更新来测试。</p>
-<h5 id="4、问题解决"><a href="#4、问题解决" class="headerlink" title="4、问题解决"></a>4、问题解决</h5><p>Checkout一份代码到web服务器上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># cd /data/www/project/python_movie</span><br><span class="line"># /usr/bin/svn checkout svn://127.0.0.1/python_movie</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>在日志文件中提示<br>Skipped “/data/www/project/python_movie”<br>然后提交的文件并没有自动更新到web目录下</p>
-</blockquote>
-<p>解决方法是：<br>首先，需要在Web目录下检出SVN项目，生成 .svn目录。原因是 Web目录下没有 .svn目录，更新时钩子不能识别Web目录下的 .svn（因为没有），因此会跳过Web目录。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/www/project/python_movie</span><br><span class="line">svn checkout svn://服务器的ip地址/python_movie ./</span><br></pre></td></tr></table></figure></p>
-<p>然后再次提交的文件就可以自动更新到web目录下了。</p>
+<a id="more"></a>
+<p>由错误信息也能够看出来是因为缺少 ‘gi’ 模块。<br>CentOS7 默认自带安装的是Python2.7版本，由于我前段时间安装了最新版的 Python3.6，且是共存的。更改了默认的Python版本为Python3，因此一些Linux命令不能使用，原因就是这些命令使用的Python2版本，由于我安装的Python3版本，并没有把所有的需要的包都安装，因此会提示缺少某些模块。（注：由此处就说明，升级Python2到Python3的时候，要保留Python2）</p>
+<p>正确的做法就是，如果使用一些命令提示类似错误的时候，就把命令文件的头部Python版本改为CentOS默认的2.7版本即可。<br>更改方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">第一步，vim /usr/bin/firewall-cmd</span><br><span class="line">将#！/usr/bin/python -Es 改为 #！/usr/bin/python2 -Es（到目前为止，上面提到的问题已解决）</span><br><span class="line">第二步，vim /usr/sbin/firewalld</span><br><span class="line">将#！/usr/bin/python -Es 改为 #！/usr/bin/python2 -Es (这一步是针对于防火墙报错，进行的修改)</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -427,7 +409,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/SVN/" rel="tag"># SVN</a>
+            <a href="/tags/firewalld/" rel="tag"># firewalld</a>
           
         </div>
       
@@ -440,8 +422,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/15/Linux 源码包与RPM包详解/" rel="next" title="Linux 源码包与RPM包详解">
-                <i class="fa fa-chevron-left"></i> Linux 源码包与RPM包详解
+              <a href="/2018/03/16/防火墙之iptables和firewalld/" rel="next" title="防火墙之iptables和firewalld">
+                <i class="fa fa-chevron-left"></i> 防火墙之iptables和firewalld
               </a>
             
           </div>
@@ -450,8 +432,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/03/16/防火墙之iptables和firewalld/" rel="prev" title="防火墙之iptables和firewalld">
-                防火墙之iptables和firewalld <i class="fa fa-chevron-right"></i>
+              <a href="/2018/03/16/系统服务管理详解/" rel="prev" title="系统服务管理详解">
+                系统服务管理详解 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -504,17 +486,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -533,7 +506,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">136</span>
+                  <span class="site-state-item-count">139</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -544,7 +517,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -601,22 +574,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#多仓库管理"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;" class="headerlink" title="&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;"></a>&#x591A;&#x4ED3;&#x5E93;&#x7BA1;&#x7406;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、首先，需要明白几个概念："><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;" class="headerlink" title="1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;"></a>1&#x3001;&#x9996;&#x5148;&#xFF0C;&#x9700;&#x8981;&#x660E;&#x767D;&#x51E0;&#x4E2A;&#x6982;&#x5FF5;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、实战演示"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;" class="headerlink" title="2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;"></a>2&#x3001;&#x5B9E;&#x6218;&#x6F14;&#x793A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、问题解决"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;" class="headerlink" title="3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;"></a>3&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用钩子hooks-post-commit实现代码自动部署"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks-post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;" class="headerlink" title="&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks/post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;"></a>&#x4F7F;&#x7528;&#x94A9;&#x5B50;hooks/post-commit&#x5B9E;&#x73B0;&#x4EE3;&#x7801;&#x81EA;&#x52A8;&#x90E8;&#x7F72;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、新建post-commit钩子"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;" class="headerlink" title="1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;"></a>1&#x3001;&#x65B0;&#x5EFA;post-commit&#x94A9;&#x5B50;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、修改post-commit文件权限"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;" class="headerlink" title="2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;"></a>2&#x3001;&#x4FEE;&#x6539;post-commit&#x6587;&#x4EF6;&#x6743;&#x9650;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、客户端测试"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;" class="headerlink" title="3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;"></a>3&#x3001;&#x5BA2;&#x6237;&#x7AEF;&#x6D4B;&#x8BD5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、问题解决"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;" class="headerlink" title="4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;"></a>4&#x3001;&#x95EE;&#x9898;&#x89E3;&#x51B3;</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
