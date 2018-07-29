@@ -13,6 +13,7 @@ tags:
 Syntax : sendfile on | off;
 Contaxt: http, server, location, if in location
 ```
+作用：开启sendfile，则静态数据不会被后端处理（即不会进入用户空间），直接在Nginx层返回数据（即经过内核空间直接返回）。
 <!--more-->
 配置语法 - tcp\_nopush （注：sendfile 开启的情况下，提高网络包的传输效率）
 ```
@@ -199,3 +200,84 @@ upstream imooc {
 
 #### 7、缓存服务配置（Nginx） ####
 proxy_cache 配置语法。
+
+
+#### 8、CPU亲和设置 ####
+```
+worker_processes		2;
+worker_cpu_affinity 	auto; //Nginx1.9之后
+worker_cpu_affinity		0101010101010101 1010101010101010;
+
+worker_rlimit_nofile	35535; //worker进程句柄数限制
+```
+
+
+#### 9、文件上传漏洞 ####
+`http://hostname/upload/1.jpg/1.php`
+Nginx 将1.jpg作为php代码执行
+```
+location ^~ /upload {
+	root /opt/app/images;
+	if ($request_filename ~* (.*)\.php) {
+		return 403;
+	}
+}
+```
+
+
+#### 10、Nginx动静分离 ####
+**实现原理：**就是将静态内容，直接通过Nginx层就返回给用户，无需通过后端PHP处理。而动态数据，则发往后端处理后返回。
+静态数据包括：html/htm、js/css、jpg/png/gif、zip/rar 等。
+示例：
+**动态请求：**
+```
+location ~ \.php$ {
+	proxy_pass 127.0.0.1:9000
+	proxy_params $SCRIPT$REQUIRT_URI;
+	proxy_
+}
+```
+**静态内容：**
+```
+location ~ \.(jpg|png|gif)$ {
+	expires 1h;
+	gzip on;
+}
+```
+
+
+#### 11、Nginx 之Rewrite配置 ####
+**配置语法：**
+```
+Sysntax: rewrite regex replacement [flag];
+Context: server, location, if
+```
+
+**正则表达式：**
+
+.	 | 匹配除换行符以外的任意字符
+-----|-----------------------------------
+?    | 重复0次或1次
++    | 重复1次或更多次
+*    | 最少链接数，那个机器连接数少就分发
+\d   | 匹配数字
+^    | 匹配字符串的开始
+$    | 匹配字符串的结束
+{n}  | 重复n次
+{n,} | 重复n次或更多次
+[c]  | 匹配单个字符c
+[a-z]| 匹配a-z小写字母的任意一个
+\\   | 转义字符
+()   | 用于匹配括号之间的内容，通过$1、$2调用
+
+（注：可使用pcretest 来测试正则是否正确。）
+
+**flag：**
+
+last		|	停止rewrite检测
+------------|------------------------------------------------
+break		|	停止rewrite检测
+redirect	|	返回302临时重定向，地址栏会显示跳转后的地址
+permanent	|	返回301永久重定向，地址栏会显示跳转后的地址
+
+*（注：301与302的区别：临时重定向是客户端向服务器请求则返回，若服务器宕机，则不能够访问。永久重定向一旦服务器返回，再次访问则不需要请求服务器。永久性的指向重定向的服务器。）*
