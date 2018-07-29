@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Nginx," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="原理详解（1）HTTPS 采用对称加密和非对称加密两种形式。对称加密：明文M -&amp;gt; 加密算法（包含加密秘钥） -&amp;gt; 生成密文Y发送 -&amp;gt; 解密算法（包含加密秘钥） -&amp;gt; 明文M（注：加密算法中的秘钥 = 解密算法中的秘钥） 非对称加密：发送方：明文M -&amp;gt; 加密（通过会话秘钥（服务器端生成的公钥）及加密算法） -&amp;gt; 生成密文Y接收方：接收密文Y -&amp;gt; 解密">
+<meta name="keywords" content="Nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx 配置HTTPS及生成CA证书">
+<meta property="og:url" content="http://yoursite.com/2018/07/29/Nginx-配置HTTPS及生成CA证书/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="原理详解（1）HTTPS 采用对称加密和非对称加密两种形式。对称加密：明文M -&amp;gt; 加密算法（包含加密秘钥） -&amp;gt; 生成密文Y发送 -&amp;gt; 解密算法（包含加密秘钥） -&amp;gt; 明文M（注：加密算法中的秘钥 = 解密算法中的秘钥） 非对称加密：发送方：明文M -&amp;gt; 加密（通过会话秘钥（服务器端生成的公钥）及加密算法） -&amp;gt; 生成密文Y接收方：接收密文Y -&amp;gt; 解密">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-29T10:23:43.922Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx 配置HTTPS及生成CA证书">
+<meta name="twitter:description" content="原理详解（1）HTTPS 采用对称加密和非对称加密两种形式。对称加密：明文M -&amp;gt; 加密算法（包含加密秘钥） -&amp;gt; 生成密文Y发送 -&amp;gt; 解密算法（包含加密秘钥） -&amp;gt; 明文M（注：加密算法中的秘钥 = 解密算法中的秘钥） 非对称加密：发送方：明文M -&amp;gt; 加密（通过会话秘钥（服务器端生成的公钥）及加密算法） -&amp;gt; 生成密文Y接收方：接收密文Y -&amp;gt; 解密">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/29/Nginx-配置HTTPS及生成CA证书/"/>
+
+
+
+
+
+  <title>Nginx 配置HTTPS及生成CA证书 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/29/Nginx-配置HTTPS及生成CA证书/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Nginx 配置HTTPS及生成CA证书</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-29T18:23:12+08:00">
+                2018-07-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/" itemprop="url" rel="index">
+                    <span itemprop="name">服务器</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/服务器/Nginx/" itemprop="url" rel="index">
+                    <span itemprop="name">Nginx</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/07/29/Nginx-配置HTTPS及生成CA证书/" class="leancloud_visitors" data-flag-title="Nginx 配置HTTPS及生成CA证书">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="原理详解"><a href="#原理详解" class="headerlink" title="原理详解"></a>原理详解</h4><h5 id="（1）HTTPS-采用对称加密和非对称加密两种形式。"><a href="#（1）HTTPS-采用对称加密和非对称加密两种形式。" class="headerlink" title="（1）HTTPS 采用对称加密和非对称加密两种形式。"></a>（1）HTTPS 采用对称加密和非对称加密两种形式。</h5><p><strong>对称加密：</strong><br>明文M -&gt; 加密算法（包含加密秘钥） -&gt; 生成密文Y发送 -&gt; 解密算法（包含加密秘钥） -&gt; 明文M<br>（注：加密算法中的秘钥 = 解密算法中的秘钥）</p>
+<p><strong>非对称加密：</strong><br>发送方：明文M -&gt; 加密（通过会话秘钥（服务器端生成的公钥）及加密算法） -&gt; 生成密文Y<br>接收方：接收密文Y -&gt; 解密（通过会话秘钥（服务器端生成的私钥）及加密算法） -&gt;明文M<br><em>（注：服务器端生成公私钥，公钥可以公开用于客户端加密传输数据，秘钥保管在服务器端，用于解密数据。私钥很重要，不能泄露。）</em><br><a id="more"></a></p>
+<h5 id="（2）HTTPS-加密协议原理："><a href="#（2）HTTPS-加密协议原理：" class="headerlink" title="（2）HTTPS 加密协议原理："></a>（2）HTTPS 加密协议原理：</h5><p>客户端        -&gt; 发起SSL连接        -&gt; 服务器端（保管唯一私钥）<br>　　　　　　<- 发送公钥="" 　　　　　　-="">发送对称密码（发送对称密码利用公钥加密）<br>　　　　　　<-><br>　　（利用对称秘钥传输数据） </-></-></p>
+<blockquote>
+<p>此种方式安全漏洞：<br>会出现一种中间人：<br>① 在客户端“发起SSL连接”的时候，伪装成服务端接受连接，并再次伪装成客户端向服务端发送SSL连接；<br>② 当服务端接受SSL连接的时候，会向客户端发送“公钥”，然后中间人会伪装成客户端接受“公钥”，就会获取公钥；<br>③ 然后中间人会伪装成服务端向真正客户端发送“公钥”，获取客户端利用“公钥”返回的“对称密码”；<br>④ 到此，中间人就把传输数据的安全信息都获取了，可以进行伪装传输数据了。</p>
+</blockquote>
+<p><strong>为解决此安全漏洞，HTTPS采用了数字证书的方式（即CA证书）。</strong><br>原理即是在发送公钥这一层，将服务端返回公钥改成发送“CA签名证书”，然后，客户端已经安装了服务端生成的证书。对服务端返回的证书进行验证即可。校验通过，客户端发送“对称密码”；校验失败则停止会话。</p>
+<h4 id="秘钥及证书生成"><a href="#秘钥及证书生成" class="headerlink" title="秘钥及证书生成"></a>秘钥及证书生成</h4><p>准备工作：Nginx必备模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#openssl version</span><br><span class="line">OpenSSL 1.0.2k-fips  26 Jan 2017</span><br><span class="line">#nginx -V</span><br><span class="line">--with-http_ssl_module</span><br></pre></td></tr></table></figure></p>
+<h5 id="（1）生成key秘钥"><a href="#（1）生成key秘钥" class="headerlink" title="（1）生成key秘钥"></a>（1）生成key秘钥</h5><p><code>openssl genrsa -idea -out jesonc.key 1024</code></p>
+<h5 id="（2）生成证书签名请求文件（csr文件）"><a href="#（2）生成证书签名请求文件（csr文件）" class="headerlink" title="（2）生成证书签名请求文件（csr文件）"></a>（2）生成证书签名请求文件（csr文件）</h5><p><code>openssl req -new -key jesonc.key -out jesonc.csr</code></p>
+<h5 id="（3）生成证书签名文件（CA文件）"><a href="#（3）生成证书签名文件（CA文件）" class="headerlink" title="（3）生成证书签名文件（CA文件）"></a>（3）生成证书签名文件（CA文件）</h5><p><code>openssl x509 -req -days 3650 -in jesonc.csr -signkey jesonc.key -out jesonc.crt</code></p>
+<h5 id="（4）通过秘钥直接生成证书文件"><a href="#（4）通过秘钥直接生成证书文件" class="headerlink" title="（4）通过秘钥直接生成证书文件"></a>（4）通过秘钥直接生成证书文件</h5><p><code>openssl req -days 3650 -x509 -sha256 -nodes -newkey rsa:2048 -keyout jesonc.key -out jesonc_apple.crt</code></p>
+<h5 id="（5）免密启动服务设置"><a href="#（5）免密启动服务设置" class="headerlink" title="（5）免密启动服务设置"></a>（5）免密启动服务设置</h5><p><code>openssl rsa -in ./jesonc.key -out ./jesonc_nopass.key</code></p>
+<h4 id="HTTPS语法配置"><a href="#HTTPS语法配置" class="headerlink" title="HTTPS语法配置"></a>HTTPS语法配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax： ssl on | off;</span><br><span class="line">Context：http, server</span><br></pre></td></tr></table></figure>
+<p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">	listen		443;</span><br><span class="line">	server_name ip;</span><br><span class="line">	ssl 	on;</span><br><span class="line">	ssl_certificate 	/etc/nginx/ssl_key/jesonc.crt;</span><br><span class="line">	ssl_certificate_key	/etc/nginx/ssl_key/jesonc.key;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>场景 - 配置苹果要求的证书</p>
+<ol>
+<li>服务器所有的连接使用TLS1.2以上版本（openssl 1.0.2）</li>
+<li>HTTPS证书必须使用SHA256以上哈希算法签名</li>
+<li>HTTPS证书必须使用RSA 2048位或ECC 256位以上公钥算法</li>
+<li>使用向前加密技术</li>
+</ol>
+</blockquote>
+<p><em>（注：查看本地证书要求：<code>openssl x509 -noout -text -in ./jesonc.crt</code>）</em></p>
+<h4 id="HTTPS服务优化"><a href="#HTTPS服务优化" class="headerlink" title="HTTPS服务优化"></a>HTTPS服务优化</h4><p>（1）激活keepalive长连接<br>（2）设置 ssl session缓存<br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">keepalive_timeout	100;</span><br><span class="line"></span><br><span class="line">ssl on;</span><br><span class="line">ssl_session_cache    shared:SSL:10m;</span><br><span class="line">ssl_session_timeout  10m;</span><br></pre></td></tr></table></figure></p>
+<h4 id="升级SSL版本"><a href="#升级SSL版本" class="headerlink" title="升级SSL版本"></a>升级SSL版本</h4><p>（1）下载：<code>wget http://www.openssl.org/source/openssl-1.0.2k.tar.gz</code><br>（2）解压及安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf openssl-1.0.2k.tar.gz</span><br><span class="line">cd openssl-1.0.2k</span><br><span class="line">./config --prefix=/usr/local/openssl</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>（3）将旧的OpenSSL备份<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv /usr/bin/openssl /usr/bin/openssl.OFF</span><br><span class="line">mv /usr/include/openssl /usr/include/openssl.OFF</span><br></pre></td></tr></table></figure></p>
+<p>（4）将新的OpenSSL软链接到指定位置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s /usr/local/openssl/bin/openssl /usr/bin/openssl</span><br><span class="line">ln -s /usr/local/openssl/include/openssl /usr/include/openssl</span><br></pre></td></tr></table></figure></p>
+<p>（5）将新安装的openssl的库路径追加到系统的库文件的搜索路径中<br><code>echo &quot;/usr/local/openssl/lib&quot; &gt;&gt; /etc/ld.so.conf</code><br>（6）加载系统库文件，使修改后的/etc/ld.so.conf生效<br><code>ldconfig -v</code><br>（7）查看openssl是否已更新成功<br><code>openssl version -a</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/29/Nginx-配置常见问题/" rel="next" title="Nginx 配置常见问题">
+                <i class="fa fa-chevron-left"></i> Nginx 配置常见问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">141</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#原理详解"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x539F;&#x7406;&#x8BE6;&#x89E3;" class="headerlink" title="&#x539F;&#x7406;&#x8BE6;&#x89E3;"></a>&#x539F;&#x7406;&#x8BE6;&#x89E3;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）HTTPS-采用对称加密和非对称加密两种形式。"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;HTTPS-&#x91C7;&#x7528;&#x5BF9;&#x79F0;&#x52A0;&#x5BC6;&#x548C;&#x975E;&#x5BF9;&#x79F0;&#x52A0;&#x5BC6;&#x4E24;&#x79CD;&#x5F62;&#x5F0F;&#x3002;" class="headerlink" title="&#xFF08;1&#xFF09;HTTPS &#x91C7;&#x7528;&#x5BF9;&#x79F0;&#x52A0;&#x5BC6;&#x548C;&#x975E;&#x5BF9;&#x79F0;&#x52A0;&#x5BC6;&#x4E24;&#x79CD;&#x5F62;&#x5F0F;&#x3002;"></a>&#xFF08;1&#xFF09;HTTPS &#x91C7;&#x7528;&#x5BF9;&#x79F0;&#x52A0;&#x5BC6;&#x548C;&#x975E;&#x5BF9;&#x79F0;&#x52A0;&#x5BC6;&#x4E24;&#x79CD;&#x5F62;&#x5F0F;&#x3002;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）HTTPS-加密协议原理："><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;HTTPS-&#x52A0;&#x5BC6;&#x534F;&#x8BAE;&#x539F;&#x7406;&#xFF1A;" class="headerlink" title="&#xFF08;2&#xFF09;HTTPS &#x52A0;&#x5BC6;&#x534F;&#x8BAE;&#x539F;&#x7406;&#xFF1A;"></a>&#xFF08;2&#xFF09;HTTPS &#x52A0;&#x5BC6;&#x534F;&#x8BAE;&#x539F;&#x7406;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#秘钥及证书生成"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x79D8;&#x94A5;&#x53CA;&#x8BC1;&#x4E66;&#x751F;&#x6210;" class="headerlink" title="&#x79D8;&#x94A5;&#x53CA;&#x8BC1;&#x4E66;&#x751F;&#x6210;"></a>&#x79D8;&#x94A5;&#x53CA;&#x8BC1;&#x4E66;&#x751F;&#x6210;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）生成key秘钥"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x751F;&#x6210;key&#x79D8;&#x94A5;" class="headerlink" title="&#xFF08;1&#xFF09;&#x751F;&#x6210;key&#x79D8;&#x94A5;"></a>&#xFF08;1&#xFF09;&#x751F;&#x6210;key&#x79D8;&#x94A5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）生成证书签名请求文件（csr文件）"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x7B7E;&#x540D;&#x8BF7;&#x6C42;&#x6587;&#x4EF6;&#xFF08;csr&#x6587;&#x4EF6;&#xFF09;" class="headerlink" title="&#xFF08;2&#xFF09;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x7B7E;&#x540D;&#x8BF7;&#x6C42;&#x6587;&#x4EF6;&#xFF08;csr&#x6587;&#x4EF6;&#xFF09;"></a>&#xFF08;2&#xFF09;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x7B7E;&#x540D;&#x8BF7;&#x6C42;&#x6587;&#x4EF6;&#xFF08;csr&#x6587;&#x4EF6;&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）生成证书签名文件（CA文件）"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x7B7E;&#x540D;&#x6587;&#x4EF6;&#xFF08;CA&#x6587;&#x4EF6;&#xFF09;" class="headerlink" title="&#xFF08;3&#xFF09;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x7B7E;&#x540D;&#x6587;&#x4EF6;&#xFF08;CA&#x6587;&#x4EF6;&#xFF09;"></a>&#xFF08;3&#xFF09;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x7B7E;&#x540D;&#x6587;&#x4EF6;&#xFF08;CA&#x6587;&#x4EF6;&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（4）通过秘钥直接生成证书文件"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;&#x901A;&#x8FC7;&#x79D8;&#x94A5;&#x76F4;&#x63A5;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x6587;&#x4EF6;" class="headerlink" title="&#xFF08;4&#xFF09;&#x901A;&#x8FC7;&#x79D8;&#x94A5;&#x76F4;&#x63A5;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x6587;&#x4EF6;"></a>&#xFF08;4&#xFF09;&#x901A;&#x8FC7;&#x79D8;&#x94A5;&#x76F4;&#x63A5;&#x751F;&#x6210;&#x8BC1;&#x4E66;&#x6587;&#x4EF6;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（5）免密启动服务设置"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#&#xFF08;5&#xFF09;&#x514D;&#x5BC6;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x8BBE;&#x7F6E;" class="headerlink" title="&#xFF08;5&#xFF09;&#x514D;&#x5BC6;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x8BBE;&#x7F6E;"></a>&#xFF08;5&#xFF09;&#x514D;&#x5BC6;&#x542F;&#x52A8;&#x670D;&#x52A1;&#x8BBE;&#x7F6E;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS语法配置"><span class="nav-number">3.</span> <span class="nav-text"><a href="#HTTPS&#x8BED;&#x6CD5;&#x914D;&#x7F6E;" class="headerlink" title="HTTPS&#x8BED;&#x6CD5;&#x914D;&#x7F6E;"></a>HTTPS&#x8BED;&#x6CD5;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTPS服务优化"><span class="nav-number">4.</span> <span class="nav-text"><a href="#HTTPS&#x670D;&#x52A1;&#x4F18;&#x5316;" class="headerlink" title="HTTPS&#x670D;&#x52A1;&#x4F18;&#x5316;"></a>HTTPS&#x670D;&#x52A1;&#x4F18;&#x5316;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#升级SSL版本"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x5347;&#x7EA7;SSL&#x7248;&#x672C;" class="headerlink" title="&#x5347;&#x7EA7;SSL&#x7248;&#x672C;"></a>&#x5347;&#x7EA7;SSL&#x7248;&#x672C;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
