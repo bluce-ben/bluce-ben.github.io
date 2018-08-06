@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location">
+<meta name="description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location 作用：开启sendfile，则静态数据不会被后端处理（即不会进入用户空间），直接在Nginx层返回数据（即经过内核空间直接返回）。">
 <meta name="keywords" content="Nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Nginx 实战场景配置">
 <meta property="og:url" content="http://yoursite.com/2018/07/21/Nginx-实战场景配置/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location">
+<meta property="og:description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location 作用：开启sendfile，则静态数据不会被后端处理（即不会进入用户空间），直接在Nginx层返回数据（即经过内核空间直接返回）。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-21T10:57:41.137Z">
+<meta property="og:updated_time" content="2018-07-29T10:33:38.806Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx 实战场景配置">
-<meta name="twitter:description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location">
+<meta name="twitter:description" content="1、静态资源配置配置语法 - sendfile12Syntax : sendfile on | off;Contaxt: http, server, location, if in location 作用：开启sendfile，则静态数据不会被后端处理（即不会进入用户空间），直接在Nginx层返回数据（即经过内核空间直接返回）。">
 
 
 
@@ -387,8 +387,7 @@
 
       
         <h4 id="1、静态资源配置"><a href="#1、静态资源配置" class="headerlink" title="1、静态资源配置"></a>1、静态资源配置</h4><p>配置语法 - sendfile<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : sendfile on | off;</span><br><span class="line">Contaxt: http, server, location, if in location</span><br></pre></td></tr></table></figure></p>
-<a id="more"></a>
-<p>配置语法 - tcp_nopush （注：sendfile 开启的情况下，提高网络包的传输效率）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : tcp_nopush on | off;</span><br><span class="line">Contaxt: http, server, location</span><br></pre></td></tr></table></figure></p>
+<p>作用：开启sendfile，则静态数据不会被后端处理（即不会进入用户空间），直接在Nginx层返回数据（即经过内核空间直接返回）。<br><a id="more"></a><br>配置语法 - tcp_nopush （注：sendfile 开启的情况下，提高网络包的传输效率）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : tcp_nopush on | off;</span><br><span class="line">Contaxt: http, server, location</span><br></pre></td></tr></table></figure></p>
 <p>配置语法 - tcp_nodelay（注：keepalive 连接下，提高网络包的传输实时性）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : tcp_nodelay on | off;</span><br><span class="line">Contaxt: http, server, location</span><br></pre></td></tr></table></figure></p>
 <p>配置语法 - 压缩<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Syntax : gzip on | off;</span><br><span class="line">Contaxt: http, server, location, if in location</span><br></pre></td></tr></table></figure></p>
 <p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location ~ .*\.(jpg|gif|png)$ &#123;</span><br><span class="line">	#gzip on;</span><br><span class="line">	#gzip_http_version 1.1;</span><br><span class="line">	#gzip_comp_level 2;</span><br><span class="line">	#gzip_types text/plain application/javascript application/x-javascript text/css application/xml text/javascript application/x-httpd-php image/jpeg image/gif image/png;</span><br><span class="line">	root /opt/app/code/images;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -489,6 +488,95 @@
 <p><strong>示例：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream imooc &#123;</span><br><span class="line">	hash $request_uri;</span><br><span class="line">	server 116.62.103.228:8001;</span><br><span class="line">	server 116.62.103.228:8002;</span><br><span class="line">	server 116.62.103.228:8003; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>上面示例的意思就是根据 $request_uri的值来计算hash值。此处的key可自定义，只要在配置文件中定义即可。</p>
 <h4 id="7、缓存服务配置（Nginx）"><a href="#7、缓存服务配置（Nginx）" class="headerlink" title="7、缓存服务配置（Nginx）"></a>7、缓存服务配置（Nginx）</h4><p>proxy_cache 配置语法。</p>
+<h4 id="8、CPU亲和设置"><a href="#8、CPU亲和设置" class="headerlink" title="8、CPU亲和设置"></a>8、CPU亲和设置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">worker_processes		2;</span><br><span class="line">worker_cpu_affinity 	auto; //Nginx1.9之后</span><br><span class="line">worker_cpu_affinity		0101010101010101 1010101010101010;</span><br><span class="line"></span><br><span class="line">worker_rlimit_nofile	35535; //worker进程句柄数限制</span><br></pre></td></tr></table></figure>
+<h4 id="9、文件上传漏洞"><a href="#9、文件上传漏洞" class="headerlink" title="9、文件上传漏洞"></a>9、文件上传漏洞</h4><p><code>http://hostname/upload/1.jpg/1.php</code><br>Nginx 将1.jpg作为php代码执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /upload &#123;</span><br><span class="line">	root /opt/app/images;</span><br><span class="line">	if ($request_filename ~* (.*)\.php) &#123;</span><br><span class="line">		return 403;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="10、Nginx动静分离"><a href="#10、Nginx动静分离" class="headerlink" title="10、Nginx动静分离"></a>10、Nginx动静分离</h4><p><strong>实现原理：</strong>就是将静态内容，直接通过Nginx层就返回给用户，无需通过后端PHP处理。而动态数据，则发往后端处理后返回。<br>静态数据包括：html/htm、js/css、jpg/png/gif、zip/rar 等。<br>示例：<br><strong>动态请求：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">	proxy_pass 127.0.0.1:9000</span><br><span class="line">	proxy_params $SCRIPT$REQUIRT_URI;</span><br><span class="line">	proxy_</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>静态内容：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.(jpg|png|gif)$ &#123;</span><br><span class="line">	expires 1h;</span><br><span class="line">	gzip on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="11、Nginx-之Rewrite配置"><a href="#11、Nginx-之Rewrite配置" class="headerlink" title="11、Nginx 之Rewrite配置"></a>11、Nginx 之Rewrite配置</h4><p><strong>配置语法：</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Sysntax: rewrite regex replacement [flag];</span><br><span class="line">Context: server, location, if</span><br></pre></td></tr></table></figure></p>
+<p><strong>正则表达式：</strong></p>
+<table>
+<thead>
+<tr>
+<th>.</th>
+<th>匹配除换行符以外的任意字符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>?</td>
+<td>重复0次或1次</td>
+</tr>
+<tr>
+<td>+</td>
+<td>重复1次或更多次</td>
+</tr>
+<tr>
+<td>*</td>
+<td>最少链接数，那个机器连接数少就分发</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配数字</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配字符串的开始</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串的结束</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>重复n次</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>重复n次或更多次</td>
+</tr>
+<tr>
+<td>[c]</td>
+<td>匹配单个字符c</td>
+</tr>
+<tr>
+<td>[a-z]</td>
+<td>匹配a-z小写字母的任意一个</td>
+</tr>
+<tr>
+<td>\</td>
+<td>转义字符</td>
+</tr>
+<tr>
+<td>()</td>
+<td>用于匹配括号之间的内容，通过$1、$2调用</td>
+</tr>
+</tbody>
+</table>
+<p>（注：可使用pcretest 来测试正则是否正确。）</p>
+<p><strong>flag：</strong></p>
+<table>
+<thead>
+<tr>
+<th>last</th>
+<th>停止rewrite检测</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>break</td>
+<td>停止rewrite检测</td>
+</tr>
+<tr>
+<td>redirect</td>
+<td>返回302临时重定向，地址栏会显示跳转后的地址</td>
+</tr>
+<tr>
+<td>permanent</td>
+<td>返回301永久重定向，地址栏会显示跳转后的地址</td>
+</tr>
+</tbody>
+</table>
+<p><em>（注：301与302的区别：临时重定向是客户端向服务器请求则返回，若服务器宕机，则不能够访问。永久重定向一旦服务器返回，再次访问则不需要请求服务器。永久性的指向重定向的服务器。）</em></p>
 
       
     </div>
@@ -612,7 +700,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">139</span>
+                  <span class="site-state-item-count">141</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -690,7 +778,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、静态资源配置"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;" class="headerlink" title="1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;"></a>1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、浏览器缓存配置"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;" class="headerlink" title="2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;"></a>2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、跨站访问配置"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;" class="headerlink" title="3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;"></a>3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、防盗链配置"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;" class="headerlink" title="4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;"></a>4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、代理配置"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;" class="headerlink" title="5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;"></a>5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）正向代理"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;" class="headerlink" title="&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;"></a>&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）反向代理"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;" class="headerlink" title="&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;"></a>&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、负载均衡配置"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;" class="headerlink" title="6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;"></a>6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调度算法："><span class="nav-number">6.1.</span> <span class="nav-text"><a href="#&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;" class="headerlink" title="&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;"></a>&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、缓存服务配置（Nginx）"><span class="nav-number">7.</span> <span class="nav-text"><a href="#7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;" class="headerlink" title="7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;"></a>7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、静态资源配置"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;" class="headerlink" title="1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;"></a>1&#x3001;&#x9759;&#x6001;&#x8D44;&#x6E90;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、浏览器缓存配置"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;" class="headerlink" title="2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;"></a>2&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x7F13;&#x5B58;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、跨站访问配置"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;" class="headerlink" title="3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;"></a>3&#x3001;&#x8DE8;&#x7AD9;&#x8BBF;&#x95EE;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、防盗链配置"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;" class="headerlink" title="4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;"></a>4&#x3001;&#x9632;&#x76D7;&#x94FE;&#x914D;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、代理配置"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;" class="headerlink" title="5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;"></a>5&#x3001;&#x4EE3;&#x7406;&#x914D;&#x7F6E;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）正向代理"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;" class="headerlink" title="&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;"></a>&#xFF08;1&#xFF09;&#x6B63;&#x5411;&#x4EE3;&#x7406;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）反向代理"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;" class="headerlink" title="&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;"></a>&#xFF08;2&#xFF09;&#x53CD;&#x5411;&#x4EE3;&#x7406;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、负载均衡配置"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;" class="headerlink" title="6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;"></a>6&#x3001;&#x8D1F;&#x8F7D;&#x5747;&#x8861;&#x914D;&#x7F6E;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调度算法："><span class="nav-number">6.1.</span> <span class="nav-text"><a href="#&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;" class="headerlink" title="&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;"></a>&#x8C03;&#x5EA6;&#x7B97;&#x6CD5;&#xFF1A;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、缓存服务配置（Nginx）"><span class="nav-number">7.</span> <span class="nav-text"><a href="#7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;" class="headerlink" title="7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;"></a>7&#x3001;&#x7F13;&#x5B58;&#x670D;&#x52A1;&#x914D;&#x7F6E;&#xFF08;Nginx&#xFF09;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8、CPU亲和设置"><span class="nav-number">8.</span> <span class="nav-text"><a href="#8&#x3001;CPU&#x4EB2;&#x548C;&#x8BBE;&#x7F6E;" class="headerlink" title="8&#x3001;CPU&#x4EB2;&#x548C;&#x8BBE;&#x7F6E;"></a>8&#x3001;CPU&#x4EB2;&#x548C;&#x8BBE;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9、文件上传漏洞"><span class="nav-number">9.</span> <span class="nav-text"><a href="#9&#x3001;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;&#x6F0F;&#x6D1E;" class="headerlink" title="9&#x3001;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;&#x6F0F;&#x6D1E;"></a>9&#x3001;&#x6587;&#x4EF6;&#x4E0A;&#x4F20;&#x6F0F;&#x6D1E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10、Nginx动静分离"><span class="nav-number">10.</span> <span class="nav-text"><a href="#10&#x3001;Nginx&#x52A8;&#x9759;&#x5206;&#x79BB;" class="headerlink" title="10&#x3001;Nginx&#x52A8;&#x9759;&#x5206;&#x79BB;"></a>10&#x3001;Nginx&#x52A8;&#x9759;&#x5206;&#x79BB;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11、Nginx-之Rewrite配置"><span class="nav-number">11.</span> <span class="nav-text"><a href="#11&#x3001;Nginx-&#x4E4B;Rewrite&#x914D;&#x7F6E;" class="headerlink" title="11&#x3001;Nginx &#x4E4B;Rewrite&#x914D;&#x7F6E;"></a>11&#x3001;Nginx &#x4E4B;Rewrite&#x914D;&#x7F6E;</span></a></li></ol></div>
             
 
           </div>
