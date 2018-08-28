@@ -88,9 +88,13 @@ git add xx命令可以将xx文件添加到暂存区，如果有很多改动可�
 
 ##### 6、BUG分支
 `git stash`  把当前工作现场“储藏”起来，等以后恢复现场后继续工作
+`git stash save "说明"`  同上，可增加注释
 `git stash list`  查看工作现场存储到什么地方
 `git stash apply`  恢复，但stash内容并不删除
 `git stash pop`  恢复，但同时把stash内容也删除
+`git stash drop`  移除
+`git stash show`  查看指定stash的diff （后面添加 -p 或 --patch 可以查看特定stash的全部diff）
+（注：实际使用中，如果一次git stash不行的话，可多使用一次；记得恢复的时候，也是需要的。）
 
 
 ##### 7、多人协作
