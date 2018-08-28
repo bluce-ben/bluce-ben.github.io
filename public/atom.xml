@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-08-28T10:21:10.209Z</updated>
+  <updated>2018-08-28T11:08:52.530Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,41 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ORDER BY与索引</title>
+    <link href="http://yoursite.com/2018/08/28/ORDER-BY%E4%B8%8E%E7%B4%A2%E5%BC%95/"/>
+    <id>http://yoursite.com/2018/08/28/ORDER-BY与索引/</id>
+    <published>2018-08-28T11:04:48.000Z</published>
+    <updated>2018-08-28T11:08:52.530Z</updated>
+    
+    <content type="html"><![CDATA[<p>一条SQL实际上可以分为三步。</p><ol><li>得到数据</li><li>处理数据</li><li>返回处理后的数据</li></ol><p>比如这条语句<code>select sid from zhuyuehua.student where sid &lt; 50000 and id &lt; 50000 order by id desc</code><br>第一步：根据where条件和统计信息生成执行计划，得到数据。<br>第二步：将得到的数据排序。<br><strong>当执行处理数据（order by）时，数据库会先查看第一步的执行计划，看order by 的字段是否在执行计划中利用了索引。如果是，则可以利用索引顺序而直接取得已经排好序的数据。</strong>如果不是，则排序操作。<br>第三步：返回排序后的数据。 </p><p>总结：<br><strong>当order by 中的字段出现在where条件中时，才会利用索引而不排序，更准确的说，order by 中的字段在执行计划中利用了索引时，不用排序操作。</strong></p><p>这个结论不仅对order by有效，对其他需要排序的操作也有效。比如<strong><font color="red">group by 、union 、distinct</font></strong>等。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;一条SQL实际上可以分为三步。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;得到数据&lt;/li&gt;
+&lt;li&gt;处理数据&lt;/li&gt;
+&lt;li&gt;返回处理后的数据&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;比如这条语句&lt;code&gt;select sid from zhuyuehua.student where sid &amp;
+      
+    
+    </summary>
+    
+      <category term="SQL" scheme="http://yoursite.com/categories/SQL/"/>
+    
+      <category term="SQL优化" scheme="http://yoursite.com/categories/SQL%E4%BC%98%E5%8C%96/"/>
+    
+    
+      <category term="SQL" scheme="http://yoursite.com/tags/SQL/"/>
+    
+      <category term="SQL优化" scheme="http://yoursite.com/tags/SQL%E4%BC%98%E5%8C%96/"/>
+    
+  </entry>
   
   <entry>
     <title>Linux 配置支持IPv6</title>
@@ -489,41 +524,6 @@
       &lt;p&gt;1、首先安装session&lt;br&gt;&lt;code&gt;pip install flask-session&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;2、引入框架中&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;from flask_session import Session&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sess = Session()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sess.init_app(app)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;3、下面就可以在视图中使用引用使用了&lt;br&gt;&lt;code&gt;from flask import session&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Python" scheme="http://yoursite.com/categories/Python/"/>
-    
-      <category term="Flask" scheme="http://yoursite.com/categories/Python/Flask/"/>
-    
-    
-      <category term="Python" scheme="http://yoursite.com/tags/Python/"/>
-    
-      <category term="Flask" scheme="http://yoursite.com/tags/Flask/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python3 支持MySQL</title>
-    <link href="http://yoursite.com/2018/04/16/Python3%20%E6%94%AF%E6%8C%81MySQL/"/>
-    <id>http://yoursite.com/2018/04/16/Python3 支持MySQL/</id>
-    <published>2018-04-16T05:30:05.000Z</published>
-    <updated>2018-07-20T06:07:55.247Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><font color="red">注：MySQLdb 只适用于Python2.x，在Python3的替代品是：pymysql</font></blockquote><p>1、安装： pip install pymysql</p><p>一些框架默认仍然用的是MySQLdb，但是python3已经不支持MySQLdb，取而代之的是pymysql，因此运行的时候会报<br><code>ModuleNotFoundError: No module named &#39;MySQLdb&#39;</code></p><p>2、使用方式：</p><ol><li>安装成功后，可使用MySQLdb的语法使用pymysql</li><li>使用Flask集成的SQLAlchemy管理MySQL</li></ol><a id="more"></a><p>在框架中引入下面语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import pymysql</span><br><span class="line">pymysql.install_as_MySQLdb()</span><br></pre></td></tr></table></figure></p><p>然后，在配置 <code>SQLALCHEMY_DATABASE_URI</code> 参数时，直接使用 mysql的使用方式即可。</p><blockquote><p>使用方式：<code>mysql://username:password@hostname/database</code></p></blockquote><p>3、生成对应数据表<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python manage.py db init</span><br><span class="line">python manage.py db migrate</span><br><span class="line">python manage.py db upgrade</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;font color=&quot;red&quot;&gt;注：MySQLdb 只适用于Python2.x，在Python3的替代品是：pymysql&lt;/font&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;1、安装： pip install pymysql&lt;/p&gt;
-&lt;p&gt;一些框架默认仍然用的是MySQLdb，但是python3已经不支持MySQLdb，取而代之的是pymysql，因此运行的时候会报&lt;br&gt;&lt;code&gt;ModuleNotFoundError: No module named &amp;#39;MySQLdb&amp;#39;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;2、使用方式：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;安装成功后，可使用MySQLdb的语法使用pymysql&lt;/li&gt;
-&lt;li&gt;使用Flask集成的SQLAlchemy管理MySQL&lt;/li&gt;
-&lt;/ol&gt;
     
     </summary>
     
