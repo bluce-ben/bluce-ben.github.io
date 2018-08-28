@@ -185,3 +185,18 @@ MONTHLY
 
 #### Windows下查看定时任务 ####
 ![](/uploads/2018/08/windows_schtasks.png)
+
+
+#### Windows自定义定时任务 ####
+（1）自定义脚本文件 ".bat"
+```
+c:
+cd \schtasks
+D:\dev\Go\src\myTest\ceshi.exe >> D:\go.txt
+```
+**说明：**
+在定时执行的bat文件开头加几行命令，先进入存放配置文件的目录。
+（schtasks的默认其实路径为：C:\Windows\System32）
+
+（2）设置定时任务
+`schtasks /create /sc minute /mo 1 /tn "windows_crontab" /tr d:\schtasks\ceshi.bat`
