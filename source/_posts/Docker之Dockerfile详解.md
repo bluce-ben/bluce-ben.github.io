@@ -44,13 +44,13 @@ STOPSIGNAL  | 容器退出的信号
 HEALTHCHECK | 如何进行健康检查
 SHELL       | 指定使用SHELL时的默认SHELL类型
 
-##### 1. FROM
+##### 1. FROM #####
 指定所创建的镜像的基础镜像，如果本地不存在，则默认会去Docker Hub下载指定镜像。
 格式为：
 `FROM <image>`，或`FROM <image>:<tag>`，或`FROM <image>@<digest>`
 任何Dockerfile中的第一条指令必须为FROM指令。并且，如果在同一个Dockerfile文件中创建多个镜像，可以使用多个FROM指令(每个镜像一次)。
 
-##### 2. MAINTAINER
+##### 2. MAINTAINER #####
 指定维护者信息。
 格式为：
 `MAINTAINER <name>`
@@ -58,7 +58,7 @@ SHELL       | 指定使用SHELL时的默认SHELL类型
 MAINTAINER image_creator@docker.com
 该信息将会写入生成镜像的Author属性域中。
 
-##### 3. RUN
+##### 3. RUN #####
 运行指定命令。
 格式为：
 `RUN <command>` 或 `RUN ["executable", "param1", "param2"]`
@@ -73,15 +73,15 @@ RUN apt-get update \
         && rm -rf /var/cache/apt
 ```
 
-##### 4. CMD
+##### 4. CMD #####
 CMD指令用来指定启动容器时默认执行的命令。它支持三种格式：
-1. CMD ["executable", "param1", "param2"] 使用exec执行，是推荐使用的方式；
-2. CMD param1 param2  在/bin/sh中执行，提供给需要交互的应用；
-3. CMD ["param1", "param2"]  提供给ENTRYPOINT的默认参数。
+1. `CMD ["executable", "param1", "param2"]` 使用exec执行，是推荐使用的方式；
+2. `CMD param1 param2`  在/bin/sh中执行，提供给需要交互的应用；
+3. `CMD ["param1", "param2"]`  提供给ENTRYPOINT的默认参数。
 
 每个Dockerfile只能有一条CMD命令。如果指定了多条命令，只有最后一条会被执行。如果用户启动容器时指定了运行的命令(作为run的参数)，则会覆盖掉CMD指定的命令。
 
-##### 5. LABEL
+##### 5. LABEL #####
 LABEL指令用来生成用于生成镜像的元数据的标签信息。
 格式为：`LABEL <key>=<value> <key>=<value> <key>=<value> ...`
 例如：
@@ -90,17 +90,16 @@ LABEL version="1.0"
 LABEL description="This text illustrates \ that label-values can span multiple lines."
 ```
 
-##### 6. EXPOSE
+##### 6. EXPOSE #####
 声明镜像内服务所监听的端口。
 格式为：`EXPOSE <port> [<port>...]`
 例如：
 `EXPOSE 22 80 443 3306`
-<font color="red">
-注意：
+<font color="red">注意：
 该命令只是起到声明租用，并不会自动完成端口映射。
 在容器启动时需要使用-P(大写P)，Docker主机会自动分配一个宿主机未被使用的临时端口转发到指定的端口；使用-p(小写p)，则可以具体指定哪个宿主机的本地端口映射过来。</font>
 
-##### 7. ENV
+##### 7. ENV #####
 指定环境变量，在镜像生成过程中会被后续RUN指令使用，在镜像启动的容器中也会存在。
 格式为：`ENV <key><value>或ENV<key>=<value>...`
 例如：
@@ -117,18 +116,18 @@ RUN mkdir -p "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 ```
 指令指定的环境变量在运行时可以被覆盖掉，如`docker run --env <key>=<value> built_image`。
 
-##### 8. ADD
+##### 8. ADD #####
 该指令将复制指定的<src>路径下的内容到容器中的<dest>路径下。
 格式为：`ADD<src> <dest>`
 其中`<src>`可以使Dockerfile所在目录的一个相对路径(文件或目录)，也可以是一个URL，还可以是一个tar文件(如果是tar文件，会自动解压到`<dest>`路径下)。`<dest>`可以使镜像内的绝对路径，或者相当于工作目录(WORKDIR)的相对路径。路径支持正则表达式，例如：
 `ADD *.c /code/`
 
-##### 9. COPY
+##### 9. COPY #####
 复制本地主机的`<src>`(为Dockerfile所在目录的一个相对路径、文件或目录)下的内容到镜像中的`<dest>`下。目标路径不存在时，会自动创建。路径同样支持正则。
 格式为：`COPY <src> <dest>`
 当使用本地目录为源目录时，推荐使用COPY。
 
-##### 10. ENTRYPOINT
+##### 10. ENTRYPOINT #####
 指定镜像的默认入口命令，该入口命令会在启动容器时作为根命令执行，所有传入值作为该命令的参数。
 支持两种格式：
 1. `ENTRYPOINT ["executable","param1","param2"]` (exec调用执行)；
@@ -136,21 +135,21 @@ RUN mkdir -p "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
 此时，CMD指令指定值将作为根命令的参数。
 每个Dockerfile中只能有一个ENTRYPOINT，当指定多个时，只有最后一个有效。
-在运行时可以被--entrypoint参数覆盖掉，如docker run --entrypoint。
+在运行时可以被`--entrypoint`参数覆盖掉，如`docker run --entrypoint`。
 
-##### 11. VOLUME
+##### 11. VOLUME #####
 创建一个数据卷挂载点。
 格式为：`VOLUME ["/data"]`
 可以从本地主机或者其他容器挂载数据卷，一般用来存放数据库和需要保存的数据等。
 
-##### 12. USER
+##### 12. USER #####
 指定运行容器时的用户名或UID，后续的RUN等指令也会使用特定的用户身份。
 格式为：`USER daemon`
 当服务不需要管理员权限时，可以通过该指令指定运行用户，并且可以在之前创建所需要的用户。例如：
 `RUN groupadd -r nginx && useradd -r -g nginx nginx`
 要临时获取管理员权限可以用gosu或者sudo。
 
-##### 13. WORKDIR
+##### 13. WORKDIR #####
 为后续的RUN、CMD和ENTRYPOINT指令配置工作目录。
 格式为：`WORKDIR /path/to/workdir`
 可以使用多个WORKDIR指令，后续命令如果参数是相对的，则会基于之前命令指定的路径。例如：
@@ -162,12 +161,12 @@ RUN pwd
 ```
 则最终路径为/a/b/c
 
-##### 14. ARG
+##### 14. ARG #####
 指定一些镜像内使用的参数(例如版本号信息等)，这些参数在执行`docker build`命令时才以`--build-arg<varname>=<value>`格式传入。
 格式为：`ARG<name>[=<default value>]`
 则可以用`docker build --build-arg<name>=<value>`来指定参数值。
 
-##### 15. ONBUILD
+##### 15. ONBUILD #####
 配置当所创建的镜像作为其他镜像的基础镜像的时候，所执行创建操作指令。
 格式为：`ONBUILD [INSTRUCTION]`
 例如Dockerfile使用如下的内容创建了镜像image-A：
@@ -185,7 +184,7 @@ FROM image-A
 ONBUILD ADD . /app/src
 ONBUILD RUN /usr/local/bin/python-build --dir /app/src
 ```
-使用ONBUILD指令的镜像，推荐在标签中注明，例如：ruby:1.9-onbuild。
+使用ONBUILD指令的镜像，推荐在标签中注明，例如：`ruby:1.9-onbuild`。
 
 
 #### 三、后记 ####
