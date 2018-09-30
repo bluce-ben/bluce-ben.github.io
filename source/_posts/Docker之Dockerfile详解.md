@@ -6,21 +6,42 @@ categories:
 tags:
 - Docker
 ---
-#### 一、Nginx 示例 ####
-```
-FROM  centos
-
-MAINTAINER 2018-04-011 lipengcheng 777@qq.com
-
-RUN  yum -y install gcc*  make pcre-devel zlib-devel
-
-RUN  rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm && yum -y install nginx
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
-```
+#### 一、Dockerfile详解 ####
+##### （1）Dockerfile包含的信息
+* 基础镜像信息 
+* 维护者信息 
+* 镜像操作指令 
+* 容器启动时执行指令
 <!--more-->
+##### （2）文件的编写
+```
+# This is docker file
+# version v1
+# Author wangshibo
+# Base image(基础镜像)
+FROM centos
+
+# Maintainer(维护者信息)
+MAINTAINER wangshibo  2134728394@qq.com
+
+# Commands(执行命令)
+RUN rpm -ivh  http://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
+RUN yum -y install nginx
+# Add(添加文件)
+ADD index.html /usr/share/nginx/html/index.html    # index.html是自己编写的文件，放在后面的目录中，因为yum安装后Documentroot是在这里
+RUN echo "daemon off;" >>/etc/nginx/nginx.conf
+EXPOSE 80           # 对外的端口
+CMD ['nginx']       # 执行的命令
+```
+![](./images/docker-dockerfile.png)
+
+##### （3）构建容器，并运行
+>建立newnginx容器，-t：标签，执行/opt/dockerfile/nginx/下面的默认的Dockerfile文件
+```
+[root@linux-node2 nginx]# docker build -t cgt/mynginx:v3 /opt/dockerfile/nginx/
+[root@linux-node2 nginx]# docker run -d -p 83:80 cgt/mynginx:v3
+```
+
 #### 二、指令说明 ####
 
 指令		| 说明
@@ -198,3 +219,23 @@ ONBUILD RUN /usr/local/bin/python-build --dir /app/src
 7. 提高生产速度：                合理使用缓存、减少目录下的使用文件，使用.dockeringore文件等；
 8. 调整合理的指令顺序：           在开启缓存的情况下，内容不变的指令尽量放在前面，这样可以提高指令的复用性；
 9. 减少外部源的干扰：             如果确实要从外部引入数据，需要制定持久的地址，并带有版本信息，让他人可以重复使用而不出错。
+10. 不要在容器中存储数据：			容器可能被停止，销毁，或替换。一个运行在容器中的程序版本1.0，应该很容易被1.1的版本替换且不影响或损失数据。有鉴于此，如果你需要存储数据，请存在卷中，并且注意如果两个容器在同一个卷上写数据会导致崩溃。确保你的应用被设计成在共享数据存储上写入。
+11. 不要在镜像中存储凭据。使用环境变量：		不要将镜像中的任何用户名/密码写死。使用环境变量来从容器外部获取此信息。
+12. 使用非root用户运行进程：		“docker容器默认以root运行。（…）随着docker的成熟，更多的安全默认选项变得可用。现如今，请求root对于其他人是危险的，可能无法在所有环境中可用。你的镜像应该使用USER指令来指令容器的一个非root用户来运行。”
+13. 不要依赖IP地址：		每个容器都有自己的内部IP地址，如果你启动并停止它地址可能会变化。如果你的应用或微服务需要与其他容器通讯，使用任何命名与（或者）环境变量来从一个容器传递合适信息到另一个。
+
+
+#### 附属实例：Nginx（已验证） ####
+```
+FROM  centos
+
+MAINTAINER 2018-04-011 lipengcheng 777@qq.com
+
+RUN  yum -y install gcc*  make pcre-devel zlib-devel
+
+RUN  rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm && yum -y install nginx
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+```
