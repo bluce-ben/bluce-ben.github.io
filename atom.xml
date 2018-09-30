@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-09-30T04:07:04.253Z</updated>
+  <updated>2018-09-30T04:16:43.582Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Docker之Dockerfile配置LNMP服务实战篇</title>
+    <link href="http://yoursite.com/2018/09/30/Docker%E4%B9%8BDockerfile%E9%85%8D%E7%BD%AELNMP%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%88%98%E7%AF%87/"/>
+    <id>http://yoursite.com/2018/09/30/Docker之Dockerfile配置LNMP服务实战篇/</id>
+    <published>2018-09-30T04:13:48.000Z</published>
+    <updated>2018-09-30T04:16:43.582Z</updated>
+    
+    <content type="html"><![CDATA[<p>参考博客：<a href="http://blog.51cto.com/zpf666/1905555" target="_blank" rel="noopener">传送门</a><br>supervisor：<a href="https://www.cnblogs.com/zhoujinyi/p/6073705.html" target="_blank" rel="noopener">传送门</a><br>详细Dockers学习记录参考：<a href="https://www.cnblogs.com/CloudMan6/tag/%E5%AE%B9%E5%99%A8/default.html?page=10" target="_blank" rel="noopener">传送门</a></p><p>待整理…</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;参考博客：&lt;a href=&quot;http://blog.51cto.com/zpf666/1905555&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;传送门&lt;/a&gt;&lt;br&gt;supervisor：&lt;a href=&quot;https://www.cnblogs.com
+      
+    
+    </summary>
+    
+      <category term="Docker" scheme="http://yoursite.com/categories/Docker/"/>
+    
+    
+      <category term="Docker" scheme="http://yoursite.com/tags/Docker/"/>
+    
+  </entry>
   
   <entry>
     <title>Docker之手动配置LNMP服务实战篇</title>
@@ -486,36 +511,6 @@
       <category term="Linux" scheme="http://yoursite.com/tags/Linux/"/>
     
       <category term="Linux命令" scheme="http://yoursite.com/tags/Linux%E5%91%BD%E4%BB%A4/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PHP 传值与传引用详解</title>
-    <link href="http://yoursite.com/2018/06/05/PHP%20%E4%BC%A0%E5%80%BC%E4%B8%8E%E4%BC%A0%E5%BC%95%E7%94%A8%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://yoursite.com/2018/06/05/PHP 传值与传引用详解/</id>
-    <published>2018-06-05T10:03:52.000Z</published>
-    <updated>2018-07-20T06:07:54.409Z</updated>
-    
-    <content type="html"><![CDATA[<p>首先，看两个示例，进行比较：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$a = 1; $b = &amp;$a; $c = 2; $a = &amp;$c; $c = 2;</span><br><span class="line">echo $a.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $b.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $c.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo &quot;&lt;hr/&gt;&quot;;</span><br></pre></td></tr></table></figure></p><p>此时，$a、$b、$c 的值是多少？</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$a = 1; $b = &amp;$a; $c = 2; $c = &amp;$a; $c = 2;</span><br><span class="line">echo $a.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $b.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $c.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo &quot;&lt;hr/&gt;&quot;;</span><br></pre></td></tr></table></figure><p>此时，$a、$b、$c 的值又是多少？</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$a = 1; $b = &amp;$a; $c = 2; $c = &amp;$a;</span><br><span class="line">echo $a.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $b.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo $c.&apos;&lt;br/&gt;&apos;;</span><br><span class="line">echo &quot;&lt;hr/&gt;&quot;;</span><br></pre></td></tr></table></figure><p>此时，$a、$b、$c 的值又是多少？</p><p><em>（先不要着急往下看，文章的末尾会附属答案。）</em><br><a id="more"></a></p><p>下面对赋值与赋引用进行说明。<br>再看个示例，进行说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$a = 10;//将常量值赋给变量，会为a分配内存空间</span><br><span class="line">$b = $a;//变量赋值给变量，是不是copy了一份副本，b也分配了内存空间呢？</span><br><span class="line">$a = &amp;$c;//引用是不会为c分配空间的，c和a是共用一份空间的。</span><br><span class="line">         //此时，a和c都指向同一个内存空间，且为空。（注：a就不是10了）。</span><br><span class="line"></span><br><span class="line">echo $a;//无输出</span><br><span class="line">echo $c;//无输出</span><br><span class="line">echo PHP_EOL;</span><br><span class="line">echo $b;//由于b是副本，输出10</span><br><span class="line"></span><br><span class="line">$a = 5;</span><br><span class="line">echo $c;//输出5，因为a和c 是指向同一个内存空间</span><br><span class="line">echo PHP_EOL;</span><br><span class="line">echo $b;//由于b是副本，对a的操作不会影响b，输出10</span><br></pre></td></tr></table></figure></p><p><strong>（1）赋值</strong><br>由上面示例可看出，将常量值赋值给变量，会分配内存空间（属于新建变量）；当将变量赋值给变量，只是拷贝一份副本，并不会重新分配内存空间，PHP底层变量计数会加1。只有当这两个变量中的其中任一个改变，才会重新分配内存空间（属于新建变量），且此两个变量的更改与否互相无关。</p><p><strong>（2）赋引用</strong><br>&amp;赋引用的时候，视为一个变量定义了一个别名，增加了一个对内存空间的引用。改变其中一个，会影响其他的引用。而使用unset()时，只是断开了对变量内存空间的引用，内存空间不会释放（底层就是释放了指向内存空间的指针）。<br>由上面示例可看出，赋引用的先后是有影响的。$a=&amp;$c 指把$c的引用地址赋值给$a，且$c的引用地址对应的值为空，因此$a=$c为空。若$c=&amp;$a 指把$a的引用地址赋值给$c，且$a的引用地址对应的值为10，因此$a=$c=10。</p><font color="red"><strong>划重点：赋引用的时候，先后赋引用的顺序是有影响的。</strong></font><hr><font color="red"><strong>示例答案：</strong><br>示例一：$a=2,$b=1,$c=2;<br>示例二：$a=2,$b=2,$c=2;<br>示例三：$a=1,$b=1,$c=1;<br></font>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;首先，看两个示例，进行比较：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$a = 1; $b = &amp;amp;$a; $c = 2; $a = &amp;amp;$c; $c = 2;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $a.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $b.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $c.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo &amp;quot;&amp;lt;hr/&amp;gt;&amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;此时，$a、$b、$c 的值是多少？&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$a = 1; $b = &amp;amp;$a; $c = 2; $c = &amp;amp;$a; $c = 2;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $a.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $b.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $c.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo &amp;quot;&amp;lt;hr/&amp;gt;&amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;此时，$a、$b、$c 的值又是多少？&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$a = 1; $b = &amp;amp;$a; $c = 2; $c = &amp;amp;$a;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $a.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $b.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $c.&amp;apos;&amp;lt;br/&amp;gt;&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo &amp;quot;&amp;lt;hr/&amp;gt;&amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;此时，$a、$b、$c 的值又是多少？&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;（先不要着急往下看，文章的末尾会附属答案。）&lt;/em&gt;&lt;br&gt;
-    
-    </summary>
-    
-      <category term="PHP" scheme="http://yoursite.com/categories/PHP/"/>
-    
-    
-      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
-    
-      <category term="PHP知识点" scheme="http://yoursite.com/tags/PHP%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
     
   </entry>
   
