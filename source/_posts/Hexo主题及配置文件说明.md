@@ -82,3 +82,37 @@ Next主题配置：[传送门](http://theme-next.iissnan.com/theme-settings.html
 ### 2、如何使用RSS？
 　　RSS就是个数据源，要订阅RSS，就必须先知道RSS的地址。一般来说，各个网站的首页都会用显著位置标明。名称可能会有些不同，比如RSS、XML、FEED，大家知道它们指的都是同样的东西就可以了。有时RSS后面还会带有版本号，比如2.0、1.0，甚至0.92，这个不必理会，它们只是内部格式不同，内容都是一样。
 　　获取到数据源之后，内容是一堆程序语言，想要转换成正常形式阅读，就需要阅读器。RSS的阅读器多种多样，大致分为两种，一种是桌面型的，需要安装；另一种是在线型，直接使用浏览器进行阅读。
+
+
+## Hexo 增加阅读数
+下面介绍两种方式：LeanClound 和 不蒜子统计。
+### （1）LeanClound 统计
+<font color="red">注：配置LeanClound统计需要提前配置好HTTPS协议。可参考下面的说明。</font>
+1. 注册LeanClound账号
+2. 创建应用 -> 可获取到APP ID和APP Key。（用于Hexo主题配置文件。）
+3. 创建Class -> 用于专门保存博客的文章访问量等数据。此处Class名称必须为 **Counter**。
+4. 添加安全域名 -> 只有添加了安全域名，才有权访问后台的数据。（注：此处安全域名需要使用HTTPS协议的域名）
+5. 修改主题配置文件 -> 即把2步骤获取的APP ID和APP Key添加进去，并开启。
+
+至此，重新部署代码后生效，不需要自己添加样式或加载JS等操作。
+
+### （2）不蒜子统计
+直接打开 themes/_config.yml 文件，搜索 “busuanzi_count” 即可找到主题中默认已经配置了不蒜子统计。
+你要做的就是：
+1. 开启不蒜子： `enable: true`
+2. 进入 http://ibruce.info/2015/04/04/busuanzi/ 网站，依据上面说明更改对应的域名即可。
+
+>更改域名：
+如果依据网站说明的地址 `themes/你的主题/layout/_partial/footer.ejs` 找不到对应的文件。
+可直接在“你的主题”路径下面直接搜索：`grep -r 'busuanzi' ./*` 即可找到对应的主题默认加载的不蒜子JS，更改其域名即可。
+
+至此，重新部署代码即可生效。
+
+
+## Hexo http升级到https
+基于Hexo + GitHub Page搭建的个人博客，配置https超级简单。两步搞定：
+1、进入GitHub Page所在的Repository，点击Settings
+![](/uploads/2018/10/hexo_https_01.png)
+
+2、在Options（默认）选项下方找到GitHub Page一栏，如下图所示，勾选 Enforce HTTPS设置即可。
+![](/uploads/2018/10/hexo_https_02.png)
