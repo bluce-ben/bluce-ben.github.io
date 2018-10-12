@@ -81,19 +81,19 @@
 
 
 
-<meta name="description" content="变量1、变量命名 1. 只能使用数字、字母和下划线，且不能以数字开头 2. 变量名区分大小写 3. 建议命令要通俗易懂 注意：   变量不需要声明，初始化不需要指定类型 变量赋值是通过等号（=）进行赋值，在变量、等号和值之间不能出现空格">
+<meta name="description" content="SHELL脚本具备的内容：（1）脚本声明（#!） 用来告诉系统使用哪种shell解释器来执行该脚本。（2）注释信息（#）是对脚本功能和某些命令的介绍信息（3）命令 脚本执行什么命令 变量1、变量命名 1. 只能使用数字、字母和下划线，且不能以数字开头 2. 变量名区分大小写 3. 建议命令要通俗易懂 注意：   变量不需要声明，初始化不需要指定类型 变量赋值是通过等号（=）进行赋值，在变量、等号和">
 <meta name="keywords" content="Shell">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Shell基础知识手册">
 <meta property="og:url" content="http://yoursite.com/2017/12/11/Shell基础知识手册/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="变量1、变量命名 1. 只能使用数字、字母和下划线，且不能以数字开头 2. 变量名区分大小写 3. 建议命令要通俗易懂 注意：   变量不需要声明，初始化不需要指定类型 变量赋值是通过等号（=）进行赋值，在变量、等号和值之间不能出现空格">
+<meta property="og:description" content="SHELL脚本具备的内容：（1）脚本声明（#!） 用来告诉系统使用哪种shell解释器来执行该脚本。（2）注释信息（#）是对脚本功能和某些命令的介绍信息（3）命令 脚本执行什么命令 变量1、变量命名 1. 只能使用数字、字母和下划线，且不能以数字开头 2. 变量名区分大小写 3. 建议命令要通俗易懂 注意：   变量不需要声明，初始化不需要指定类型 变量赋值是通过等号（=）进行赋值，在变量、等号和">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/uploads/2017/12/shell_string_01.png">
-<meta property="og:updated_time" content="2018-07-20T06:07:54.578Z">
+<meta property="og:updated_time" content="2018-10-12T06:33:31.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shell基础知识手册">
-<meta name="twitter:description" content="变量1、变量命名 1. 只能使用数字、字母和下划线，且不能以数字开头 2. 变量名区分大小写 3. 建议命令要通俗易懂 注意：   变量不需要声明，初始化不需要指定类型 变量赋值是通过等号（=）进行赋值，在变量、等号和值之间不能出现空格">
+<meta name="twitter:description" content="SHELL脚本具备的内容：（1）脚本声明（#!） 用来告诉系统使用哪种shell解释器来执行该脚本。（2）注释信息（#）是对脚本功能和某些命令的介绍信息（3）命令 脚本执行什么命令 变量1、变量命名 1. 只能使用数字、字母和下划线，且不能以数字开头 2. 变量名区分大小写 3. 建议命令要通俗易懂 注意：   变量不需要声明，初始化不需要指定类型 变量赋值是通过等号（=）进行赋值，在变量、等号和">
 <meta name="twitter:image" content="http://yoursite.com/uploads/2017/12/shell_string_01.png">
 
 
@@ -377,7 +377,8 @@
       
 
       
-        <h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p><strong>1、变量命名</strong></p>
+        <p>SHELL脚本具备的内容：<br>（1）脚本声明（#!） 用来告诉系统使用哪种shell解释器来执行该脚本。<br>（2）注释信息（#）是对脚本功能和某些命令的介绍信息<br>（3）命令 脚本执行什么命令</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p><strong>1、变量命名</strong></p>
 <pre><code>1. 只能使用数字、字母和下划线，且不能以数字开头
 2. 变量名区分大小写
 3. 建议命令要通俗易懂
@@ -422,7 +423,125 @@ _（和windows中的环境变量比较类似）_
     $#：参数个数
     $*：或者$@：所有的参数
     $$：获取当前shell的进程号（PID）(可以实现脚本自杀)(或者使用exit命令直接退出也可以使用exit [num])
-</code></pre><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p><strong>1、算术运算符</strong></p>
+</code></pre><h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p>测试语句格式： [ 条件表达式 ] （注：两边均有一个空格）<br>按照测试对象来划分，条件测试语句可以分为4种：<br><strong>1、文件测试语句</strong></p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-d</td>
+<td>测试文件是否为目录类型</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>测试文件是否存在</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>判断是否为一般文件</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>测试当前用户是否有权限读取</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>测试当前用户是否有权限写入</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>测试当前用户是否有权限执行</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2、逻辑测试语句</strong></p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&amp;&amp;</td>
+<td>逻辑与</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>逻辑或</td>
+</tr>
+<tr>
+<td>！</td>
+<td>逻辑非</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3、整数值比较语句</strong><br>整数比较运算符仅对数字的操作，不能将数字与字符串、文件等内容一起操作，而且不能使用日常生活中的等号、大于号、小于号来判断。<br>因为等号与赋值命令符冲突，大于号和小于号分别于输出重定向命令符和输入重定向命令符冲突。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-eq</td>
+<td>是否等于</td>
+</tr>
+<tr>
+<td>-ne</td>
+<td>是否不等于</td>
+</tr>
+<tr>
+<td>-gt</td>
+<td>是否大于</td>
+</tr>
+<tr>
+<td>-lt</td>
+<td>是否小于</td>
+</tr>
+<tr>
+<td>-le</td>
+<td>是否等于或小于</td>
+</tr>
+<tr>
+<td>-ge</td>
+<td>是否大于或等于</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4、字符串比较语句</strong><br>字符串比较语句用于判断测试字符串是否为空值，或两个字符串是否相同。</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>=</td>
+<td>比较字符串内容是否相同</td>
+</tr>
+<tr>
+<td>!=</td>
+<td>比较字符串内容是否不同</td>
+</tr>
+<tr>
+<td>-z</td>
+<td>判断字符串内容是否为空</td>
+</tr>
+</tbody>
+</table>
+<h2 id="运算符常用操作"><a href="#运算符常用操作" class="headerlink" title="运算符常用操作"></a>运算符常用操作</h2><p><strong>1、算术运算符</strong></p>
 <pre><code>格式：
 let varName=算术表达式
 varName=$[算术表达式]
@@ -560,7 +679,11 @@ function 函数名(){
 3. 函数传递参数（可以使用类似于Java中的args，args[1]代表Shell中的$1）
 4. 函数的返回值，只能是数字
 5. 函数的调用： 函数名
-</code></pre>
+</code></pre><h2 id="特殊"><a href="#特殊" class="headerlink" title="特殊"></a>特殊</h2><p>shell中执行命令：<br>`命令`<br>\$(命令)</p>
+<p>shell脚本中 整数运算一般通过let和expr这两个指令来实现。<br>如： <code>let &quot;s = $s + 1&quot;</code> 或者 <code>s=\</code>expr $s + 1`<code>（注：let的性能远超expr的。建议使用let）
+常用于：
+自加/自减操作：</code>let no++<code>、</code>let no–<code>、</code>let no += 20`</p>
+
       
     </div>
     
@@ -683,7 +806,7 @@ function 函数名(){
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">152</span>
+                  <span class="site-state-item-count">155</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -694,7 +817,7 @@ function 函数名(){
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -761,7 +884,7 @@ function 函数名(){
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x53D8;&#x91CF;" class="headerlink" title="&#x53D8;&#x91CF;"></a>&#x53D8;&#x91CF;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运算符"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8FD0;&#x7B97;&#x7B26;" class="headerlink" title="&#x8FD0;&#x7B97;&#x7B26;"></a>&#x8FD0;&#x7B97;&#x7B26;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串操作"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;" class="headerlink" title="&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;"></a>&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组操作"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x6570;&#x7EC4;&#x64CD;&#x4F5C;" class="headerlink" title="&#x6570;&#x7EC4;&#x64CD;&#x4F5C;"></a>&#x6570;&#x7EC4;&#x64CD;&#x4F5C;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程控制"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x6D41;&#x7A0B;&#x63A7;&#x5236;" class="headerlink" title="&#x6D41;&#x7A0B;&#x63A7;&#x5236;"></a>&#x6D41;&#x7A0B;&#x63A7;&#x5236;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环控制"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x5FAA;&#x73AF;&#x63A7;&#x5236;" class="headerlink" title="&#x5FAA;&#x73AF;&#x63A7;&#x5236;"></a>&#x5FAA;&#x73AF;&#x63A7;&#x5236;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x51FD;&#x6570;" class="headerlink" title="&#x51FD;&#x6570;"></a>&#x51FD;&#x6570;</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#变量"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x53D8;&#x91CF;" class="headerlink" title="&#x53D8;&#x91CF;"></a>&#x53D8;&#x91CF;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运算符"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x8FD0;&#x7B97;&#x7B26;" class="headerlink" title="&#x8FD0;&#x7B97;&#x7B26;"></a>&#x8FD0;&#x7B97;&#x7B26;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运算符常用操作"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x8FD0;&#x7B97;&#x7B26;&#x5E38;&#x7528;&#x64CD;&#x4F5C;" class="headerlink" title="&#x8FD0;&#x7B97;&#x7B26;&#x5E38;&#x7528;&#x64CD;&#x4F5C;"></a>&#x8FD0;&#x7B97;&#x7B26;&#x5E38;&#x7528;&#x64CD;&#x4F5C;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串操作"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;" class="headerlink" title="&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;"></a>&#x5B57;&#x7B26;&#x4E32;&#x64CD;&#x4F5C;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组操作"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x6570;&#x7EC4;&#x64CD;&#x4F5C;" class="headerlink" title="&#x6570;&#x7EC4;&#x64CD;&#x4F5C;"></a>&#x6570;&#x7EC4;&#x64CD;&#x4F5C;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程控制"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x6D41;&#x7A0B;&#x63A7;&#x5236;" class="headerlink" title="&#x6D41;&#x7A0B;&#x63A7;&#x5236;"></a>&#x6D41;&#x7A0B;&#x63A7;&#x5236;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环控制"><span class="nav-number">7.</span> <span class="nav-text"><a href="#&#x5FAA;&#x73AF;&#x63A7;&#x5236;" class="headerlink" title="&#x5FAA;&#x73AF;&#x63A7;&#x5236;"></a>&#x5FAA;&#x73AF;&#x63A7;&#x5236;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">8.</span> <span class="nav-text"><a href="#&#x51FD;&#x6570;" class="headerlink" title="&#x51FD;&#x6570;"></a>&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特殊"><span class="nav-number">9.</span> <span class="nav-text"><a href="#&#x7279;&#x6B8A;" class="headerlink" title="&#x7279;&#x6B8A;"></a>&#x7279;&#x6B8A;</span></a></li></ol></div>
             
 
           </div>
