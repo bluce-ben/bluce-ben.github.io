@@ -90,7 +90,7 @@
 <meta property="og:description" content="SHELL脚本具备的内容：（1）脚本声明（#!） 用来告诉系统使用哪种shell解释器来执行该脚本。（2）注释信息（#）是对脚本功能和某些命令的介绍信息（3）命令 脚本执行什么命令 变量1、变量命名 1. 只能使用数字、字母和下划线，且不能以数字开头 2. 变量名区分大小写 3. 建议命令要通俗易懂 注意：   变量不需要声明，初始化不需要指定类型 变量赋值是通过等号（=）进行赋值，在变量、等号和">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/uploads/2017/12/shell_string_01.png">
-<meta property="og:updated_time" content="2018-10-12T06:33:31.215Z">
+<meta property="og:updated_time" content="2018-10-23T10:30:02.991Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shell基础知识手册">
 <meta name="twitter:description" content="SHELL脚本具备的内容：（1）脚本声明（#!） 用来告诉系统使用哪种shell解释器来执行该脚本。（2）注释信息（#）是对脚本功能和某些命令的介绍信息（3）命令 脚本执行什么命令 变量1、变量命名 1. 只能使用数字、字母和下划线，且不能以数字开头 2. 变量名区分大小写 3. 建议命令要通俗易懂 注意：   变量不需要声明，初始化不需要指定类型 变量赋值是通过等号（=）进行赋值，在变量、等号和">
@@ -464,6 +464,14 @@ _（和windows中的环境变量比较类似）_
 <td>-x</td>
 <td>测试当前用户是否有权限执行</td>
 </tr>
+<tr>
+<td>-s</td>
+<td>测试文件是否存在并且是否为空</td>
+</tr>
+<tr>
+<td>-S</td>
+<td>测试文件是否是个socket</td>
+</tr>
 </tbody>
 </table>
 <p><strong>2、逻辑测试语句</strong></p>
@@ -480,9 +488,7 @@ _（和windows中的环境变量比较类似）_
 <td>逻辑与</td>
 </tr>
 <tr>
-<td></td>
-<td></td>
-<td></td>
+<td>&#124;&#124;</td>
 <td>逻辑或</td>
 </tr>
 <tr>
@@ -558,7 +564,10 @@ varName=\`expr $num1 + $num2\`
 </code></pre><font color="red">（使用这种格式要注意两个数字和+号中间要有空格。）</font>
 
 <p><strong>2、逻辑运算符</strong><br>　if [ 条件A &amp;&amp; 条件B ] 在shell中怎么写?<br>　if [ 条件A &amp;&amp; 条件B ];then    是不对的<br>（1）需要用到shell中的逻辑操作符<br>　-a 与<br>　-o 或<br>　！ 非<br>　如if [ 条件A -a 条件B ]<br>（2）if [ 条件A ] &amp;&amp; [条件B ]<br>（3）if((A&amp;&amp;B))<br>（4）if [[ A&amp;&amp;B ]]</p>
-<h2 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h2><p><img src="/uploads/2017/12/shell_string_01.png" alt=""></p>
+<h2 id="字符串操作"><a href="#字符串操作" class="headerlink" title="字符串操作"></a>字符串操作</h2><p><img src="/uploads/2017/12/shell_string_01.png" alt=""><br><strong>比较两个字符串的大小</strong><br>&lt;　　小于，在ASCII字母顺序下，如：<br>　　if [[ “$a” &lt; “$b” ]]<br>　　if [ “$a” \&lt; “$b” ]</p>
+<blockquote>
+<p>　　大于，在ASCII字母顺序下，如：<br>　　if [[ “$a” &gt; “$b” ]]<br>　　if [ “$a” > “$b” ]<br>注意：在[]结构中”&gt;”需要被转义。</p>
+</blockquote>
 <h2 id="数组操作"><a href="#数组操作" class="headerlink" title="数组操作"></a>数组操作</h2><p><strong>定义：</strong></p>
 <pre><code>declare -a：表示定义普通数组
 </code></pre><p><strong>特点：</strong></p>
@@ -814,7 +823,7 @@ function 函数名(){
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">155</span>
+                  <span class="site-state-item-count">156</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
