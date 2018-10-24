@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="1. 相同server_name多个虚拟主机优先级访问答： 相同的server_name，在nginx.conf文件中，会由上往下匹配，匹配成功则不往下继续匹配；而在vhost/下，则依据文件顺序由上往下进行匹配（即文件名称的顺序）。 2. location匹配优先级location方式有三种：  =     进行普通字符精确匹配，也就是完全匹配 ^~    表示普通字符匹配，使用前缀匹配方式 ~">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-29T10:33:38.806Z">
+<meta property="og:updated_time" content="2018-10-24T08:29:07.714Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx 配置常见问题">
 <meta name="twitter:description" content="1. 相同server_name多个虚拟主机优先级访问答： 相同的server_name，在nginx.conf文件中，会由上往下匹配，匹配成功则不往下继续匹配；而在vhost/下，则依据文件顺序由上往下进行匹配（即文件名称的顺序）。 2. location匹配优先级location方式有三种：  =     进行普通字符精确匹配，也就是完全匹配 ^~    表示普通字符匹配，使用前缀匹配方式 ~">
@@ -400,9 +400,14 @@
 <li>=     进行普通字符精确匹配，也就是完全匹配</li>
 <li>^~    表示普通字符匹配，使用前缀匹配方式</li>
 <li>~/~*    表示执行一个正则匹配()</li>
-<li>@     用来定义“Named Location”,是专门用来处理“内部重定向”请求的<br>说明：<br>（1）1、2优先级最高，匹配成功后，就不继续往下匹配。而3的优先级低，会一直往下匹配，直到找到最匹配的为止。<br>（2）~与~<em>的区别：~ 表示区分大小写；~</em>则表示不区分大小写。<a id="more"></a>
-</li>
+<li>/     通用匹配，如果没有其它匹配，任何请求都会匹配到</li>
+<li>@     用来定义“Named Location”,是专门用来处理“内部重定向”请求的</li>
 </ol>
+<blockquote>
+<p>说明：<br>(location =) &gt; (location 完整路径) &gt; (location ^~ 路径) &gt; (location ~,~*正则顺序) &gt; (location 部分起始路径) &gt; (/)<br>（1）1、2优先级最高，匹配成功后，就不继续往下匹配。而3的优先级低，会一直往下匹配，直到找到最匹配的为止。<br>（2）~与~*的区别：~ 表示区分大小写；~*则表示不区分大小写。</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>实际使用建议：</strong><br>所以实际使用中，个人觉得至少有三个匹配规则定义，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#直接匹配网站根，通过域名访问网站首页比较频繁，使用这个会加速处理，官网如是说。</span><br><span class="line">#这里是直接转发给后端应用服务器了，也可以是一个静态首页</span><br><span class="line"># 第一个必选规则</span><br><span class="line">location = / &#123;</span><br><span class="line">    proxy_pass http://tomcat:8080/index</span><br><span class="line">&#125;</span><br><span class="line"># 第二个必选规则是处理静态文件请求，这是nginx作为http服务器的强项</span><br><span class="line"># 有两种配置模式，目录匹配或后缀匹配,任选其一或搭配使用</span><br><span class="line">location ^~ /static/ &#123;</span><br><span class="line">    root /webroot/static/;</span><br><span class="line">&#125;</span><br><span class="line">location ~* \.(gif|jpg|jpeg|png|css|js|ico)$ &#123;</span><br><span class="line">    root /webroot/res/;</span><br><span class="line">&#125;</span><br><span class="line">#第三个规则就是通用规则，用来转发动态请求到后端应用服务器</span><br><span class="line">#非静态文件请求就默认是动态请求，自己根据实际把握</span><br><span class="line">#毕竟目前的一些框架的流行，带.php,.jsp后缀的情况很少了</span><br><span class="line">location / &#123;</span><br><span class="line">    proxy_pass http://tomcat:8080/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h4 id="3-try-files使用"><a href="#3-try-files使用" class="headerlink" title="3. try_files使用"></a>3. try_files使用</h4><p>答：按顺序检查文件是否存在<br>示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">location / &#123;</span><br><span class="line">	root /opt/app/code/cache;</span><br><span class="line">	try_files $uri @php_page;</span><br><span class="line">&#125;</span><br><span class="line">location @php_page &#123;</span><br><span class="line">	proxy_pass http://127.0.0.1:9090;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>解释：检测$uri文件是否存在，如果不存在，则重定向到@php_page模块。</p>
 <h4 id="4-Nginx的alias和root区别"><a href="#4-Nginx的alias和root区别" class="headerlink" title="4. Nginx的alias和root区别"></a>4. Nginx的alias和root区别</h4><p>（1）root<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location /request_path/image/ &#123;</span><br><span class="line">	root /local_path/image/;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
@@ -533,7 +538,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">156</span>
+                  <span class="site-state-item-count">159</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -544,7 +549,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -555,7 +560,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
