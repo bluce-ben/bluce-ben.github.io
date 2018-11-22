@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SVN," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、检出123svn  checkout  http://路径(目录或文件的全路径)　[本地目录全路径] --username　用户名svn  checkout  svn://路径(目录或文件的全路径)　[本地目录全路径]  --username　用户名简写：svn co xxx  例子：svn checkout svn://localhost/测试工具 /home/testtools –user">
+<meta name="keywords" content="SVN">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SVN 详解之常用操作命令（三）">
+<meta property="og:url" content="http://yoursite.com/2018/03/15/SVN详解之常用操作命令（三）/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、检出123svn  checkout  http://路径(目录或文件的全路径)　[本地目录全路径] --username　用户名svn  checkout  svn://路径(目录或文件的全路径)　[本地目录全路径]  --username　用户名简写：svn co xxx  例子：svn checkout svn://localhost/测试工具 /home/testtools –user">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-20T06:07:54.567Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SVN 详解之常用操作命令（三）">
+<meta name="twitter:description" content="1、检出123svn  checkout  http://路径(目录或文件的全路径)　[本地目录全路径] --username　用户名svn  checkout  svn://路径(目录或文件的全路径)　[本地目录全路径]  --username　用户名简写：svn co xxx  例子：svn checkout svn://localhost/测试工具 /home/testtools –user">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/15/SVN详解之常用操作命令（三）/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>SVN 详解之常用操作命令（三） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/15/SVN详解之常用操作命令（三）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">SVN 详解之常用操作命令（三）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T14:10:44+08:00">
+                2018-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/" itemprop="url" rel="index">
+                    <span itemprop="name">版本控制</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/版本控制/SVN/" itemprop="url" rel="index">
+                    <span itemprop="name">SVN</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/15/SVN详解之常用操作命令（三）/" class="leancloud_visitors" data-flag-title="SVN 详解之常用操作命令（三）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、检出"><a href="#1、检出" class="headerlink" title="1、检出"></a>1、检出</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn  checkout  http://路径(目录或文件的全路径)　[本地目录全路径] --username　用户名</span><br><span class="line">svn  checkout  svn://路径(目录或文件的全路径)　[本地目录全路径]  --username　用户名</span><br><span class="line">简写：svn co xxx</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn checkout svn://localhost/测试工具 /home/testtools –username ben<br>svn checkout <a href="http://localhost/test/testapp" target="_blank" rel="noopener">http://localhost/test/testapp</a> –username ben<br>注：如果不带–password 参数传输密码的话，会提示输入密码，建议不要用明文的–password 选项。<br>　　其中 username 与 password前是两个短线，不是一个。<br>　　不指定本地目录全路径，则检出到当前目录下。<br><a id="more"></a></p>
+</blockquote>
+<h4 id="2、导出"><a href="#2、导出" class="headerlink" title="2、导出"></a>2、导出</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn  export  [-r 版本号]  http://路径(目录或文件的全路径) [本地目录全路径]　--username　用户名</span><br><span class="line">svn  export  [-r 版本号]  svn://路径(目录或文件的全路径) [本地目录全路径]　--username　用户名</span><br><span class="line">svn  export  本地检出的(即带有.svn文件夹的)目录全路径  要导出的本地目录全路径</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn export svn://localhost/测试工具 /home/testtools –username ben<br>svn export svn://localhost/test/testapp –username ben<br>svn export /home/testapp /home/testtools<br>注：第一种从版本库导出干净工作目录树的形式是指定URL，如果指定了修订版本号，会导出相应的版本，如果没有指定修订版本，则会导出最新的，导出到指定位置。如果省略本地目录全路径，URL的最后一部分会作为本地目录的名字。<br>第二种形式是指定 本地检出的目录全路径 到 要导出的本地目录全路径，所有的本地修改将会保留，但是不在版本控制下(即没提交的新文件，因为.svn文件夹里没有与之相关的信息记录)的文件不会拷贝。</p>
+</blockquote>
+<h4 id="3、添加新文件"><a href="#3、添加新文件" class="headerlink" title="3、添加新文件"></a>3、添加新文件</h4><p><code>svn　add　文件名</code><br>注：告诉SVN服务器要添加文件了，还要用svn commint -m真实的上传上去！</p>
+<blockquote>
+<p><strong>例子：</strong><br>svn add test.php     #添加test.php<br>svn commit -m “添加我的测试用test.php“ test.php<br>svn add <em>.php         #添加当前目录下所有的php文件<br>svn commit -m “添加我的测试用全部php文件“ </em>.php</p>
+</blockquote>
+<h4 id="4、提交"><a href="#4、提交" class="headerlink" title="4、提交"></a>4、提交</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn　commit　-m　“提交备注信息文本“　[-N]　[--no-unlock]　文件名</span><br><span class="line">简写：svn ci xxx</span><br></pre></td></tr></table></figure>
+<p>注：必须带上-m参数，参数可以为空，但是必须写上-m</p>
+<blockquote>
+<p><strong>例子：</strong><br>svn commit -m “提交当前目录下的全部在版本控制下的文件“ <em>          #注意这个</em>表示全部文件<br>svn commit -m “提交我的测试用test.php“ test.php<br>svn commit -m “提交我的测试用test.php“ -N –no-unlock test.php     #保持锁就用–no-unlock开关<br>svn ci -m “提交当前目录下的全部在版本控制下的文件“ <em>             #注意这个</em>表示全部文件<br>svn ci -m “提交我的测试用test.php“ test.php<br>svn ci -m “提交我的测试用test.php“ -N –no-unlock test.php         #保持锁就用–no-unlock开关</p>
+</blockquote>
+<h4 id="5、更新"><a href="#5、更新" class="headerlink" title="5、更新"></a>5、更新</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">svn　update</span><br><span class="line">svn　update　-r　修正版本　文件名</span><br><span class="line">svn　update　文件名</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn update                         #后面没有目录，默认将当前目录以及子目录下的所有文件都更新到最新版本<br>svn update -r 200 test.cpp         #将版本库中的文件 test.cpp 还原到修正版本（revision）200<br>svn update test.php             #更新与版本库同步。<br>　　提交的时候提示过期冲突，需要先 update 修改文件，然后清除svn resolved，最后再提交commit。</p>
+</blockquote>
+<h4 id="6、删除"><a href="#6、删除" class="headerlink" title="6、删除"></a>6、删除</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">svn　delete　svn://路径(目录或文件的全路径) -m “删除备注信息文本”</span><br><span class="line">推荐如下操作：</span><br><span class="line">svn　delete　文件名 </span><br><span class="line">svn　ci　-m　“删除备注信息文本”</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn delete svn://localhost/testapp/test.php -m “删除测试文件test.php”<br>推荐如下操作：<br>svn delete test.php<br>svn ci -m “删除测试文件test.php”</p>
+</blockquote>
+<h4 id="7、比较差异"><a href="#7、比较差异" class="headerlink" title="7、比较差异"></a>7、比较差异</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn　diff　文件名 </span><br><span class="line">svn　diff　-r　修正版本号m:修正版本号n　文件名</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn diff test.php                 #将修改的文件与基础版本比较<br>svn diff -r 200:201 test.php     #对 修正版本号200 和 修正版本号201 比较差异</p>
+</blockquote>
+<h4 id="8、查看文件或者目录状态"><a href="#8、查看文件或者目录状态" class="headerlink" title="8、查看文件或者目录状态"></a>8、查看文件或者目录状态</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">svn st 目录路径/名</span><br><span class="line">svn status 目录路径/名 	 #目录下的文件和子目录的状态，正常状态不显示 </span><br><span class="line">　　　　　　　　　　　　　【?：不在svn的控制中；  M：内容被修改；C：发生冲突；A：预定加入到版本库；K：被锁定】 </span><br><span class="line">svn st -v 目录路径/名</span><br><span class="line">svn status -v 目录路径/名  #显示文件和子目录状态</span><br><span class="line">　　　　　　　　　　　　　　【第一列保持相同，第二列显示工作版本号，第三和第四列显示最后一次修改的版本号和修改人】</span><br></pre></td></tr></table></figure>
+<p>注：svn status、svn diff和 svn revert这三条命令在没有网络的情况下也可以执行的，原因是svn在本地的.svn中保留了本地版本的原始拷贝。</p>
+<h4 id="9、查看日志"><a href="#9、查看日志" class="headerlink" title="9、查看日志"></a>9、查看日志</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn　log　文件名</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn log test.php     #显示这个文件的所有修改记录，及其版本号的变化</p>
+</blockquote>
+<h4 id="10、查看文件详细信息"><a href="#10、查看文件详细信息" class="headerlink" title="10、查看文件详细信息"></a>10、查看文件详细信息</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn info file</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn info test.php</p>
+</blockquote>
+<h4 id="11、帮助"><a href="#11、帮助" class="headerlink" title="11、帮助"></a>11、帮助</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn help		#全部功能选项</span><br><span class="line">svn help ci 	#具体功能的说明</span><br></pre></td></tr></table></figure>
+<h4 id="12、加锁-解锁"><a href="#12、加锁-解锁" class="headerlink" title="12、加锁/解锁"></a>12、加锁/解锁</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn　lock　-m　“加锁备注信息文本“　[--force]　文件名 </span><br><span class="line">svn　unlock　文件名</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn lock -m “锁信测试用test.php文件“ test.php<br>svn unlock test.php</p>
+</blockquote>
+<h4 id="13、查看版本库下的文件和目录列表"><a href="#13、查看版本库下的文件和目录列表" class="headerlink" title="13、查看版本库下的文件和目录列表"></a>13、查看版本库下的文件和目录列表</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn list svn://路径（目录或文件的全路径） </span><br><span class="line">简写：svn ls xx</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn list svn://localhost/test<br>svn ls svn://localhost/test      #显示svn://localhost/test目录下的所有属于版本库的文件和目录</p>
+</blockquote>
+<h4 id="14、创建纳入版本控制下的新目录"><a href="#14、创建纳入版本控制下的新目录" class="headerlink" title="14、创建纳入版本控制下的新目录"></a>14、创建纳入版本控制下的新目录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">svn mkdir 目录名</span><br><span class="line">svn mkdir -m &quot;新增目录备注文本&quot; http://目录全路径</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn mkdir newdir<br>svn mkdir -m “Making a new dir.” svn://localhost/test/newdir<br>注：添加完子目录后，一定要回到根目录更新一下，不然在该目录下提交文件会提示“提交失败”</p>
+</blockquote>
+<p><code>svn update</code></p>
+<blockquote>
+<p>注：如果手工在 checkout 出来的目录中新建目录 newsubdir，再用 svn mkdir newsubdir 命令后，SVN会提示：<br>svn: 尝试用 “svn add”或 “svn add –non-recursive”代替？<br>svn: 无法创建目录“hello”: 文件已经存在<br>此时用如下命令解决：<br><code>svn add --non-recursive newsubdir</code><br>在进入这个newsubdir文件夹，用ls -a查看它下面的全部目录与文件，会发现多了：.svn目录。再用 svn mkdir -m “添hello功能模块文件” svn://localhost/test/newdir/newsubdir 命令。</p>
+</blockquote>
+<h4 id="15、恢复本地修改"><a href="#15、恢复本地修改" class="headerlink" title="15、恢复本地修改"></a>15、恢复本地修改</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn　revert　[--recursive]　文件名</span><br></pre></td></tr></table></figure>
+<p>注意: 本子命令不会存取网络，并且会解除冲突的状况。但是它不会恢复被删除的目录。</p>
+<blockquote>
+<p><strong>例子：</strong><br>svn revert foo.c               #丢弃对一个文件的修改<br>svn revert –recursive .     #恢复一整个目录的文件，. 为当前目录</p>
+</blockquote>
+<h4 id="16、把工作拷贝更新到别的URL"><a href="#16、把工作拷贝更新到别的URL" class="headerlink" title="16、把工作拷贝更新到别的URL"></a>16、把工作拷贝更新到别的URL</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn　switch　http://目录全路径　本地目录全路径</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn switch <a href="http://localhost/test/456" target="_blank" rel="noopener">http://localhost/test/456</a> .  # (原为123的分支)当前所在目录分支到localhost/test/456</p>
+</blockquote>
+<h4 id="17、解决冲突"><a href="#17、解决冲突" class="headerlink" title="17、解决冲突"></a>17、解决冲突</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn　resolved　[本地目录全路径]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>$ svn update<br>C foo.c<br>Updated to revision 31.<br>如果你在更新时得到冲突，你的工作拷贝会产生三个新的文件：<br>$ ls<br>foo.c<br>foo.c.mine<br>foo.c.r30<br>foo.c.r31<br>当你解决了foo.c的冲突，并且准备提交，运行svn resolved让你的工作拷贝知道你已经完成了所有事情。<br>你可以仅仅删除冲突的文件并且提交，但是svn resolved除了删除冲突文件，还修正了一些记录在工作拷贝管理区域的记录数据，所以我们推荐你使用这个命令。</p>
+</blockquote>
+<h4 id="18、不checkout而查看输出特定文件或URL的内容"><a href="#18、不checkout而查看输出特定文件或URL的内容" class="headerlink" title="18、不checkout而查看输出特定文件或URL的内容"></a>18、不checkout而查看输出特定文件或URL的内容</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn　cat　http://文件全路径</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>例子：</strong><br>svn cat <a href="http://localhost/test/readme.txt" target="_blank" rel="noopener">http://localhost/test/readme.txt</a></p>
+</blockquote>
+<h4 id="19、新建一个分支copy"><a href="#19、新建一个分支copy" class="headerlink" title="19、新建一个分支copy"></a>19、新建一个分支copy</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn copy branchA branchB  -m &quot;make B branch&quot; // 从branchA拷贝出一个新分支branchB</span><br></pre></td></tr></table></figure>
+<p>20、合并内容到分支merge<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">svn merge branchA branchB  // 把对branchA的修改合并到分支branchB</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SVN/" rel="tag"># SVN</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/15/SVN详解之客户端安装（二）/" rel="next" title="SVN 详解之客户端安装（二）">
+                <i class="fa fa-chevron-left"></i> SVN 详解之客户端安装（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/15/解决CentOS7关闭-开启防火墙出现Unit-iptables-service-failed-to-load-No-such-file-or-directory/" rel="prev" title="解决CentOS7关闭/开启防火墙出现Unit iptables.service failed to load: No such file or directory.">
+                解决CentOS7关闭/开启防火墙出现Unit iptables.service failed to load: No such file or directory. <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">162</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、检出"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x68C0;&#x51FA;" class="headerlink" title="1&#x3001;&#x68C0;&#x51FA;"></a>1&#x3001;&#x68C0;&#x51FA;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、导出"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x5BFC;&#x51FA;" class="headerlink" title="2&#x3001;&#x5BFC;&#x51FA;"></a>2&#x3001;&#x5BFC;&#x51FA;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、添加新文件"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x6DFB;&#x52A0;&#x65B0;&#x6587;&#x4EF6;" class="headerlink" title="3&#x3001;&#x6DFB;&#x52A0;&#x65B0;&#x6587;&#x4EF6;"></a>3&#x3001;&#x6DFB;&#x52A0;&#x65B0;&#x6587;&#x4EF6;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、提交"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x63D0;&#x4EA4;" class="headerlink" title="4&#x3001;&#x63D0;&#x4EA4;"></a>4&#x3001;&#x63D0;&#x4EA4;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、更新"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x66F4;&#x65B0;" class="headerlink" title="5&#x3001;&#x66F4;&#x65B0;"></a>5&#x3001;&#x66F4;&#x65B0;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、删除"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5220;&#x9664;" class="headerlink" title="6&#x3001;&#x5220;&#x9664;"></a>6&#x3001;&#x5220;&#x9664;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、比较差异"><span class="nav-number">7.</span> <span class="nav-text"><a href="#7&#x3001;&#x6BD4;&#x8F83;&#x5DEE;&#x5F02;" class="headerlink" title="7&#x3001;&#x6BD4;&#x8F83;&#x5DEE;&#x5F02;"></a>7&#x3001;&#x6BD4;&#x8F83;&#x5DEE;&#x5F02;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8、查看文件或者目录状态"><span class="nav-number">8.</span> <span class="nav-text"><a href="#8&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x6216;&#x8005;&#x76EE;&#x5F55;&#x72B6;&#x6001;" class="headerlink" title="8&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x6216;&#x8005;&#x76EE;&#x5F55;&#x72B6;&#x6001;"></a>8&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x6216;&#x8005;&#x76EE;&#x5F55;&#x72B6;&#x6001;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9、查看日志"><span class="nav-number">9.</span> <span class="nav-text"><a href="#9&#x3001;&#x67E5;&#x770B;&#x65E5;&#x5FD7;" class="headerlink" title="9&#x3001;&#x67E5;&#x770B;&#x65E5;&#x5FD7;"></a>9&#x3001;&#x67E5;&#x770B;&#x65E5;&#x5FD7;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10、查看文件详细信息"><span class="nav-number">10.</span> <span class="nav-text"><a href="#10&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;" class="headerlink" title="10&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;"></a>10&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x8BE6;&#x7EC6;&#x4FE1;&#x606F;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11、帮助"><span class="nav-number">11.</span> <span class="nav-text"><a href="#11&#x3001;&#x5E2E;&#x52A9;" class="headerlink" title="11&#x3001;&#x5E2E;&#x52A9;"></a>11&#x3001;&#x5E2E;&#x52A9;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12、加锁-解锁"><span class="nav-number">12.</span> <span class="nav-text"><a href="#12&#x3001;&#x52A0;&#x9501;-&#x89E3;&#x9501;" class="headerlink" title="12&#x3001;&#x52A0;&#x9501;/&#x89E3;&#x9501;"></a>12&#x3001;&#x52A0;&#x9501;/&#x89E3;&#x9501;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13、查看版本库下的文件和目录列表"><span class="nav-number">13.</span> <span class="nav-text"><a href="#13&#x3001;&#x67E5;&#x770B;&#x7248;&#x672C;&#x5E93;&#x4E0B;&#x7684;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x5F55;&#x5217;&#x8868;" class="headerlink" title="13&#x3001;&#x67E5;&#x770B;&#x7248;&#x672C;&#x5E93;&#x4E0B;&#x7684;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x5F55;&#x5217;&#x8868;"></a>13&#x3001;&#x67E5;&#x770B;&#x7248;&#x672C;&#x5E93;&#x4E0B;&#x7684;&#x6587;&#x4EF6;&#x548C;&#x76EE;&#x5F55;&#x5217;&#x8868;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14、创建纳入版本控制下的新目录"><span class="nav-number">14.</span> <span class="nav-text"><a href="#14&#x3001;&#x521B;&#x5EFA;&#x7EB3;&#x5165;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4E0B;&#x7684;&#x65B0;&#x76EE;&#x5F55;" class="headerlink" title="14&#x3001;&#x521B;&#x5EFA;&#x7EB3;&#x5165;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4E0B;&#x7684;&#x65B0;&#x76EE;&#x5F55;"></a>14&#x3001;&#x521B;&#x5EFA;&#x7EB3;&#x5165;&#x7248;&#x672C;&#x63A7;&#x5236;&#x4E0B;&#x7684;&#x65B0;&#x76EE;&#x5F55;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#15、恢复本地修改"><span class="nav-number">15.</span> <span class="nav-text"><a href="#15&#x3001;&#x6062;&#x590D;&#x672C;&#x5730;&#x4FEE;&#x6539;" class="headerlink" title="15&#x3001;&#x6062;&#x590D;&#x672C;&#x5730;&#x4FEE;&#x6539;"></a>15&#x3001;&#x6062;&#x590D;&#x672C;&#x5730;&#x4FEE;&#x6539;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#16、把工作拷贝更新到别的URL"><span class="nav-number">16.</span> <span class="nav-text"><a href="#16&#x3001;&#x628A;&#x5DE5;&#x4F5C;&#x62F7;&#x8D1D;&#x66F4;&#x65B0;&#x5230;&#x522B;&#x7684;URL" class="headerlink" title="16&#x3001;&#x628A;&#x5DE5;&#x4F5C;&#x62F7;&#x8D1D;&#x66F4;&#x65B0;&#x5230;&#x522B;&#x7684;URL"></a>16&#x3001;&#x628A;&#x5DE5;&#x4F5C;&#x62F7;&#x8D1D;&#x66F4;&#x65B0;&#x5230;&#x522B;&#x7684;URL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#17、解决冲突"><span class="nav-number">17.</span> <span class="nav-text"><a href="#17&#x3001;&#x89E3;&#x51B3;&#x51B2;&#x7A81;" class="headerlink" title="17&#x3001;&#x89E3;&#x51B3;&#x51B2;&#x7A81;"></a>17&#x3001;&#x89E3;&#x51B3;&#x51B2;&#x7A81;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#18、不checkout而查看输出特定文件或URL的内容"><span class="nav-number">18.</span> <span class="nav-text"><a href="#18&#x3001;&#x4E0D;checkout&#x800C;&#x67E5;&#x770B;&#x8F93;&#x51FA;&#x7279;&#x5B9A;&#x6587;&#x4EF6;&#x6216;URL&#x7684;&#x5185;&#x5BB9;" class="headerlink" title="18&#x3001;&#x4E0D;checkout&#x800C;&#x67E5;&#x770B;&#x8F93;&#x51FA;&#x7279;&#x5B9A;&#x6587;&#x4EF6;&#x6216;URL&#x7684;&#x5185;&#x5BB9;"></a>18&#x3001;&#x4E0D;checkout&#x800C;&#x67E5;&#x770B;&#x8F93;&#x51FA;&#x7279;&#x5B9A;&#x6587;&#x4EF6;&#x6216;URL&#x7684;&#x5185;&#x5BB9;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#19、新建一个分支copy"><span class="nav-number">19.</span> <span class="nav-text"><a href="#19&#x3001;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;&#x5206;&#x652F;copy" class="headerlink" title="19&#x3001;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;&#x5206;&#x652F;copy"></a>19&#x3001;&#x65B0;&#x5EFA;&#x4E00;&#x4E2A;&#x5206;&#x652F;copy</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
