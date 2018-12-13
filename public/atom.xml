@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-11T04:33:36.561Z</updated>
+  <updated>2018-12-13T07:58:55.856Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>线上TIME_WAIT日志记录总结</title>
+    <link href="http://yoursite.com/2018/12/13/%E7%BA%BF%E4%B8%8ATIME-WAIT%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%E6%80%BB%E7%BB%93/"/>
+    <id>http://yoursite.com/2018/12/13/线上TIME-WAIT日志记录总结/</id>
+    <published>2018-12-13T07:55:57.000Z</published>
+    <updated>2018-12-13T07:58:55.856Z</updated>
+    
+    <content type="html"><![CDATA[<p>首先发现的是平响太高了，之后又降下来了。然后，开始查询原因。下面是过程记录</p><p>刚开始是追寻的问题是： CLB的“心跳”突然没了？（注：CLB是负载均衡，心跳应该是CLB那边用来检测的。是一个文件。）<br><a id="more"></a><br>查看php-fpm数量，发现有434个；最后群里有人说是他调的<br><img src="/uploads/2018/12/network_timewait_001.jpg" alt=""><br><img src="/uploads/2018/12/network_timewait_002.png" alt=""></p><p>然后就开始查询为啥“心跳”没了。<br>回答：CLB改心跳检查接口的话，如果改动比较大，应该是大面积报。最后问题回归到我们这边。</p><p>回答为啥将PHP-FPM数量调高？<br>我理解是这样的，后端有请求时间过长的接口，然后PHP-FPM都用于处理了这些请求长的接口，然后堵住了，然后导致后边的请求都在等待，包括心跳的。<br>心跳5s超时，前端CLB自己断的连接，报的499.<br><img src="/uploads/2018/12/network_timewait_003.png" alt=""><br>所以，增加了fpm的进程数。</p><p>查看PHP的error。 只报进程数不够。突然频繁启动PHP进程，结果达到最大值了。<br><img src="/uploads/2018/12/network_timewait_004.jpg" alt=""></p><p><em>说明：在这个时间点，服务器内存和CPU也都没有问题。</em></p><p>在监控记录中发现，5xx的记录有一个高峰。如下图：<br><img src="/uploads/2018/12/network_timewait_005.jpg" alt=""><br>并且，报这么多错误，项目日志中并没有记录。（说明不是项目导致的问题）</p><p>然后有人在监控记录中有了新发现，如下图：<br><img src="/uploads/2018/12/network_timewait_006.jpg" alt=""><br><img src="/uploads/2018/12/network_timewait_007.jpg" alt=""></p><p><em>注：在双十一期间，机器是10台。双十一前是2台（并且量不高）。双十一之后恢复到2台（量比以前高了点）。</em></p><p>现在确定原因了，由于双十一之后量比以前增多了，导致 timewait 增多，2台机器的端口不能够满足那么大的连接。导致频频报5xx。</p><p><strong>解决方案：</strong><br>服务器降级，多开几台低配，降低 timewait。（注：timewait不可避免，只能通过增加机器，或者是调整服务端配置，提高timewait的回收速度。）</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;首先发现的是平响太高了，之后又降下来了。然后，开始查询原因。下面是过程记录&lt;/p&gt;
+&lt;p&gt;刚开始是追寻的问题是： CLB的“心跳”突然没了？（注：CLB是负载均衡，心跳应该是CLB那边用来检测的。是一个文件。）&lt;br&gt;
+    
+    </summary>
+    
+      <category term="问题" scheme="http://yoursite.com/categories/%E9%97%AE%E9%A2%98/"/>
+    
+      <category term="线上业务" scheme="http://yoursite.com/categories/%E9%97%AE%E9%A2%98/%E7%BA%BF%E4%B8%8A%E4%B8%9A%E5%8A%A1/"/>
+    
+    
+      <category term="问题" scheme="http://yoursite.com/tags/%E9%97%AE%E9%A2%98/"/>
+    
+  </entry>
   
   <entry>
     <title>HTTP之长连接、短连接</title>
@@ -112,9 +137,9 @@
       <category term="优化" scheme="http://yoursite.com/categories/MySQL/%E4%BC%98%E5%8C%96/"/>
     
     
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
       <category term="MySQL优化" scheme="http://yoursite.com/tags/MySQL%E4%BC%98%E5%8C%96/"/>
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
     
       <category term="优化" scheme="http://yoursite.com/tags/%E4%BC%98%E5%8C%96/"/>
     
@@ -507,41 +532,6 @@
     
     
       <category term="Docker" scheme="http://yoursite.com/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ORDER BY与索引</title>
-    <link href="http://yoursite.com/2018/08/28/ORDER-BY%E4%B8%8E%E7%B4%A2%E5%BC%95/"/>
-    <id>http://yoursite.com/2018/08/28/ORDER-BY与索引/</id>
-    <published>2018-08-28T11:04:48.000Z</published>
-    <updated>2018-08-28T11:08:52.530Z</updated>
-    
-    <content type="html"><![CDATA[<p>一条SQL实际上可以分为三步。</p><ol><li>得到数据</li><li>处理数据</li><li>返回处理后的数据</li></ol><p>比如这条语句<code>select sid from zhuyuehua.student where sid &lt; 50000 and id &lt; 50000 order by id desc</code><br>第一步：根据where条件和统计信息生成执行计划，得到数据。<br>第二步：将得到的数据排序。<br><strong>当执行处理数据（order by）时，数据库会先查看第一步的执行计划，看order by 的字段是否在执行计划中利用了索引。如果是，则可以利用索引顺序而直接取得已经排好序的数据。</strong>如果不是，则排序操作。<br>第三步：返回排序后的数据。 </p><p>总结：<br><strong>当order by 中的字段出现在where条件中时，才会利用索引而不排序，更准确的说，order by 中的字段在执行计划中利用了索引时，不用排序操作。</strong></p><p>这个结论不仅对order by有效，对其他需要排序的操作也有效。比如<strong><font color="red">group by 、union 、distinct</font></strong>等。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;一条SQL实际上可以分为三步。&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;得到数据&lt;/li&gt;
-&lt;li&gt;处理数据&lt;/li&gt;
-&lt;li&gt;返回处理后的数据&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;比如这条语句&lt;code&gt;select sid from zhuyuehua.student where sid &amp;
-      
-    
-    </summary>
-    
-      <category term="SQL" scheme="http://yoursite.com/categories/SQL/"/>
-    
-      <category term="SQL优化" scheme="http://yoursite.com/categories/SQL%E4%BC%98%E5%8C%96/"/>
-    
-    
-      <category term="SQL" scheme="http://yoursite.com/tags/SQL/"/>
-    
-      <category term="SQL优化" scheme="http://yoursite.com/tags/SQL%E4%BC%98%E5%8C%96/"/>
     
   </entry>
   
