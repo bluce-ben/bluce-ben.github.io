@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="iptables," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="iptables 常用命令及参数注释： 主要包含：命令表　　用来增加(-A、-I)删除(-D)修改(-R)查看(-L)规则等；常用参数　　用来指定协议(-p)、源地址(-s)、源端口(--sport)、目的地址(-d)、目的端口(--dport)、进入网卡(-i)、出去网卡(-o)等设定包信息（即什么样的包）；用来描述要处理包的信息。常用处理动作　　用 -j 来指定对包的处理(ACCEPT、DRO">
+<meta name="keywords" content="iptables">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iptables 防火墙的规则设置">
+<meta property="og:url" content="http://yoursite.com/2018/03/19/iptables 防火墙的规则设置/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="iptables 常用命令及参数注释： 主要包含：命令表　　用来增加(-A、-I)删除(-D)修改(-R)查看(-L)规则等；常用参数　　用来指定协议(-p)、源地址(-s)、源端口(--sport)、目的地址(-d)、目的端口(--dport)、进入网卡(-i)、出去网卡(-o)等设定包信息（即什么样的包）；用来描述要处理包的信息。常用处理动作　　用 -j 来指定对包的处理(ACCEPT、DRO">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-20T06:07:55.335Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iptables 防火墙的规则设置">
+<meta name="twitter:description" content="iptables 常用命令及参数注释： 主要包含：命令表　　用来增加(-A、-I)删除(-D)修改(-R)查看(-L)规则等；常用参数　　用来指定协议(-p)、源地址(-s)、源端口(--sport)、目的地址(-d)、目的端口(--dport)、进入网卡(-i)、出去网卡(-o)等设定包信息（即什么样的包）；用来描述要处理包的信息。常用处理动作　　用 -j 来指定对包的处理(ACCEPT、DRO">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/19/iptables 防火墙的规则设置/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>iptables 防火墙的规则设置 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/iptables 防火墙的规则设置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">iptables 防火墙的规则设置</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T11:00:07+08:00">
+                2018-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/19/iptables 防火墙的规则设置/" class="leancloud_visitors" data-flag-title="iptables 防火墙的规则设置">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="iptables-常用命令及参数注释："><a href="#iptables-常用命令及参数注释：" class="headerlink" title="iptables 常用命令及参数注释："></a>iptables 常用命令及参数注释：</h4><blockquote>
+<p>主要包含：<br><strong>命令表</strong><br>　　用来增加(-A、-I)删除(-D)修改(-R)查看(-L)规则等；<br><strong>常用参数</strong><br>　　用来指定协议(-p)、源地址(-s)、源端口(--sport)、目的地址(-d)、目的端口(--dport)、进入网卡(-i)、出去网卡(-o)等设定包信息（即什么样的包）；用来描述要处理包的信息。<br><strong>常用处理动作</strong><br>　　用 -j 来指定对包的处理(ACCEPT、DROP、REJECT、REDIRECT等)。</p>
+</blockquote>
+<a id="more"></a>
+<p><strong>常用参数注释：</strong></p>
+<p><font color="red">命令 -P, --policy</font><br>范例 <code>iptables -P INPUT DROP</code><br>说明 定义过滤政策。 也就是未符合过滤条件之封包，预设的处理方式。</p>
+<p><font color="red">参数 --line-numbers</font><br>范例 <code>iptables -nL --line-numbers</code><br>说明 查询规则链表的number号。</p>
+<p><font color="red">参数 -m state --state</font><br>范例 <code>iptables -A INPUT -m state --state RELATED,ESTABLISHED</code><br>说明 用来比对联机状态，联机状态共有四种：INVALID、ESTABLISHED、NEW 和 RELATED。</p>
+<blockquote>
+<p><strong>INVALID</strong> 表示该封包的联机编号（Session ID）无法辨识或编号不正确。<br><strong>ESTABLISHED</strong> 表示该封包属于某个已经建立的联机。<br><strong>NEW</strong> 表示该封包想要起始一个联机（重设联机或将联机重导向）。<br><strong>RELATED</strong> 表示该封包是属于某个已经建立的联机，所建立的新联机。例如：FTP-DATA 联机必定是源自某个 FTP 联机。</p>
+</blockquote>
+<h4 id="常用规则总结"><a href="#常用规则总结" class="headerlink" title="常用规则总结"></a>常用规则总结</h4><h5 id="（1）启动、停止和重启-iptables"><a href="#（1）启动、停止和重启-iptables" class="headerlink" title="（1）启动、停止和重启 iptables"></a>（1）启动、停止和重启 iptables</h5><p><code>systemctl start/stop/restart/status iptables.service</code></p>
+<h5 id="（2）查看iptables-现有规则"><a href="#（2）查看iptables-现有规则" class="headerlink" title="（2）查看iptables 现有规则"></a>（2）查看iptables 现有规则</h5><p><code>iptables -L -n</code><br><code>iptables -Ln --line-numbers</code> #查看对应的规则numbers<br><code>iptables-save</code></p>
+<h5 id="（3）屏蔽某个-IP"><a href="#（3）屏蔽某个-IP" class="headerlink" title="（3）屏蔽某个 IP"></a>（3）屏蔽某个 IP</h5><p><code>iptables -A INPUT -s xxx.xxx.xxx.xxx -j DROP</code><br>如果你只想屏蔽 TCP 流量，可以使用 -p 参数的指定协议，例如：<br><code>iptables -A INPUT -p tcp -s xxx.xxx.xxx.xxx -j DROP</code></p>
+<h5 id="（4）解封某个-IP地址（即删除）"><a href="#（4）解封某个-IP地址（即删除）" class="headerlink" title="（4）解封某个 IP地址（即删除）"></a>（4）解封某个 IP地址（即删除）</h5><p><code>iptables -D INPUT -s xxx.xxx.xxx.xxx -j DROP</code><br>或<br><code>iptables -D INPUT numbers</code></p>
+<h5 id="（5）关闭指定端口"><a href="#（5）关闭指定端口" class="headerlink" title="（5）关闭指定端口"></a>（5）关闭指定端口</h5><p>阻止特定的传出连接：<br><code>iptables -A OUTPUT -p tcp --dport xxx -j DROP</code><br>阻止特定的传入连接：<br><code>iptables -A INPUT -p tcp --dport xxx -j ACCEPT</code></p>
+<h5 id="（6）使用Multiport控制多端口"><a href="#（6）使用Multiport控制多端口" class="headerlink" title="（6）使用Multiport控制多端口"></a>（6）使用Multiport控制多端口</h5><p>使用 multiport 我们可以一次性在单条规则中写入多个端口，例如：<br><code>iptables -A INPUT  -p tcp -m multiport --dports 22,80,443 -j ACCEPT</code><br><code>iptables -A OUTPUT -p tcp -m multiport --sports 22,80,443 -j ACCEPT</code></p>
+<h5 id="（7）在规则中使用-IP-地址范围"><a href="#（7）在规则中使用-IP-地址范围" class="headerlink" title="（7）在规则中使用 IP 地址范围"></a>（7）在规则中使用 IP 地址范围</h5><p>在 IPtables 中 IP 地址范围是可以直接使用 CIDR 进行表示的，例如：<br><code>iptables -A OUTPUT -p tcp -d 192.168.100.0/24 --dport 22 -j ACCEPT</code></p>
+<h5 id="（8）禁止PING"><a href="#（8）禁止PING" class="headerlink" title="（8）禁止PING"></a>（8）禁止PING</h5><p>对 Linux 禁 PING 可以使用如下规则屏蔽 ICMP 传入连接：<br><code>iptables -A INPUT -p icmp -i eth0 -j DROP</code></p>
+<h5 id="（9）允许访问回环网卡"><a href="#（9）允许访问回环网卡" class="headerlink" title="（9）允许访问回环网卡"></a>（9）允许访问回环网卡</h5><p>环回访问（127.0.0.1）是比较重要的，建议大家都开放：<br><code>iptables -A INPUT -i lo -j ACCEPT</code><br><code>iptables -A OUTPUT -o lo -j ACCEPT</code></p>
+<h5 id="（10）丢弃无效数据包"><a href="#（10）丢弃无效数据包" class="headerlink" title="（10）丢弃无效数据包"></a>（10）丢弃无效数据包</h5><p>很多网络攻击都会尝试用黑客自定义的非法数据包进行尝试，我们可以使用如下命令来丢弃无效数据包：<br><code>iptables -A INPUT -m conntrack --ctstate INVALID -j DROP</code></p>
+<h5 id="（11）插入指定位置一条规则"><a href="#（11）插入指定位置一条规则" class="headerlink" title="（11）插入指定位置一条规则"></a>（11）插入指定位置一条规则</h5><p><code>iptables -I INPUT number -p tcp -m tcp --dport 21 -j ACCEPT</code><br>（<font color="red">注：插入对应的number位置，原number位置往后移</font>）</p>
+<h4 id="常用端口总结"><a href="#常用端口总结" class="headerlink" title="常用端口总结"></a>常用端口总结</h4><table>
+<thead>
+<tr>
+<th>服务</th>
+<th>端口</th>
+<th>是否开启</th>
+<th>协议类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP</td>
+<td>80</td>
+<td>建议开启</td>
+<td>tcp</td>
+<td>Web服务</td>
+</tr>
+<tr>
+<td>HTTPS</td>
+<td>443</td>
+<td>建议开启</td>
+<td>tcp</td>
+<td>Web加密服务</td>
+</tr>
+<tr>
+<td>POP3</td>
+<td>110</td>
+<td>不建议开启</td>
+<td>tcp</td>
+<td>POP邮局协议</td>
+</tr>
+<tr>
+<td>SMTP</td>
+<td>25</td>
+<td>不建议开启</td>
+<td>tcp</td>
+<td>SMTP邮件传输协议</td>
+</tr>
+<tr>
+<td>FTP</td>
+<td>21</td>
+<td>不建议开启</td>
+<td>tcp</td>
+<td>FTP服务</td>
+</tr>
+<tr>
+<td>SFTP</td>
+<td>115</td>
+<td>不建议开启</td>
+<td>tcp</td>
+<td>SFTP安全文本传输协议</td>
+</tr>
+<tr>
+<td>SSH</td>
+<td>22</td>
+<td>必须开启</td>
+<td>tcp</td>
+<td>SSH服务</td>
+</tr>
+<tr>
+<td>Telnet</td>
+<td>23</td>
+<td>不建议开启</td>
+<td>tcp</td>
+<td>不安全的文本传送</td>
+</tr>
+<tr>
+<td>DNS</td>
+<td>53</td>
+<td>建议开启</td>
+<td>tcp</td>
+<td>DNS域名服务</td>
+</tr>
+<tr>
+<td>TOMCAT</td>
+<td>8080</td>
+<td>不建议开启</td>
+<td>tcp</td>
+<td>tomcat服务器端口</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>3306</td>
+<td>不建议开启</td>
+<td>tcp</td>
+<td>MySQL服务器端口</td>
+</tr>
+</tbody>
+</table>
+<h4 id="附本人主机iptables规则脚本"><a href="#附本人主机iptables规则脚本" class="headerlink" title="附本人主机iptables规则脚本"></a>附本人主机iptables规则脚本</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line"></span><br><span class="line">iptables -F  # 清空所有默认规则</span><br><span class="line">iptables -X  # 清空所有自定义规则</span><br><span class="line">iptables -Z  # 所有封包计数器归0</span><br><span class="line"></span><br><span class="line"># 设置默认的访问规则</span><br><span class="line">iptables -P INPUT DROP</span><br><span class="line">iptables -P OUTPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line"></span><br><span class="line"># 允许接受本机请求之后的返回数据（ESTABLISHED 是已经建立连接的状态）；RELATED 是为了FTP设置的</span><br><span class="line">iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A INPUT -p icmp -j ACCEPT  # 允许 ping</span><br><span class="line">iptables -A INPUT -i lo -j ACCEPT    # 允许访问回环网卡</span><br><span class="line"></span><br><span class="line"># 自定义开启一些端口</span><br><span class="line">iptables -A INPUT -p tcp --dport 22 -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 80 -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 443 -j ACCEPT</span><br><span class="line">iptables -A INPUT -p tcp --dport 3690 -j ACCEPT</span><br><span class="line"></span><br><span class="line"># 定义对应规则没有仍返回相应信息</span><br><span class="line">iptables -A INPUT -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line">iptables -A FORWARD -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line"></span><br><span class="line"># 保存更改并重启服务</span><br><span class="line">service iptables save</span><br><span class="line">systemctl restart iptables.service</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/iptables/" rel="tag"># iptables</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/16/系统服务管理详解/" rel="next" title="系统服务管理详解">
+                <i class="fa fa-chevron-left"></i> 系统服务管理详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/19/FTP 服务器概述及安装、卸载/" rel="prev" title="FTP 服务器概述及安装、卸载">
+                FTP 服务器概述及安装、卸载 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">162</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#iptables-常用命令及参数注释："><span class="nav-number">1.</span> <span class="nav-text"><a href="#iptables-&#x5E38;&#x7528;&#x547D;&#x4EE4;&#x53CA;&#x53C2;&#x6570;&#x6CE8;&#x91CA;&#xFF1A;" class="headerlink" title="iptables &#x5E38;&#x7528;&#x547D;&#x4EE4;&#x53CA;&#x53C2;&#x6570;&#x6CE8;&#x91CA;&#xFF1A;"></a>iptables &#x5E38;&#x7528;&#x547D;&#x4EE4;&#x53CA;&#x53C2;&#x6570;&#x6CE8;&#x91CA;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用规则总结"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x5E38;&#x7528;&#x89C4;&#x5219;&#x603B;&#x7ED3;" class="headerlink" title="&#x5E38;&#x7528;&#x89C4;&#x5219;&#x603B;&#x7ED3;"></a>&#x5E38;&#x7528;&#x89C4;&#x5219;&#x603B;&#x7ED3;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）启动、停止和重启-iptables"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x542F;&#x52A8;&#x3001;&#x505C;&#x6B62;&#x548C;&#x91CD;&#x542F;-iptables" class="headerlink" title="&#xFF08;1&#xFF09;&#x542F;&#x52A8;&#x3001;&#x505C;&#x6B62;&#x548C;&#x91CD;&#x542F; iptables"></a>&#xFF08;1&#xFF09;&#x542F;&#x52A8;&#x3001;&#x505C;&#x6B62;&#x548C;&#x91CD;&#x542F; iptables</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）查看iptables-现有规则"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x67E5;&#x770B;iptables-&#x73B0;&#x6709;&#x89C4;&#x5219;" class="headerlink" title="&#xFF08;2&#xFF09;&#x67E5;&#x770B;iptables &#x73B0;&#x6709;&#x89C4;&#x5219;"></a>&#xFF08;2&#xFF09;&#x67E5;&#x770B;iptables &#x73B0;&#x6709;&#x89C4;&#x5219;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）屏蔽某个-IP"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x5C4F;&#x853D;&#x67D0;&#x4E2A;-IP" class="headerlink" title="&#xFF08;3&#xFF09;&#x5C4F;&#x853D;&#x67D0;&#x4E2A; IP"></a>&#xFF08;3&#xFF09;&#x5C4F;&#x853D;&#x67D0;&#x4E2A; IP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（4）解封某个-IP地址（即删除）"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;&#x89E3;&#x5C01;&#x67D0;&#x4E2A;-IP&#x5730;&#x5740;&#xFF08;&#x5373;&#x5220;&#x9664;&#xFF09;" class="headerlink" title="&#xFF08;4&#xFF09;&#x89E3;&#x5C01;&#x67D0;&#x4E2A; IP&#x5730;&#x5740;&#xFF08;&#x5373;&#x5220;&#x9664;&#xFF09;"></a>&#xFF08;4&#xFF09;&#x89E3;&#x5C01;&#x67D0;&#x4E2A; IP&#x5730;&#x5740;&#xFF08;&#x5373;&#x5220;&#x9664;&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（5）关闭指定端口"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#&#xFF08;5&#xFF09;&#x5173;&#x95ED;&#x6307;&#x5B9A;&#x7AEF;&#x53E3;" class="headerlink" title="&#xFF08;5&#xFF09;&#x5173;&#x95ED;&#x6307;&#x5B9A;&#x7AEF;&#x53E3;"></a>&#xFF08;5&#xFF09;&#x5173;&#x95ED;&#x6307;&#x5B9A;&#x7AEF;&#x53E3;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（6）使用Multiport控制多端口"><span class="nav-number">2.6.</span> <span class="nav-text"><a href="#&#xFF08;6&#xFF09;&#x4F7F;&#x7528;Multiport&#x63A7;&#x5236;&#x591A;&#x7AEF;&#x53E3;" class="headerlink" title="&#xFF08;6&#xFF09;&#x4F7F;&#x7528;Multiport&#x63A7;&#x5236;&#x591A;&#x7AEF;&#x53E3;"></a>&#xFF08;6&#xFF09;&#x4F7F;&#x7528;Multiport&#x63A7;&#x5236;&#x591A;&#x7AEF;&#x53E3;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（7）在规则中使用-IP-地址范围"><span class="nav-number">2.7.</span> <span class="nav-text"><a href="#&#xFF08;7&#xFF09;&#x5728;&#x89C4;&#x5219;&#x4E2D;&#x4F7F;&#x7528;-IP-&#x5730;&#x5740;&#x8303;&#x56F4;" class="headerlink" title="&#xFF08;7&#xFF09;&#x5728;&#x89C4;&#x5219;&#x4E2D;&#x4F7F;&#x7528; IP &#x5730;&#x5740;&#x8303;&#x56F4;"></a>&#xFF08;7&#xFF09;&#x5728;&#x89C4;&#x5219;&#x4E2D;&#x4F7F;&#x7528; IP &#x5730;&#x5740;&#x8303;&#x56F4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（8）禁止PING"><span class="nav-number">2.8.</span> <span class="nav-text"><a href="#&#xFF08;8&#xFF09;&#x7981;&#x6B62;PING" class="headerlink" title="&#xFF08;8&#xFF09;&#x7981;&#x6B62;PING"></a>&#xFF08;8&#xFF09;&#x7981;&#x6B62;PING</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（9）允许访问回环网卡"><span class="nav-number">2.9.</span> <span class="nav-text"><a href="#&#xFF08;9&#xFF09;&#x5141;&#x8BB8;&#x8BBF;&#x95EE;&#x56DE;&#x73AF;&#x7F51;&#x5361;" class="headerlink" title="&#xFF08;9&#xFF09;&#x5141;&#x8BB8;&#x8BBF;&#x95EE;&#x56DE;&#x73AF;&#x7F51;&#x5361;"></a>&#xFF08;9&#xFF09;&#x5141;&#x8BB8;&#x8BBF;&#x95EE;&#x56DE;&#x73AF;&#x7F51;&#x5361;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（10）丢弃无效数据包"><span class="nav-number">2.10.</span> <span class="nav-text"><a href="#&#xFF08;10&#xFF09;&#x4E22;&#x5F03;&#x65E0;&#x6548;&#x6570;&#x636E;&#x5305;" class="headerlink" title="&#xFF08;10&#xFF09;&#x4E22;&#x5F03;&#x65E0;&#x6548;&#x6570;&#x636E;&#x5305;"></a>&#xFF08;10&#xFF09;&#x4E22;&#x5F03;&#x65E0;&#x6548;&#x6570;&#x636E;&#x5305;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（11）插入指定位置一条规则"><span class="nav-number">2.11.</span> <span class="nav-text"><a href="#&#xFF08;11&#xFF09;&#x63D2;&#x5165;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x4E00;&#x6761;&#x89C4;&#x5219;" class="headerlink" title="&#xFF08;11&#xFF09;&#x63D2;&#x5165;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x4E00;&#x6761;&#x89C4;&#x5219;"></a>&#xFF08;11&#xFF09;&#x63D2;&#x5165;&#x6307;&#x5B9A;&#x4F4D;&#x7F6E;&#x4E00;&#x6761;&#x89C4;&#x5219;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用端口总结"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x5E38;&#x7528;&#x7AEF;&#x53E3;&#x603B;&#x7ED3;" class="headerlink" title="&#x5E38;&#x7528;&#x7AEF;&#x53E3;&#x603B;&#x7ED3;"></a>&#x5E38;&#x7528;&#x7AEF;&#x53E3;&#x603B;&#x7ED3;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#附本人主机iptables规则脚本"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x9644;&#x672C;&#x4EBA;&#x4E3B;&#x673A;iptables&#x89C4;&#x5219;&#x811A;&#x672C;" class="headerlink" title="&#x9644;&#x672C;&#x4EBA;&#x4E3B;&#x673A;iptables&#x89C4;&#x5219;&#x811A;&#x672C;"></a>&#x9644;&#x672C;&#x4EBA;&#x4E3B;&#x673A;iptables&#x89C4;&#x5219;&#x811A;&#x672C;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

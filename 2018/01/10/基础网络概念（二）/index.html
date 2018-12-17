@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,计算机网络," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="一、TCP/IP 的链结层相关协议TCP/IP 最底层的链结层主要与硬件比较有关系，因此底下我们主要介绍一些 WAN 与 LAN 的硬件。同时会开始介绍那重要的 CSMA/CD 的以太网络协议，以及相关的硬件与 MAC 讯框格式等。">
+<meta name="keywords" content="书籍,计算机网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基础网络概念（二）">
+<meta property="og:url" content="http://yoursite.com/2018/01/10/基础网络概念（二）/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="一、TCP/IP 的链结层相关协议TCP/IP 最底层的链结层主要与硬件比较有关系，因此底下我们主要介绍一些 WAN 与 LAN 的硬件。同时会开始介绍那重要的 CSMA/CD 的以太网络协议，以及相关的硬件与 MAC 讯框格式等。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ethernet_joint.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ethernet_joint_rj45.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_csma_cd.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_mac_frame.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_mac_frame_trans.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ip_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ip_frame_protocol.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ip_show.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ip_explain.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ip_class.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ip_netmask.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ip_frame_tcp.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_port_for_service.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_tcp_connect.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/network_ip_frame_udp.png">
+<meta property="og:updated_time" content="2018-07-20T06:07:55.583Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基础网络概念（二）">
+<meta name="twitter:description" content="一、TCP/IP 的链结层相关协议TCP/IP 最底层的链结层主要与硬件比较有关系，因此底下我们主要介绍一些 WAN 与 LAN 的硬件。同时会开始介绍那重要的 CSMA/CD 的以太网络协议，以及相关的硬件与 MAC 讯框格式等。">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/01/network_ethernet_joint.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/10/基础网络概念（二）/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>基础网络概念（二） | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/10/基础网络概念（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">基础网络概念（二）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-10T18:42:25+08:00">
+                2018-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《鸟哥的Linux私房菜服务器架设篇（第三版）》/" itemprop="url" rel="index">
+                    <span itemprop="name">《鸟哥的Linux私房菜服务器架设篇（第三版）》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/10/基础网络概念（二）/" class="leancloud_visitors" data-flag-title="基础网络概念（二）">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="一、TCP-IP-的链结层相关协议"><a href="#一、TCP-IP-的链结层相关协议" class="headerlink" title="一、TCP/IP 的链结层相关协议"></a>一、TCP/IP 的链结层相关协议</h2><p>TCP/IP 最底层的链结层主要与硬件比较有关系，因此底下我们主要介绍一些 WAN 与 LAN 的硬件。同时会开始介绍那重要的 CSMA/CD 的以太网络协议，以及相关的硬件与 MAC 讯框格式等。<br><a id="more"></a></p>
+<h3 id="（1）广域网使用的设备"><a href="#（1）广域网使用的设备" class="headerlink" title="（1）广域网使用的设备"></a>（1）广域网使用的设备</h3><p>广域网使用的设备价格较为低廉。不过广域网使用到的设备非常的多，一般用户通常会接触到的主要是 ADSL 调制解调器或者是光纤到大厦，以及第四台的 Cable 宽带等。在这里我们先介绍一些比较常见的设备，如果以后你有机会接触到其他设备，再请依据需求自行查阅相关书籍！</p>
+<p><strong>1. 传统电话拨接：透过 ppp 协议</strong><br>早期网络大概都只能透过调制解调器加上电话线以及计算机的九针串行端口(以前接鼠标或游戏杆的插孔)，然后透过 Point-to-Point Protocol (PPP 协议)配合拨接程序来取得网络 IP 参数，这样就能够上网了。不过这样的速度非常慢，而且当电话拨接后， 就不能够讲电话了！因为 PPP 支持 TCP/IP, NetBEUI,IPX/SPX 等通讯协议，所以使用度非常广！<br><strong>2. 整合服务数字网络 (Integrated Services Digital Network, ISDN)</strong><br>也是利用现有的电话线路来达成网络联机的目的，只是联机的两端都需要有 ISDN 的调制解调器来提供联机功能。ISDN 的传输有多种通道可供使用，并且可以将多个信道整合应用，因此速度可以成倍成长。基本的 B 信道速度约为 64Kbps， 但如美国规格使用 23 个以上的通道来达成联机，此时速度可达1.5Mbps 左右。<br><strong>3. 非对称数位用路回路 (Asymmetric Digital Subscriber Line, ADSL)：透过 pppoe 协议</strong><br>也是透过电话线来拨接后取得 IP 的一个方法，只不过这个方式使用的是电话的高频部分，与一般讲电话的频率不同。 因此妳可以一边使用 ADSL 上网同时透过同一个电话号码来打电话聊天。在台湾，由于上传/下载的带宽不同， 因此才称为非对称的回路。ADSL 同样使用调制解调器，只是他透过的是 PPPoE (PPP over Ethernet) 的方法！ 将 PPP 仿真在以太网络卡上，因此你的主机需要透过一张网络卡来连接到调制解调器，并透过拨接程序来取得新的接口 (ppp0)！<br><strong>4. 电缆调制解调器 (Cable modem)</strong><br>主要透过有线电视 (台湾所谓的第四台) 使用的缆线作为网络讯号媒体，同样需要具备调制解调器来连接到 ISP，以取得网络参数来上网。 Cable modem 的带宽主要是分享型的，所以通常具有区域性，并不是你想装就能装的哩！</p>
+<h3 id="（2）局域网络使用的设备-以太网络"><a href="#（2）局域网络使用的设备-以太网络" class="headerlink" title="（2）局域网络使用的设备-以太网络"></a>（2）局域网络使用的设备-以太网络</h3><p>在局域网络的环境中，我们最常使用的就是以太网络。当然啦，在某些超高速网络应用的环境中， 还可能会用到价格相当昂贵的光纤信道哩。只是如同前面提到的，以太网络因为已经标准化了，设备设置费用相对低廉， 所以一般你会听到什么网络线或者是网络媒体，几乎都是使用以太网络来架设的环境！ 只是这里还是要提醒您，整个网络世界并非仅有以太网络这个硬件接口！</p>
+<h4 id="1-以太网络的速度与标准"><a href="#1-以太网络的速度与标准" class="headerlink" title="1. 以太网络的速度与标准"></a>1. 以太网络的速度与标准</h4><p>以太网络的流行主要是它成为国际公认的标准所致。早先 IEEE 所制订的以太网络标准为 802.3 的 IEEE 10BASE5 ，这个标准主要的定义是：【10 代表传输速度为10Mbps，BASE 表示采用基频信号来进行传输，至于 5 则是指每个网络节点之间最长可达 500 公尺。】由于网络的传输信息就是 0 与 1 啊，因此，数据传输的单位为每秒多少 bit ，亦即是 M bits/second, Mbps 的意思。那么为何制订成为 10Mbps 呢？ 这是因为早期的网络线压制的方法以及相关的制作方法，还有以太网络卡制作的技术并不是很好，加上当时的数据传输需求并没有像现在这么高，所以 10Mbps 已经可以符合大多数人的需求了。<br><strong>（注：我们看到的网络提供者 (Internet Services Provider, ISP) 所宣称他们的 ADSL 传输速度可以达到 下行/上行 2Mbps/128Kbps(Kbits per second) 时，那个 Kb 指的可不是 bytes 而是 bits！所以 2M/128K 在实际的档案大小传输速度上面，最大理论的传输为 256KBps/16 KBps(KBytes per second)，所以正常下载的速度约在每秒 100~200 KBytes 之间吶！同样的道理，在网络卡或者是一些网络媒体的广告上面，他们都会宣称自己的产品可以自动辨识传输速度为 10/100 Mbps ( Mega-bits per second)，该数值还是得再除以 8 才是我们一般常用的档案容量计算的单位bytes！）</strong></p>
+<p>早期的网络线使用的是旧式的同轴电缆线，这种线路在现在几乎已经看不到了。取而代之的是类似传统电话线的双绞线 (Twisted Pair Ethernet) ，IEEE 并将这种线路的以太网络传输方法制订成为 10BASE-T 的标准。 10BASE-T 使用的是 10 Mbps 全速运作且采用无遮蔽式双绞线 (UTP) 的网络线。此外， 10BASE-T 的 UTP 网络线可以使用星形联机(star)， 也就是以一个集线器为中心来串连各网络设备的一个方法。<br>不同于早期以一条同轴电缆线链接所有的计算机的 bus 联机，透过星形联机的帮助，我们可以很简单的加装其他的设备或者是移除其他设备，而不会受到其他装置的影响，这对网络设备的扩充性与除错来说， 都是一项相当棒的设计！也因此 10BASE-T 让以太网络设备的销售额大幅提升！</p>
+<p>后来 IEEE 更制订了 802.3u 这个支持到 100Mbps 传输速度的 100BASE-T 标准，这个标准与 10BASE-T 差异不大， 只是双绞线线材制作需要更精良，同时也已经支持使用了四对绞线的网络线了，也就是目前很常见的八蕊网络线！这种网络线我们常称为等级五 (Category 5, CAT5) 的网络线。 这种传输速度的以太网络就被称为 Fastethernet 。至于目前我们常常听到的 Gigabit 网络速度 1000 Mbps 又是什么吶？那就是 Gigabit ethernet ！只是 Gigabit ethernet 的网络线就需要更加的精良。</p>
+<p>为什么每当传输速度增加时，网络线的要求就更严格呢？这是因为当传输速度增加时，线材的电磁效应相互干扰会增强， 因此在网络线的制作时就得需要特别注意线材的质料以及内部线蕊心之间的缠绕情况配置等，以使电子流之间的电磁干扰降到最小，才能使传输速度提升到应有的 Gigabit 。所以说，在以太网络世界当中，如果你想要提升原有的 fast ethernet 到 gigabit ethernet 的话，除了网络卡需要升级之外，主机与主机之间的网络线，以及连接主机线路的集线器/交换器等，都必须要提升到可以支持 gigabit 速度等级的设备才行！</p>
+<h4 id="2-以太网络的网络线接头-跳线-并行线"><a href="#2-以太网络的网络线接头-跳线-并行线" class="headerlink" title="2.以太网络的网络线接头 (跳线/并行线)"></a>2.以太网络的网络线接头 (跳线/并行线)</h4><p>前面提到，网络的速度与线材是有一定程度的相关性的，那么线材的接头又是怎样呢？目前在以太网络上最常见到的接头就是 RJ-45 的网络接头，共有八蕊的接头，有点像是胖了的电话线接头， 如下所示：<br><img src="/uploads/2018/01/network_ethernet_joint.JPG" alt=""><br>而 RJ-45 接头又因为每条蕊线的对应不同而分为 568A 与 568B 接头，这两款接头内的蕊线对应如下表：<br><img src="/uploads/2018/01/network_ethernet_joint_rj45.png" alt=""><br>事实上，虽然目前的以太网络线有八蕊且两两成对，但实际使用的只有 1,2,3,6 蕊而已，其他的则是某些特殊用途的场合才会使用到。但由于主机与主机的联机以及主机与集线器的联机时，所使用的网络线脚位定义并不相同，因此由于接头的不同网络线又可分为两种：</p>
+<ul>
+<li>跳线：一边为 568A 一边为 568B 的接头时称为跳线，用在直接链接两部主机的网络卡。</li>
+<li>并行线：两边接头同为 568A 或同为 568B 时称为并行线，用在链接主机网络卡与集线器之间的线材；</li>
+</ul>
+<h3 id="（3）以太网络的传输协议：CSMA-CD"><a href="#（3）以太网络的传输协议：CSMA-CD" class="headerlink" title="（3）以太网络的传输协议：CSMA/CD"></a>（3）以太网络的传输协议：CSMA/CD</h3><p>整个以太网络的重心就是以太网络卡！所以说，以太网络的传输主要就是网络卡对网络卡之间的数据传递而已。每张以太网络卡出厂时，就会赋予一个独一无二的卡号，那就是所谓的 MAC (Media Access Control)！理论上，网卡卡号是不能修改的，不过某些笔记本电脑的网卡卡号是能够修改的！那么以太网络的网卡之间数据是如何传输的呢？那就得要谈一下 IEEE 802.3 的标准 CSMA/CD (Carrier SenseMultiple Access with Collision Detection) 了！我们以下图来作为简介，下图内的中心点为集线器，各个主机都是联机到集线器，然后透过集线器的功能向所有主机发起联机的。<br><img src="/uploads/2018/01/network_csma_cd.JPG" alt="" title="CSMA/CD 联机示意图，由 A 发送资料给 D 时，注意箭头方向"></p>
+<p>集线器是一种网络共享媒体，什么是网络共享媒体啊？想象一下上述的环境就像一个十字路口，而集线器就是那个路口！ 这个路口一次只允许一辆车通过，如果两辆车同时使用这个路口，那么就会发生碰撞的车祸事件啊！那就是所谓的共享媒体。 也就是说，网络共享媒体在单一时间点内， 仅能被一部主机所使用。</p>
+<p>理解了共享媒体的意义后，再来，我们就得要讨论，那么以太网络的网卡之间是如何传输的呢？我们以上图中的 A 要发给 D 网卡为例好了，简单的说， CSMA/CD 搭配上述的环境，它的传输情况需要有以下的流程：</p>
+<blockquote>
+<p>1.监听媒体使用情况 (Carrier Sense)：A 主机要发送网络封包前，需要先对网络媒体进行监听，确认没有人在使用后， 才能够发送出讯框；<br>2.多点传输 (Multiple Access)：A 主机所送出的数据会被集线器复制一份，然后传送给所有连接到此集线器的主机！ 也就是说， A 所送出的数据， B, C, D 三部计算机都能够接收的到！但由于目标是 D 主机，因此 B 与 C 会将此讯框数据丢弃，而 D 则会抓下来处理；<br>3.碰撞侦测 (Collision Detection)：该讯框数据附有检测能力，若其他主机例如 B 计算机也刚好在同时间发送讯框数据时， 那么 A 与 B 送出的数据碰撞在一块 (出车祸) ，此时这些讯框就是损毁，那么 A 与 B 就会各自随机等待一个时间， 然后重新透过第一步再传送一次该讯框数据。</p>
+</blockquote>
+<p>了解这个程序很重要吗？我们就来谈谈：</p>
+<ol>
+<li><strong>网络忙碌时，集线器灯号闪个不停，但我的主机明明没有使用网络：</strong><br>透过上述的流程我们会知道，不管哪一部主机发送出讯框，所有的计算机都会接收到！因为集线器会复制一份该数据给所有计算机。 因此，虽然只有一部主机在对外联机，但是在集线器上面的所有计算机灯号就都会闪个不停！</li>
+<li><strong>我的计算机明明没有被入侵，为何我的数据会被隔壁的计算机窃取：</strong><br>透过上述的流程，我们只要在 B 计算机上面安装一套监听软件，这套软件将原本要丢弃的讯框数据捉下来分析，并且加以重组， 就能够知道原本 A 所送出的讯息了。这也是为什么我们都建议重要数据在因特网上面得要【加密】后再传输！</li>
+<li><strong>既然共享媒体只有一个主机可以使用，为何大家可以同时上网：</strong>这个问题就有趣了，既然共享媒体一次只能被一个主机所使用，那么万一我传输100MB 的档案，集线器就得被我使用 80 秒 (以 10Mbps 传输时)，在这期间其他人都不可以使用吗？不是的，由于标准的讯框数据在网络卡与其他以太网络媒体一次只能传输 1500bytes，因此我的 100MB 档案就得要拆成多个小数据报，然后一个一个的传送，每个数据报传送前都要经过 CSMA/CD 的机制。 所以，这个集线器的使用权是大家抢着用的！即使只有一部主机在使用网络媒体时，那么这部主机在发送每个封包间， 也都是需要等待一段时间的 (96 bit time)！</li>
+<li><strong>讯框要多大比较好？能不能修改讯框？：</strong><br>如上所述，那么讯框的大小能不能改变呢？因为如果讯框的容量能够增大，那么小数据报的数量就会减少， 那每个讯框传送间的等待就可以减少了！是这样没错，但是以太网络标准讯框确实定义在 1500 bytes， 但近来的超高速以太网络媒体有支持 Jumbo frame (巨型讯框,注10) 的话，那么就能够将讯框大小改为9000bytes 哩！但不是很建议大家随便修改！</li>
+</ol>
+<h3 id="（4）MAC-的封装格式"><a href="#（4）MAC-的封装格式" class="headerlink" title="（4）MAC 的封装格式"></a>（4）MAC 的封装格式</h3><p>上面提到的 CSMA/CD 传送出去的讯框数据，其实就是 MAC 啦！MAC 其实就是我们上面一直讲到的讯框 (frame) 啰！ 只是这个讯框上面有两个很重要的数据，就是目标与来源的网卡卡号，因此我们又简称网卡卡号为 MAC 而已。 简单的说，你可以把 MAC想成是一个在网络线上面传递的包裹，而这个包裹是整个网络硬件上面传送数据的最小单位了。 也就是说，网络线可想成是一条【一次仅可通过一个人】的独木桥， 而 MAC就是在这个独木桥上面动的人啦！接下来，来看一看 MAC 这个讯框的内容吧！<br><img src="/uploads/2018/01/network_mac_frame.JPG" alt="" title="以太网络的 MAC 讯框"></p>
+<p>上图中的目的地址与来源地址指的就是网卡卡号 (hardware address, 硬件地址)，我们前面提到，每一张网卡都有一个独一无二的卡号， 那个卡号的目的就在这个讯框的表头数据使用到啦！硬件地址最小由 00:00:00:00:00:00 到 FF:FF:FF:FF:FF:FF(16 进位法)， 这 6 bytes 当中，前 3bytes 为厂商的代码，后 3bytes 则是该厂商自行设定的装置码了。</p>
+<p>在 Linux 当中，你可以使用 ifconfig 这个指令来查阅你的网络卡卡号喔！特别注意，在这个 MAC 的传送中，他仅在局域网络内生效，如果跨过不同的网域 (这个后面 IP 的部分时会介绍)，那么来源与目的的硬件地址就会跟着改变了。 这是因为变成不同网络卡之间的交流了嘛！所以卡号当然不同了！如下所示：<br><img src="/uploads/2018/01/network_mac_frame_trans.JPG" alt="" title="同一讯框在不同网域的主机间传送时，讯框的表头变化"></p>
+<p>例如上面的图标，我的数据要由计算机 A 通过 B 后才送达 C ，而 B 计算机有两块网络卡，其中 MAC-2 与 A 计算机的 MAC-1 互通，至于 MAC-3 则与 C 计算机的MAC-4 互通。但是 MAC-1 不能与 MAC-3 与 MAC-4 互通，为啥？因为 MAC-1 这块网络卡并没有与 MAC-3 及 MAC-4 使用同样的 switch/hub 相接嘛！所以，数据的流通会变成：</p>
+<blockquote>
+<p>1.先由 MAC-1 传送到 MAC-2 ，此时来源是 MAC-1 而目的地是 MAC-2；<br>2.B 计算机接收后，察看该讯框，发现目标其实是 C 计算机，而为了与 C 计算机沟通， 所以他会将讯框内的来源 MAC 改为 MAC-3 ，而目的改为 MAC-4 ，如此就可以直接传送到 C 计算机了。</p>
+</blockquote>
+<p>也就是说，只要透过 B (就是路由器) 才将封包送到另一个网域去的时候，那么讯框内的硬件地址就会被改变，然后才能够在同一个网域里面直接进行讯框的流通！<br><em>（注：局域网内是mac地址寻址，网域中是通过IP寻址。）</em></p>
+<h3 id="（5）集线器、交换器与相关机制"><a href="#（5）集线器、交换器与相关机制" class="headerlink" title="（5）集线器、交换器与相关机制"></a>（5）集线器、交换器与相关机制</h3><p>共不共享很重要，集线器还是交换器？<br>当一个很忙碌的网络在运作时，集线器 (hub) 这个网络共享媒体就可能会发生碰撞的情况， 这是因为 CSMA/CD 的缘故。那有没有办法避免这种莫名其妙的封包碰撞情况呢？有的，那就使用非共享媒体的交换器即可！</p>
+<p>交换器 (switch) 等级非常多，我们这里仅探讨支持 OSI 第二层的交换器。交换器与集线器最大的差异，在于交换器内有一个特别的内存， 这个内存可以记录每个 switch port 与其连接的 PC 的 MAC 地址，所以，当来自 switch 两端的 PC 要互传数据时，每个讯框将直接透过交换器的内存数据而传送到目标主机上！ 所以 switch 不是共享媒体，且 switch 的每个端口 (port) 都具有独立的带宽！</p>
+<h2 id="二、TCP-IP-的网络层相关封包与数据"><a href="#二、TCP-IP-的网络层相关封包与数据" class="headerlink" title="二、TCP/IP 的网络层相关封包与数据"></a>二、TCP/IP 的网络层相关封包与数据</h2><p>我们现在知道要有网络的话，必须要有网络相关的硬件，而目前最常见的网络硬件接口为以太网络，包括网络线、网络卡、Hub/Switch 等等。而以太网络上面的传输使用网络卡卡号为基准的 MAC 讯框，配合 CSMA/CD 的标准来传送讯框，这就是硬件部分。在软件部分，我们知道 Internet 其实就是 TCP/IP 这个通讯协议的通称，Internet 是由 InterNIC 所统一管理的， 但其实他仅是负责分配 Internet 上面的 IP 以及提供相关的 TCP/IP 技术文件而已。不过 Internet 最重要的就是 IP ！所以，这个小节就让我们来讲讲网络层的 IP 与路由！</p>
+<h3 id="1、IP-封包的封装"><a href="#1、IP-封包的封装" class="headerlink" title="1、IP 封包的封装"></a>1、IP 封包的封装</h3><p>目前因特网社会的 IP 有两种版本，一种是目前使用最广泛的 IPv4 (Internet Protocol version 4, 因特网协定第四版)， 一种则是预期未来会热门的 IPv6 。IPv4记录的地址由于仅有 32 位，预计在 2020 年前后就会分发完毕，如此一来，新兴国家或者是新的网络公司，将没有网络可以使用。为了避免这个问题发生，因此就有 IPv6的产生。IPv6 的地址可以达到 128 位，可以多出 2 的 96 次方倍的网址数量，这样的 IP 数量几乎用不完！虽然 IPv6 具有前瞻性，但目前主流媒体大多还是使用IPv4 ，因此本文主要谈到的 IP 都指 IPv4 而言。</p>
+<p>我们在前一小节谈到 MAC 的封装，那么 IP 封包的封装也得要来了解一下，才能知道 IP 到底是如何产生的啊！ IP 封包可以达到 65535 bytes 这么大，在比 MAC 大的情况下，我们的操作系统会对 IP 进行拆解的动作。至于 IP 封装的表头资料绘制如下：(下图第一行为每个字段的 bit 数)<br><img src="/uploads/2018/01/network_ip_01.png" alt="" title="IP 封包的表头资料"></p>
+<p>在上面的图示中有个地方要注意，那就是【每一行所占用的位数为 32 bits】，各个表头的内容分别介绍如下：</p>
+<blockquote>
+<p><strong>Version(版本)</strong><br>宣告这个 IP 封包的版本，例如目前惯用的还是 IPv4 这个版本就在这里宣告。<br><strong>IHL(Internet Header Length, IP 表头的长度)</strong><br>告知这个 IP 封包的表头长度，使用的单位应该是字组 (word) ，一个字组为 4bytes 大小。<br><strong>Type of Service(服务类型)</strong><br>这个项目的内容为【PPPDTRUU】，表示这个 IP 封包的服务类型，主要分为：<br>　　PPP：表示此 IP 封包的优先度，目前很少使用；<br>　　D：若为 0 表示一般延迟(delay)，若为 1 表示为低延迟；<br>　　T：若为 0 表示为一般传输量 (throughput)，若为 1 表示为高传输量；<br>　　R：若为 0 表示为一般可靠度(reliability)，若为 1 表示高可靠度。<br>　　UU：保留尚未被使用。<br>举例来说，gigabit 以太网络的种种相关规格可以让这个 IP 封包加速且降低延迟，某些特殊的标志就是在这里说明的。<br><strong>Total Length(总长度)</strong><br>指这个 IP 封包的总容量，包括表头与内容 (Data) 部分。最大可达 65535bytes。<br><strong>Identification(辨别码)</strong><br>我们前面提到 IP 袋子必须要放在 MAC 袋子当中。不过，如果 IP 袋子太大的话，就得先要将 IP 再重组成较小的袋子然后再放到 MAC 当中。而当 IP 被重组时，每个来自同一个 IP 的小袋子就得要有个标识符以告知接收端这些小袋子其实是来自同一个 IP 封包才行。也就是说，假如 IP 封包其实是 65536 那么大 (前一个 Total Length 有规定)，那么这个 IP 就得要再被分成更小的 IP 分段后才能塞进 MAC 讯框中。那么每个小 IP 分段是否来自同一个 IP 资料，这就是该标识符的作用！<br><strong>Flags(特殊旗标)</strong><br>这个地方的内容为【0DM】，其意义为：<br>　　D：若为 0 表示可以分段，若为 1 表示不可分段<br>　　M：若为 0 表示此 IP 为最后分段，若为 1 表示非最后分段。<br><strong>Fragment Offset(分段偏移)</strong><br>表示目前这个 IP 分段在原始的 IP 封包中所占的位置。就有点像是序号，有这个序号才能将所有的小 IP 分段组合成为原本的 IP 封包大小！透过 Total Length, Identification, Flags 以及这个 Fragment Offset 就能够将小 IP 分段在收受端组合起来了！<br><strong>Time To Live(TTL, 存活时间)</strong><br>表示这个 IP 封包的存活时间，范围为 0-255。当这个 IP 封包通过一个路由器时，TTL 就会减一，当 TTL 为 0 时，这个封包将会被直接丢弃。说实在的，要让 IP 封包通过 255 个路由器，还挺难的！<br><strong>Protocol Number(协定代码)</strong><br>来自传输层与网络层本身的其他数据都是放置在 IP 封包当中的，我们可以在 IP 表头记载这个 IP 封包内的数据是啥，在这个字段就是记载每种数据封包的内容！在这个字段记载的代码与相关的封包协议名称如下所示：<br><img src="/uploads/2018/01/network_ip_frame_protocol.png" alt="" title="常见的有 TCP, UDP"><br><strong>Header Checksum(表头检查码)</strong><br>用来检查这个 IP 表头的错误检验之用。<br><strong>Source Address</strong><br>来源的 IP 地址，从这里我们也知道 IP 是 32 位。<br><strong>Destination Address</strong><br>有来源还需要有目标才能传送，这里就是目标的 IP 地址。<br><strong>Options (其他参数)</strong><br>这个是额外的功能，提供包括安全处理机制、路由纪录、时间戳、严格与宽松之来源路由等。<br><strong>Padding(补齐项目)</strong><br>由于 Options 的内容不一定有多大，但是我们知道 IP 每个数据都必须要是 32bits，所以，若 Options 的数据不足 32 bits 时，则由 padding 主动补齐。</p>
+</blockquote>
+<p>你只要知道 IP 表头里面含有：TTL, Protocol, 来源地址与目标地址也就够了！而这个 IP 表头的来源与目标 IP ，以及那个判断通过多少路由器的 TTL ，就能了解到这个 IP 将被如何传送到目的端的。后续各小节我们将介绍 IP 的组成与范围，还有IP 封包如何传送的机制 (路由) 等等。</p>
+<h3 id="2、IP-地址的组成与分级"><a href="#2、IP-地址的组成与分级" class="headerlink" title="2、IP 地址的组成与分级"></a>2、IP 地址的组成与分级</h3><p>现在我们知道 IP (Internet Protocol) 其实是一种网络封包，而这个封包的表头最重要的就是那个 32 位的来源与目标地址！ 为了方便记忆，所以我们也称这个 32bits 的数值为 IP 网络地址就是了。因为网络是人类发明的，所以很多概念与邮务系统类似！ 那这个 IP 其实就类似所谓的【门牌号码】！那么这个 IP 有哪些重要的地方需要了解的呢？底下我们就来谈一谈吧！</p>
+<p>既然 IP 的组成是 32 bits 的数值，也就是由 32 个 0 与 1 组成的一连串数字！那么当我们思考所有跟 IP 有关的参数时，你就应该要将该参数想成是 32 位的数据！不过，因为人类对于二进制实在是不怎么熟悉，所以为了顺应人们对于十进制的依赖性，因此，就将 32 bits 的 IP 分成四小段，每段含有 8 个 bits ，将 8 个 bits 计算成为十进制，并且每一段中间以小数点隔开，那就成了目前大家所熟悉的 IP 的书写模样了。如下所示：<br><img src="/uploads/2018/01/network_ip_show.png" alt=""></p>
+<p>所以 IP 最小可以由 0.0.0.0 一直到 255.255.255.255 ！但在这一串数字中，其实还可以分为两个部分！主要分为 Net_ID (网域号码)与 Host_ID (主机号码) 两部份。我们先以 192.168.0.0 ~ 192.168.0.255 这个 Class C 的网域当作例子来说明好了：<br><img src="/uploads/2018/01/network_ip_explain.png" alt=""></p>
+<p>在上面的范例当中，前面三组数字 (192.168.0) 就是网域号码，最后面一组数字则称为主机号码。至于同一个网域的定义是【在同一个物理网段内，主机的 IP 具有相同的 Net_ID ，并且具有独特的 Host_ID】，那么这些 IP 群就是同一个网域内的 IP 网段！<br><em>（注：什么是物理网段呢？当所有的主机都是使用同一个网络媒体串在一起，这个时候这些主机在实体装置上面其实是联机在一起的，那么就可以称为这些主机在同一个物理网段内了！同时并请注意，同一个物理网段之内，可以依据不同的 IP 的设定，而设定成多个【IP 网段】！）</em><br><strong>（请注意，同一个 Net_ID 内，不能具有相同的 Host_ID ，否则就会发生IP冲突，可能会造成两部主机都没有办法使用网络的问题！）</strong></p>
+<p><strong>（1）IP 在同一网域的意义</strong><br>那么同一个网域该怎么设定，与将 IP 设定在同一个网域之内有什么好处呢？</p>
+<blockquote>
+<p><strong>1.Net_ID 与 Host_ID 的限制：</strong><br>在同一个网段内，Net_ID 是不变的，而 Host_ID 则是不可重复，此外，Host_ID在二进制的表示法当中，不可同时为 0 也不可同时为 1 ，因为全为 0 表示整个网段的地址 (Network IP)，而全为 1 则表示为广播的地址 (Broadcast IP)。<br><strong>2.在区网内透过 IP 广播传递数据</strong><br>在同物理网段的主机如果设定相同的网域 IP 范围 (不可重复)，则这些主机都可以透过 CSMA/CD 的功能直接在区网内用广播进行网络的联机，亦即可以直接网卡对网卡传递数据 (透过 MAC 讯框)；<br><strong>3.设定不同区网在同物理网段的情况</strong><br>在同一个物理网段之内，如果两部主机设定成不同的 IP 网段，则由于广播地址的不同，导致无法透过广播的方式来进行联机。 此时得要透过路由器 (router)来进行沟通才能将两个网域连结在一起。<br><strong>4.网域的大小</strong><br>当 Host_ID 所占用的位越大，亦即 Host_ID 数量越多时，表示同一个网域内可用以设定主机的 IP 数量越多。</p>
+</blockquote>
+<p><strong>（2）IP 的分级</strong><br>为了 IP 管理与发放注册的方便性，InterNIC 将整个 IP 网段分为五种等级， 每种等级的范围主要与 IP 那 32 bits 数值的前面几个位有关，基本定义如下：<br><img src="/uploads/2018/01/network_ip_class.png" alt=""><br>五种分级在十进制的表示：<br>Class A : 0.xx.xx.xx ~ 127.xx.xx.xx<br>Class B : 128.xx.xx.xx ~ 191.xx.xx.xx<br>Class C : 192.xx.xx.xx ~ 223.xx.xx.xx<br>Class D : 224.xx.xx.xx ~ 239.xx.xx.xx<br>Class E : 240.xx.xx.xx ~ 255.xx.xx.xx</p>
+<p>根据上表的说明，我们可以知道，你只要知道 IP 的第一个十进制数，就能够约略了解到该 IP 属于哪一个等级，以及同网域 IP 数量有多少。这也是为啥我们上头选了 192.168.0.0 这一 IP 网段来说明时，会将巷子定义到第三个数字之故。不过，上表中你只要记忆三种等级，亦即是 Class A, B, C 即可，因为 Class D 是用来作为群播(multicast) 的特殊功能之用 (最常用在大批计算机的网络还原)，至于 Class E 则是保留没有使用的网段。因此，能够用来设定在一般系统上面的，就只有 Class A, B, C三种等级的 IP！</p>
+<p><strong>（3）IP 的种类与取得方式</strong><br>接下来要跟大家谈一谈也是很容易造成大家困扰的一个部分，那就是 IP 的种类！很多朋友常常听到什么【真实IP, 实体 IP, 虚拟 IP, 假的 IP….】实际上，在 IPv4 里面就只有两种 IP 的类别，分别是：</p>
+<ul>
+<li>Public IP : 公共 IP ，经由 INTERNIC 所统一规划的 IP，有这种 IP 才可以连上 Internet ；</li>
+<li>Private IP : 私有 IP 或保留 IP，不能直接连上 Internet 的 IP ，主要用于局域网络内的主机联机规划。</li>
+</ul>
+<p>早在 IPv4 规划的时候就担心 IP 会有不足的情况，而且为了应付某些企业内部的网络设定，于是就有了私有 IP (Private IP) 的产生了。私有 IP 也分别在 A, B, C 三个 Class 当中各保留一段作为私有 IP 网段，那就是：<br>　　Class A：10.0.0.0 - 10.255.255.255<br>　　Class B：172.16.0.0 - 172.31.255.255<br>　　Class C：192.168.0.0 - 192.168.255.255<br>由于这三段 Class 的 IP 是预留使用的，所以并不能直接作为 Internet 上面的连接之用，不然的话，到处就都有相同的 IP ！那怎么行！网络岂不混乱？所以，这三个 IP 网段就只做为内部私有网域的 IP 沟通之用。简单的说，他有底下的几个限制：</p>
+<ul>
+<li>私有 IP 的路由信息不能对外散播 (只能存在内部网络)；</li>
+<li>使用私有 IP 作为来源或目的地址的封包，不能透过 Internet 来转送 (不然网络会混乱)；</li>
+<li>关于私有 IP 的参考纪录(如 DNS)，只能限于内部网络使用 (一样的原理)</li>
+</ul>
+<p>这个私有 IP 有什么好处呢？由于他的私有路由不能对外直接提供信息，所以，你的内部网络将不会直接被 Internet 上面的 Cracker 所攻击！但是，你也就无法以私有 IP 来【直接上网】！因此相当适合一些尚未具有 Public IP 的企业内部用来规划其网络之设定！否则当你随便指定一些可能是 Public IP 的网段来规划你企业内部的网络设定时，万一哪一天真的连上 Internet 了，那么岂不是可能会造成跟 Internet上面的 Public IP 相同了吗？</p>
+<p>此外，在没有可用的公开网络情况下，如果你想要跟同学玩联机游戏怎办？也就是说，在区网内自己玩自己的联机游戏， 此时你只要规范好所有同学在同一段私有 IP 网段中，就能够顺利的玩你的网络啦！就这么简单呢！</p>
+<p>那么万一你又要将这些私有 IP 送上 Internet 呢？这个简单，设定一个简单的防火墙加上 NAT (Network Address Transfer) 服务，你就可以透过 IP 伪装 (不要急，这个在后面也会提到) 来使你的私有 IP 的计算机也可以连上 Internet ！</p>
+<p><strong>特殊的 loopback IP 网段</strong><br>还有一个奇怪的 Class A 的网域，那就是 lo 这个奇怪的网域啦 (注意：是小写的 o 而不是零喔)！这个 lo 的网络是当初被用来作为测试操作系统内部循环所用的一个网域，同时也能够提供给系统内部原本就需要使用网络接口的服务 (daemon) 所使用。</p>
+<p>简单的说，如果你没有安装网络卡在的机器上面， 但是你又希望可以测试一下在你的机器上面设定的服务器环境到底可不可以顺利运作，这个时候怎么办，就是利用这个所谓的内部循环网络啦！这个网段在 127.0.0.0/8 这个 Class A，而且默认的主机 (localhost) 的 IP 是 127.0.0.1 ！所以，当你启动了你的 WWW 服务器，然后在你的主机的 X-Window 上面执行 <a href="http://localhost" target="_blank" rel="noopener">http://localhost</a> 就可以直接看到你的主页！而且不需要安装网络卡！测试很方便的！</p>
+<p><strong>IP 的取得方式</strong><br>基本上，主机的 IP 与相关网域的设定方式主要有：</p>
+<blockquote>
+<p>1.直接手动设定(static)： 你可以直接向你的网管询问可用的 IP 相关参数，然后直接编辑配置文件 (或使用某些软件功能) 来设定你的网络。 常见于校园网络的环境中，以及向 ISP 申请固定 IP 的联机环境；<br>2.透过拨接取得： 向你的 ISP 申请注册，取得账号密码后，直接拨接到 ISP ，你的 ISP 会透过他们自己的设定，让你的操作系统取得正确的网络参数。<br>3.自动取得网络参数 (DHCP)： 在局域网络内会有一部主机负责管理所有计算机的网络参数，你的网络启动时就会主动向该服务器要求 IP 参数， 若取得网络相关参数后，你的主机就能够自行设定好所有服务器给你的网络参数了。最常使用于企业内部、IP 分享器后端、 校园网络与宿舍环境，及缆线宽带等联机方式。</p>
+</blockquote>
+<p>不管是使用上面哪种方式取得的 IP ，你的 IP 都只有所谓的【 Public 与Private IP 】而已！而其他什么浮动式、固定制、 动态式等等有的没有的，就只是告诉你这个 IP 取得的方式而已。</p>
+<h3 id="（4）Netmask-子网与-CIDR-Classless-Interdomain-Routing"><a href="#（4）Netmask-子网与-CIDR-Classless-Interdomain-Routing" class="headerlink" title="（4）Netmask, 子网与 CIDR (Classless Interdomain Routing)"></a>（4）Netmask, 子网与 CIDR (Classless Interdomain Routing)</h3><p>前面我们提到 IP 这个 32 位的数值中分为网域号码与主机号码，其中 Class C的网域号码占了 24 位，而其实我们还可以将这样的网域切的更细，就是让第一个Host_ID 被拿来作为 Net_ID ，所以，整个 Net_ID 就有 25 bits ，至于 Host_ID 则减少为 7 bits 。在这样的情况下，原来的一个 Class C 的网域就可以被切分为两个子域，而每个子域就有【 256/2 - 2 = 126 】个可用的 IP 了！这样一来，就能够将原本的一个网域切为两个较细小的网域，方便分门别类的设计。</p>
+<p><strong>Netmask, 或称为 Subnet mask (子网掩码)</strong><br>那到底是什么参数来达成子网的切分呢？那就是 Netmask (子网掩码) 的用途！这个 Netmask 是用来定义出网域的最重要的一个参数。<br>Netmask 的表示就成为：<br><img src="/uploads/2018/01/network_ip_netmask.png" alt=""></p>
+<h2 id="三、TCP-IP-的传输层相关封包与数据"><a href="#三、TCP-IP-的传输层相关封包与数据" class="headerlink" title="三、TCP/IP 的传输层相关封包与数据"></a>三、TCP/IP 的传输层相关封包与数据</h2><p>网络层的 IP 封包只负责将数据送到正确的目标主机去，但这个封包到底会不会被接受，或者是有没有被正确的接收，那就不是 IP 的任务啦！那是传送层的任务之一。其中连接导向的 TCP 封包与非连接导向的 UDP 封包，这两个封包很重要！资料能不能正确的被送达目的，与这两个封包有关！</p>
+<h3 id="1、可靠联机的-TCP-协议"><a href="#1、可靠联机的-TCP-协议" class="headerlink" title="1、可靠联机的 TCP 协议"></a>1、可靠联机的 TCP 协议</h3><p>TCP 封包的表头资料：<br><img src="/uploads/2018/01/network_ip_frame_tcp.png" alt=""><br>上图就是一个 TCP 封包的表头数据，各个项目以 Source Port, Destination Port及 Code 算是比较重要的项目，底下我们就分别来谈一谈各个表头数据的内容吧！</p>
+<blockquote>
+<p><strong>Source Port &amp; Destination Port (来源端口 &amp; 目标端口)</strong><br>什么是端口(port)？我们知道 IP 封包的传送主要是藉由 IP 地址连接两端，但是到底这个联机的通道是连接到哪里去呢？就是连接到 port 上头！举例来说，有的网站开放 WWW 服务器，这表示主机必须要启动一个可以让 client 端连接的端口，这个端口就是 port 。同样的，客户端想要连接到 WWW 服务器时，就必须要在 client 主机上面启动一个 port ，这样这两个主机才能够利用这条【通道】来传递封包数据！这个目标与来源 port 的纪录，可以说是 TCP 封包上最重要的参数了！<br><strong>Sequence Number (封包序号)</strong><br>由于 TCP 封包必须要带入 IP 封包当中，所以如果 TCP 数据太大时(大于 IP封包的容许程度)，就得要进行分段。这个 Sequence Number 就是记录每个封包的序号，可以让收受端重新将 TCP 的数据组合起来。<br><strong>Acknowledge Number (回应序号)</strong><br>为了确认主机端确实有收到我们 client 端所送出的封包数据，我们 client 端当然希望能够收到主机方面的响应，那就是这个 Acknowledge Number 的用途了。当 client 端收到这个确认码时，就能够确定之前传递的封包已经被正确的收下了。<br><strong>Data Offset (资料补偿)</strong><br>在图中倒数第二行有个 Options 字段！那个 Options 的字段长度是非固定的，而为了要确认整个 TCP 封包的大小，就需要这个标志来说明整个封包区段的起始位置。<br><strong>Reserved (保留)</strong><br>未使用的保留字段。<br><strong>Code (Control Flag, 控制标志码)</strong><br>当我们在进行网络联机的时候，必须要说明这个联机的状态，好让接收端了解这个封包的主要动作。这可是一个非常重要的句柄！这个字段共有 6 个 bits ，分别代表 6 个句柄，若为 1 则为启动。分别说明如下：<br>　　URG(Urgent)：若为 1 则代表该封包为紧急封包，接收端应该要紧急处理，且图当中的 Urgent Pointer 字段也会被启用。<br>　　ACK(Acknowledge)：若为 1 代表这个封包为响应封包，则与上面提到的 Acknowledge Number 有关。<br>　　PSH(Push function)：若为 1 时，代表要求对方立即传送缓冲区内的其他对应封包，而无须等待缓冲区满了才送。<br>　　RST(Reset)：如果 RST 为 1 的时候，表示联机会被马上结束，而无需等待终止确认手续。这也就是说，这是个强制结束的联机，且发送端已断线。<br>　　SYN(Synchronous)：若为 1，表示发送端希望双方建立同步处理，也就是要求建立联机。通常带有 SYN 标志的封包表示【主动】要连接到对方的意思。<br>　　FIN(Finish)：若为 1 ，表示传送结束，所以通知对方数据传毕，是否同意断线，只是发送者还在等待对方的响应而已。<br>其实每个项目都很重要，不过我们这里仅对 ACK/SYN 有兴趣而已，这样未来在谈到防火墙的时候，你才会比较清楚为啥每个 TCP 封包都有所谓的【状态】条件！那就是因为联机方向的不同所致啊。<br><strong>Window (滑动窗口)</strong><br>主要是用来控制封包的流量的，可以告知对方目前本身有的缓冲器容量(Receive Buffer) 还可以接收封包。当 Window=0 时，代表缓冲器已经额满，所以应该要暂停传输数据。 Window 的单位是 byte。<br><strong>Checksum(确认检查码)</strong><br>当数据要由发送端送出前，会进行一个检验的动作，并将该动作的检验值标注在这个字段上；而接收者收到这个封包之后，会再次的对封包进行验证，并且比对原发送的 Checksum 值是否相符，如果相符就接受，若不符就会假设该封包已经损毁，进而要求对方重新发送此封包！<br><strong>Urgent Pointer(紧急资料)</strong><br>这个字段是在 Code 字段内的 URG = 1 时才会产生作用。可以告知紧急数据所在的位置。<br><strong>Options(任意资料)</strong><br>目前此字段仅应用于表示接收端可以接收的最大数据区段容量，若此字段不使用，表示可以使用任意数据区段的大小。这个字段较少使用。<br><strong>Padding(补足字段)</strong><br>如同 IP 封包需要有固定的 32bits 表头一样， Options 由于字段为非固定，所以也需要 Padding 字段来加以补齐才行。同样也是 32 bits 的整数。</p>
+</blockquote>
+<h3 id="2、通讯端口"><a href="#2、通讯端口" class="headerlink" title="2、通讯端口"></a>2、通讯端口</h3><p>谈完了 TCP 表头数据后，再来让我们了解一下这个表头里面最重要的端口信息吧！<br>在上图的 TCP 表头数据中，最重要的就属那 16 位的两个咚咚，亦即来源与目标的端口。由于是 16 位，因此目标与来源端口最大可达 65535 号 (2 的 16 次方)！那这个埠口有什么用途呢？上面稍微提到过，网络是双向的，服务器与客户端要达成联机的话，两边应该要有一个对应的端口来达成联机信道，好让数据可以透过这个信道来进行沟通。</p>
+<p>那么这个端口怎么打开呢？就是透过程序的执行！举例来说，网站上必须要启动一个 WWW 服务器软件，这个服务器软件会主动的唤起 port 80 来等待客户端的联机。你想要看我网站上的数据，就得要利用浏览器，填入网址，然后浏览器也会启动一个端口，并将 TCP 的表头填写目标端口为 80 ，而来源端口是你主机随机启动的一个端口，然后将 TCP 封包封装到 IP 后，送出到网络上。等 WWW 网站主机接收到你这个封包后，再依据你的端口给予回应。<br><em>（注：曾经有一个朋友问过我说：【一部主机上面这么多服务，那我们跟这部主机进行联机时，该主机怎么知道我们要的数据是 WWW 还是FTP 啊？】就是透过埠口啊！因为每种 Client 软件他们所需要的数据都不相同，例如上面提到的浏览器所需要的数据是 WWW ，所以该软件默认就会向服务器的 port 80 索求数据；而如果你是使用 filezilla 来进行与服务器的 FTP 数据索求时， filezilla 当然预设就是向服务器的 FTP 相关埠口 (预设就是 port 21) 进行连接的动作啦！所以当然就可以正确无误的取得 Client 端所需要的数据了）</em></p>
+<p><strong>特权端口 (Privileged Ports)</strong><br>Internet 上面已经有很多规范好的固定 port (well-known port)，这些 port number 通常小于 1024 ，且是提供给许多知名的网络服务软件用的。在我们的 Linux 环境下，各网络服务与 port number 的对应默认给他写在 /etc/services档案内。底下列出几个常见的 port number 与网络服务的对应：<br><img src="/uploads/2018/01/network_port_for_service.png" alt=""></p>
+<p>另外一点比较值得注意的是，小于 1024 以下的埠口要启动时， 启动者的身份必须要是 root 才行，所以才叫做特权埠口嘛！这个限制挺重要的，大家不要忘记了！不过如果是 client 端的话，由于 client 端都是主动向 server 端要数据，所以client 端的 port number 就使用随机取一个大于 1024 以上且没有在用的 port number。</p>
+<p><strong>Socket Pair</strong><br>由于网络是双向的，要达成联机的话得要服务器与客户端均提供了 IP 与埠口才行。因此，我们常常将这个成对的数据称之为 Socket Pair 了！</p>
+<ul>
+<li>来源 IP + 来源埠口 (Source Address + Source Port)</li>
+<li>目的 IP + 目的埠口 (Destination Address + Destination Port)</li>
+</ul>
+<p>由于 IP 与埠口常常连在一起说明，因此网络寻址常常使用【 IP:port 】来说明，例如想要连上网站时，正确的鸟哥网站写法应该是：【 linux.vbird.org:80 】才对！</p>
+<h3 id="3、TCP-的三向交握"><a href="#3、TCP-的三向交握" class="headerlink" title="3、TCP 的三向交握"></a>3、TCP 的三向交握</h3><p>TCP 被称为可靠的联机封包，主要是透过许多机制来达成的，其中最重要的就是三向交握的功能。我们以底下的图示来作为说明。<br><img src="/uploads/2018/01/network_tcp_connect.png" alt=""></p>
+<p>在上面的封包连接模式当中，在建立联机之前都必须要通过三个确认的动作，所以这种联机方式也就被称为三向交握(Three-way handshake)。 那么我们将整个流程依据上面的 A, B, C, D 四个阶段来说明一下：</p>
+<blockquote>
+<p><strong>A:封包发起</strong><br>当客户端想要对服务器端联机时，就必须要送出一个要求联机的封包，此时客户端必须随机取用一个大于 1024 以上的端口口来做为程序沟通的接口。然后在 TCP 的表头当中，必须要带有 SYN 的主动联机(SYN=1)，并且记下发送出联机封包给服务器端的序号 (Sequence number = 10001) 。<br><strong>B:封包接收与确认封包传送</strong><br>当服务器接到这个封包，并且确定要接收这个封包后，就会开始制作一个同时带有 SYN=1, ACK=1 的封包，其中那个 acknowledge 的号码是要给 client 端确认用的，所以该数字会比(A 步骤)里面的 Sequence 号码多一号 (ack = 10001+1= 10002)， 那我们服务器也必须要确认客户端确实可以接收我们的封包才行，所以也会发送出一个 Sequence (seq=20001) 给客户端，并且开始等待客户端给我们服务器端的回应！<br><strong>C:回送确认封包</strong><br>当客户端收到来自服务器端的 ACK 数字后 (10002) 就能够确认之前那个要求封包被正确的收受了， 接下来如果客户端也同意与服务器端建立联机时，就会再次的发送一个确认封包 (ACK=1) 给服务器，亦即是 acknowledge = 20001+1 =20002 。<br><strong>D:取得最后确认</strong><br>若一切都顺利，在服务器端收到带有 ACK=1 且 ack=20002 序号的封包后，就能够建立起这次的联机了。</p>
+</blockquote>
+<p>也就是说，你必须要了解【网络是双向的】这个事实！所以不论是服务器端还是客户端，都必须要透过一次 SYN 与 ACK 来建立联机，所以总共会进行三次的交谈！在设定防火墙或者是追踪网络联机的问题时，这个【双向】的概念最容易被忽略， 而常常导致无法联机成功的问题啊！切记切记！</p>
+<h2 id="四、非连接导向的-UDP-协议"><a href="#四、非连接导向的-UDP-协议" class="headerlink" title="四、非连接导向的 UDP 协议"></a>四、非连接导向的 UDP 协议</h2><p>UDP 的全名是：【User Datagram Protocol, 用户数据流协议】，UDP 与 TCP 不一样，UDP 不提供可靠的传输模式，因为他不是面向连接的一个机制，这是因为在 UDP的传送过程中，接受端在接受到封包之后，不会回复响应封包 (ACK) 给发送端，所以封包并没有像 TCP 封包有较为严密的检查机制。至于 UDP 的表头资料如下表所示：<br><img src="/uploads/2018/01/network_ip_frame_udp.png" alt=""></p>
+<p>TCP 封包确实是比较可靠的，因为通过三向交握嘛！不过，也由于三向交握的缘故，TCP 封包的传输速度会较慢。至于 UDP 封包由于不需要确认对方是否有正确的收到数据，故表头数据较少，所以 UDP 就可以在 Data 处填入更多的数据了。同时 UDP 比较适合需要实时反应的一些数据流，例如影像实时传送软件等，就可以使用这类的封包传送。也就是说，UDP 传输协议并不考虑联机要求、联机终止与流量控制等特性，所以使用的时机是当数据的正确性不很重要的情况，例如网络摄影机！</p>
+<p>另外，很多的软件其实是同时提供 TCP 与 UDP 的传输协议的，举例来说，查询主机名的 DNS 服务就同时提供了 UDP/TCP 协议。由于 UDP 较为快速，所以我们 client 端可以先使用 UDP 来与服务器联机。 但是当使用 UDP 联机却还是无法取得正确的数据时，便转换为较为可靠的 TCP 传输协议来进行数据的传输啰。 这样可以同时兼顾快速与可靠的传输说！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/10/基础网络概念（一）/" rel="next" title="基础网络概念（一）">
+                <i class="fa fa-chevron-left"></i> 基础网络概念（一）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/12/Linux常用网络指令/" rel="prev" title="Linux 常用网络指令">
+                Linux 常用网络指令 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">165</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、TCP-IP-的链结层相关协议"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;TCP-IP-&#x7684;&#x94FE;&#x7ED3;&#x5C42;&#x76F8;&#x5173;&#x534F;&#x8BAE;" class="headerlink" title="&#x4E00;&#x3001;TCP/IP &#x7684;&#x94FE;&#x7ED3;&#x5C42;&#x76F8;&#x5173;&#x534F;&#x8BAE;"></a>&#x4E00;&#x3001;TCP/IP &#x7684;&#x94FE;&#x7ED3;&#x5C42;&#x76F8;&#x5173;&#x534F;&#x8BAE;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#（1）广域网使用的设备"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x5E7F;&#x57DF;&#x7F51;&#x4F7F;&#x7528;&#x7684;&#x8BBE;&#x5907;" class="headerlink" title="&#xFF08;1&#xFF09;&#x5E7F;&#x57DF;&#x7F51;&#x4F7F;&#x7528;&#x7684;&#x8BBE;&#x5907;"></a>&#xFF08;1&#xFF09;&#x5E7F;&#x57DF;&#x7F51;&#x4F7F;&#x7528;&#x7684;&#x8BBE;&#x5907;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（2）局域网络使用的设备-以太网络"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5C40;&#x57DF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x7684;&#x8BBE;&#x5907;-&#x4EE5;&#x592A;&#x7F51;&#x7EDC;" class="headerlink" title="&#xFF08;2&#xFF09;&#x5C40;&#x57DF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x7684;&#x8BBE;&#x5907;-&#x4EE5;&#x592A;&#x7F51;&#x7EDC;"></a>&#xFF08;2&#xFF09;&#x5C40;&#x57DF;&#x7F51;&#x7EDC;&#x4F7F;&#x7528;&#x7684;&#x8BBE;&#x5907;-&#x4EE5;&#x592A;&#x7F51;&#x7EDC;</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-以太网络的速度与标准"><span class="nav-number">1.2.1.</span> <span class="nav-text"><a href="#1-&#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x901F;&#x5EA6;&#x4E0E;&#x6807;&#x51C6;" class="headerlink" title="1. &#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x901F;&#x5EA6;&#x4E0E;&#x6807;&#x51C6;"></a>1. &#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x901F;&#x5EA6;&#x4E0E;&#x6807;&#x51C6;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-以太网络的网络线接头-跳线-并行线"><span class="nav-number">1.2.2.</span> <span class="nav-text"><a href="#2-&#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x7F51;&#x7EDC;&#x7EBF;&#x63A5;&#x5934;-&#x8DF3;&#x7EBF;-&#x5E76;&#x884C;&#x7EBF;" class="headerlink" title="2.&#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x7F51;&#x7EDC;&#x7EBF;&#x63A5;&#x5934; (&#x8DF3;&#x7EBF;/&#x5E76;&#x884C;&#x7EBF;)"></a>2.&#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x7F51;&#x7EDC;&#x7EBF;&#x63A5;&#x5934; (&#x8DF3;&#x7EBF;/&#x5E76;&#x884C;&#x7EBF;)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（3）以太网络的传输协议：CSMA-CD"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x4F20;&#x8F93;&#x534F;&#x8BAE;&#xFF1A;CSMA-CD" class="headerlink" title="&#xFF08;3&#xFF09;&#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x4F20;&#x8F93;&#x534F;&#x8BAE;&#xFF1A;CSMA/CD"></a>&#xFF08;3&#xFF09;&#x4EE5;&#x592A;&#x7F51;&#x7EDC;&#x7684;&#x4F20;&#x8F93;&#x534F;&#x8BAE;&#xFF1A;CSMA/CD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（4）MAC-的封装格式"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;MAC-&#x7684;&#x5C01;&#x88C5;&#x683C;&#x5F0F;" class="headerlink" title="&#xFF08;4&#xFF09;MAC &#x7684;&#x5C01;&#x88C5;&#x683C;&#x5F0F;"></a>&#xFF08;4&#xFF09;MAC &#x7684;&#x5C01;&#x88C5;&#x683C;&#x5F0F;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（5）集线器、交换器与相关机制"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#xFF08;5&#xFF09;&#x96C6;&#x7EBF;&#x5668;&#x3001;&#x4EA4;&#x6362;&#x5668;&#x4E0E;&#x76F8;&#x5173;&#x673A;&#x5236;" class="headerlink" title="&#xFF08;5&#xFF09;&#x96C6;&#x7EBF;&#x5668;&#x3001;&#x4EA4;&#x6362;&#x5668;&#x4E0E;&#x76F8;&#x5173;&#x673A;&#x5236;"></a>&#xFF08;5&#xFF09;&#x96C6;&#x7EBF;&#x5668;&#x3001;&#x4EA4;&#x6362;&#x5668;&#x4E0E;&#x76F8;&#x5173;&#x673A;&#x5236;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、TCP-IP-的网络层相关封包与数据"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;TCP-IP-&#x7684;&#x7F51;&#x7EDC;&#x5C42;&#x76F8;&#x5173;&#x5C01;&#x5305;&#x4E0E;&#x6570;&#x636E;" class="headerlink" title="&#x4E8C;&#x3001;TCP/IP &#x7684;&#x7F51;&#x7EDC;&#x5C42;&#x76F8;&#x5173;&#x5C01;&#x5305;&#x4E0E;&#x6570;&#x636E;"></a>&#x4E8C;&#x3001;TCP/IP &#x7684;&#x7F51;&#x7EDC;&#x5C42;&#x76F8;&#x5173;&#x5C01;&#x5305;&#x4E0E;&#x6570;&#x636E;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、IP-封包的封装"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;IP-&#x5C01;&#x5305;&#x7684;&#x5C01;&#x88C5;" class="headerlink" title="1&#x3001;IP &#x5C01;&#x5305;&#x7684;&#x5C01;&#x88C5;"></a>1&#x3001;IP &#x5C01;&#x5305;&#x7684;&#x5C01;&#x88C5;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、IP-地址的组成与分级"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;IP-&#x5730;&#x5740;&#x7684;&#x7EC4;&#x6210;&#x4E0E;&#x5206;&#x7EA7;" class="headerlink" title="2&#x3001;IP &#x5730;&#x5740;&#x7684;&#x7EC4;&#x6210;&#x4E0E;&#x5206;&#x7EA7;"></a>2&#x3001;IP &#x5730;&#x5740;&#x7684;&#x7EC4;&#x6210;&#x4E0E;&#x5206;&#x7EA7;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（4）Netmask-子网与-CIDR-Classless-Interdomain-Routing"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#xFF08;4&#xFF09;Netmask-&#x5B50;&#x7F51;&#x4E0E;-CIDR-Classless-Interdomain-Routing" class="headerlink" title="&#xFF08;4&#xFF09;Netmask, &#x5B50;&#x7F51;&#x4E0E; CIDR (Classless Interdomain Routing)"></a>&#xFF08;4&#xFF09;Netmask, &#x5B50;&#x7F51;&#x4E0E; CIDR (Classless Interdomain Routing)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、TCP-IP-的传输层相关封包与数据"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;TCP-IP-&#x7684;&#x4F20;&#x8F93;&#x5C42;&#x76F8;&#x5173;&#x5C01;&#x5305;&#x4E0E;&#x6570;&#x636E;" class="headerlink" title="&#x4E09;&#x3001;TCP/IP &#x7684;&#x4F20;&#x8F93;&#x5C42;&#x76F8;&#x5173;&#x5C01;&#x5305;&#x4E0E;&#x6570;&#x636E;"></a>&#x4E09;&#x3001;TCP/IP &#x7684;&#x4F20;&#x8F93;&#x5C42;&#x76F8;&#x5173;&#x5C01;&#x5305;&#x4E0E;&#x6570;&#x636E;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、可靠联机的-TCP-协议"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x53EF;&#x9760;&#x8054;&#x673A;&#x7684;-TCP-&#x534F;&#x8BAE;" class="headerlink" title="1&#x3001;&#x53EF;&#x9760;&#x8054;&#x673A;&#x7684; TCP &#x534F;&#x8BAE;"></a>1&#x3001;&#x53EF;&#x9760;&#x8054;&#x673A;&#x7684; TCP &#x534F;&#x8BAE;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、通讯端口"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x901A;&#x8BAF;&#x7AEF;&#x53E3;" class="headerlink" title="2&#x3001;&#x901A;&#x8BAF;&#x7AEF;&#x53E3;"></a>2&#x3001;&#x901A;&#x8BAF;&#x7AEF;&#x53E3;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、TCP-的三向交握"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#3&#x3001;TCP-&#x7684;&#x4E09;&#x5411;&#x4EA4;&#x63E1;" class="headerlink" title="3&#x3001;TCP &#x7684;&#x4E09;&#x5411;&#x4EA4;&#x63E1;"></a>3&#x3001;TCP &#x7684;&#x4E09;&#x5411;&#x4EA4;&#x63E1;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、非连接导向的-UDP-协议"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x975E;&#x8FDE;&#x63A5;&#x5BFC;&#x5411;&#x7684;-UDP-&#x534F;&#x8BAE;" class="headerlink" title="&#x56DB;&#x3001;&#x975E;&#x8FDE;&#x63A5;&#x5BFC;&#x5411;&#x7684; UDP &#x534F;&#x8BAE;"></a>&#x56DB;&#x3001;&#x975E;&#x8FDE;&#x63A5;&#x5BFC;&#x5411;&#x7684; UDP &#x534F;&#x8BAE;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

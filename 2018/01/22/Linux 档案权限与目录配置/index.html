@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,书籍," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Linux最优秀的地方之一，就在于他的多人多任务环境。而为了让各个使用者具有较保密的档案数据，因此档案的权限管理就变的很重要了。Linux一般将档案可存取的身份分为三个类别，分别是owner/group/others，且三种身份各有read/write/execute等权限">
+<meta name="keywords" content="Linux,书籍">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 档案权限与目录配置">
+<meta property="og:url" content="http://yoursite.com/2018/01/22/Linux 档案权限与目录配置/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Linux最优秀的地方之一，就在于他的多人多任务环境。而为了让各个使用者具有较保密的档案数据，因此档案的权限管理就变的很重要了。Linux一般将档案可存取的身份分为三个类别，分别是owner/group/others，且三种身份各有read/write/execute等权限">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/linux_permission.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/linux_directory_fhs.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/linux_directory_root.JPG">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/linux_directory_usr.jpg">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/01/linux_directory_var.JPG">
+<meta property="og:updated_time" content="2018-07-20T06:07:55.162Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 档案权限与目录配置">
+<meta name="twitter:description" content="Linux最优秀的地方之一，就在于他的多人多任务环境。而为了让各个使用者具有较保密的档案数据，因此档案的权限管理就变的很重要了。Linux一般将档案可存取的身份分为三个类别，分别是owner/group/others，且三种身份各有read/write/execute等权限">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/01/linux_permission.JPG">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/22/Linux 档案权限与目录配置/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>Linux 档案权限与目录配置 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/22/Linux 档案权限与目录配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Linux 档案权限与目录配置</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-22T16:01:07+08:00">
+                2018-01-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《鸟哥的Linux私房菜基础篇（第三版）》/" itemprop="url" rel="index">
+                    <span itemprop="name">《鸟哥的Linux私房菜基础篇（第三版）》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/01/22/Linux 档案权限与目录配置/" class="leancloud_visitors" data-flag-title="Linux 档案权限与目录配置">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux最优秀的地方之一，就在于他的多人多任务环境。而为了让各个使用者具有较保密的档案数据，因此档案的权限管理就变的很重要了。Linux一般将档案可存取的身份分为三个类别，分别是owner/group/others，且三种身份各有read/write/execute等权限<br><a id="more"></a></p>
+<h4 id="1、身份类别"><a href="#1、身份类别" class="headerlink" title="1、身份类别"></a>1、身份类别</h4><ul>
+<li>档案拥有者User</li>
+<li>群组概念Group</li>
+<li>其他人Others</li>
+<li>root</li>
+</ul>
+<p>对应记录数据的档案：</p>
+<ul>
+<li>各种身份的相关信息：/etc/passwd</li>
+<li>个人的密码：/etc/shadow</li>
+<li>组名:/etc/group</li>
+</ul>
+<h4 id="2、权限的意义"><a href="#2、权限的意义" class="headerlink" title="2、权限的意义"></a>2、权限的意义</h4><h5 id="（1）对档案"><a href="#（1）对档案" class="headerlink" title="（1）对档案"></a>（1）对档案</h5><blockquote>
+<p>r：可读取此档案的实际内容<br>w：可编辑，新增或者修改此档案的内容（但不含删除该档案）<br>x：该档案具有可以被系统执行的权限（Windows底下一个档案是否具有执行的能力是藉由【扩展名】来判断的，例如：.exe, .bat, .com等等，但是在Linux底下，我们的档案是否能被执行，则是藉由是否具有【x】这个权限来决定的）</p>
+</blockquote>
+<h5 id="（2）对目录"><a href="#（2）对目录" class="headerlink" title="（2）对目录"></a>（2）对目录</h5><blockquote>
+<p>r：可读取目录结构列表，可查询该目录下的文件名数据，ls命令可显示它们<br>w：可新建目录与档案，可删除已存在的目录与档案，可更改他们的名字，可移动它们的位置<br>x：用户能进入该目录成为工作目录，cd命令可进入它，如果没有x权限，不能执行它下面的任何指令<br>（注：对目录的 w 权限要谨慎给予！）</p>
+</blockquote>
+<p>案例：账户为dmtai的家目录为/home/dmtai，账户dmtai对这个目录有rwx的权限。此目录下有一个档案叫the_root.data，它的权限为：<br><code>-rwx------ 1 root root 4356 Sep 19 20:20 the_root.data</code><br>分析：档案对于账户dmtai来说属于others身份，所以这个档案，dmtai无法读取，无法编辑也无法执行。但是dmtai对目录dmtai具有rwx的权限，也就是说dmtai账户可以删除这个档案！！</p>
+<h4 id="3、Linux文件属性"><a href="#3、Linux文件属性" class="headerlink" title="3、Linux文件属性"></a>3、Linux文件属性</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls -al</span><br><span class="line">-rw-r--r--    1           root   root     42304        Sep 4 18:26     install.log</span><br><span class="line">[档案类型][档案类型权限][连接数][User][Group][档案容量bytes][档案最后修改时间][档案名]</span><br></pre></td></tr></table></figure>
+<p>各栏详解如下：</p>
+<blockquote>
+<p>（1）第一栏表示档案类型权限：总共10个字符，<br>第一个字符代表这个档案类型：<br>　　① 正规档案[-]：纯文本档（ASCII），二进制文件（binary），数据格式文件（data）<br>　　② 目录[d]<br>　　③ 连结档[l]<br>　　④ 设备与装置文件<br>　　　　1）区块设备档[b]：可随机存取装置（比如硬盘，软盘）<br>　　　　2）字符设备文件[c]：一次性读取装置（比如键盘，鼠标）<br>　　⑤ 资料接口文件（sockets）[s]：称为数据接口文件<br>　　⑥ 数据输送文件（FIFO,pipe）[p]：特殊的文件类型<br>接下来9个字符3个一组，三组权限分别对应为：User，Group，Others<br>（2）第二栏表示有多少档名连结到此节点(i-node)：<br>每个档案都会将他的权限与属性记录到文件系统的 i-node 中，不过，我们使用的目录树却是使用文件名来记录，因此每个档名就会连结到一个 i-node ！这个属性记录的，就是有多少不同的档名连结到相同的一个 i-node 号码就是了。<br>（3）第三栏表示这个档案(或目录)的【拥有者账号】<br>（4）第四栏表示这个档案的所属群组<br>（5）第五栏为这个档案的容量大小，默认单位为bytes；<br>（6）第六栏为这个档案的建档日期或者是最近的修改日期：<br>（7）第七栏为这个档案的档名</p>
+</blockquote>
+<h4 id="4、如何改变文件属性与权限"><a href="#4、如何改变文件属性与权限" class="headerlink" title="4、如何改变文件属性与权限"></a>4、如何改变文件属性与权限</h4><h5 id="（1）chgrp：改变档案所属群组"><a href="#（1）chgrp：改变档案所属群组" class="headerlink" title="（1）chgrp：改变档案所属群组"></a>（1）chgrp：改变档案所属群组</h5><p>基本语法：chgrp [-R] groupname filename<br>选项与参数：<br>    -R：进行递归的持续变更，即目录下的所有档案，目录都更新为属于这个新群组<br>示例：<br>chgrp users install.log #users这个群组必须存在于/etc/group记录的群组里</p>
+<h5 id="（2）chown：改变档案拥有者"><a href="#（2）chown：改变档案拥有者" class="headerlink" title="（2）chown：改变档案拥有者"></a>（2）chown：改变档案拥有者</h5><p>基本语法：chown [-R] ownername[:groupname] filename<br>选项与参数：<br>    -R：进行递归的持续变更，即目录下的所有档案，目录都更新为属于这个新拥有者<br>示例：<br>chown bin install.log #bin这个拥有者必须存在于/etc/passwd记录的拥有者里</p>
+<p>#应用：cp 源档案 目标档案后，新的使用者可能无法使用copy后的档案，这时就需要赋予新档案一个新的拥有者和新的群组了。</p>
+<h5 id="（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性"><a href="#（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性" class="headerlink" title="（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性"></a>（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性</h5><blockquote>
+<p><strong>数字类型改变档案权限</strong><br>各权限的分数如下：r:4 w:2 x:1<br>每种身份各自的权限都是以上3个相加得到。如7=4+2+1,5=4+0+1（不可能是5=2+2+1哦，因为第一个肯定是r，数值要不是4要不是0，不能是2）<br>基本语法：chmod [-R] xyz 档案或目录<br>选项与参数：<br>　　xyz : 就是刚刚提到的数字类型的权限属性，为 rwx 属性数值的相加。<br>　　-R : 进行递归(recursive)的持续变更，亦即连同次目录下的所有档案都会变更<br>示例：<br>chmod 770 .bashrc</p>
+</blockquote>
+<blockquote>
+<p><strong>符号类型改变档案权限</strong><br><img src="/uploads/2018/01/linux_permission.JPG" alt=""><br>基本语法：chmod ugoa +-= rwx 档案或目录  #a代表all即全部的身份<br>示例：<br>chmod u=rwx,go=rx .bashrc   #u=rwx,go=rx是连在一起的，中间没有任何空格符</p>
+</blockquote>
+<h4 id="5、Linux-目录配置"><a href="#5、Linux-目录配置" class="headerlink" title="5、Linux 目录配置"></a>5、Linux 目录配置</h4><h5 id="（1）目录配置依据：FHS（Filesystem-Hierarchy-Standard）"><a href="#（1）目录配置依据：FHS（Filesystem-Hierarchy-Standard）" class="headerlink" title="（1）目录配置依据：FHS（Filesystem Hierarchy Standard）"></a>（1）目录配置依据：FHS（Filesystem Hierarchy Standard）</h5><p>亊实上，FHS 是根据过去的经验一直再持续的改版的，FHS 依据文件系统使用的频繁与否与是否允许使用者随意更动，而将目录定义成为四种交互作用的形态，用表格来说有点像底下这样：<br><img src="/uploads/2018/01/linux_directory_fhs.JPG" alt=""></p>
+<p>上表中的目录就是一些代表性的目录，该目录底下所放置的数据在底下会谈到，这里先略过不谈。我们要了解的是，什么是那四个类型？</p>
+<ul>
+<li>可分享的：可以分享给其他系统挂载使用的目录，所以包括执行文件与用户的邮件等数据，是能够分享给网络上其他主机挂载用的目录；</li>
+<li>不可分享的：自己机器上面运作的装置档案或者是与程序有关的 socket 档案等，由于仅与自身机器有关，所以当然就不适合分享给其他主机了。</li>
+<li>不变的：有些数据是不会经常变动的，跟随着 distribution 而不变动。例如函式库、文件说明文件、系统管理员所管理的主机服务配置文件等等；</li>
+<li>可变动的：经常改变的数据，例如登录文件、一般用户可自行收受的新闻组等。</li>
+</ul>
+<p>亊实上，FHS 针对目录树架构仅定义出三层目录底下应该放置什么数据而已，分别是底下这三个目录的定义：</p>
+<ul>
+<li>/ (root, 根目录)：与开机系统有关；</li>
+<li>/usr (unix software resource)：与软件安装/执行有关；</li>
+<li>/var (variable)：与系统运作过程有关。</li>
+</ul>
+<h5 id="（2）根目录-的意义与内容："><a href="#（2）根目录-的意义与内容：" class="headerlink" title="（2）根目录 (/) 的意义与内容："></a>（2）根目录 (/) 的意义与内容：</h5><p>根目录是整个系统最重要的一个目录，因为不但所有的目录都是由根目录衍生出来的，同时根目录也与开机/还原/系统修复等动作有关。由于系统开机时需要特定的开机软件、核心档案、开机所需程序、函式库等等档案数据，若系统出现错误时，根目录也必项要包含有能够修复文件系统的程序才行。因为根目录是这么的重要，所以在 FHS 的要求方面，他希服根目录不要放在非常大的分割槽内，因为越大的分割槽你会放入越多的数据，如此一来根目录所在分割槽就可能会有较多发生错误的机会。</p>
+<p>因此 FHS 标准建议：根目录(/)所在分割槽应该越小越好，且应用程序所安装的软件最好不要与根目录放在同一个分割槽内，保持根目录越小越好。如此不但效能较佳，根目录所在的文件系统也较不容易发生问题。</p>
+<p>有鉴于上述的说明，因此 FHS 定义出根目录(/)底下应该要有底下这些次目录的存在才好：<br><img src="/uploads/2018/01/linux_directory_root.JPG" alt=""></p>
+<p>另外要注意的是，因为根目录与开机有关，开机过程中仅有根目录会被挂载，其他分割槽则是在开机完成之后才会持续的进行挂载的行为。就是因为如此，因此根目录下与开机过程有关的目录，就不能够与根目录放到不同的分割槽去！那哪些目录不可与根目录分开呢？有底下这些：</p>
+<ul>
+<li>/etc：配置文件</li>
+<li>/bin：重要执行档</li>
+<li>/dev：所需要的装置档案</li>
+<li>/lib：执行档所需的函式库不核心所需的模块</li>
+<li>/sbin：重要的系统执行文件</li>
+</ul>
+<h5 id="（3）-usr-的意义与内容："><a href="#（3）-usr-的意义与内容：" class="headerlink" title="（3）/usr 的意义与内容："></a>（3）/usr 的意义与内容：</h5><p>依据FHS 的基本定义，/usr 里面放置的数据属于可分享的与不可变动的(shareable, static)，如果你知道如何透过网络进行分割槽的挂载，那么 /usr 确实可以分享给局域网络内的其他主机来使用！</p>
+<p>很多读者都会误会 /usr 为 user 的缩写，其实 usr 是 Unix Software Resource 的缩写，也就是【Unix 操作系统软件资源】所放置的目录，而不是用户的数据！这点要注意。FHS 建议所有软件开发者，应该将他们的数据合理的分别放置到这个目录下的次目录，而不要自行建立该软件自己独立的目录。</p>
+<p>因为是所有系统默认的软件(distribution 发布者提供的软件)都会放置到 /usr 底下，因此这个目录有点类似 Windows 系统的【C:\Windows\ + C:\Program files\】这两个目录的综合体，系统刚安装完毕时，这个目录会占用最多的硬盘容量。一般来说，/usr 的次目录建议有底下这些：<br><img src="/uploads/2018/01/linux_directory_usr.jpg" alt=""></p>
+<p>（4）/var 的意义与内容：<br>如果 /usr 是安装时会占用较大硬盘容量的目录，那么 /var 就是在系统运作后才会渐渐占用硬盘容量的目录。因为 /var 目录主要针对常态性变动的档案，包括快取(cache)、登录档(log file)以及某些软件运作所产生的档案，包括程序档案(lock file, run file)，或者例如 MySQL 数据库的档案等等。常见的次目录有：<br><img src="/uploads/2018/01/linux_directory_var.JPG" alt=""></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/22/一些常用服务器概述/" rel="next" title="一些常用服务器概述">
+                <i class="fa fa-chevron-left"></i> 一些常用服务器概述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/22/Linux 用户与账号管理/" rel="prev" title="Linux 用户与账号管理">
+                Linux 用户与账号管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">162</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、身份类别"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x8EAB;&#x4EFD;&#x7C7B;&#x522B;" class="headerlink" title="1&#x3001;&#x8EAB;&#x4EFD;&#x7C7B;&#x522B;"></a>1&#x3001;&#x8EAB;&#x4EFD;&#x7C7B;&#x522B;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、权限的意义"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x6743;&#x9650;&#x7684;&#x610F;&#x4E49;" class="headerlink" title="2&#x3001;&#x6743;&#x9650;&#x7684;&#x610F;&#x4E49;"></a>2&#x3001;&#x6743;&#x9650;&#x7684;&#x610F;&#x4E49;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）对档案"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x5BF9;&#x6863;&#x6848;" class="headerlink" title="&#xFF08;1&#xFF09;&#x5BF9;&#x6863;&#x6848;"></a>&#xFF08;1&#xFF09;&#x5BF9;&#x6863;&#x6848;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）对目录"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5BF9;&#x76EE;&#x5F55;" class="headerlink" title="&#xFF08;2&#xFF09;&#x5BF9;&#x76EE;&#x5F55;"></a>&#xFF08;2&#xFF09;&#x5BF9;&#x76EE;&#x5F55;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、Linux文件属性"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;Linux&#x6587;&#x4EF6;&#x5C5E;&#x6027;" class="headerlink" title="3&#x3001;Linux&#x6587;&#x4EF6;&#x5C5E;&#x6027;"></a>3&#x3001;Linux&#x6587;&#x4EF6;&#x5C5E;&#x6027;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、如何改变文件属性与权限"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x5982;&#x4F55;&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x4E0E;&#x6743;&#x9650;" class="headerlink" title="4&#x3001;&#x5982;&#x4F55;&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x4E0E;&#x6743;&#x9650;"></a>4&#x3001;&#x5982;&#x4F55;&#x6539;&#x53D8;&#x6587;&#x4EF6;&#x5C5E;&#x6027;&#x4E0E;&#x6743;&#x9650;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）chgrp：改变档案所属群组"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;chgrp&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x6240;&#x5C5E;&#x7FA4;&#x7EC4;" class="headerlink" title="&#xFF08;1&#xFF09;chgrp&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x6240;&#x5C5E;&#x7FA4;&#x7EC4;"></a>&#xFF08;1&#xFF09;chgrp&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x6240;&#x5C5E;&#x7FA4;&#x7EC4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）chown：改变档案拥有者"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;chown&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x62E5;&#x6709;&#x8005;" class="headerlink" title="&#xFF08;2&#xFF09;chown&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x62E5;&#x6709;&#x8005;"></a>&#xFF08;2&#xFF09;chown&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x62E5;&#x6709;&#x8005;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）chmod：改变档案的权限，SUID，SGID，SBIT等特性"><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;chmod&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x7684;&#x6743;&#x9650;&#xFF0C;SUID&#xFF0C;SGID&#xFF0C;SBIT&#x7B49;&#x7279;&#x6027;" class="headerlink" title="&#xFF08;3&#xFF09;chmod&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x7684;&#x6743;&#x9650;&#xFF0C;SUID&#xFF0C;SGID&#xFF0C;SBIT&#x7B49;&#x7279;&#x6027;"></a>&#xFF08;3&#xFF09;chmod&#xFF1A;&#x6539;&#x53D8;&#x6863;&#x6848;&#x7684;&#x6743;&#x9650;&#xFF0C;SUID&#xFF0C;SGID&#xFF0C;SBIT&#x7B49;&#x7279;&#x6027;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、Linux-目录配置"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;Linux-&#x76EE;&#x5F55;&#x914D;&#x7F6E;" class="headerlink" title="5&#x3001;Linux &#x76EE;&#x5F55;&#x914D;&#x7F6E;"></a>5&#x3001;Linux &#x76EE;&#x5F55;&#x914D;&#x7F6E;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）目录配置依据：FHS（Filesystem-Hierarchy-Standard）"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x76EE;&#x5F55;&#x914D;&#x7F6E;&#x4F9D;&#x636E;&#xFF1A;FHS&#xFF08;Filesystem-Hierarchy-Standard&#xFF09;" class="headerlink" title="&#xFF08;1&#xFF09;&#x76EE;&#x5F55;&#x914D;&#x7F6E;&#x4F9D;&#x636E;&#xFF1A;FHS&#xFF08;Filesystem Hierarchy Standard&#xFF09;"></a>&#xFF08;1&#xFF09;&#x76EE;&#x5F55;&#x914D;&#x7F6E;&#x4F9D;&#x636E;&#xFF1A;FHS&#xFF08;Filesystem Hierarchy Standard&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）根目录-的意义与内容："><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x6839;&#x76EE;&#x5F55;-&#x7684;&#x610F;&#x4E49;&#x4E0E;&#x5185;&#x5BB9;&#xFF1A;" class="headerlink" title="&#xFF08;2&#xFF09;&#x6839;&#x76EE;&#x5F55; (/) &#x7684;&#x610F;&#x4E49;&#x4E0E;&#x5185;&#x5BB9;&#xFF1A;"></a>&#xFF08;2&#xFF09;&#x6839;&#x76EE;&#x5F55; (/) &#x7684;&#x610F;&#x4E49;&#x4E0E;&#x5185;&#x5BB9;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）-usr-的意义与内容："><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;-usr-&#x7684;&#x610F;&#x4E49;&#x4E0E;&#x5185;&#x5BB9;&#xFF1A;" class="headerlink" title="&#xFF08;3&#xFF09;/usr &#x7684;&#x610F;&#x4E49;&#x4E0E;&#x5185;&#x5BB9;&#xFF1A;"></a>&#xFF08;3&#xFF09;/usr &#x7684;&#x610F;&#x4E49;&#x4E0E;&#x5185;&#x5BB9;&#xFF1A;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

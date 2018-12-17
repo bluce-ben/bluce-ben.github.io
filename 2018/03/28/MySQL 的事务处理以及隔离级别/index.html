@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MySQL," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="以下内容出自《高性能MySQL》第三版，了解事务的ACID及四种隔离级有助于我们更好的理解事务运作。下面举一个银行应用是解释事务必要性的一个经典例子。假如一个银行的数据库有两张表：支票表（checking）和储蓄表（savings）。现在要从用户Jane的支票账户转移200美元到她的储蓄账户，那么至少需要三个步骤：  1、检查支票账户的余额高于或者等于200美元。2、从支票账户余额中减去200美元">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL 的事务处理以及隔离级别">
+<meta property="og:url" content="http://yoursite.com/2018/03/28/MySQL 的事务处理以及隔离级别/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="以下内容出自《高性能MySQL》第三版，了解事务的ACID及四种隔离级有助于我们更好的理解事务运作。下面举一个银行应用是解释事务必要性的一个经典例子。假如一个银行的数据库有两张表：支票表（checking）和储蓄表（savings）。现在要从用户Jane的支票账户转移200美元到她的储蓄账户，那么至少需要三个步骤：  1、检查支票账户的余额高于或者等于200美元。2、从支票账户余额中减去200美元">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_character.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_level_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_level_02.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_level_03.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_example_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_example_02.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_example_03.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_example_04.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_example_05.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_example_06.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_example_07.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_example_08.png">
+<meta property="og:updated_time" content="2018-07-20T06:07:54.926Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySQL 的事务处理以及隔离级别">
+<meta name="twitter:description" content="以下内容出自《高性能MySQL》第三版，了解事务的ACID及四种隔离级有助于我们更好的理解事务运作。下面举一个银行应用是解释事务必要性的一个经典例子。假如一个银行的数据库有两张表：支票表（checking）和储蓄表（savings）。现在要从用户Jane的支票账户转移200美元到她的储蓄账户，那么至少需要三个步骤：  1、检查支票账户的余额高于或者等于200美元。2、从支票账户余额中减去200美元">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/03/mysql_transaction_character.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/28/MySQL 的事务处理以及隔离级别/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>MySQL 的事务处理以及隔离级别 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/28/MySQL 的事务处理以及隔离级别/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">MySQL 的事务处理以及隔离级别</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-28T18:47:09+08:00">
+                2018-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MySQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MySQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/28/MySQL 的事务处理以及隔离级别/" class="leancloud_visitors" data-flag-title="MySQL 的事务处理以及隔离级别">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>以下内容出自《高性能MySQL》第三版，了解事务的ACID及四种隔离级有助于我们更好的理解事务运作。<br>下面举一个银行应用是解释事务必要性的一个经典例子。假如一个银行的数据库有两张表：支票表（checking）和储蓄表（savings）。现在要从用户Jane的支票账户转移200美元到她的储蓄账户，那么至少需要三个步骤：</p>
+<blockquote>
+<p>1、检查支票账户的余额高于或者等于200美元。<br>2、从支票账户余额中减去200美元。<br>3、在储蓄帐户余额中增加200美元。</p>
+</blockquote>
+<p>上述三个步骤的操作必须打包在一个事务中，任何一个步骤失败，则必须回滚所有的步骤。<br><a id="more"></a></p>
+<h4 id="1、事务处理的基本语法"><a href="#1、事务处理的基本语法" class="headerlink" title="1、事务处理的基本语法"></a>1、事务处理的基本语法</h4><p>可以用START TRANSACTION语句开始一个事务，然后要么使用COMMIT提交将修改的数据持久保存，要么使用ROLLBACK撤销所有的修改。事务SQL的样本如下：</p>
+<blockquote>
+<p>1.start transaction;<br>2.select balance from checking where customer_id = 10233276;<br>3.update checking set balance = balance - 200.00 where customer_id = 10233276;<br>4.update savings set balance = balance + 200.00 where customer_id = 10233276;<br>5.commit;</p>
+</blockquote>
+<h4 id="2、事务处理的特性"><a href="#2、事务处理的特性" class="headerlink" title="2、事务处理的特性"></a>2、事务处理的特性</h4><p>ACID表示原子性（atomicity）、一致性（consistency）、隔离性（isolation）和持久性（durability）。一个很好的事务处理系统，必须具备这些标准特性：</p>
+<h5 id="原子性（atomicity）"><a href="#原子性（atomicity）" class="headerlink" title="原子性（atomicity）"></a>原子性（atomicity）</h5><p>　　一个事务必须被视为一个不可分割的最小工作单元，整个事务中的所有操作要么全部提交成功，要么全部失败回滚，对于一个事务来说，不可能只执行其中的一部分操作，这就是事务的原子性</p>
+<h5 id="一致性（consistency）"><a href="#一致性（consistency）" class="headerlink" title="一致性（consistency）"></a>一致性（consistency）</h5><p>　　数据库总是从一个一致性的状态转换到另一个一致性的状态。（在前面的例子中，一致性确保了，即使在执行第三、四条语句之间时系统崩溃，支票账户中也不会损失200美元，因为事务最终没有提交，所以事务中所做的修改也不会保存到数据库中。）</p>
+<h5 id="隔离性（isolation）"><a href="#隔离性（isolation）" class="headerlink" title="隔离性（isolation）"></a>隔离性（isolation）</h5><p>　　通常来说，一个事务所做的修改在最终提交以前，对其他事务是不可见的。（在前面的例子中，当执行完第三条语句、第四条语句还未开始时，此时有另外的一个账户汇总程序开始运行，则其看到支票帐户的余额并没有被减去200美元。）</p>
+<h5 id="持久性（durability）"><a href="#持久性（durability）" class="headerlink" title="持久性（durability）"></a>持久性（durability）</h5><p>　　一旦事务提交，则其所做的修改不会永久保存到数据库。（此时即使系统崩溃，修改的数据也不会丢失。持久性是个有占模糊的概念，因为实际上持久性也分很多不同的级别。有些持久性策略能够提供非常强的安全保障，而有些则未必，而且不可能有能做到100%的持久性保证的策略。）</p>
+<h4 id="3、事务处理的隔离级别"><a href="#3、事务处理的隔离级别" class="headerlink" title="3、事务处理的隔离级别"></a>3、事务处理的隔离级别</h4><h5 id="READ-UNCOMMITTED（未提交读）"><a href="#READ-UNCOMMITTED（未提交读）" class="headerlink" title="READ UNCOMMITTED（未提交读）"></a>READ UNCOMMITTED（未提交读）</h5><p>　　在READ UNCOMMITTED级别，事务中的修改，即使没有提交，对其他事务也都是可见的。事务可以读取未提交的数据，这也被称为脏读（Dirty Read）。这个级别会导致很多问题，从性能上来说，READ UNCOMMITTED不会比其他的级别好太多，但却缺乏其他级别的很多好处，除非真的有非常必要的理由，在实际应用中一般很少使用。</p>
+<h5 id="READ-COMMITTED（提交读）"><a href="#READ-COMMITTED（提交读）" class="headerlink" title="READ COMMITTED（提交读）"></a>READ COMMITTED（提交读）</h5><p>　　大多数数据库系统的默认隔离级别都是READ COMMTTED（但MySQL不是）。READ COMMITTED满足前面提到的隔离性的简单定义：一个事务开始时，只能”看见”已经提交的事务所做的修改。换句话说，一个事务从开始直到提交之前，所做的任何修改对其他事务都是不可见的。这个级别有时候叫做不可重复读（nonrepeatble read），因为两次执行同样的查询，可能会得到不一样的结果</p>
+<h5 id="REPEATABLE-READ-可重复读"><a href="#REPEATABLE-READ-可重复读" class="headerlink" title="REPEATABLE READ(可重复读)"></a>REPEATABLE READ(可重复读)</h5><p>　　REPEATABLE READ解决了脏读的问题。该隔离级别保证了在同一个事务中多次读取同样记录结果是一致的。但是理论上，可重复读隔离级别还是无法解决另外一个幻读（Phantom Read）的问题。所谓幻读，指的是当某个事务在读取某个范围内的记录时，另一个事务又在该范围内插入了新的记录，当之前的事务再次读取该范围的记录时，会产生幻行（Phantom Row）。InnoDB和XtraDB存储引擎通过多版本并发控制（MVCC，Multiversion Concurrency Control）解决了幻读的问题。</p>
+<h5 id="SERIALIZABLE（可串行化）"><a href="#SERIALIZABLE（可串行化）" class="headerlink" title="SERIALIZABLE（可串行化）"></a>SERIALIZABLE（可串行化）</h5><p>　　SERIALIZABLE是最高的隔离级别。它通过强制事务串行执行，避免了前面说的幻读的问题。简单来说，SERIALIZABLE会在读取每一行数据都加锁，所以可能导致大量的超时和锁争用问题。实际应用中也很少用到这个隔离级别，只有在非常需要确保数据的一致性而且可以接受没有并发的情况下，才考虑采用该级别。</p>
+<p>下面对隔离级别进行汇总，如下表：<br><img src="/uploads/2018/03/mysql_transaction_character.png" alt=""></p>
+<h4 id="4、事务处理的相关语法总结"><a href="#4、事务处理的相关语法总结" class="headerlink" title="4、事务处理的相关语法总结"></a>4、事务处理的相关语法总结</h4><h5 id="1、查询当前这个点的下一个事务隔离级别："><a href="#1、查询当前这个点的下一个事务隔离级别：" class="headerlink" title="1、查询当前这个点的下一个事务隔离级别："></a>1、查询当前这个点的下一个事务隔离级别：</h5><p><code>select @@tx_isolation;</code><br><img src="/uploads/2018/03/mysql_transaction_level_01.png" alt=""></p>
+<h5 id="2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别："><a href="#2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别：" class="headerlink" title="2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别："></a>2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别：</h5><p><code>select @@global.tx_isolation;</code><br><img src="/uploads/2018/03/mysql_transaction_level_02.png" alt=""></p>
+<h5 id="3、查询当前所在的事务的隔离级别："><a href="#3、查询当前所在的事务的隔离级别：" class="headerlink" title="3、查询当前所在的事务的隔离级别："></a>3、查询当前所在的事务的隔离级别：</h5><p><code>select @@session.tx_isolation;</code><br><img src="/uploads/2018/03/mysql_transaction_level_03.png" alt=""></p>
+<h5 id="4、设置事务隔离级别"><a href="#4、设置事务隔离级别" class="headerlink" title="4、设置事务隔离级别"></a>4、设置事务隔离级别</h5><p>1.在my.cnf文件中的mysqld中进行更改。可供更改的leve 【READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE】<br>如：<code>transaction_isolation = SERIALIZABLE</code></p>
+<p>2.用mysql语句进行更改，语法 <code>set tx_isolation= level</code>   level级别【READ-UNCOMMITTED | READ-COMMITTED | REPEATABLE-READ | SERIALIZABLE】</p>
+<p>注：可通过上述语法查询是否更改。</p>
+<h4 id="5、事务隔离级别示例详解"><a href="#5、事务隔离级别示例详解" class="headerlink" title="5、事务隔离级别示例详解"></a>5、事务隔离级别示例详解</h4><h5 id="1、脏读："><a href="#1、脏读：" class="headerlink" title="1、脏读："></a>1、<strong>脏读：</strong></h5><p>脏读指的是一个事务修改本事务的数据，但没有提交的情况下，本事务可以查看到更改了却没有提交的数据。这种情况只可能发生在未提交读readuncommitted的隔离级别里。</p>
+<blockquote>
+<p>首先设置事务隔离级别为read-uncommited<br>事务一：给t表添加数据a=1但并不提交！查询t表的结果里本事务是可以看到未提交的操作结果的。<br><img src="/uploads/2018/03/mysql_transaction_example_01.png" alt=""><br>事务二：查询t表的数据，这个时候事务一是没有提交的!要确保事务二的隔离级别是read-uncommited。<br><img src="/uploads/2018/03/mysql_transaction_example_02.png" alt=""></p>
+</blockquote>
+<p>这个情况就是所谓的脏读！只可能出现在read-uncommit隔离级别里！自己可尝试其他级别试试</p>
+<h5 id="2、不重复读："><a href="#2、不重复读：" class="headerlink" title="2、不重复读："></a>2、<strong>不重复读：</strong></h5><p>指的是一个事务多次读取同一个数据，但此过程中第二个事务对第一个事务进行了修改，这就造成了第一个事务的多次读取过程中的结果出现了前后不一致的情况，这就是不可重复读！这个情况可以出现在read-uncommited和read-committed两个隔离级别里！</p>
+<blockquote>
+<p>先看反例repeatable-read隔离级别下的情况，这种级别下只会读取首次select的点的数据结果，以避免出现不重复读的情况：<br>事务一：查询t表a=5，然后update进行修改a=22，查看修改后的结果最后提交<br><img src="/uploads/2018/03/mysql_transaction_example_03.png" alt=""><br>事务二：在事务一开始后select操作时同时也进行两次查询，查询结果和事务一的结果一致，都是5，等到事务一update操作后事务二进行第三次查询，查询结果依旧为5，事务一提交后，事务二进行第四次查询，结果依旧是5，没有任何改变，所以repeatable-read的隔离级别解决了重复读的问题。<br><img src="/uploads/2018/03/mysql_transaction_example_04.png" alt=""></p>
+</blockquote>
+<p><strong>下面我们再来看read-commit隔离级别下的情况：</strong><br>事务一：<br><img src="/uploads/2018/03/mysql_transaction_example_05.png" alt=""><br>事务二：<br><img src="/uploads/2018/03/mysql_transaction_example_06.png" alt=""></p>
+<h5 id="3、幻读："><a href="#3、幻读：" class="headerlink" title="3、幻读："></a>3、<strong>幻读：</strong></h5><p>在repeatable-read级别下解决了不可重复读的问题，但是还有没有解决的地方，那就是幻读，幻读是指在一个事务中，事务一对数据进行了更改并提交了，而事务二也对该数据进行了更改，但是更改的情况可能会受到事务一更改的影响，从而引起更改仿佛不存在，这就是幻读！这是由于repeatable-read的隔离措施只读取初次select的点导致的。</p>
+<blockquote>
+<p>t表的有一行数据，a=5<br>事务一：首先读取t表，发现有一个a=5的数据，然后更改该数据为25并提交<br><img src="/uploads/2018/03/mysql_transaction_example_07.png" alt=""><br>事务二：首先读取t表，发现有一个a=5的数据，这个时候事务一已经删除数据并期间了，但是由于隔离级别是repeatable-read导致读取的结果是a=5的数据还在，这个时候如果事务二对该数据进行更改，改为26，提交后发现之前的更改无效，该行数据a=25，这是因为事务一已经对a=5的数据进行了更改，改为了25，这个时候a=5的数据已经不存在了，因此这次更改无效，等同于幻影，这就是幻读！<br><img src="/uploads/2018/03/mysql_transaction_example_08.png" alt=""></p>
+</blockquote>
+<p>可以从这里看出，提交读解决了脏读问题，而重复读解决了不重复读的问题，串行化解决幻读的问题，但是也会造成锁竞争，可能造成大量的超时问题，因为串行化是给每个读的数据行加上共享锁，通过强制事务进行排序，以此防止相互冲突，具体原理以后再做说明。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/27/windows 7设置WiFi热点/" rel="next" title="windows 7设置WiFi热点">
+                <i class="fa fa-chevron-left"></i> windows 7设置WiFi热点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/28/MySQL 存储引擎详解/" rel="prev" title="MySQL 存储引擎详解">
+                MySQL 存储引擎详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">162</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、事务处理的基本语法"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x57FA;&#x672C;&#x8BED;&#x6CD5;" class="headerlink" title="1&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x57FA;&#x672C;&#x8BED;&#x6CD5;"></a>1&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x57FA;&#x672C;&#x8BED;&#x6CD5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、事务处理的特性"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x7279;&#x6027;" class="headerlink" title="2&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x7279;&#x6027;"></a>2&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x7279;&#x6027;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#原子性（atomicity）"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x539F;&#x5B50;&#x6027;&#xFF08;atomicity&#xFF09;" class="headerlink" title="&#x539F;&#x5B50;&#x6027;&#xFF08;atomicity&#xFF09;"></a>&#x539F;&#x5B50;&#x6027;&#xFF08;atomicity&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#一致性（consistency）"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x4E00;&#x81F4;&#x6027;&#xFF08;consistency&#xFF09;" class="headerlink" title="&#x4E00;&#x81F4;&#x6027;&#xFF08;consistency&#xFF09;"></a>&#x4E00;&#x81F4;&#x6027;&#xFF08;consistency&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#隔离性（isolation）"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x9694;&#x79BB;&#x6027;&#xFF08;isolation&#xFF09;" class="headerlink" title="&#x9694;&#x79BB;&#x6027;&#xFF08;isolation&#xFF09;"></a>&#x9694;&#x79BB;&#x6027;&#xFF08;isolation&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#持久性（durability）"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#&#x6301;&#x4E45;&#x6027;&#xFF08;durability&#xFF09;" class="headerlink" title="&#x6301;&#x4E45;&#x6027;&#xFF08;durability&#xFF09;"></a>&#x6301;&#x4E45;&#x6027;&#xFF08;durability&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、事务处理的隔离级别"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x9694;&#x79BB;&#x7EA7;&#x522B;" class="headerlink" title="3&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x9694;&#x79BB;&#x7EA7;&#x522B;"></a>3&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x9694;&#x79BB;&#x7EA7;&#x522B;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#READ-UNCOMMITTED（未提交读）"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#READ-UNCOMMITTED&#xFF08;&#x672A;&#x63D0;&#x4EA4;&#x8BFB;&#xFF09;" class="headerlink" title="READ UNCOMMITTED&#xFF08;&#x672A;&#x63D0;&#x4EA4;&#x8BFB;&#xFF09;"></a>READ UNCOMMITTED&#xFF08;&#x672A;&#x63D0;&#x4EA4;&#x8BFB;&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#READ-COMMITTED（提交读）"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#READ-COMMITTED&#xFF08;&#x63D0;&#x4EA4;&#x8BFB;&#xFF09;" class="headerlink" title="READ COMMITTED&#xFF08;&#x63D0;&#x4EA4;&#x8BFB;&#xFF09;"></a>READ COMMITTED&#xFF08;&#x63D0;&#x4EA4;&#x8BFB;&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#REPEATABLE-READ-可重复读"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#REPEATABLE-READ-&#x53EF;&#x91CD;&#x590D;&#x8BFB;" class="headerlink" title="REPEATABLE READ(&#x53EF;&#x91CD;&#x590D;&#x8BFB;)"></a>REPEATABLE READ(&#x53EF;&#x91CD;&#x590D;&#x8BFB;)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SERIALIZABLE（可串行化）"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#SERIALIZABLE&#xFF08;&#x53EF;&#x4E32;&#x884C;&#x5316;&#xFF09;" class="headerlink" title="SERIALIZABLE&#xFF08;&#x53EF;&#x4E32;&#x884C;&#x5316;&#xFF09;"></a>SERIALIZABLE&#xFF08;&#x53EF;&#x4E32;&#x884C;&#x5316;&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、事务处理的相关语法总结"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x76F8;&#x5173;&#x8BED;&#x6CD5;&#x603B;&#x7ED3;" class="headerlink" title="4&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x76F8;&#x5173;&#x8BED;&#x6CD5;&#x603B;&#x7ED3;"></a>4&#x3001;&#x4E8B;&#x52A1;&#x5904;&#x7406;&#x7684;&#x76F8;&#x5173;&#x8BED;&#x6CD5;&#x603B;&#x7ED3;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、查询当前这个点的下一个事务隔离级别："><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x67E5;&#x8BE2;&#x5F53;&#x524D;&#x8FD9;&#x4E2A;&#x70B9;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;" class="headerlink" title="1&#x3001;&#x67E5;&#x8BE2;&#x5F53;&#x524D;&#x8FD9;&#x4E2A;&#x70B9;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;"></a>1&#x3001;&#x67E5;&#x8BE2;&#x5F53;&#x524D;&#x8FD9;&#x4E2A;&#x70B9;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、查询全局事务隔离级别，也就是从这个点开始的下一个事务起所有的事务都采用设置的该隔离级别："><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x67E5;&#x8BE2;&#x5168;&#x5C40;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4ECE;&#x8FD9;&#x4E2A;&#x70B9;&#x5F00;&#x59CB;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x8D77;&#x6240;&#x6709;&#x7684;&#x4E8B;&#x52A1;&#x90FD;&#x91C7;&#x7528;&#x8BBE;&#x7F6E;&#x7684;&#x8BE5;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;" class="headerlink" title="2&#x3001;&#x67E5;&#x8BE2;&#x5168;&#x5C40;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4ECE;&#x8FD9;&#x4E2A;&#x70B9;&#x5F00;&#x59CB;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x8D77;&#x6240;&#x6709;&#x7684;&#x4E8B;&#x52A1;&#x90FD;&#x91C7;&#x7528;&#x8BBE;&#x7F6E;&#x7684;&#x8BE5;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;"></a>2&#x3001;&#x67E5;&#x8BE2;&#x5168;&#x5C40;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x4ECE;&#x8FD9;&#x4E2A;&#x70B9;&#x5F00;&#x59CB;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x4E8B;&#x52A1;&#x8D77;&#x6240;&#x6709;&#x7684;&#x4E8B;&#x52A1;&#x90FD;&#x91C7;&#x7528;&#x8BBE;&#x7F6E;&#x7684;&#x8BE5;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、查询当前所在的事务的隔离级别："><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x67E5;&#x8BE2;&#x5F53;&#x524D;&#x6240;&#x5728;&#x7684;&#x4E8B;&#x52A1;&#x7684;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;" class="headerlink" title="3&#x3001;&#x67E5;&#x8BE2;&#x5F53;&#x524D;&#x6240;&#x5728;&#x7684;&#x4E8B;&#x52A1;&#x7684;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;"></a>3&#x3001;&#x67E5;&#x8BE2;&#x5F53;&#x524D;&#x6240;&#x5728;&#x7684;&#x4E8B;&#x52A1;&#x7684;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、设置事务隔离级别"><span class="nav-number">4.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x8BBE;&#x7F6E;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;" class="headerlink" title="4&#x3001;&#x8BBE;&#x7F6E;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;"></a>4&#x3001;&#x8BBE;&#x7F6E;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、事务隔离级别示例详解"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#x793A;&#x4F8B;&#x8BE6;&#x89E3;" class="headerlink" title="5&#x3001;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#x793A;&#x4F8B;&#x8BE6;&#x89E3;"></a>5&#x3001;&#x4E8B;&#x52A1;&#x9694;&#x79BB;&#x7EA7;&#x522B;&#x793A;&#x4F8B;&#x8BE6;&#x89E3;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、脏读："><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x810F;&#x8BFB;&#xFF1A;" class="headerlink" title="1&#x3001;&#x810F;&#x8BFB;&#xFF1A;"></a>1&#x3001;<strong>&#x810F;&#x8BFB;&#xFF1A;</strong></span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、不重复读："><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4E0D;&#x91CD;&#x590D;&#x8BFB;&#xFF1A;" class="headerlink" title="2&#x3001;&#x4E0D;&#x91CD;&#x590D;&#x8BFB;&#xFF1A;"></a>2&#x3001;<strong>&#x4E0D;&#x91CD;&#x590D;&#x8BFB;&#xFF1A;</strong></span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、幻读："><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x5E7B;&#x8BFB;&#xFF1A;" class="headerlink" title="3&#x3001;&#x5E7B;&#x8BFB;&#xFF1A;"></a>3&#x3001;<strong>&#x5E7B;&#x8BFB;&#xFF1A;</strong></span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

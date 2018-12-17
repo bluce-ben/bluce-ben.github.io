@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Windows," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Linux 系统可以通过crontab -e 设置定时任务，Windows系统没有crontab命令，但是Windows系统有跟crontab命令比较接近的命令： schtasks 命令。">
+<meta name="keywords" content="Windows">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows 下设置定时任务">
+<meta property="og:url" content="http://yoursite.com/2018/08/28/windows-下设置定时任务/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Linux 系统可以通过crontab -e 设置定时任务，Windows系统没有crontab命令，但是Windows系统有跟crontab命令比较接近的命令： schtasks 命令。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/08/windows_schtasks.png">
+<meta property="og:updated_time" content="2018-08-28T10:50:35.608Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="windows 下设置定时任务">
+<meta name="twitter:description" content="Linux 系统可以通过crontab -e 设置定时任务，Windows系统没有crontab命令，但是Windows系统有跟crontab命令比较接近的命令： schtasks 命令。">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/08/windows_schtasks.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/28/windows-下设置定时任务/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>windows 下设置定时任务 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/28/windows-下设置定时任务/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">windows 下设置定时任务</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-28T16:53:45+08:00">
+                2018-08-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/28/windows-下设置定时任务/" class="leancloud_visitors" data-flag-title="windows 下设置定时任务">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux 系统可以通过crontab -e 设置定时任务，Windows系统没有crontab命令，但是Windows系统有跟crontab命令比较接近的命令： schtasks 命令。</p>
+<a id="more"></a>
+<h4 id="schtasks-语法"><a href="#schtasks-语法" class="headerlink" title="schtasks 语法"></a>schtasks 语法</h4><h5 id="创建定时任务"><a href="#创建定时任务" class="headerlink" title="创建定时任务"></a>创建定时任务</h5><p><strong>语法</strong><br><code>schtasks /create /tn TaskName /tr TaskRun /sc schedule [/mo modifier] [/d day] [/m month[,month...] [/i IdleTime] [/st StartTime] [/sd StartDate] [/ed EndDate] [/s computer [/u [domain\]user /p password]] [/ru {[Domain\]User | &quot;System&quot;} [/rp Password]] /?</code></p>
+<p><strong>参数</strong><br>/tn TaskName         指定任务的名称。<br>/tr TaskRun 指定任务运行的程序或命令。键入可执行文件、脚本文件或批处理文件的完全合格的路径和文件名。（如果忽略该路径，SchTasks.exe 将假定文件在 Systemroot\System32 目录下。）<br>/sc schedule           指定计划类型。有效值为 MINUTE、HOURLY、DAILY、WEEKLY、MONTHLY、ONCE、ONSTART、ONLOGON、ONIDLE。</p>
+<blockquote>
+<p>值说明<br>MINUTE、HOURLY、DAILY、WEEKLY、MONTHLY         指定计划的时间单位。<br>ONCE     任务在指定的日期和时间运行一次。<br>ONSTART     任务在每次系统启动的时候运行。可以指定启动的日期，或下一次系统启动的时候运行任务。<br>ONLOGON     每当用户（任意用户）登录的时候，任务就运行。可以指定日期，或在下次用户登录的时候运行任务。<br>ONIDLE         只要系统空闲了指定的时间，任务就运行。可以指定日期，或在下次系统空闲的时候运行任务。</p>
+</blockquote>
+<p>/mo modifier         指定任务在其计划类型内的运行频率。这个参数对于 MONTHLY 计划是必需的。对于 MINUTE、HOURLY、DAILY 或 WEEKLY 计划，这个参数有效，但也可选。默认值为 1。</p>
+<blockquote>
+<p>计划类型<br>修饰符<br>说明<br>MINUTE<br>1 ～ 1439<br>任务每 n 分钟运行一次。<br>HOURLY<br>1 ～ 23<br>任务每 n 小时运行一次。<br>DAILY<br>1 ～ 365<br>任务每 n 天运行一次。<br>WEEKLY<br>1 ～ 52<br>任务每 n 周运行一次。<br>MONTHLY<br>1 ～ 12<br>任务每 n 月运行一次。<br>LASTDAY<br>任务在月份的最后一天运行。<br>FIRST、SECOND、THIRD、FOURTH、LAST<br>与 /d day 参数共同使用,并在特定的周和天运行任务。例如，在月份的第三个周三。</p>
+</blockquote>
+<p>/d dirlist         指定周或月的一天。只与 WEEKLY 或 MONTHLY 计划共同使用时有效。</p>
+<blockquote>
+<p>计划类型<br>日期值<br>WEEKLY<br>可选项。有效值是 MON ~ SUN 和 * （每一天）。MON 是默认值。<br>MONTHLY<br>在使用 FIRST、SECOND、THIRD、FOURTH 或 LAST 修饰符 (/mo) 时，需要 MON ～ SUN 中的某个值。1 ～ 31 是可选的，只在没有修饰符或修饰符为 1 ～ 12 类型时有效。默认值是 1 （月份的第一天）。</p>
+</blockquote>
+<p>/m month[,month…]         指定一年中的一个月。有效值是 JAN ～ DEC 和 <em> （每个月）。/m 参数只对于 MONTHLY 计划有效。在使用 LASTDAY 修饰符时，这个参数是必需的。否则，它是可选的，默认值是 </em> （每个月）。<br>/i InitialPageFileSize         指定任务启动之前计算机空闲多少分钟。键入一个 1 ～ 999 之间的整数。这个参数只对于 ONIDLE 计划有效，而且是必需的。<br>/st StartTime                 以 HH:MM:SS 24 小时格式指定时间。默认值是命令完成时的当前本地时间。/st 参数只对于 MINUTE、HOURLY、DAILY、WEEKLY、MONTHLY 和 ONCE 计划有效。它只对于 ONCE 计划是必需的。<br>/sd StartDate                 以 MM/DD/YYYY 格式指定任务启动的日期。默认值是当前日期。/sd 参数对于所有的计划有效，但只对于 ONCE 计划是必需的。<br>/ed EndDate                 指定任务计划运行的最后日期。此参数是可选的。它对于 ONCE、ONSTART、ONLOGON 或 ONIDLE 计划无效。默认情况下，计划没有结束日期。<br>/s Computer                 指定远程计算机的名称或 IP 地址（带有或者没有反斜杠）。默认值是本地计算机。<br>/u [domain]user             使用特定用户帐户的权限运行命令。默认情况下，使用已登录到运行 SchTasks 的计算机上的用户的权限运行命令。<br>/p password                 指定在 /u 参数中指定的用户帐户的密码。如果使用 /u 参数，则需要该参数。<br>/ru {[Domain]User | “System”}         使用指定用户帐户的权限运行任务。默认情况下，使用用户登录到运行 SchTasks 的计算机上的权限运行任务。</p>
+<blockquote>
+<p>值<br>说明<br>[domain}User?<br>指定用户帐户。<br>“System” 或 “”<br>指定操作系统使用的 NT Authority\System 帐户。</p>
+</blockquote>
+<p>/p Password                 指定用户帐户的密码，该用户帐户在 /u 参数中指定。如果在指定用户帐户的时候忽略了这个参数，SchTasks.exe 会提示您输入密码而且不显示键入的文本。使用 NT Authority\System 帐户权限运行的任务不需要密码，SchTasks.exe 也不会提示索要密码。<br>/?                             在命令提示符显示帮助。</p>
+<p><strong>示例</strong><br>（1）计划任务每 20 分钟运行一次。（从脚本创建成功开始计时）<br><code>schtasks /create /sc minute /mo 20 /tn &quot;Security Script&quot; /tr \\central\data\scripts\sec.vbs</code></p>
+<p>（2）计划命令在每小时过五分的时候运行。<br><code>schtasks /create /sc hourly /st 00:05:00 /tn &quot;My App&quot; /tr c:\apps\myapp.exe</code></p>
+<p>（3）计划命令每五小时运行一次（它使用 /mo 参数来指定间隔时间，使用 /sd 参数来指定起始日期。）<br><code>schtasks /create /sc hourly /mo 5 /sd 03/01/2001 /tn &quot;My App&quot; /tr c:\apps\myapp.exe</code></p>
+<p>（4）计划任务每天运行一次<br><code>schtasks /create /tn &quot;My App&quot; /tr c:\apps\myapp.exe /sc daily /st 08:00:00 /ed 12/31/2001</code></p>
+<p>（5）计划任务每隔一天运行一次（命令使用 /mo 参数来指定间隔天数。使用 /st 参数来指定起始时间， /sd 参数来指定起始日期。）<br><code>schtasks /create /tn &quot;My App&quot; /tr c:\apps\myapp.exe /sc daily /mo 2 /st 13:00:00 /sd 12/31/2001</code></p>
+<p>（6）计划任务每六周运行一次<br><code>schtasks /create /tn &quot;My App&quot; /tr c:\apps\myapp.exe /sc weekly /mo 6 /s Server16 /ru Admin01</code><br>（该命令使用 /mo 参数来指定间隔。它也使用 /s 参数来指定远程计算机，使用 /ru 参数来计划任务以用户的 Administrator 帐户权限运行。因为忽略了 /rp 参数，SchTasks.exe 会提示用户输入 Administrator 帐户密码。<br>另外，因为命令是远程运行的，所以命令中所有的路径，包括到 MyApp.exe 的路径，都是指向远程计算机上的路径。）</p>
+<p>（7）计划任务每隔一周在周五运行<br><code>schtasks /create /tn &quot;My App&quot; /tr c:\apps\myapp.exe /sc weekly /mo 2 /d FRI</code><br>（下面的命令计划任务每隔一周在周五运行。它使用 /mo 参数来指定两周的间隔，使用 /d 参数来指定是一周内的哪一天。如计划任务在每个周五运行，要忽略 /mo 参数或将其设置为 1。）</p>
+<p>（8）计划任务运行一次<br><code>schtasks /create /tn &quot;My App&quot; /tr c:\apps\myapp.exe /sc once /st 00:00:00 /sd 01/01/2002 /ru Admin23 /rp p@ssworD1</code><br>（下面的命令计划 MyApp 程序在 2002 年 1 月 1 日午夜运行一次。它使用 /ru 参数指定以用户的 Administrator 帐户权限运行任务，使用 /rp 参数为 Administrator 帐户提供密码。）</p>
+<p>（9）计划任务在每次系统启动的时候运行（下面的命令计划 MyApp 程序在每次系统启动的时候运行，起始日期是 2001 年 3 月 15 日。）<br><code>schtasks /create /tn &quot;My App&quot; /tr c:\apps\myapp.exe /sc onstart /sd 03/15/2001</code></p>
+<p>（10）计划任务在用户登录到远程计算机的时候运行<br><code>schtasks /create /tn &quot;Start Web Site&quot; /tr c:\myiis\webstart.bat /sc onlogon /s Server23</code><br>（下面的命令计划批处理文件在用户（任何用户）每次登录到远程计算机上的时候运行。它使用 /s 参数指定远程计算机。因为命令是远程的，所以命令中所有的路径，包括批处理文件的路径，都指定为远程计算机上的路径。）</p>
+<p>（11）计划某项任务在计算机空闲的时候运行<br><code>schtasks /create /tn &quot;My App&quot; /tr c:\apps\myapp.exe /sc onidle /i 10</code><br>（下面的命令计划 MyApp 程序在计算机空闲的时候运行。它使用必需的 /i 参数指定在启动任务之前计算机必需持续空闲十分钟。）</p>
+<h5 id="立即执行计划任务"><a href="#立即执行计划任务" class="headerlink" title="立即执行计划任务"></a>立即执行计划任务</h5><p>立即运行计划任务。run 操作忽略计划，但使用程序文件位置、用户帐户和存储在任务中的密码立即运行任务。<br><strong>语法</strong><br><code>schtasks /run /tn TaskName [/s computer [/u [domain\]user /p password]] /?</code><br><strong>示例：</strong><br>在本地计算机上运行任务<br>下面的命令启动 “Security Script” 任务。<br><code>schtasks /run /tn &quot;Security Script&quot;</code></p>
+<p>在远程计算机上运行任务<br>下面的命令在远程计算机 Svr01 上运行 Update 任务：<br><code>schtasks /run /tn Update /s Svr01</code></p>
+<h5 id="终止由任务启动的程序"><a href="#终止由任务启动的程序" class="headerlink" title="终止由任务启动的程序"></a>终止由任务启动的程序</h5><p><strong>语法</strong><br><code>schtasks /end /tn TaskName [/s computer [/u [domain\]user /p password]] /?</code><br><strong>示例</strong><br>终止本地计算机上的任务<br>下面的命令终止由 My Notepad 任务启动的 Notepad 实例：<br><code>schtasks /end /tn &quot;My Notepad&quot;</code><br>终止远程计算机上的任务<br>下面的命令终止远程计算机 Svr01 上由 InternetOn 任务启动的 Internet Explorer 实例：<br><code>schtasks /end /tn InternetOn /s Svr01</code></p>
+<h5 id="删除计划任务"><a href="#删除计划任务" class="headerlink" title="删除计划任务"></a>删除计划任务</h5><p><strong>语法</strong><br><code>schtasks /delete /tn {TaskName | *} [/f] [/s computer [/u [domain\]user /p password]] [/?]</code><br><strong>示例</strong><br>（1）从远程计算机上的计划表中删除任务<br>下面的命令从远程计算机上的计划表中删除 “Start Mail” 任务。它使用 /s 参数来标识远程计算机。<br><code>schtasks /delete /tn &quot;Start Mail&quot; /s Svr16</code></p>
+<p>（2）删除所有为本地计算机计划的任务。<br>下面的命令从本地计算机的计划表中删除所有的任务，包括由其它用户计划的任务。它使用 /tn <em> 参数代表计算机上所有的任务，使用/f 参数取消确认消息。<br>`schtasks /delete /tn </em> /f`</p>
+<h5 id="更改计划任务"><a href="#更改计划任务" class="headerlink" title="更改计划任务"></a>更改计划任务</h5><p>更改一个或多个下列任务属性。</p>
+<ul>
+<li>任务运行的程序 (/tr)。</li>
+<li>任务运行的用户帐户 (/ru)。</li>
+<li>用户帐户的密码 (/rp)。</li>
+</ul>
+<p><strong>语法</strong><br><code>schtasks /change /tn TaskName [/s computer [/u [domain\]user /p password]] [/tr TaskRun] [/ru [Domain\]User | &quot;System&quot;] [/rp Password]</code><br><strong>示例</strong><br>（1）更改任务运行的程序<br>下面的命令将 Virus Check 任务运行的程序由 VirusCheck.exe 更改为 VirusCheck2.exe。此命令使用 /tn 参数标识任务，使用 /tr 参数指定任务的新程序。（不能更改任务名称。）<br><code>schtasks /change /tn &quot;Virus Check&quot; /tr C:\VirusCheck2.exe</code></p>
+<p>（2）更改远程任务的用户密码<br>下面的命令更改用于远程计算机 Svr01 上 RemindMe 任务的用户帐户密码。命令使用 /tn 参数标识任务，使用 /s 参数指定远程计算机。它使用 /rp 参数指定新的密码 p@ssWord3。<br>在用户帐户密码过期或更改的时候需要此过程。如果存储在任务中的密码无效，那么任务不会运行。<br><code>schtasks /change /tn RemindMe /s Svr01 /rp p@ssWord3</code></p>
+<h5 id="显示计划任务"><a href="#显示计划任务" class="headerlink" title="显示计划任务"></a>显示计划任务</h5><p>显示计划在计算机上运行的所有任务，包括那些由其它用户计划的任务。<br><strong>语法</strong><br><code>schtasks [/query] [/fo {TABLE | LIST | CSV}] [/nh] [/v] [/s computer [/u [domain\]user /p password]]</code></p>
+<h4 id="Windows下查看定时任务"><a href="#Windows下查看定时任务" class="headerlink" title="Windows下查看定时任务"></a>Windows下查看定时任务</h4><p><img src="/uploads/2018/08/windows_schtasks.png" alt=""></p>
+<h4 id="Windows自定义定时任务"><a href="#Windows自定义定时任务" class="headerlink" title="Windows自定义定时任务"></a>Windows自定义定时任务</h4><p>（1）自定义脚本文件 “.bat”<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">c:</span><br><span class="line">cd \schtasks</span><br><span class="line">D:\dev\Go\src\myTest\ceshi.exe &gt;&gt; D:\go.txt</span><br></pre></td></tr></table></figure></p>
+<p><strong>说明：</strong><br>在定时执行的bat文件开头加几行命令，先进入存放配置文件的目录。<br>（schtasks的默认其实路径为：C:\Windows\System32）</p>
+<p>（2）设置定时任务<br><code>schtasks /create /sc minute /mo 1 /tn &quot;windows_crontab&quot; /tr d:\schtasks\ceshi.bat</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Windows/" rel="tag"># Windows</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/29/Nginx-配置HTTPS及生成CA证书/" rel="next" title="Nginx 配置HTTPS及生成CA证书">
+                <i class="fa fa-chevron-left"></i> Nginx 配置HTTPS及生成CA证书
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/28/VPN-与-VPS的区别/" rel="prev" title="VPN 与 VPS的区别">
+                VPN 与 VPS的区别 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">165</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#schtasks-语法"><span class="nav-number">1.</span> <span class="nav-text"><a href="#schtasks-&#x8BED;&#x6CD5;" class="headerlink" title="schtasks &#x8BED;&#x6CD5;"></a>schtasks &#x8BED;&#x6CD5;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建定时任务"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x521B;&#x5EFA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;" class="headerlink" title="&#x521B;&#x5EFA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;"></a>&#x521B;&#x5EFA;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#立即执行计划任务"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x7ACB;&#x5373;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;" class="headerlink" title="&#x7ACB;&#x5373;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;"></a>&#x7ACB;&#x5373;&#x6267;&#x884C;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#终止由任务启动的程序"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x7EC8;&#x6B62;&#x7531;&#x4EFB;&#x52A1;&#x542F;&#x52A8;&#x7684;&#x7A0B;&#x5E8F;" class="headerlink" title="&#x7EC8;&#x6B62;&#x7531;&#x4EFB;&#x52A1;&#x542F;&#x52A8;&#x7684;&#x7A0B;&#x5E8F;"></a>&#x7EC8;&#x6B62;&#x7531;&#x4EFB;&#x52A1;&#x542F;&#x52A8;&#x7684;&#x7A0B;&#x5E8F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除计划任务"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#&#x5220;&#x9664;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;" class="headerlink" title="&#x5220;&#x9664;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;"></a>&#x5220;&#x9664;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#更改计划任务"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x66F4;&#x6539;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;" class="headerlink" title="&#x66F4;&#x6539;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;"></a>&#x66F4;&#x6539;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#显示计划任务"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#&#x663E;&#x793A;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;" class="headerlink" title="&#x663E;&#x793A;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;"></a>&#x663E;&#x793A;&#x8BA1;&#x5212;&#x4EFB;&#x52A1;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows下查看定时任务"><span class="nav-number">2.</span> <span class="nav-text"><a href="#Windows&#x4E0B;&#x67E5;&#x770B;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;" class="headerlink" title="Windows&#x4E0B;&#x67E5;&#x770B;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;"></a>Windows&#x4E0B;&#x67E5;&#x770B;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Windows自定义定时任务"><span class="nav-number">3.</span> <span class="nav-text"><a href="#Windows&#x81EA;&#x5B9A;&#x4E49;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;" class="headerlink" title="Windows&#x81EA;&#x5B9A;&#x4E49;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;"></a>Windows&#x81EA;&#x5B9A;&#x4E49;&#x5B9A;&#x65F6;&#x4EFB;&#x52A1;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

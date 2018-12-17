@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="算法," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、算法的定义算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。 2、算法具有的武哥基本特性 有穷性： 指算法在执行有限的步骤之后，自动结束而不会出现无线循环，并且每一个步骤在可接受的时间内完成。 确定性： 算法的每一步骤都具有确定的含义，不会出现二义性。 可行性： 算法的每一步都必须是可行的，也就是说，每一步都能够通过执行有限次数完成。 输入： 一">
+<meta name="keywords" content="算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="算法概述及效率的度量">
+<meta property="og:url" content="http://yoursite.com/2018/03/26/算法概述及效率的度量/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、算法的定义算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。 2、算法具有的武哥基本特性 有穷性： 指算法在执行有限的步骤之后，自动结束而不会出现无线循环，并且每一个步骤在可接受的时间内完成。 确定性： 算法的每一步骤都具有确定的含义，不会出现二义性。 可行性： 算法的每一步都必须是可行的，也就是说，每一步都能够通过执行有限次数完成。 输入： 一">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-20T06:07:55.374Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="算法概述及效率的度量">
+<meta name="twitter:description" content="1、算法的定义算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。 2、算法具有的武哥基本特性 有穷性： 指算法在执行有限的步骤之后，自动结束而不会出现无线循环，并且每一个步骤在可接受的时间内完成。 确定性： 算法的每一步骤都具有确定的含义，不会出现二义性。 可行性： 算法的每一步都必须是可行的，也就是说，每一步都能够通过执行有限次数完成。 输入： 一">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/26/算法概述及效率的度量/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>算法概述及效率的度量 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/26/算法概述及效率的度量/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">算法概述及效率的度量</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-26T10:39:43+08:00">
+                2018-03-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/26/算法概述及效率的度量/" class="leancloud_visitors" data-flag-title="算法概述及效率的度量">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、算法的定义"><a href="#1、算法的定义" class="headerlink" title="1、算法的定义"></a>1、算法的定义</h4><p>算法是解决特定问题求解步骤的描述，在计算机中表现为指令的有限序列，并且每条指令表示一个或多个操作。</p>
+<h4 id="2、算法具有的武哥基本特性"><a href="#2、算法具有的武哥基本特性" class="headerlink" title="2、算法具有的武哥基本特性"></a>2、算法具有的武哥基本特性</h4><ul>
+<li><strong>有穷性：</strong> 指算法在执行有限的步骤之后，自动结束而不会出现无线循环，并且每一个步骤在可接受的时间内完成。</li>
+<li><strong>确定性：</strong> 算法的每一步骤都具有确定的含义，不会出现二义性。</li>
+<li><strong>可行性：</strong> 算法的每一步都必须是可行的，也就是说，每一步都能够通过执行有限次数完成。</li>
+<li><strong>输入：</strong> 一个算法有零个或多个的输入，这些输入取自于某个特定的对象的集合。</li>
+<li><strong>输出：</strong> 一个算法有一个或多个的输出，这些输出是同输入有着某些特定关系的量。</li>
+</ul>
+<a id="more"></a>
+<h4 id="3、算法设计的要求"><a href="#3、算法设计的要求" class="headerlink" title="3、算法设计的要求"></a>3、算法设计的要求</h4><p>设计算法时，通常应考虑达到以下目标：</p>
+<ul>
+<li><strong>正确性：</strong> 算法的正确性是指算法至少应该具有输入、输出和加工处理无歧义性、能正确反映问题的需求、能够得到问题的正确答案。</li>
+<li><strong>可读性：</strong> 算法设计的另一个目的是为了便于阅读、理解和交流。另一方面，晦涩难懂的程序易于隐藏较多错误而难以调试。</li>
+<li><strong>健壮性：</strong> 当输入数据不合法时，算法也能做出相关处理，而不是产生异常或莫名其妙的结果。</li>
+<li><strong>高效率与低存储量：</strong> 通常，效率指的是算法执行时间；存储量指的是算法执行过程中所需的最大存储空间，两者都与问题的规模相关。</li>
+</ul>
+<h4 id="4、算法效率的度量方法："><a href="#4、算法效率的度量方法：" class="headerlink" title="4、算法效率的度量方法："></a>4、算法效率的度量方法：</h4><ul>
+<li><strong>事后统计方法：</strong> 这种方法主要是通过设计好的测试程序和数据，利用计算机计时器对不同算法编制的程序的运行时间进行比较，从而确定算法效率的高低。</li>
+<li><strong>事前分析估算法：</strong> 在计算机程序编制前，依据统计方法对算法进行估算。一个程序的运行时间，依赖于算法的好坏和问题的输入规模。（所谓问题输入规模是指输入量的多少。）</li>
+</ul>
+<h4 id="5、算法的时间复杂度"><a href="#5、算法的时间复杂度" class="headerlink" title="5、算法的时间复杂度"></a>5、算法的时间复杂度</h4><p>算法的时间复杂度，也就是算法的时间量度，记作：T(n) = O(f(n))。他表示岁问题规模n的增大，算法执行时间的增长率和f(n)的增长率相同，称作算法的渐进时间复杂度，简称为<strong>时间复杂度</strong>。</p>
+<blockquote>
+<p>推导大O阶：<br>1.用常数1取代运行时间中的所有加法常数。<br>2.在修改后的运行次数函数中，只保留最高阶项。<br>3.如果最高阶项存在且不是1，则去除与这个项相乘的常数。<br>得到的结果就是大O阶。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>执行次数函数</th>
+<th>阶</th>
+<th>非正式术语</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12</td>
+<td>O(1)</td>
+<td>常数阶</td>
+</tr>
+<tr>
+<td>2n+3</td>
+<td>O(n)</td>
+<td>线性阶</td>
+</tr>
+<tr>
+<td>3n^2+2n+1</td>
+<td>O(n^2)</td>
+<td>平方阶</td>
+</tr>
+<tr>
+<td>5log2n+20</td>
+<td>O(logn)</td>
+<td>对数阶</td>
+</tr>
+<tr>
+<td>2n+3nlog2n+19</td>
+<td>O(nlogn)</td>
+<td>nlogn阶</td>
+</tr>
+<tr>
+<td>6n^3+2n^2+3n+4</td>
+<td>O(n^3)</td>
+<td>立方阶</td>
+</tr>
+<tr>
+<td>2^n</td>
+<td>O(2^n)</td>
+<td>指数阶</td>
+</tr>
+</tbody>
+</table>
+<p><strong>常用的时间复杂度所耗费的时间从小到大依次是：</strong><br>O(1) &lt; O(logn) &lt; O(n) &lt; O(nlogn) &lt; O(n^2) &lt; O(n^3) &lt; O(2^n) &lt; O(n!) &lt; O(n^n)</p>
+<h4 id="6、算法空间复杂度"><a href="#6、算法空间复杂度" class="headerlink" title="6、算法空间复杂度"></a>6、算法空间复杂度</h4><p>算法的空间复杂度通过计算算法所需的存储空间实现，算法空间复杂度的计算公式记作：S(n) = O(f(n))，其中，n为问题的规模，f(n)为语句关于n所占存储空间的函数。</p>
+<p><strong>（注：一般在没有特殊说明的情况下，都是指最坏时间复杂度。）</strong></p>
+<h4 id="7、算法的时间复杂度推导公式"><a href="#7、算法的时间复杂度推导公式" class="headerlink" title="7、算法的时间复杂度推导公式"></a>7、算法的时间复杂度推导公式</h4><p>待补充…</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/算法/" rel="tag"># 算法</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/20/Linux下二进制文件命令存放目录区别/" rel="next" title="Linux 下二进制文件命令存放目录区别">
+                <i class="fa fa-chevron-left"></i> Linux 下二进制文件命令存放目录区别
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/27/windows7设置WiFi热点/" rel="prev" title="windows 7设置WiFi热点">
+                windows 7设置WiFi热点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">165</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、算法的定义"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x5B9A;&#x4E49;" class="headerlink" title="1&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x5B9A;&#x4E49;"></a>1&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x5B9A;&#x4E49;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、算法具有的武哥基本特性"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x7B97;&#x6CD5;&#x5177;&#x6709;&#x7684;&#x6B66;&#x54E5;&#x57FA;&#x672C;&#x7279;&#x6027;" class="headerlink" title="2&#x3001;&#x7B97;&#x6CD5;&#x5177;&#x6709;&#x7684;&#x6B66;&#x54E5;&#x57FA;&#x672C;&#x7279;&#x6027;"></a>2&#x3001;&#x7B97;&#x6CD5;&#x5177;&#x6709;&#x7684;&#x6B66;&#x54E5;&#x57FA;&#x672C;&#x7279;&#x6027;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、算法设计的要求"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x7B97;&#x6CD5;&#x8BBE;&#x8BA1;&#x7684;&#x8981;&#x6C42;" class="headerlink" title="3&#x3001;&#x7B97;&#x6CD5;&#x8BBE;&#x8BA1;&#x7684;&#x8981;&#x6C42;"></a>3&#x3001;&#x7B97;&#x6CD5;&#x8BBE;&#x8BA1;&#x7684;&#x8981;&#x6C42;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、算法效率的度量方法："><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x7B97;&#x6CD5;&#x6548;&#x7387;&#x7684;&#x5EA6;&#x91CF;&#x65B9;&#x6CD5;&#xFF1A;" class="headerlink" title="4&#x3001;&#x7B97;&#x6CD5;&#x6548;&#x7387;&#x7684;&#x5EA6;&#x91CF;&#x65B9;&#x6CD5;&#xFF1A;"></a>4&#x3001;&#x7B97;&#x6CD5;&#x6548;&#x7387;&#x7684;&#x5EA6;&#x91CF;&#x65B9;&#x6CD5;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、算法的时间复杂度"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;" class="headerlink" title="5&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;"></a>5&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、算法空间复杂度"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x7B97;&#x6CD5;&#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;" class="headerlink" title="6&#x3001;&#x7B97;&#x6CD5;&#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;"></a>6&#x3001;&#x7B97;&#x6CD5;&#x7A7A;&#x95F4;&#x590D;&#x6742;&#x5EA6;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、算法的时间复杂度推导公式"><span class="nav-number">7.</span> <span class="nav-text"><a href="#7&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;&#x63A8;&#x5BFC;&#x516C;&#x5F0F;" class="headerlink" title="7&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;&#x63A8;&#x5BFC;&#x516C;&#x5F0F;"></a>7&#x3001;&#x7B97;&#x6CD5;&#x7684;&#x65F6;&#x95F4;&#x590D;&#x6742;&#x5EA6;&#x63A8;&#x5BFC;&#x516C;&#x5F0F;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

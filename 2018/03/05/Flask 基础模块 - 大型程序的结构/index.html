@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python,Flask," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="尽管在单一脚本中编写小型Web 程序很方便，但这种方法并不能广泛使用。程序变复杂后，使用单个大型源码文件会导致很多问题。 不同于大多数其他的Web 框架，Flask 并不强制要求大型项目使用特定的组织方式，程序结构的组织方式完全由开发者决定。在本章，我们将介绍一种使用包和模块组织大型程序的方式。本书后续示例都将采用这种结构。 1、项目结构Flask 程序的基本结构如示例7-1 所示。">
+<meta name="keywords" content="Python,Flask">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flask 基础模块 - 大型程序的结构">
+<meta property="og:url" content="http://yoursite.com/2018/03/05/Flask 基础模块 - 大型程序的结构/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="尽管在单一脚本中编写小型Web 程序很方便，但这种方法并不能广泛使用。程序变复杂后，使用单个大型源码文件会导致很多问题。 不同于大多数其他的Web 框架，Flask 并不强制要求大型项目使用特定的组织方式，程序结构的组织方式完全由开发者决定。在本章，我们将介绍一种使用包和模块组织大型程序的方式。本书后续示例都将采用这种结构。 1、项目结构Flask 程序的基本结构如示例7-1 所示。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-20T06:07:54.504Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flask 基础模块 - 大型程序的结构">
+<meta name="twitter:description" content="尽管在单一脚本中编写小型Web 程序很方便，但这种方法并不能广泛使用。程序变复杂后，使用单个大型源码文件会导致很多问题。 不同于大多数其他的Web 框架，Flask 并不强制要求大型项目使用特定的组织方式，程序结构的组织方式完全由开发者决定。在本章，我们将介绍一种使用包和模块组织大型程序的方式。本书后续示例都将采用这种结构。 1、项目结构Flask 程序的基本结构如示例7-1 所示。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/05/Flask 基础模块 - 大型程序的结构/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>Flask 基础模块 - 大型程序的结构 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/05/Flask 基础模块 - 大型程序的结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Flask 基础模块 - 大型程序的结构</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T18:04:46+08:00">
+                2018-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Python/Flask/" itemprop="url" rel="index">
+                    <span itemprop="name">Flask</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/05/Flask 基础模块 - 大型程序的结构/" class="leancloud_visitors" data-flag-title="Flask 基础模块 - 大型程序的结构">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>尽管在单一脚本中编写小型Web 程序很方便，但这种方法并不能广泛使用。程序变复杂后，使用单个大型源码文件会导致很多问题。</p>
+<p>不同于大多数其他的Web 框架，Flask 并不强制要求大型项目使用特定的组织方式，程序结构的组织方式完全由开发者决定。在本章，我们将介绍一种使用包和模块组织大型程序的方式。本书后续示例都将采用这种结构。</p>
+<h4 id="1、项目结构"><a href="#1、项目结构" class="headerlink" title="1、项目结构"></a>1、项目结构</h4><p>Flask 程序的基本结构如示例7-1 所示。<br><a id="more"></a><br><strong>示例7-1　多文件Flask 程序的基本结构</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">|-flasky</span><br><span class="line">　　|-app/</span><br><span class="line">　　　　|-templates/</span><br><span class="line">　　　　|-static/</span><br><span class="line">　　　　|-main/</span><br><span class="line">　　　　　　|-__init__.py</span><br><span class="line">　　　　　　|-errors.py</span><br><span class="line">　　　　　　|-forms.py</span><br><span class="line">　　　　　　|-views.py</span><br><span class="line">　　　　|-__init__.py</span><br><span class="line">　　　　|-email.py</span><br><span class="line">　　　　|-models.py</span><br><span class="line">　　|-migrations/</span><br><span class="line">　　|-tests/</span><br><span class="line">　　　　|-__init__.py</span><br><span class="line">　　　　|-test*.py</span><br><span class="line">　　|-venv/</span><br><span class="line">　　|-requirements.txt</span><br><span class="line">　　|-config.py</span><br><span class="line">　　|-manage.py</span><br></pre></td></tr></table></figure></p>
+<p>这种结构有4 个顶级文件夹：</p>
+<ul>
+<li>Flask程序一般都保存在名为app 的包中；</li>
+<li>和之前一样，migrations文件夹包含数据库迁移脚本；</li>
+<li>单元测试编写在 tests包中；</li>
+<li>和之前一样，venv 文件夹包含 Python 虚拟环境。</li>
+</ul>
+<p>同时还创建了一些新文件：</p>
+<ul>
+<li>requirements.txt列出了所有依赖包，便于在其他电脑中重新生成相同的虚拟环境；</li>
+<li>config.py 存储配置；</li>
+<li>manage.py用于启动程序以及其他的程序任务。</li>
+</ul>
+<p>为了帮助你完全理解这个结构，下面几节讲解把hello.py 程序转换成这种结构的过程。</p>
+<h4 id="2、配置选项"><a href="#2、配置选项" class="headerlink" title="2、配置选项"></a>2、配置选项</h4><p>程序经常需要设定多个配置。这方面最好的例子就是开发、测试和生产环境要使用不同的数据库，这样才不会彼此影响。</p>
+<p>我们不再使用hello.py 中简单的字典状结构配置，而使用层次结构的配置类。config.py 文件的内容如示例7-2 所示。</p>
+<p>示例7-2　config.py：程序的配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">basedir = os.path.abspath(os.path.dirname(__file__))</span><br><span class="line"></span><br><span class="line">class Config:</span><br><span class="line">    SECRET_KEY = os.environ.get(&apos;SECRET_KEY&apos;) or &apos;hard to guess string&apos;</span><br><span class="line">    SQLALCHEMY_COMMIT_ON_TEARDOWN = True</span><br><span class="line">    FLASKY_MAIL_SUBJECT_PREFIX = &apos;[Flasky]&apos;</span><br><span class="line">    FLASKY_MAIL_SENDER = &apos;Flasky Admin &lt;flasky@example.com&gt;&apos;</span><br><span class="line">    FLASKY_ADMIN = os.environ.get(&apos;FLASKY_ADMIN&apos;)</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def init_app(app):</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">class DevelopmentConfig(Config):</span><br><span class="line">    DEBUG = True</span><br><span class="line">    MAIL_SERVER = &apos;smtp.googlemail.com&apos;</span><br><span class="line">    MAIL_PORT = 587</span><br><span class="line">    MAIL_USE_TLS = True</span><br><span class="line">    MAIL_USERNAME = os.environ.get(&apos;MAIL_USERNAME&apos;)</span><br><span class="line">    MAIL_PASSWORD = os.environ.get(&apos;MAIL_PASSWORD&apos;)</span><br><span class="line">    SQLALCHEMY_DATABASE_URI = os.environ.get(&apos;DEV_DATABASE_URL&apos;) or \</span><br><span class="line">        &apos;sqlite:///&apos; + os.path.join(basedir, &apos;data-dev.sqlite&apos;)</span><br><span class="line"></span><br><span class="line">class TestingConfig(Config):</span><br><span class="line">    TESTING = True</span><br><span class="line">    SQLALCHEMY_DATABASE_URI = os.environ.get(&apos;TEST_DATABASE_URL&apos;) or \</span><br><span class="line">        &apos;sqlite:///&apos; + os.path.join(basedir, &apos;data-test.sqlite&apos;)</span><br><span class="line"></span><br><span class="line">class ProductionConfig(Config):</span><br><span class="line">    SQLALCHEMY_DATABASE_URI = os.environ.get(&apos;DATABASE_URL&apos;) or \</span><br><span class="line">        &apos;sqlite:///&apos; + os.path.join(basedir, &apos;data.sqlite&apos;)</span><br><span class="line"></span><br><span class="line">config = &#123;</span><br><span class="line">    &apos;development&apos;: DevelopmentConfig,</span><br><span class="line">    &apos;testing&apos;: TestingConfig,</span><br><span class="line">    &apos;production&apos;: ProductionConfig,</span><br><span class="line">    &apos;default&apos;: DevelopmentConfig</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>基类Config 中包含通用配置，子类分别定义专用的配置。如果需要，你还可添加其他配置类。</p>
+<p>为了让配置方式更灵活且更安全，某些配置可以从环境变量中导入。例如，SECRET_KEY 的值，这是个敏感信息，可以在环境中设定，但系统也提供了一个默认值，以防环境中没有定义。</p>
+<p>在3 个子类中，SQLALCHEMY_DATABASE_URI 变量都被指定了不同的值。这样程序就可在不同的配置环境中运行，每个环境都使用不同的数据库。</p>
+<p>配置类可以定义init_app() 类方法，其参数是程序实例。在这个方法中，可以执行对当前环境的配置初始化。现在，基类Config 中的init_app() 方法为空。</p>
+<p>在这个配置脚本末尾，config 字典中注册了不同的配置环境，而且还注册了一个默认配置。</p>
+<h4 id="3、程序包"><a href="#3、程序包" class="headerlink" title="3、程序包"></a>3、程序包</h4><p>程序包用来保存程序的所有代码、模板和静态文件。我们可以把这个包直接称为app（应用），如果有需求，也可使用一个程序专用名字。templates 和static 文件夹是程序包的一部分，因此这两个文件夹被移到了app 中。数据库模型和电子邮件支持函数也被移到了这个包中，分别保存为app/models.py 和app/email.py。</p>
+<h5 id="（1）使用程序工厂函数"><a href="#（1）使用程序工厂函数" class="headerlink" title="（1）使用程序工厂函数"></a>（1）使用程序工厂函数</h5><p>在单个文件中开发程序很方便，但却有个很大的缺点，因为程序在全局作用域中创建，所以无法动态修改配置。运行脚本时，程序实例已经创建，再修改配置为时已晚。这一点对单元测试尤其重要，因为有时为了提高测试覆盖度，必须在不同的配置环境中运行程序。这个问题的解决方法是延迟创建程序实例，把创建过程移到可显式调用的工厂函数中。这种方法不仅可以给脚本留出配置程序的时间，还能够创建多个程序实例，这些实例有时在测试中非常有用。程序的工厂函数在app 包的构造文件中定义，如示例7-3 所示。</p>
+<p>构造文件导入了大多数正在使用的Flask 扩展。由于尚未初始化所需的程序实例，所以没有初始化扩展，创建扩展类时没有向构造函数传入参数。create_app() 函数就是程序的工厂函数，接受一个参数，是程序使用的配置名。配置类在config.py 文件中定义，其中保存的配置可以使用Flask app.config 配置对象提供的from_object() 方法直接导入程序。至于配置对象，则可以通过名字从config 字典中选择。程序创建并配置好后，就能初始化扩展了。在之前创建的扩展对象上调用init_app() 可以完成初始化过程。</p>
+<p>示例7-3　app/__init__.py：程序包的构造文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask, render_template</span><br><span class="line">from flask.ext.bootstrap import Bootstrap</span><br><span class="line">from flask.ext.mail import Mail</span><br><span class="line">from flask.ext.moment import Moment</span><br><span class="line">from flask.ext.sqlalchemy import SQLAlchemy</span><br><span class="line">from config import config</span><br><span class="line"></span><br><span class="line">bootstrap = Bootstrap()</span><br><span class="line">mail = Mail()</span><br><span class="line">moment = Moment()</span><br><span class="line">db = SQLAlchemy()</span><br><span class="line"></span><br><span class="line">def create_app(config_name):</span><br><span class="line">    app = Flask(__name__)</span><br><span class="line">    app.config.from_object(config[config_name])</span><br><span class="line">    config[config_name].init_app(app)</span><br><span class="line"></span><br><span class="line">    bootstrap.init_app(app)</span><br><span class="line">    mail.init_app(app)</span><br><span class="line">    moment.init_app(app)</span><br><span class="line">    db.init_app(app)</span><br><span class="line"></span><br><span class="line">    # 附加路由和自定义的错误页面</span><br><span class="line"></span><br><span class="line">    return app</span><br></pre></td></tr></table></figure></p>
+<p>工厂函数返回创建的程序示例，不过要注意，现在工厂函数创建的程序还不完整，因为没<br>有路由和自定义的错误页面处理程序。</p>
+<h5 id="（2）在蓝本中实现程序功能"><a href="#（2）在蓝本中实现程序功能" class="headerlink" title="（2）在蓝本中实现程序功能"></a>（2）在蓝本中实现程序功能</h5><p>转换成程序工厂函数的操作让定义路由变复杂了。在单脚本程序中，程序实例存在于全局作用域中，路由可以直接使用app.route 修饰器定义。但现在程序在运行时创建，只有调用create_app() 之后才能使用app.route 修饰器，这时定义路由就太晚了。和路由一样，自定义的错误页面处理程序也面临相同的困难，因为错误页面处理程序使用app.errorhandler 修饰器定义。</p>
+<p>幸好Flask 使用蓝本提供了更好的解决方法。蓝本和程序类似，也可以定义路由。不同的是，在蓝本中定义的路由处于休眠状态，直到蓝本注册到程序上后，路由才真正成为程序的一部分。使用位于全局作用域中的蓝本时，定义路由的方法几乎和单脚本程序一样。</p>
+<p>和程序一样，蓝本可以在单个文件中定义，也可使用更结构化的方式在包中的多个模块中创建。为了获得最大的灵活性，程序包中创建了一个子包，用于保存蓝本。示例7-4 是这个子包的构造文件，蓝本就创建于此。</p>
+<p>示例7-4　app/main/__init__.py：创建蓝本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from flask import Blueprint</span><br><span class="line">main = Blueprint(&apos;main&apos;, __name__)</span><br><span class="line">from . import views, errors</span><br></pre></td></tr></table></figure></p>
+<p>通过实例化一个Blueprint 类对象可以创建蓝本。这个构造函数有两个必须指定的参数：蓝本的名字和蓝本所在的包或模块。和程序一样，大多数情况下第二个参数使用Python 的__name__ 变量即可。</p>
+<p>程序的路由保存在包里的app/main/views.py 模块中，而错误处理程序保存在app/main/errors.py 模块中。导入这两个模块就能把路由和错误处理程序与蓝本关联起来。注意，这些模块在app/main/__init__.py 脚本的末尾导入，这是为了避免循环导入依赖，因为在views.py 和errors.py 中还要导入蓝本main。</p>
+<p>蓝本在工厂函数create_app() 中注册到程序上，如示例7-5 所示。<br>示例7-5　app/__init__.py：注册蓝本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">def create_app(config_name):</span><br><span class="line">    # ...</span><br><span class="line">    from .main import main as main_blueprint</span><br><span class="line">    app.register_blueprint(main_blueprint)</span><br><span class="line">    </span><br><span class="line">    return app</span><br></pre></td></tr></table></figure></p>
+<p>示例7-6 显示了错误处理程序。<br>示例7-6　app/main/errors.py：蓝本中的错误处理程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from flask import render_template</span><br><span class="line">from . import main</span><br><span class="line"></span><br><span class="line">@main.app_errorhandler(404)</span><br><span class="line">def page_not_found(e):</span><br><span class="line">    return render_template(&apos;404.html&apos;), 404</span><br><span class="line"></span><br><span class="line">@main.app_errorhandler(500)</span><br><span class="line">def internal_server_error(e):</span><br><span class="line">    return render_template(&apos;500.html&apos;), 500</span><br></pre></td></tr></table></figure></p>
+<p>在蓝本中编写错误处理程序稍有不同，如果使用errorhandler 修饰器，那么只有蓝本中的错误才能触发处理程序。要想注册程序全局的错误处理程序，必须使用app_errorhandler。</p>
+<p>在蓝本中定义的程序路由如示例7-7 所示。<br>示例7-7　app/main/views.py：蓝本中定义的程序路由<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from datetime import datetime</span><br><span class="line">from flask import render_template, session, redirect, url_for</span><br><span class="line">from . import main</span><br><span class="line">from .forms import NameForm</span><br><span class="line">from .. import db</span><br><span class="line">from ..models import User</span><br><span class="line"></span><br><span class="line">@main.route(&apos;/&apos;, methods=[&apos;GET&apos;, &apos;POST&apos;])</span><br><span class="line">def index():</span><br><span class="line">    form = NameForm()</span><br><span class="line">    if form.validate_on_submit():</span><br><span class="line">        # ...</span><br><span class="line">        return redirect(url_for(&apos;.index&apos;))</span><br><span class="line">    return render_template(&apos;index.html&apos;, form=form, name=session.get(&apos;name&apos;),</span><br><span class="line">        known=session.get(&apos;known&apos;, False), current_time=datetime.utcnow())</span><br></pre></td></tr></table></figure></p>
+<p>在蓝本中编写视图函数主要有两点不同：第一，和前面的错误处理程序一样，路由修饰器由蓝本提供；第二，url_for() 函数的用法不同。你可能还记得，url_for() 函数的第一个参数是路由的端点名，在程序的路由中，默认为视图函数的名字。例如，在单脚本程序中，index() 视图函数的URL 可使用url_for(‘index’) 获取。</p>
+<p>在蓝本中就不一样了，Flask 会为蓝本中的全部端点加上一个命名空间，这样就可以在不同的蓝本中使用相同的端点名定义视图函数，而不会产生冲突。命名空间就是蓝本的名字（Blueprint 构造函数的第一个参数），所以视图函数index() 注册的端点名是main.index，其URL 使用url_for(‘main.index’) 获取。</p>
+<p>url_for() 函数还支持一种简写的端点形式，在蓝本中可以省略蓝本名，例如url_for(‘.index’)。在这种写法中，命名空间是当前请求所在的蓝本。这意味着同一蓝本中的重定向可以使用简写形式，但跨蓝本的重定向必须使用带有命名空间的端点名。</p>
+<p>为了完全修改程序的页面，表单对象也要移到蓝本中，保存于app/main/forms.py 模块。</p>
+<h4 id="4、启动脚本"><a href="#4、启动脚本" class="headerlink" title="4、启动脚本"></a>4、启动脚本</h4><p>顶级文件夹中的manage.py 文件用于启动程序。脚本内容如示例7-8 所示。<br>示例7-8　manage.py：启动脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python</span><br><span class="line">import os</span><br><span class="line">from app import create_app, db</span><br><span class="line">from app.models import User, Role</span><br><span class="line">from flask.ext.script import Manager, Shell</span><br><span class="line">from flask.ext.migrate import Migrate, MigrateCommand</span><br><span class="line"></span><br><span class="line">app = create_app(os.getenv(&apos;FLASK_CONFIG&apos;) or &apos;default&apos;)</span><br><span class="line"></span><br><span class="line">manager = Manager(app)</span><br><span class="line">migrate = Migrate(app, db)</span><br><span class="line"></span><br><span class="line">def make_shell_context():</span><br><span class="line">    return dict(app=app, db=db, User=User, Role=Role)</span><br><span class="line">manager.add_command(&quot;shell&quot;, Shell(make_context=make_shell_context))</span><br><span class="line"></span><br><span class="line">manager.add_command(&apos;db&apos;, MigrateCommand)</span><br><span class="line"></span><br><span class="line">if __name__ == &apos;__main__&apos;:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure></p>
+<p>这个脚本先创建程序。如果已经定义了环境变量FLASK_CONFIG，则从中读取配置名；否则使用默认配置。然后初始化Flask-Script、Flask-Migrate 和为Python shell 定义的上下文。出于便利，脚本中加入了shebang 声明，所以在基于Unix 的操作系统中可以通过./manage.py 执行脚本，而不用使用复杂的python manage.py。</p>
+<h4 id="5、需求文件"><a href="#5、需求文件" class="headerlink" title="5、需求文件"></a>5、需求文件</h4><p>程序中必须包含一个requirements.txt 文件，用于记录所有依赖包及其精确的版本号。如果要在另一台电脑上重新生成虚拟环境，这个文件的重要性就体现出来了，例如部署程序时使用的电脑。pip 可以使用如下命令自动生成这个文件：<br>　　<code>(venv) $ pip freeze &gt;requirements.txt</code></p>
+<p>安装或升级包后，最好更新这个文件。需求文件的内容示例如下：</p>
+<blockquote>
+<p>Flask==0.10.1<br>Flask-Bootstrap==3.0.3.1<br>Flask-Mail==0.9.0<br>Flask-Migrate==1.1.0<br>Flask-Moment==0.2.0<br>Flask-SQLAlchemy==1.0<br>Flask-Script==0.6.6<br>Flask-WTF==0.9.4<br>Jinja2==2.7.1<br>Mako==0.9.1<br>MarkupSafe==0.18<br>SQLAlchemy==0.8.4<br>WTForms==1.0.5<br>Werkzeug==0.9.4<br>alembic==0.6.2<br>blinker==1.3<br>itsdangerous==0.23</p>
+</blockquote>
+<p>如果你要创建这个虚拟环境的完全副本，可以创建一个新的虚拟环境，并在其上运行以下命令：<br>　　<code>(venv) $ pip install -r requirements.txt</code></p>
+<p>当你阅读本书时，该示例requirements.txt 文件中的版本号可能已经过期了。如果愿意，你可以试着使用这些包的最新版。如果遇到问题，你可以随时换回这个需求文件中的版本，因为这些版本和程序兼容。</p>
+<h4 id="6、单元测试"><a href="#6、单元测试" class="headerlink" title="6、单元测试"></a>6、单元测试</h4><p>这个程序很小，所以没什么可测试的。不过为了演示，我们可以编写两个简单的测试，如示例7-9 所示。</p>
+<p>示例7-9　tests/test_basics.py：单元测试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import unittest</span><br><span class="line">from flask import current_app</span><br><span class="line">from app import create_app, db</span><br><span class="line"></span><br><span class="line">class BasicsTestCase(unittest.TestCase):</span><br><span class="line">    def setUp(self):</span><br><span class="line">        self.app = create_app(&apos;testing&apos;)</span><br><span class="line">        self.app_context = self.app.app_context()</span><br><span class="line">        self.app_context.push()</span><br><span class="line">        db.create_all()</span><br><span class="line">    </span><br><span class="line">    def tearDown(self):</span><br><span class="line">        db.session.remove()</span><br><span class="line">        db.drop_all()</span><br><span class="line">        self.app_context.pop()</span><br><span class="line"></span><br><span class="line">    def test_app_exists(self):</span><br><span class="line">        self.assertFalse(current_app is None)</span><br><span class="line">        def test_app_is_testing(self):</span><br><span class="line">        self.assertTrue(current_app.config[&apos;TESTING&apos;])</span><br></pre></td></tr></table></figure></p>
+<p>这个测试使用Python 标准库中的unittest 包编写。setUp() 和tearDown() 方法分别在各测试前后运行，并且名字以test_ 开头的函数都作为测试执行。</p>
+<p>setUp() 方法尝试创建一个测试环境，类似于运行中的程序。首先，使用测试配置创建程序，然后激活上下文。这一步的作用是确保能在测试中使用current_app，像普通请求一样。然后创建一个全新的数据库，以备不时之需。数据库和程序上下文在tearDown() 方法中删除。</p>
+<p>第一个测试确保程序实例存在。第二个测试确保程序在测试配置中运行。若想把tests 文件夹作为包使用，需要添加tests/__init__.py 文件，不过这个文件可以为空，因为unittest 包会扫描所有模块并查找测试。</p>
+<p>为了运行单元测试，你可以在manage.py 脚本中添加一个自定义命令。示例7-10 展示了如何添加test 命令。</p>
+<p>示例7-10　manage.py：启动单元测试的命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@manager.command</span><br><span class="line">def test():</span><br><span class="line">    &quot;&quot;&quot;Run the unit tests.&quot;&quot;&quot;</span><br><span class="line">    import unittest</span><br><span class="line">    tests = unittest.TestLoader().discover(&apos;tests&apos;)</span><br><span class="line">    unittest.TextTestRunner(verbosity=2).run(tests)</span><br></pre></td></tr></table></figure></p>
+<p>manager.command 修饰器让自定义命令变得简单。修饰函数名就是命令名，函数的文档字符串会显示在帮助消息中。test() 函数的定义体中调用了unittest 包提供的测试运行函数。</p>
+<p>单元测试可使用下面的命令运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(venv) $ python manage.py test</span><br><span class="line">test_app_exists (test_basics.BasicsTestCase) ... ok</span><br><span class="line">test_app_is_testing (test_basics.BasicsTestCase) ... ok</span><br><span class="line">.----------------------------------------------------------------------</span><br><span class="line">Ran 2 tests in 0.001s</span><br><span class="line">OK</span><br></pre></td></tr></table></figure></p>
+<h4 id="7、创建数据库"><a href="#7、创建数据库" class="headerlink" title="7、创建数据库"></a>7、创建数据库</h4><p>重组后的程序和单脚本版本使用不同的数据库。</p>
+<p>首选从环境变量中读取数据库的URL，同时还提供了一个默认的SQLite 数据库做备用。3种配置环境中的环境变量名和SQLite 数据库文件名都不一样。例如，在开发环境中，数据库URL 从环境变量DEV_DATABASE_URL 中读取，如果没有定义这个环境变量，则使用名为data-dev.sqlite 的SQLite 数据库。</p>
+<p>不管从哪里获取数据库URL，都要在新数据库中创建数据表。如果使用Flask-Migrate 踪迁移，可使用如下命令创建数据表或者升级到最新修订版本：<br>　　<code>(venv) $ python manage.py db upgrade</code></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Flask/" rel="tag"># Flask</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/05/Flask 基础模块 - 数据库之Flask-SQLAlchemy管理数据库/" rel="next" title="Flask 基础模块 - 数据库之Flask-SQLAlchemy管理数据库">
+                <i class="fa fa-chevron-left"></i> Flask 基础模块 - 数据库之Flask-SQLAlchemy管理数据库
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/03/06/区块链入门必备/" rel="prev" title="区块链入门必备">
+                区块链入门必备 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">162</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">54</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、项目结构"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x9879;&#x76EE;&#x7ED3;&#x6784;" class="headerlink" title="1&#x3001;&#x9879;&#x76EE;&#x7ED3;&#x6784;"></a>1&#x3001;&#x9879;&#x76EE;&#x7ED3;&#x6784;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、配置选项"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x914D;&#x7F6E;&#x9009;&#x9879;" class="headerlink" title="2&#x3001;&#x914D;&#x7F6E;&#x9009;&#x9879;"></a>2&#x3001;&#x914D;&#x7F6E;&#x9009;&#x9879;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3、程序包"><span class="nav-number">3.</span> <span class="nav-text"><a href="#3&#x3001;&#x7A0B;&#x5E8F;&#x5305;" class="headerlink" title="3&#x3001;&#x7A0B;&#x5E8F;&#x5305;"></a>3&#x3001;&#x7A0B;&#x5E8F;&#x5305;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）使用程序工厂函数"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x4F7F;&#x7528;&#x7A0B;&#x5E8F;&#x5DE5;&#x5382;&#x51FD;&#x6570;" class="headerlink" title="&#xFF08;1&#xFF09;&#x4F7F;&#x7528;&#x7A0B;&#x5E8F;&#x5DE5;&#x5382;&#x51FD;&#x6570;"></a>&#xFF08;1&#xFF09;&#x4F7F;&#x7528;&#x7A0B;&#x5E8F;&#x5DE5;&#x5382;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）在蓝本中实现程序功能"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5728;&#x84DD;&#x672C;&#x4E2D;&#x5B9E;&#x73B0;&#x7A0B;&#x5E8F;&#x529F;&#x80FD;" class="headerlink" title="&#xFF08;2&#xFF09;&#x5728;&#x84DD;&#x672C;&#x4E2D;&#x5B9E;&#x73B0;&#x7A0B;&#x5E8F;&#x529F;&#x80FD;"></a>&#xFF08;2&#xFF09;&#x5728;&#x84DD;&#x672C;&#x4E2D;&#x5B9E;&#x73B0;&#x7A0B;&#x5E8F;&#x529F;&#x80FD;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4、启动脚本"><span class="nav-number">4.</span> <span class="nav-text"><a href="#4&#x3001;&#x542F;&#x52A8;&#x811A;&#x672C;" class="headerlink" title="4&#x3001;&#x542F;&#x52A8;&#x811A;&#x672C;"></a>4&#x3001;&#x542F;&#x52A8;&#x811A;&#x672C;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5、需求文件"><span class="nav-number">5.</span> <span class="nav-text"><a href="#5&#x3001;&#x9700;&#x6C42;&#x6587;&#x4EF6;" class="headerlink" title="5&#x3001;&#x9700;&#x6C42;&#x6587;&#x4EF6;"></a>5&#x3001;&#x9700;&#x6C42;&#x6587;&#x4EF6;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6、单元测试"><span class="nav-number">6.</span> <span class="nav-text"><a href="#6&#x3001;&#x5355;&#x5143;&#x6D4B;&#x8BD5;" class="headerlink" title="6&#x3001;&#x5355;&#x5143;&#x6D4B;&#x8BD5;"></a>6&#x3001;&#x5355;&#x5143;&#x6D4B;&#x8BD5;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7、创建数据库"><span class="nav-number">7.</span> <span class="nav-text"><a href="#7&#x3001;&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;" class="headerlink" title="7&#x3001;&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;"></a>7&#x3001;&#x521B;&#x5EFA;&#x6570;&#x636E;&#x5E93;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

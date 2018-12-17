@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="书籍,Linux," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Linux命令的格式是这样的：　　命令名称 [命令参数] [命令对象]注意，命令名称、命令参数、命令对象之间请用空格键分隔。命令对象一般是指要处理的文件、目录、用户等资源，而命令参数可以用长格式（完整的选项名称），也可以用短格式（单个字母的缩写），两者分别用--与-作为前缀。 命令参数的长格式与短格式示例：    长格式 man –help     短格式 man -h">
+<meta name="keywords" content="书籍,Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux之常用命令集锦">
+<meta property="og:url" content="http://yoursite.com/2018/10/12/Linux之常用命令集锦/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Linux命令的格式是这样的：　　命令名称 [命令参数] [命令对象]注意，命令名称、命令参数、命令对象之间请用空格键分隔。命令对象一般是指要处理的文件、目录、用户等资源，而命令参数可以用长格式（完整的选项名称），也可以用短格式（单个字母的缩写），两者分别用--与-作为前缀。 命令参数的长格式与短格式示例：    长格式 man –help     短格式 man -h">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-23T07:16:55.815Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux之常用命令集锦">
+<meta name="twitter:description" content="Linux命令的格式是这样的：　　命令名称 [命令参数] [命令对象]注意，命令名称、命令参数、命令对象之间请用空格键分隔。命令对象一般是指要处理的文件、目录、用户等资源，而命令参数可以用长格式（完整的选项名称），也可以用短格式（单个字母的缩写），两者分别用--与-作为前缀。 命令参数的长格式与短格式示例：    长格式 man –help     短格式 man -h">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/12/Linux之常用命令集锦/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>Linux之常用命令集锦 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/12/Linux之常用命令集锦/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Linux之常用命令集锦</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-12T12:24:19+08:00">
+                2018-10-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/" itemprop="url" rel="index">
+                    <span itemprop="name">书籍</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/书籍/《Linux就该这么学》/" itemprop="url" rel="index">
+                    <span itemprop="name">《Linux就该这么学》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/10/12/Linux之常用命令集锦/" class="leancloud_visitors" data-flag-title="Linux之常用命令集锦">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux命令的格式是这样的：<br>　　<code>命令名称 [命令参数] [命令对象]</code><br>注意，命令名称、命令参数、命令对象之间请用空格键分隔。<br>命令对象一般是指要处理的文件、目录、用户等资源，而命令参数可以用长格式（完整的选项名称），也可以用短格式（单个字母的缩写），两者分别用--与-作为前缀。</p>
+<p><strong>命令参数的长格式与短格式示例：</strong></p>
+<table>
+<thead>
+<tr>
+<th>长格式</th>
+<th>man –help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>短格式</td>
+<td>man -h</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<p><strong>1、man</strong><br>man命令中常用按键以及用途</p>
+<style>
+    table th:first-of-type {
+        width: 30%;
+    }
+</style>
+
+<table>
+<thead>
+<tr>
+<th>按键</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>空格键</td>
+<td>向下翻一页</td>
+</tr>
+<tr>
+<td>PaGe down</td>
+<td>向下翻一页</td>
+</tr>
+<tr>
+<td>PaGe up</td>
+<td>向上翻一页</td>
+</tr>
+<tr>
+<td>home</td>
+<td>直接前往首页</td>
+</tr>
+<tr>
+<td>end</td>
+<td>直接前往尾页</td>
+</tr>
+<tr>
+<td>/</td>
+<td>从上至下搜索某个关键词，如“/linux”</td>
+</tr>
+<tr>
+<td>?</td>
+<td>从下至上搜索某个关键词，如“?linux”</td>
+</tr>
+<tr>
+<td>n</td>
+<td>定位到下一个搜索到的关键词</td>
+</tr>
+<tr>
+<td>N</td>
+<td>定位到上一个搜索到的关键词</td>
+</tr>
+<tr>
+<td>q</td>
+<td>退出帮助文档</td>
+</tr>
+</tbody>
+</table>
+<p><strong>man 命令帮助信息的结构以及意义</strong></p>
+<table>
+<thead>
+<tr>
+<th>结构名称</th>
+<th>代表意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>命令的名称</td>
+</tr>
+<tr>
+<td>SYNOPSIS</td>
+<td>参数的大致使用方法</td>
+</tr>
+<tr>
+<td>DESCRIPTION</td>
+<td>介绍说明</td>
+</tr>
+<tr>
+<td>EXAMPLES</td>
+<td>演示（附带简单说明）</td>
+</tr>
+<tr>
+<td>OVERVIEW</td>
+<td>概述</td>
+</tr>
+<tr>
+<td>DEFAULTS</td>
+<td>默认的功能</td>
+</tr>
+<tr>
+<td>OPTIONS</td>
+<td>具体的可用选项（带介绍）</td>
+</tr>
+<tr>
+<td>ENVIRONMENT</td>
+<td>环境变量</td>
+</tr>
+<tr>
+<td>FILES</td>
+<td>用到的文件</td>
+</tr>
+<tr>
+<td>SEE ALSO</td>
+<td>相关的资料</td>
+</tr>
+<tr>
+<td>HISTORY</td>
+<td>维护历史与联系方式</td>
+</tr>
+</tbody>
+</table>
+<h4 id="一、常用系统工作命令"><a href="#一、常用系统工作命令" class="headerlink" title="一、常用系统工作命令"></a>一、常用系统工作命令</h4><h5 id="1、echo-选项-命令"><a href="#1、echo-选项-命令" class="headerlink" title="1、echo [选项] 命令"></a>1、echo [选项] 命令</h5><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-e</td>
+<td>若字符串出现以下字符，则特别加以处理，而不会将它当成一般文字输出（类似一些特殊字符）</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>不要在最后自动换行</td>
+</tr>
+</tbody>
+</table>
+<h5 id="2、date命令"><a href="#2、date命令" class="headerlink" title="2、date命令"></a>2、date命令</h5><p>格式： date [选项] [+指定的格式]<br>date 命令中输入以“+”号开头的参数，即可按照指定格式来输出系统的时间或日期。<br><strong>date命令中的参数以及作用</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%t</td>
+<td>跳格[Tab 键]</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>年</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>日</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>小时（00～23）</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>小时（00～12）</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>分钟（00～59）</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒（00～59）</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>今年中的第几天</td>
+</tr>
+</tbody>
+</table>
+<h5 id="3、reboot命令"><a href="#3、reboot命令" class="headerlink" title="3、reboot命令"></a>3、reboot命令</h5><h5 id="4、poweroff命令"><a href="#4、poweroff命令" class="headerlink" title="4、poweroff命令"></a>4、poweroff命令</h5><h5 id="5、wget命令"><a href="#5、wget命令" class="headerlink" title="5、wget命令"></a>5、wget命令</h5><p>wget 命令的参数以及作用</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-b</td>
+<td>后台下载模式</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>下载到指定目录</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>最大尝试次数</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>断点续传</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>下载页面内所有资源，包括图片、视频等</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>递归下载</td>
+</tr>
+</tbody>
+</table>
+<h5 id="6、ps命令"><a href="#6、ps命令" class="headerlink" title="6、ps命令"></a>6、ps命令</h5><p>ps 命令的参数以及作用</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-a</td>
+<td>显示所有进程（包括其他用户的进程）</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>用户以及其他详细信息</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>显示没有控制终端的进程</td>
+</tr>
+</tbody>
+</table>
+<h5 id="7、top命令"><a href="#7、top命令" class="headerlink" title="7、top命令"></a>7、top命令</h5><h5 id="8、pidof命令"><a href="#8、pidof命令" class="headerlink" title="8、pidof命令"></a>8、pidof命令</h5><p>用于查询某个指定服务进程的PID值。<br>格式：pidof [参数] [服务名称]</p>
+<h5 id="9、kill命令"><a href="#9、kill命令" class="headerlink" title="9、kill命令"></a>9、kill命令</h5><p>格式：kill [参数] [进程PID]</p>
+<h5 id="10、killall命令"><a href="#10、killall命令" class="headerlink" title="10、killall命令"></a>10、killall命令</h5><p>格式：killall [参数] [服务名称]</p>
+<h5 id="11、ln-命令"><a href="#11、ln-命令" class="headerlink" title="11、ln 命令"></a>11、ln 命令</h5><p>用于创建链接文件，格式为“ln [选项] 目标”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-s</td>
+<td>创建“符号链接”（如果不带-s 参数，则默认创建硬链接）</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>强制创建文件或目录的链接</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>覆盖前先询问</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示创建链接的过程</td>
+</tr>
+</tbody>
+</table>
+<h5 id="12、scp-命令"><a href="#12、scp-命令" class="headerlink" title="12、scp 命令"></a>12、scp 命令</h5><p>scp（secure copy）是一个基于 SSH 协议在网络之间进行安全传输的命令，其格式为“scp [参数] 本地文件 远程帐户@远程 IP 地址:远程目录”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-v</td>
+<td>显示详细的连接进度</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>指定远程主机的 sshd 端口号</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>用于传送文件夹</td>
+</tr>
+<tr>
+<td>-6</td>
+<td>使用 IPv6 协议</td>
+</tr>
+</tbody>
+</table>
+<h4 id="二、系统状态检测命令"><a href="#二、系统状态检测命令" class="headerlink" title="二、系统状态检测命令"></a>二、系统状态检测命令</h4><p>查看Linux主机公网IP<br><code>curl ifconfig.me</code></p>
+<h5 id="1、ifconfig命令"><a href="#1、ifconfig命令" class="headerlink" title="1、ifconfig命令"></a>1、ifconfig命令</h5><p>其实主要查看的就是网卡名称、inet 参数后面的 IP 地址、ether 参数后面的网卡物理地址（又称为 MAC 地址），<br>以及 RX、TX 的接收数据包与发送数据包的个数及累计流量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@linuxprobe ~]# ifconfig</span><br><span class="line">eno16777728: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt; mtu 1500</span><br><span class="line">	inet 192.168.10.10 netmask 255.255.255.0 broadcast 192.168.10.255</span><br><span class="line">	inet6 fe80::20c:29ff:fec4:a409 prefixlen 64 scopeid 0x20&lt;link&gt;</span><br><span class="line">	ether 00:0c:29:c4:a4:09 txqueuelen 1000 (Ethernet)</span><br><span class="line">	RX packets 36 bytes 3176 (3.1 KiB)</span><br><span class="line">	RX errors 0 dropped 0 overruns 0 frame 0</span><br><span class="line">	TX packets 38 bytes 4757 (4.6 KiB)</span><br><span class="line">	TX errors 0 dropped 0 overruns 0 carrier 0 collisions 0</span><br></pre></td></tr></table></figure></p>
+<h5 id="2、uname-命令"><a href="#2、uname-命令" class="headerlink" title="2、uname 命令"></a>2、uname 命令</h5><p>格式：uname [-a]</p>
+<h5 id="3、uptime-命令"><a href="#3、uptime-命令" class="headerlink" title="3、uptime 命令"></a>3、uptime 命令</h5><p>查看系统的负载信息。格式为 uptime<br>平均负载值指的是系统在最近 1 分钟、5 分钟、15 分钟内的压力情况（下面加粗的信息部分）；<br>负载值越低越好，尽量不要长期超过 1，在生产环境中不要超过 5。</p>
+<h5 id="4、free-命令"><a href="#4、free-命令" class="headerlink" title="4、free 命令"></a>4、free 命令</h5><p>用于显示当前系统中内存的使用量信息，格式为“free [-h]”。</p>
+<h5 id="5、who命令"><a href="#5、who命令" class="headerlink" title="5、who命令"></a>5、who命令</h5><p>用于查看当前登入主机的用户终端信息，格式为“who [参数]”。</p>
+<h5 id="6、last命令"><a href="#6、last命令" class="headerlink" title="6、last命令"></a>6、last命令</h5><p>用于查看所有系统的登录记录，格式为“last [参数]”。</p>
+<h5 id="7、history命令"><a href="#7、history命令" class="headerlink" title="7、history命令"></a>7、history命令</h5><p>用于显示历史执行过的命令，格式为“history [-c]”。<br>默认显示1000，如果觉得 1000 不够用，还可以自定义/etc/profile 文件中的HISTSIZE 变量值。<br>在使用 history 命令时，如果使用-c 参数则会清空所有的命令历史记录。</p>
+<h4 id="三、工作目录切换命令"><a href="#三、工作目录切换命令" class="headerlink" title="三、工作目录切换命令"></a>三、工作目录切换命令</h4><h5 id="1、pwd"><a href="#1、pwd" class="headerlink" title="1、pwd"></a>1、pwd</h5><h5 id="2、cd"><a href="#2、cd" class="headerlink" title="2、cd"></a>2、cd</h5><h5 id="3、ls"><a href="#3、ls" class="headerlink" title="3、ls"></a>3、ls</h5><h4 id="四、文本文件编辑命令"><a href="#四、文本文件编辑命令" class="headerlink" title="四、文本文件编辑命令"></a>四、文本文件编辑命令</h4><h5 id="1、查看文件"><a href="#1、查看文件" class="headerlink" title="1、查看文件"></a>1、查看文件</h5><p>cat： 由第一行开始显示档案内容<br>tac： 从最后一行开始显示，可以看出 tac 是 cat 的反向显示！<br>nl： 显示的时候，顺便输出行号！<br>more： 一页一页的显示档案内容，以百分比的形式分页显示。<br>less 与 more 类似，但是比 more 更好的是，他可以[pg dn][pg up]翻页！对于显示的内容可以使用”/字符”输入要查找的字符或者字符串并高亮显示。<br>head： 查看头几行<br>tail： 查看尾几行<br>od： 以二进制的方式读取档案内容！</p>
+<h5 id="2、tr命令"><a href="#2、tr命令" class="headerlink" title="2、tr命令"></a>2、tr命令</h5><p>用于替换文本文件中的字符，格式为“tr [原始字符] [目标字符]”。</p>
+<h5 id="3、wc命令"><a href="#3、wc命令" class="headerlink" title="3、wc命令"></a>3、wc命令</h5><p>用于统计指定文本的行数（-l）、字数（-w）、字节数（-c），格式为“wc [参数] 文本”。</p>
+<h5 id="4、stat命令"><a href="#4、stat命令" class="headerlink" title="4、stat命令"></a>4、stat命令</h5><p>用于查看文件的具体存储信息和时间等信息，格式为“stat 文件名称”。</p>
+<h5 id="5、cut命令"><a href="#5、cut命令" class="headerlink" title="5、cut命令"></a>5、cut命令</h5><p>用于按“列”提取文本字符，格式为“cut [参数] 文本”。<br>使用-f 参数来设置需要看的列数，还需要使用-d 参数来设置间隔符号<br>示例：<code>cut -d: -f1 /etc/passwd</code></p>
+<h5 id="6、diff命令"><a href="#6、diff命令" class="headerlink" title="6、diff命令"></a>6、diff命令</h5><p>用于比较多个文本文件的差异，格式为“diff [参数] 文件”。</p>
+<h4 id="五、文件目录管理命令"><a href="#五、文件目录管理命令" class="headerlink" title="五、文件目录管理命令"></a>五、文件目录管理命令</h4><h5 id="1、touch命令"><a href="#1、touch命令" class="headerlink" title="1、touch命令"></a>1、touch命令</h5><p>用于创建空白文件或设置文件的时间，格式为“touch [选项] [文件]”。</p>
+<h5 id="2、mkdir命令"><a href="#2、mkdir命令" class="headerlink" title="2、mkdir命令"></a>2、mkdir命令</h5><p>用于创建空白的目录，格式为“mkdir [选项] 目录”。</p>
+<h5 id="3、cp命令"><a href="#3、cp命令" class="headerlink" title="3、cp命令"></a>3、cp命令</h5><p>用于复制文件或目录，格式为“cp [选项] 源文件 目标文件”。</p>
+<h5 id="4、mv命令"><a href="#4、mv命令" class="headerlink" title="4、mv命令"></a>4、mv命令</h5><p>用于剪切文件或将文件重命名，格式为“mv [选项] 源文件 [目标路径|目标文件名]”。</p>
+<h5 id="5、rm命令"><a href="#5、rm命令" class="headerlink" title="5、rm命令"></a>5、rm命令</h5><p>用于删除文件或目录，格式为“rm [选项] 文件”。</p>
+<h5 id="6、dd命令"><a href="#6、dd命令" class="headerlink" title="6、dd命令"></a>6、dd命令</h5><p>用于按照指定大小和个数的数据块来复制文件或转换文件，格式为“dd [参数]”。<br>dd 命令的参数及其作用</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>if</td>
+<td>输入的文件名称</td>
+</tr>
+<tr>
+<td>of</td>
+<td>输出的文件名称</td>
+</tr>
+<tr>
+<td>bs</td>
+<td>设置每个“块”的大小</td>
+</tr>
+<tr>
+<td>count</td>
+<td>设置要复制“块”的个数</td>
+</tr>
+</tbody>
+</table>
+<p>Linux系统中有一个名为/dev/zero 的设备文件，这个文件不会占用系统存储空间，但却可以提供无穷无尽的数据，因此可以使用它作为 dd命令的输入文件，来生成一个指定大小的文件。<br>例如我们可以用 dd 命令从/dev/zero 设备文件中取出一个大小为 560MB 的数据块，然后保存成名为 560_file 的文件。<br><code>dd if=/dev/zero of=560_file count=1 bs=560MB</code></p>
+<h5 id="7、file命令"><a href="#7、file命令" class="headerlink" title="7、file命令"></a>7、file命令</h5><p>用于查看文件的类型，格式为“file 文件名”。</p>
+<h4 id="六、打包压缩与搜索命令"><a href="#六、打包压缩与搜索命令" class="headerlink" title="六、打包压缩与搜索命令"></a>六、打包压缩与搜索命令</h4><h5 id="1、tar-命令"><a href="#1、tar-命令" class="headerlink" title="1、tar 命令"></a>1、tar 命令</h5><p>用于对文件进行打包压缩或解压，格式为“tar [选项] [文件]”。<br>tar 命令的参数及其作用</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-c</td>
+<td>创建压缩文件</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>解开压缩文件</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>查看压缩包内有哪些文件</td>
+</tr>
+<tr>
+<td>-z</td>
+<td>用 Gzip 压缩或解压</td>
+</tr>
+<tr>
+<td>-j</td>
+<td>用 bzip2 压缩或解压</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示压缩或解压的过程</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>目标文件名</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>保留原始的权限与属性</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>使用绝对路径来压缩</td>
+</tr>
+<tr>
+<td>-C</td>
+<td>指定解压到的目录</td>
+</tr>
+</tbody>
+</table>
+<p>注：-c 参数用于创建压缩文件，-x 参数用于解压文件，因此这两个参数不能同时使用。</p>
+<p>非常推荐使用-v 参数向用户不断显示压缩或解压的过程。</p>
+<ul>
+<li>-C 参数用于指定要解压到哪个指定的目录。</li>
+<li>-f 参数特别重要，它必须放到参数的最后一位，代表要压缩或解压的软件包名称。</li>
+</ul>
+<p>常用组合命令：<br><code>tar -czvf 压缩包名称.tar.gz 要打包的目录</code><br><code>tar -xzvf 压缩包名称.tar.gz -C 解压到的目录</code></p>
+<h5 id="2、grep命令"><a href="#2、grep命令" class="headerlink" title="2、grep命令"></a>2、grep命令</h5><p>用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。<br>grep 命令的参数及其作用</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-b</td>
+<td>将可执行文件（binary）当作文本文件（text）来搜索</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>仅显示找到的行数</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>反向选择—仅列出没有“关键词”的行</td>
+</tr>
+</tbody>
+</table>
+<p>最常用的参数：-n 参数用来显示搜索到信息的行号；-v 参数用于反选信息（即没有包含关键词的所有信息行）。</p>
+<h5 id="3、find命令"><a href="#3、find命令" class="headerlink" title="3、find命令"></a>3、find命令</h5><p>用于按照指定条件来查找文件，格式为“find [查找路径] 寻找条件 操作”。<br>find 命令中的参数以及作用</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-name</td>
+<td>匹配名称</td>
+</tr>
+<tr>
+<td>-perm</td>
+<td>匹配权限（mode 为完全匹配，-mode 为包含即可）</td>
+</tr>
+<tr>
+<td>-user</td>
+<td>匹配所有者</td>
+</tr>
+<tr>
+<td>-group</td>
+<td>匹配所有组</td>
+</tr>
+<tr>
+<td>-mtime -n +n</td>
+<td>匹配修改内容的时间（-n 指 n 天以内，+n 指 n 天以前）</td>
+</tr>
+<tr>
+<td>-atime -n +n</td>
+<td>匹配访问文件的时间（-n 指 n 天以内，+n 指 n 天以前）</td>
+</tr>
+<tr>
+<td>-ctime -n +n</td>
+<td>匹配修改文件权限的时间（-n 指 n 天以内，+n 指 n 天以前）</td>
+</tr>
+<tr>
+<td>-nouser</td>
+<td>匹配无所有者的文件</td>
+</tr>
+<tr>
+<td>-nogroup</td>
+<td>匹配无所有组的文件</td>
+</tr>
+<tr>
+<td>-newer f1 !f2</td>
+<td>匹配比文件 f1 新但比 f2 旧的文件</td>
+</tr>
+<tr>
+<td>–type b/d/c/p/l/f</td>
+<td>匹配文件类型（后面的字母参数依次表示块设备、目录、字符设备、管道、链接文件、文本文件）</td>
+</tr>
+<tr>
+<td>-size</td>
+<td>匹配文件的大小（+50KB 为查找超过 50KB 的文件，而-50KB 为查找小于 50KB 的文件）</td>
+</tr>
+<tr>
+<td>-prune</td>
+<td>忽略某个目录</td>
+</tr>
+<tr>
+<td>-exec …… {}\;</td>
+<td>后面可跟用于进一步处理搜索结果的命令（下文会有演示）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>重点是 “-exec {}  \;” 参数，其中的{}表示find命令搜索出的每一个文件，并且命令的结尾必须是“\;”。<br><code>[root@linuxprobe ~]# find / -user linuxprobe -exec cp -a {} /root/findresults/ \;</code></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/书籍/" rel="tag"># 书籍</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/12/Linux之常用知识点总结/" rel="next" title="Linux之常用知识点总结">
+                <i class="fa fa-chevron-left"></i> Linux之常用知识点总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/23/Shell常用知识点总结/" rel="prev" title="Shell常用知识点总结">
+                Shell常用知识点总结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">165</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、常用系统工作命令"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x5DE5;&#x4F5C;&#x547D;&#x4EE4;" class="headerlink" title="&#x4E00;&#x3001;&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x5DE5;&#x4F5C;&#x547D;&#x4EE4;"></a>&#x4E00;&#x3001;&#x5E38;&#x7528;&#x7CFB;&#x7EDF;&#x5DE5;&#x4F5C;&#x547D;&#x4EE4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、echo-选项-命令"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;echo-&#x9009;&#x9879;-&#x547D;&#x4EE4;" class="headerlink" title="1&#x3001;echo [&#x9009;&#x9879;] &#x547D;&#x4EE4;"></a>1&#x3001;echo [&#x9009;&#x9879;] &#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、date命令"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;date&#x547D;&#x4EE4;" class="headerlink" title="2&#x3001;date&#x547D;&#x4EE4;"></a>2&#x3001;date&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、reboot命令"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;reboot&#x547D;&#x4EE4;" class="headerlink" title="3&#x3001;reboot&#x547D;&#x4EE4;"></a>3&#x3001;reboot&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、poweroff命令"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#4&#x3001;poweroff&#x547D;&#x4EE4;" class="headerlink" title="4&#x3001;poweroff&#x547D;&#x4EE4;"></a>4&#x3001;poweroff&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、wget命令"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#5&#x3001;wget&#x547D;&#x4EE4;" class="headerlink" title="5&#x3001;wget&#x547D;&#x4EE4;"></a>5&#x3001;wget&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、ps命令"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#6&#x3001;ps&#x547D;&#x4EE4;" class="headerlink" title="6&#x3001;ps&#x547D;&#x4EE4;"></a>6&#x3001;ps&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7、top命令"><span class="nav-number">1.7.</span> <span class="nav-text"><a href="#7&#x3001;top&#x547D;&#x4EE4;" class="headerlink" title="7&#x3001;top&#x547D;&#x4EE4;"></a>7&#x3001;top&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#8、pidof命令"><span class="nav-number">1.8.</span> <span class="nav-text"><a href="#8&#x3001;pidof&#x547D;&#x4EE4;" class="headerlink" title="8&#x3001;pidof&#x547D;&#x4EE4;"></a>8&#x3001;pidof&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#9、kill命令"><span class="nav-number">1.9.</span> <span class="nav-text"><a href="#9&#x3001;kill&#x547D;&#x4EE4;" class="headerlink" title="9&#x3001;kill&#x547D;&#x4EE4;"></a>9&#x3001;kill&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#10、killall命令"><span class="nav-number">1.10.</span> <span class="nav-text"><a href="#10&#x3001;killall&#x547D;&#x4EE4;" class="headerlink" title="10&#x3001;killall&#x547D;&#x4EE4;"></a>10&#x3001;killall&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#11、ln-命令"><span class="nav-number">1.11.</span> <span class="nav-text"><a href="#11&#x3001;ln-&#x547D;&#x4EE4;" class="headerlink" title="11&#x3001;ln &#x547D;&#x4EE4;"></a>11&#x3001;ln &#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#12、scp-命令"><span class="nav-number">1.12.</span> <span class="nav-text"><a href="#12&#x3001;scp-&#x547D;&#x4EE4;" class="headerlink" title="12&#x3001;scp &#x547D;&#x4EE4;"></a>12&#x3001;scp &#x547D;&#x4EE4;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、系统状态检测命令"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x7CFB;&#x7EDF;&#x72B6;&#x6001;&#x68C0;&#x6D4B;&#x547D;&#x4EE4;" class="headerlink" title="&#x4E8C;&#x3001;&#x7CFB;&#x7EDF;&#x72B6;&#x6001;&#x68C0;&#x6D4B;&#x547D;&#x4EE4;"></a>&#x4E8C;&#x3001;&#x7CFB;&#x7EDF;&#x72B6;&#x6001;&#x68C0;&#x6D4B;&#x547D;&#x4EE4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、ifconfig命令"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;ifconfig&#x547D;&#x4EE4;" class="headerlink" title="1&#x3001;ifconfig&#x547D;&#x4EE4;"></a>1&#x3001;ifconfig&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、uname-命令"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;uname-&#x547D;&#x4EE4;" class="headerlink" title="2&#x3001;uname &#x547D;&#x4EE4;"></a>2&#x3001;uname &#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、uptime-命令"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3&#x3001;uptime-&#x547D;&#x4EE4;" class="headerlink" title="3&#x3001;uptime &#x547D;&#x4EE4;"></a>3&#x3001;uptime &#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、free-命令"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#4&#x3001;free-&#x547D;&#x4EE4;" class="headerlink" title="4&#x3001;free &#x547D;&#x4EE4;"></a>4&#x3001;free &#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、who命令"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#5&#x3001;who&#x547D;&#x4EE4;" class="headerlink" title="5&#x3001;who&#x547D;&#x4EE4;"></a>5&#x3001;who&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、last命令"><span class="nav-number">2.6.</span> <span class="nav-text"><a href="#6&#x3001;last&#x547D;&#x4EE4;" class="headerlink" title="6&#x3001;last&#x547D;&#x4EE4;"></a>6&#x3001;last&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7、history命令"><span class="nav-number">2.7.</span> <span class="nav-text"><a href="#7&#x3001;history&#x547D;&#x4EE4;" class="headerlink" title="7&#x3001;history&#x547D;&#x4EE4;"></a>7&#x3001;history&#x547D;&#x4EE4;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、工作目录切换命令"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x5207;&#x6362;&#x547D;&#x4EE4;" class="headerlink" title="&#x4E09;&#x3001;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x5207;&#x6362;&#x547D;&#x4EE4;"></a>&#x4E09;&#x3001;&#x5DE5;&#x4F5C;&#x76EE;&#x5F55;&#x5207;&#x6362;&#x547D;&#x4EE4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、pwd"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#1&#x3001;pwd" class="headerlink" title="1&#x3001;pwd"></a>1&#x3001;pwd</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、cd"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#2&#x3001;cd" class="headerlink" title="2&#x3001;cd"></a>2&#x3001;cd</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、ls"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#3&#x3001;ls" class="headerlink" title="3&#x3001;ls"></a>3&#x3001;ls</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、文本文件编辑命令"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x7F16;&#x8F91;&#x547D;&#x4EE4;" class="headerlink" title="&#x56DB;&#x3001;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x7F16;&#x8F91;&#x547D;&#x4EE4;"></a>&#x56DB;&#x3001;&#x6587;&#x672C;&#x6587;&#x4EF6;&#x7F16;&#x8F91;&#x547D;&#x4EE4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、查看文件"><span class="nav-number">4.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;" class="headerlink" title="1&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;"></a>1&#x3001;&#x67E5;&#x770B;&#x6587;&#x4EF6;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、tr命令"><span class="nav-number">4.2.</span> <span class="nav-text"><a href="#2&#x3001;tr&#x547D;&#x4EE4;" class="headerlink" title="2&#x3001;tr&#x547D;&#x4EE4;"></a>2&#x3001;tr&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、wc命令"><span class="nav-number">4.3.</span> <span class="nav-text"><a href="#3&#x3001;wc&#x547D;&#x4EE4;" class="headerlink" title="3&#x3001;wc&#x547D;&#x4EE4;"></a>3&#x3001;wc&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、stat命令"><span class="nav-number">4.4.</span> <span class="nav-text"><a href="#4&#x3001;stat&#x547D;&#x4EE4;" class="headerlink" title="4&#x3001;stat&#x547D;&#x4EE4;"></a>4&#x3001;stat&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、cut命令"><span class="nav-number">4.5.</span> <span class="nav-text"><a href="#5&#x3001;cut&#x547D;&#x4EE4;" class="headerlink" title="5&#x3001;cut&#x547D;&#x4EE4;"></a>5&#x3001;cut&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、diff命令"><span class="nav-number">4.6.</span> <span class="nav-text"><a href="#6&#x3001;diff&#x547D;&#x4EE4;" class="headerlink" title="6&#x3001;diff&#x547D;&#x4EE4;"></a>6&#x3001;diff&#x547D;&#x4EE4;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、文件目录管理命令"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x4E94;&#x3001;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x7BA1;&#x7406;&#x547D;&#x4EE4;" class="headerlink" title="&#x4E94;&#x3001;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x7BA1;&#x7406;&#x547D;&#x4EE4;"></a>&#x4E94;&#x3001;&#x6587;&#x4EF6;&#x76EE;&#x5F55;&#x7BA1;&#x7406;&#x547D;&#x4EE4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、touch命令"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#1&#x3001;touch&#x547D;&#x4EE4;" class="headerlink" title="1&#x3001;touch&#x547D;&#x4EE4;"></a>1&#x3001;touch&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、mkdir命令"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#2&#x3001;mkdir&#x547D;&#x4EE4;" class="headerlink" title="2&#x3001;mkdir&#x547D;&#x4EE4;"></a>2&#x3001;mkdir&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、cp命令"><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#3&#x3001;cp&#x547D;&#x4EE4;" class="headerlink" title="3&#x3001;cp&#x547D;&#x4EE4;"></a>3&#x3001;cp&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、mv命令"><span class="nav-number">5.4.</span> <span class="nav-text"><a href="#4&#x3001;mv&#x547D;&#x4EE4;" class="headerlink" title="4&#x3001;mv&#x547D;&#x4EE4;"></a>4&#x3001;mv&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、rm命令"><span class="nav-number">5.5.</span> <span class="nav-text"><a href="#5&#x3001;rm&#x547D;&#x4EE4;" class="headerlink" title="5&#x3001;rm&#x547D;&#x4EE4;"></a>5&#x3001;rm&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、dd命令"><span class="nav-number">5.6.</span> <span class="nav-text"><a href="#6&#x3001;dd&#x547D;&#x4EE4;" class="headerlink" title="6&#x3001;dd&#x547D;&#x4EE4;"></a>6&#x3001;dd&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7、file命令"><span class="nav-number">5.7.</span> <span class="nav-text"><a href="#7&#x3001;file&#x547D;&#x4EE4;" class="headerlink" title="7&#x3001;file&#x547D;&#x4EE4;"></a>7&#x3001;file&#x547D;&#x4EE4;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六、打包压缩与搜索命令"><span class="nav-number">6.</span> <span class="nav-text"><a href="#&#x516D;&#x3001;&#x6253;&#x5305;&#x538B;&#x7F29;&#x4E0E;&#x641C;&#x7D22;&#x547D;&#x4EE4;" class="headerlink" title="&#x516D;&#x3001;&#x6253;&#x5305;&#x538B;&#x7F29;&#x4E0E;&#x641C;&#x7D22;&#x547D;&#x4EE4;"></a>&#x516D;&#x3001;&#x6253;&#x5305;&#x538B;&#x7F29;&#x4E0E;&#x641C;&#x7D22;&#x547D;&#x4EE4;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、tar-命令"><span class="nav-number">6.1.</span> <span class="nav-text"><a href="#1&#x3001;tar-&#x547D;&#x4EE4;" class="headerlink" title="1&#x3001;tar &#x547D;&#x4EE4;"></a>1&#x3001;tar &#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、grep命令"><span class="nav-number">6.2.</span> <span class="nav-text"><a href="#2&#x3001;grep&#x547D;&#x4EE4;" class="headerlink" title="2&#x3001;grep&#x547D;&#x4EE4;"></a>2&#x3001;grep&#x547D;&#x4EE4;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、find命令"><span class="nav-number">6.3.</span> <span class="nav-text"><a href="#3&#x3001;find&#x547D;&#x4EE4;" class="headerlink" title="3&#x3001;find&#x547D;&#x4EE4;"></a>3&#x3001;find&#x547D;&#x4EE4;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
