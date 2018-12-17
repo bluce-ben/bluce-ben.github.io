@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="1、端口概述在Internet上，各主机间通过TCP/TP协议发送和接收数据报，各个数据报根据其目的主机的ip地址来进行互联网络中的路由选择。可见，把数据报顺利的传送到目的主机是没有问题的。问题出在哪里呢?我们知道大多数操作系统都支持多程序（进程）同时运行，那么目的主机应该把接收到的数据报传送给众多同时运行的进程中的哪一个呢？显然这个问题有待解决，端口机制便由此被引入进来。  请注意，端口号只具有">
+<meta name="keywords" content="计算机网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络之端口解析">
+<meta property="og:url" content="http://yoursite.com/2018/12/17/计算机网络之端口解析/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="1、端口概述在Internet上，各主机间通过TCP/TP协议发送和接收数据报，各个数据报根据其目的主机的ip地址来进行互联网络中的路由选择。可见，把数据报顺利的传送到目的主机是没有问题的。问题出在哪里呢?我们知道大多数操作系统都支持多程序（进程）同时运行，那么目的主机应该把接收到的数据报传送给众多同时运行的进程中的哪一个呢？显然这个问题有待解决，端口机制便由此被引入进来。  请注意，端口号只具有">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_mtu_001.jpg">
+<meta property="og:updated_time" content="2018-12-17T08:30:15.267Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机网络之端口解析">
+<meta name="twitter:description" content="1、端口概述在Internet上，各主机间通过TCP/TP协议发送和接收数据报，各个数据报根据其目的主机的ip地址来进行互联网络中的路由选择。可见，把数据报顺利的传送到目的主机是没有问题的。问题出在哪里呢?我们知道大多数操作系统都支持多程序（进程）同时运行，那么目的主机应该把接收到的数据报传送给众多同时运行的进程中的哪一个呢？显然这个问题有待解决，端口机制便由此被引入进来。  请注意，端口号只具有">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/12/network_mtu_001.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/17/计算机网络之端口解析/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>计算机网络之端口解析 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/计算机网络之端口解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">计算机网络之端口解析</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-17T16:26:03+08:00">
+                2018-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/12/17/计算机网络之端口解析/" class="leancloud_visitors" data-flag-title="计算机网络之端口解析">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="1、端口概述"><a href="#1、端口概述" class="headerlink" title="1、端口概述"></a>1、端口概述</h4><p>在Internet上，各主机间通过TCP/TP协议发送和接收数据报，各个数据报根据其目的主机的ip地址来进行互联网络中的路由选择。可见，把数据报顺利的传送到目的主机是没有问题的。问题出在哪里呢?我们知道大多数操作系统都支持多程序（进程）同时运行，那么目的主机应该把接收到的数据报传送给众多同时运行的进程中的哪一个呢？显然这个问题有待解决，端口机制便由此被引入进来。</p>
+<blockquote>
+<p>请注意，端口号只具有本地意义（即只对本地机器来说才有意义），它只是为了标志本计算机应用层中的各个进程在和传输层交互时的层间接口。</p>
+</blockquote>
+<a id="more"></a>
+<p>本地操作系统会给那些有需求的进程分配协议端口 （protocal port，即我们常说的端口），每个协议端口由一个正整数标识，如：80，139，445，等等。当目的主机接收到数据报后，将根据报文首部的目的端口号，把数据发送到相应端口，而与此端口相对应的那个进程将会领取数据并等待下一组数据的到来。</p>
+<p>端口其实就是队，操作系统为各个进程分配了不同的队，数据报按照目的端口被推入相应的队中，等待被进程取用，在极特殊的情况下，这个队也是有可能溢出的，不过操作系统允许各进程指定和调整自己的队的大小。</p>
+<p>不光接受数据报的进程需要开启它自己的端口，发送数据报的进程也需要开启端口，这样，数据报中将会标识有源端口，以便接受方能顺利的回传数据报到这个端口。</p>
+<blockquote>
+<p>传输层标识的端口号用16位来表示，说明只能允许有65535（2^16-1）个不同的端口号。</p>
+</blockquote>
+<h4 id="2、端口分类"><a href="#2、端口分类" class="headerlink" title="2、端口分类"></a>2、端口分类</h4><h5 id="（1）服务器端使用的端口号"><a href="#（1）服务器端使用的端口号" class="headerlink" title="（1）服务器端使用的端口号"></a>（1）服务器端使用的端口号</h5><p>这里又分为两类，最重要的一类叫做熟知端口号（well-known port number）或系统端口号，数值为0~1023。可在网址 <a href="http://www.iana.org查到。" target="_blank" rel="noopener">www.iana.org查到。</a><br>IANA把这些端口号指派给了TCP/IP最重要的一些应用程序，让所有的用户都知道。下面给出一些常用的熟知端口号：</p>
+<table>
+<thead>
+<tr>
+<th>应用程序</th>
+<th>FTP</th>
+<th>TELNET</th>
+<th>SMTP</th>
+<th>DNS</th>
+<th>TFTP</th>
+<th>HTTP</th>
+<th>SNMP</th>
+<th>SNMP(trap)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>熟知端口号</td>
+<td>21</td>
+<td>23</td>
+<td>25</td>
+<td>53</td>
+<td>69</td>
+<td>80</td>
+<td>161</td>
+<td>162</td>
+</tr>
+</tbody>
+</table>
+<p>另一类叫做登记端口号，数值为 1024~49151。这类端口号是为没有熟知端口号的应用程序使用的。使用这类端口号必须在IANA按照规定的手续登记，以防止重复。</p>
+<h5 id="（2）客户端使用的端口号数值为-49152-65535。由于这类端口号仅在客户进程运行时才动态选择，因此又叫做短暂端口号。这类端口号是留给客户进程选择暂时使用。"><a href="#（2）客户端使用的端口号数值为-49152-65535。由于这类端口号仅在客户进程运行时才动态选择，因此又叫做短暂端口号。这类端口号是留给客户进程选择暂时使用。" class="headerlink" title="（2）客户端使用的端口号数值为 49152~65535。由于这类端口号仅在客户进程运行时才动态选择，因此又叫做短暂端口号。这类端口号是留给客户进程选择暂时使用。"></a>（2）客户端使用的端口号数值为 49152~65535。由于这类端口号仅在客户进程运行时才动态选择，因此又叫做短暂端口号。这类端口号是留给客户进程选择暂时使用。</h5><blockquote>
+<p>短暂端口（ephemeral port）表示这种端口的存在时间是短期的。客户进程并不在意操作系统给它分配的是哪一个端口号，因为客户进程之所以必须有一个端口号（在本地主机中必须是唯一的），是为了让传输层的实体能够找到自己。这和熟知端口不同。服务器机器一接通电源，服务器程序就运行起来。为了让因特网上所有的客户程序都能够找到服务器程序，服务器程序所使用的端口（即熟知端口）就必须是固定的，并且是众所周知的。</p>
+</blockquote>
+<h4 id="端口在入侵中的作用"><a href="#端口在入侵中的作用" class="headerlink" title="端口在入侵中的作用"></a>端口在入侵中的作用</h4><p>有人曾经把服务器比作房子，而把端口比作通向不同房间（服务）的门，如果不考虑细节的话，这是一个不错的比喻。入侵者要占领这间房子，势必要破门而入（物理入侵另说），那么对于入侵者来说，了解房子开了几扇门，都是什么样的门，门后面有什么东西就显得至关重要。<br>　 入侵者通常会用扫描器对目标主机的端口进行扫描，以确定哪些端口是开放的，从开放的端口，入侵者可以知道目标主机大致提供了哪些服务，进而猜测可能存在的漏洞，因此对端口的扫描可以帮助我们更好的了解目标主机，而对于管理员，扫描本机的开放端口也是做好安全防范的第一步。</p>
+<h4 id="端口大小设置"><a href="#端口大小设置" class="headerlink" title="端口大小设置"></a>端口大小设置</h4><blockquote>
+<p>端口大小需要先了解MTU是什么？<br>MTU是Maximum Transmission Unit的缩写，意思是网络上传送的最大数据包，它的的单位是字节。</p>
+</blockquote>
+<blockquote>
+<p>大部分网络设备都是1500。如果本机的MTU比网关的MTU大，大的数据包就会被拆开来传送，这样会产生很多数据包碎片，增加丢包率，降低网络速度。把本机的MTU设成比网关的MTU小或相同，就可以减少丢包 。通俗的说也就是，如果你上传一个大的文件，速度非常慢，可能就是这种原因，当你把MTU值改小时，就可以解决。</p>
+</blockquote>
+<p><strong>查看本机的mtu ：</strong> <code>netstat -i</code></p>
+<p><strong>设置本机的mtu ：</strong> <code>echo &quot;1450&quot; &gt; /sys/class/net/eth0/mtu</code> 或直接编辑eth1网卡配置文件。</p>
+<blockquote>
+<p>扩展：不同的协议层对数据包有不同的称谓，在传输层叫做段（segment），在网络层叫做数据报（datagram），在链路层叫做帧（frame）。数据封装成帧后发到传输介质上，到达目的主机后每层协议再剥掉相应的首部，最后将应用层数据交给应用程序处理。</p>
+</blockquote>
+<p>在应用程序中我们用到的Data的长度最大是多少，直接取决于底层的限制。<br>我们从下到上分析一下：</p>
+<ol>
+<li>在链路层，由以太网的物理特性决定了数据帧的长度为(46＋18)－(1500＋18)，其中的18是数据帧的头和尾，也就是说数据帧的内容最大为1500(不包括帧头和帧尾)，即MTU(Maximum Transmission Unit)为1500；</li>
+<li>在网络层，因为IP包的首部要占用20字节，所以这的MTU为1500－20＝1480；</li>
+<li>在传输层，对于UDP包的首部要占用8字节，所以这的MTU为1480－8＝1472；（注：TCP的首部要占用20字节）　　</li>
+</ol>
+<p>所以，在应用层，你的Data最大长度为1472。当我们的UDP包中的数据多于MTU(1472)时，发送方的IP层需要分片fragmentation进行传输，而在接收方IP层则需要进行数据报重组，由于UDP是不可靠的传输协议，如果分片丢失导致重组失败，将导致UDP数据包被丢弃。</p>
+<blockquote>
+<p><img src="/uploads/2018/12/network_mtu_001.jpg" alt=""><br>由于以太网EthernetII最大的数据帧是1518Bytes这样，刨去以太网帧的帧头（DMAC目的MAC地址48bits=6Bytes+SMAC源MAC地址48bits=6Bytes+Type域2Bytes）14Bytes和帧尾CRC校验部分4Bytes那么剩下承载上层协议的地方也就是Data域最大就只能有1500Bytes这个值我们就把它称之为MTU。</p>
+</blockquote>
+<blockquote>
+<p>如果我们定义的TCP和UDP包没有超过范围，那么我们的包在IP层就不用分包了，这样传输过程中就避免了在IP层组包发生的错误；如果超过范围，既IP数据报大于1500字节，发送方IP层就需要将数据包分成若干片，而接收方IP层就需要进行数据报的重组。更严重的是，如果使用UDP协议，当IP层组包发生错误，那么包就会被丢弃。接收方无法重组数据报，将导致丢弃整个IP数据报。UDP不保证可靠传输；但是TCP发生组包错误时，该包会被重传，保证可靠传输。</p>
+</blockquote>
+<p>UDP数据报的长度是指包括报头和数据部分在内的总字节数，其中报头长度固定，数据部分可变。数据报的最大长度根据操作环境的不同而各异。从理论上说，包含报头在内的数据报的最大长度为65535字节(64K)。</p>
+<blockquote>
+<p>注：此处的最大字节数，为系统内核缓存区大小。现在默认值已经不是65535字节，可依据机器查询。<br><code>cat /proc/sys/net/core/rmem_max</code>    //读缓存区，单位字节<br>16777216<br><code>cat /proc/sys/net/core/wmem_max</code>    //写缓存区，单位字节<br>16777216<br><code>cat /proc/sys/net/core/rmem_default</code>    //默认读缓存区<br>8388608<br><code>cat /proc/sys/net/core/wmem_default</code>    //默认写缓存区<br>8388608</p>
+</blockquote>
+<p>我们在用Socket编程时，UDP协议要求包小于64K（需要减去IP头(20)+UDP头(8)=65507，否则用sendto函数发送数据会返回错误）。TCP没有限定，TCP包头中就没有“包长度”字段，而完全依靠IP层去处理分帧。这就是为什么TCP常常被称作一种“流协议”的原因，开发者在使用TCP服务的时候，不必去关心数据包的大小，只需讲SOCKET看作一条数据流的入口，往里面放数据就是了，TCP协议本身会进行拥塞/流量控制。</p>
+<h4 id="端口阻塞问题？（自我理解，不一定正确。待后期确认）"><a href="#端口阻塞问题？（自我理解，不一定正确。待后期确认）" class="headerlink" title="端口阻塞问题？（自我理解，不一定正确。待后期确认）"></a>端口阻塞问题？（自我理解，不一定正确。待后期确认）</h4><p>端口号仅仅是为了区别本地机器的进程用的，并不会出现阻塞问题。出现阻塞问题，也都是一些TCP方面的，或者是IP层面的。</p>
+<p>传输层或网络层的发送与接收缓存打满，导致阻塞丢失数据问题，出现阻塞。（这就是为什么TCP有拥塞控制。需要检测拥塞和减少包的发送率，降低拥塞，避免网络瘫痪。）</p>
+<p>（注：一般不会说UDP会阻塞网络，因为UDP是不可靠的传输，因此如果有阻塞发生，UDP就会丢包，没有重传机制。造成阻塞的情况，可能就是源主机一直发送数据，导致拥塞，造成网络不能正常收发数据。）</p>
+<p>还有就是进程阻塞问题。 一般不会说端口阻塞。端口只会被禁止，通过防火墙一类的限制。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/17/计算机网络之TCP、UDP解析/" rel="next" title="计算机网络之TCP、UDP解析">
+                <i class="fa fa-chevron-left"></i> 计算机网络之TCP、UDP解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/17/转-计算机网络之端口问题/" rel="prev" title="[转]计算机网络之端口问题">
+                [转]计算机网络之端口问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">169</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1、端口概述"><span class="nav-number">1.</span> <span class="nav-text"><a href="#1&#x3001;&#x7AEF;&#x53E3;&#x6982;&#x8FF0;" class="headerlink" title="1&#x3001;&#x7AEF;&#x53E3;&#x6982;&#x8FF0;"></a>1&#x3001;&#x7AEF;&#x53E3;&#x6982;&#x8FF0;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2、端口分类"><span class="nav-number">2.</span> <span class="nav-text"><a href="#2&#x3001;&#x7AEF;&#x53E3;&#x5206;&#x7C7B;" class="headerlink" title="2&#x3001;&#x7AEF;&#x53E3;&#x5206;&#x7C7B;"></a>2&#x3001;&#x7AEF;&#x53E3;&#x5206;&#x7C7B;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）服务器端使用的端口号"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x4F7F;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x53F7;" class="headerlink" title="&#xFF08;1&#xFF09;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x4F7F;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x53F7;"></a>&#xFF08;1&#xFF09;&#x670D;&#x52A1;&#x5668;&#x7AEF;&#x4F7F;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x53F7;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）客户端使用的端口号数值为-49152-65535。由于这类端口号仅在客户进程运行时才动态选择，因此又叫做短暂端口号。这类端口号是留给客户进程选择暂时使用。"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x53F7;&#x6570;&#x503C;&#x4E3A;-49152-65535&#x3002;&#x7531;&#x4E8E;&#x8FD9;&#x7C7B;&#x7AEF;&#x53E3;&#x53F7;&#x4EC5;&#x5728;&#x5BA2;&#x6237;&#x8FDB;&#x7A0B;&#x8FD0;&#x884C;&#x65F6;&#x624D;&#x52A8;&#x6001;&#x9009;&#x62E9;&#xFF0C;&#x56E0;&#x6B64;&#x53C8;&#x53EB;&#x505A;&#x77ED;&#x6682;&#x7AEF;&#x53E3;&#x53F7;&#x3002;&#x8FD9;&#x7C7B;&#x7AEF;&#x53E3;&#x53F7;&#x662F;&#x7559;&#x7ED9;&#x5BA2;&#x6237;&#x8FDB;&#x7A0B;&#x9009;&#x62E9;&#x6682;&#x65F6;&#x4F7F;&#x7528;&#x3002;" class="headerlink" title="&#xFF08;2&#xFF09;&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x53F7;&#x6570;&#x503C;&#x4E3A; 49152~65535&#x3002;&#x7531;&#x4E8E;&#x8FD9;&#x7C7B;&#x7AEF;&#x53E3;&#x53F7;&#x4EC5;&#x5728;&#x5BA2;&#x6237;&#x8FDB;&#x7A0B;&#x8FD0;&#x884C;&#x65F6;&#x624D;&#x52A8;&#x6001;&#x9009;&#x62E9;&#xFF0C;&#x56E0;&#x6B64;&#x53C8;&#x53EB;&#x505A;&#x77ED;&#x6682;&#x7AEF;&#x53E3;&#x53F7;&#x3002;&#x8FD9;&#x7C7B;&#x7AEF;&#x53E3;&#x53F7;&#x662F;&#x7559;&#x7ED9;&#x5BA2;&#x6237;&#x8FDB;&#x7A0B;&#x9009;&#x62E9;&#x6682;&#x65F6;&#x4F7F;&#x7528;&#x3002;"></a>&#xFF08;2&#xFF09;&#x5BA2;&#x6237;&#x7AEF;&#x4F7F;&#x7528;&#x7684;&#x7AEF;&#x53E3;&#x53F7;&#x6570;&#x503C;&#x4E3A; 49152~65535&#x3002;&#x7531;&#x4E8E;&#x8FD9;&#x7C7B;&#x7AEF;&#x53E3;&#x53F7;&#x4EC5;&#x5728;&#x5BA2;&#x6237;&#x8FDB;&#x7A0B;&#x8FD0;&#x884C;&#x65F6;&#x624D;&#x52A8;&#x6001;&#x9009;&#x62E9;&#xFF0C;&#x56E0;&#x6B64;&#x53C8;&#x53EB;&#x505A;&#x77ED;&#x6682;&#x7AEF;&#x53E3;&#x53F7;&#x3002;&#x8FD9;&#x7C7B;&#x7AEF;&#x53E3;&#x53F7;&#x662F;&#x7559;&#x7ED9;&#x5BA2;&#x6237;&#x8FDB;&#x7A0B;&#x9009;&#x62E9;&#x6682;&#x65F6;&#x4F7F;&#x7528;&#x3002;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#端口在入侵中的作用"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x7AEF;&#x53E3;&#x5728;&#x5165;&#x4FB5;&#x4E2D;&#x7684;&#x4F5C;&#x7528;" class="headerlink" title="&#x7AEF;&#x53E3;&#x5728;&#x5165;&#x4FB5;&#x4E2D;&#x7684;&#x4F5C;&#x7528;"></a>&#x7AEF;&#x53E3;&#x5728;&#x5165;&#x4FB5;&#x4E2D;&#x7684;&#x4F5C;&#x7528;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#端口大小设置"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x7AEF;&#x53E3;&#x5927;&#x5C0F;&#x8BBE;&#x7F6E;" class="headerlink" title="&#x7AEF;&#x53E3;&#x5927;&#x5C0F;&#x8BBE;&#x7F6E;"></a>&#x7AEF;&#x53E3;&#x5927;&#x5C0F;&#x8BBE;&#x7F6E;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#端口阻塞问题？（自我理解，不一定正确。待后期确认）"><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x7AEF;&#x53E3;&#x963B;&#x585E;&#x95EE;&#x9898;&#xFF1F;&#xFF08;&#x81EA;&#x6211;&#x7406;&#x89E3;&#xFF0C;&#x4E0D;&#x4E00;&#x5B9A;&#x6B63;&#x786E;&#x3002;&#x5F85;&#x540E;&#x671F;&#x786E;&#x8BA4;&#xFF09;" class="headerlink" title="&#x7AEF;&#x53E3;&#x963B;&#x585E;&#x95EE;&#x9898;&#xFF1F;&#xFF08;&#x81EA;&#x6211;&#x7406;&#x89E3;&#xFF0C;&#x4E0D;&#x4E00;&#x5B9A;&#x6B63;&#x786E;&#x3002;&#x5F85;&#x540E;&#x671F;&#x786E;&#x8BA4;&#xFF09;"></a>&#x7AEF;&#x53E3;&#x963B;&#x585E;&#x95EE;&#x9898;&#xFF1F;&#xFF08;&#x81EA;&#x6211;&#x7406;&#x89E3;&#xFF0C;&#x4E0D;&#x4E00;&#x5B9A;&#x6B63;&#x786E;&#x3002;&#x5F85;&#x540E;&#x671F;&#x786E;&#x8BA4;&#xFF09;</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
