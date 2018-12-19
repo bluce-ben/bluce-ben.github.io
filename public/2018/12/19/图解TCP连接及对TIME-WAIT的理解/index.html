@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="环境说明：访问路径：http://118.24.8.229/index.htmlindex.html代码：123www.zhengbenwu.com&amp;lt;img src=&amp;quot;./apple.jpg&amp;quot; /&amp;gt;&amp;lt;img src=&amp;quot;./ceshi.webp&amp;quot; /&amp;gt; 监控工具：Wireshark监控筛选条件：ip.addr == 118.24.8.2">
+<meta name="keywords" content="计算机网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图解TCP连接及对TIME_WAIT的理解">
+<meta property="og:url" content="http://yoursite.com/2018/12/19/图解TCP连接及对TIME-WAIT的理解/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="环境说明：访问路径：http://118.24.8.229/index.htmlindex.html代码：123www.zhengbenwu.com&amp;lt;img src=&amp;quot;./apple.jpg&amp;quot; /&amp;gt;&amp;lt;img src=&amp;quot;./ceshi.webp&amp;quot; /&amp;gt; 监控工具：Wireshark监控筛选条件：ip.addr == 118.24.8.2">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_wireshark_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_client_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_file_01.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_file_02.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_file_03.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_unconnect.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_client_02.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_02.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_client_03.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_03.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_wireshark_02.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_04.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_05.png">
+<meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_06.png">
+<meta property="og:updated_time" content="2018-12-19T11:24:15.086Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图解TCP连接及对TIME_WAIT的理解">
+<meta name="twitter:description" content="环境说明：访问路径：http://118.24.8.229/index.htmlindex.html代码：123www.zhengbenwu.com&amp;lt;img src=&amp;quot;./apple.jpg&amp;quot; /&amp;gt;&amp;lt;img src=&amp;quot;./ceshi.webp&amp;quot; /&amp;gt; 监控工具：Wireshark监控筛选条件：ip.addr == 118.24.8.2">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2018/12/network_tcp_wireshark_01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/19/图解TCP连接及对TIME-WAIT的理解/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>图解TCP连接及对TIME_WAIT的理解 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/图解TCP连接及对TIME-WAIT的理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">图解TCP连接及对TIME_WAIT的理解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T19:14:58+08:00">
+                2018-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/12/19/图解TCP连接及对TIME-WAIT的理解/" class="leancloud_visitors" data-flag-title="图解TCP连接及对TIME_WAIT的理解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="环境说明："><a href="#环境说明：" class="headerlink" title="环境说明："></a>环境说明：</h4><p>访问路径：<a href="http://118.24.8.229/index.html" target="_blank" rel="noopener">http://118.24.8.229/index.html</a><br>index.html代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;./ceshi.webp&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>监控工具：Wireshark<br>监控筛选条件：<code>ip.addr == 118.24.8.229 &amp;&amp; tcp.port == 80</code><br><a id="more"></a></p>
+<h4 id="监控说明："><a href="#监控说明：" class="headerlink" title="监控说明："></a>监控说明：</h4><h5 id="（1）建立连接"><a href="#（1）建立连接" class="headerlink" title="（1）建立连接"></a>（1）建立连接</h5><p><img src="/uploads/2018/12/network_tcp_wireshark_01.png" alt=""><br>客户端开启了3个连接请求，相应的客户端也会占用3个端口：59746、59747、59748。通过三次握手建立连接，图示连接建立过程很清晰。</p>
+<p>客户端监控端口：<br><img src="/uploads/2018/12/network_tcp_client_01.png" alt=""></p>
+<p>服务端监控端口：<br><img src="/uploads/2018/12/network_tcp_server_01.png" alt=""></p>
+<h5 id="（2）传输数据"><a href="#（2）传输数据" class="headerlink" title="（2）传输数据"></a>（2）传输数据</h5><p>index.html 文件传输：通过59747端口传输<br><img src="/uploads/2018/12/network_tcp_file_01.png" alt=""></p>
+<p>apple.jpg 文件传输：通过59747端口传输<br><img src="/uploads/2018/12/network_tcp_file_02.png" alt=""></p>
+<p>ceshi.webp 文件传输：通过59748端口传输<br><img src="/uploads/2018/12/network_tcp_file_03.png" alt=""></p>
+<h5 id="（3）断开连接"><a href="#（3）断开连接" class="headerlink" title="（3）断开连接"></a>（3）断开连接</h5><p><img src="/uploads/2018/12/network_tcp_unconnect.png" alt=""><br>① 59746端口连接<br>由图示可以看出，首先断开的是59746端口的连接，且是客户端主动断开连接。因此，客户端会产生TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_client_02.png" alt=""><br><img src="/uploads/2018/12/network_tcp_server_02.png" alt=""></p>
+<blockquote>
+<p>要注意的是，在此URL请求里，客户端建立的59746端口连接并没有用到；并且，很快就被断开了，并没有保持持久连接检测。</p>
+</blockquote>
+<p>② 59747、59748端口连接<br>由上图示可以看出来，这两个端口是服务端主动断开连接的。中间客户端发送了 Keep-Alive保持连接，之后服务端在keepalive_timeout到时间后，自动断开了连接。因此，服务端会产生TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_client_03.png" alt=""><br><img src="/uploads/2018/12/network_tcp_server_03.png" alt=""></p>
+<blockquote>
+<p>由此可知道，网站如果量比较大的话，尽量不要使用长连接，会产生大量的TIME_WAIT，导致网站瘫痪。<br>量大的话，服务器可采用降配横向扩展，多部署几台服务器，提高端口数量，降低TIME_WAIT。</p>
+</blockquote>
+<h4 id="问题思考："><a href="#问题思考：" class="headerlink" title="问题思考："></a>问题思考：</h4><h5 id="长连接中TCP是如何请求的？"><a href="#长连接中TCP是如何请求的？" class="headerlink" title="长连接中TCP是如何请求的？"></a>长连接中TCP是如何请求的？</h5><p>实验一：客户端请求连接中，有多个额外请求时，TCP使用是怎么样的？<br>服务端程序改成：<br>（1）1个html和1个图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>结论：<br>客户端仍然会产生3个TCP连接，并且由于html的数据量少，导致服务端只使用了一个TCP连接就传输了html页面和图片数据。客户端产生2个TIME_WAIT，服务端产生1个TIME_WAIT。</p>
+<p>（2）1个html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br></pre></td></tr></table></figure></p>
+<p>结论：<br>客户端仍然会产生3个TCP连接，传输数据的TCP连接会保持持久连接，其余未传输数据的客户端会主动断开连接，不检测持久连接。客户端产生2个TIME_WAIT，服务端产生1个TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_wireshark_02.png" alt=""></p>
+<p>（3）1个html和4个图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;./ceshi.webp&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;./timg.jpg&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;./test001.jpg&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+<p>结论：<br>客户端初始仍会产生3个TCP连接，首先建立连接的TCP会先传输html数据，当传输完成后，会自动的继续传输前3个图片，当发现3个TCP连接都用完后，仍有一个图片未传输，客户端会再新建一个TCP连接，用于传输第四个图片。 此时，TCP连接建立了4个，且都会检测是否保持持久连接，因此最后服务端会产生4个TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_server_04.png" alt=""></p>
+<p>（4）1个html和7个图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./ceshi.webp&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./timg.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test001.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test002.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test003.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test004.jpg&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>结论：<br>客户端初始会产生6个TCP连接，并且复用连接。断开TCP连接的是服务端，因此最后服务端会产生6个TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_server_05.png" alt=""></p>
+<p>解决方案：<br>线上环境可使用负载均衡。</p>
+<h5 id="短连接中TCP是如何请求的？"><a href="#短连接中TCP是如何请求的？" class="headerlink" title="短连接中TCP是如何请求的？"></a>短连接中TCP是如何请求的？</h5><p>实验二：使用短连接（在服务端Nginx配置 <code>keepalive_timeout 0;</code>）<br>（1）1个html和7个图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./ceshi.webp&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./timg.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test001.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test002.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test003.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test004.jpg&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>结论：<br>在使用短连接的情况下，每个请求都会建立一个TCP连接，不会复用。并且，测试显示都是服务端断开的连接，因此服务端会产生TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_server_06.png" alt=""></p>
+<h5 id="TIME-WAIT在服务端与客户端的理解"><a href="#TIME-WAIT在服务端与客户端的理解" class="headerlink" title="TIME_WAIT在服务端与客户端的理解"></a>TIME_WAIT在服务端与客户端的理解</h5><p>我理解的TIME_WAIT有两种，一种是作为客户端产生的TIME_WAIT，一种是作为服务端产生的TIME_WAIT。<br>这里，我们先说一下请求的过程。首先，客户端会新建一个进程，并随机分配一个端口号，来与服务端的固定端口号进行连接建立。因此，这一条请求就有两个端口，一个是客户端的随机端口，一个是服务端的固定端口。那么，下面来说结论：<br>① 对于客户端来说<br>客户端主动断开连接，TIME_WAIT产生在客户端。那么，服务端的这条TCP连接会被迅速回收；而客户端会耗时2MSL才被回收，端口才会被释放。</p>
+<p>② 对于服务端来说<br>服务端主动断开连接，TIME_WAIT产生在服务端。客户端的TCP连接会被迅速回收，端口释放，重复使用；而服务端会耗时2MSL才会释放该条连接。</p>
+<p>请注意，这里服务端与TCP建立连接并没有占用端口号，服务端的固定端口号一直在监听服务，并不会被请求占用，而是复用端口。这里与客户端建立连接的是服务端的线程或子进程，会复制主进程的资源，进行处理请求，然后，返回给客户端。<br>因此，服务端产生的TIME_WAIT并不会消耗端口号，只会消耗线程或子进程资源。当请求量达到服务器承载的极限值时，服务端会返回错误。</p>
+<font color="red">（注：由上可知，一般说的TIME_WAIT，是指服务端作为客户端发起的请求产生的TIME_WAIT。过多会导致端口号不够，造成错误。）</font>
+
+
+<h5 id="那端会产生TIME-WAIT"><a href="#那端会产生TIME-WAIT" class="headerlink" title="那端会产生TIME_WAIT"></a>那端会产生TIME_WAIT</h5><p>待续…</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/17/计算机网络之URL基础知识/" rel="next" title="计算机网络之URL基础知识">
+                <i class="fa fa-chevron-left"></i> 计算机网络之URL基础知识
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">170</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#环境说明："><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x73AF;&#x5883;&#x8BF4;&#x660E;&#xFF1A;" class="headerlink" title="&#x73AF;&#x5883;&#x8BF4;&#x660E;&#xFF1A;"></a>&#x73AF;&#x5883;&#x8BF4;&#x660E;&#xFF1A;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#监控说明："><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x76D1;&#x63A7;&#x8BF4;&#x660E;&#xFF1A;" class="headerlink" title="&#x76D1;&#x63A7;&#x8BF4;&#x660E;&#xFF1A;"></a>&#x76D1;&#x63A7;&#x8BF4;&#x660E;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#（1）建立连接"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#xFF08;1&#xFF09;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;" class="headerlink" title="&#xFF08;1&#xFF09;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;"></a>&#xFF08;1&#xFF09;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（2）传输数据"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#xFF08;2&#xFF09;&#x4F20;&#x8F93;&#x6570;&#x636E;" class="headerlink" title="&#xFF08;2&#xFF09;&#x4F20;&#x8F93;&#x6570;&#x636E;"></a>&#xFF08;2&#xFF09;&#x4F20;&#x8F93;&#x6570;&#x636E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#（3）断开连接"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#xFF08;3&#xFF09;&#x65AD;&#x5F00;&#x8FDE;&#x63A5;" class="headerlink" title="&#xFF08;3&#xFF09;&#x65AD;&#x5F00;&#x8FDE;&#x63A5;"></a>&#xFF08;3&#xFF09;&#x65AD;&#x5F00;&#x8FDE;&#x63A5;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#问题思考："><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x95EE;&#x9898;&#x601D;&#x8003;&#xFF1A;" class="headerlink" title="&#x95EE;&#x9898;&#x601D;&#x8003;&#xFF1A;"></a>&#x95EE;&#x9898;&#x601D;&#x8003;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#长连接中TCP是如何请求的？"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#&#x957F;&#x8FDE;&#x63A5;&#x4E2D;TCP&#x662F;&#x5982;&#x4F55;&#x8BF7;&#x6C42;&#x7684;&#xFF1F;" class="headerlink" title="&#x957F;&#x8FDE;&#x63A5;&#x4E2D;TCP&#x662F;&#x5982;&#x4F55;&#x8BF7;&#x6C42;&#x7684;&#xFF1F;"></a>&#x957F;&#x8FDE;&#x63A5;&#x4E2D;TCP&#x662F;&#x5982;&#x4F55;&#x8BF7;&#x6C42;&#x7684;&#xFF1F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#短连接中TCP是如何请求的？"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#&#x77ED;&#x8FDE;&#x63A5;&#x4E2D;TCP&#x662F;&#x5982;&#x4F55;&#x8BF7;&#x6C42;&#x7684;&#xFF1F;" class="headerlink" title="&#x77ED;&#x8FDE;&#x63A5;&#x4E2D;TCP&#x662F;&#x5982;&#x4F55;&#x8BF7;&#x6C42;&#x7684;&#xFF1F;"></a>&#x77ED;&#x8FDE;&#x63A5;&#x4E2D;TCP&#x662F;&#x5982;&#x4F55;&#x8BF7;&#x6C42;&#x7684;&#xFF1F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TIME-WAIT在服务端与客户端的理解"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#TIME-WAIT&#x5728;&#x670D;&#x52A1;&#x7AEF;&#x4E0E;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x7406;&#x89E3;" class="headerlink" title="TIME_WAIT&#x5728;&#x670D;&#x52A1;&#x7AEF;&#x4E0E;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x7406;&#x89E3;"></a>TIME_WAIT&#x5728;&#x670D;&#x52A1;&#x7AEF;&#x4E0E;&#x5BA2;&#x6237;&#x7AEF;&#x7684;&#x7406;&#x89E3;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#那端会产生TIME-WAIT"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#&#x90A3;&#x7AEF;&#x4F1A;&#x4EA7;&#x751F;TIME-WAIT" class="headerlink" title="&#x90A3;&#x7AEF;&#x4F1A;&#x4EA7;&#x751F;TIME_WAIT"></a>&#x90A3;&#x7AEF;&#x4F1A;&#x4EA7;&#x751F;TIME_WAIT</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

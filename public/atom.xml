@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-12-17T08:40:39.525Z</updated>
+  <updated>2018-12-19T11:24:15.086Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>图解TCP连接及对TIME_WAIT的理解</title>
+    <link href="http://yoursite.com/2018/12/19/%E5%9B%BE%E8%A7%A3TCP%E8%BF%9E%E6%8E%A5%E5%8F%8A%E5%AF%B9TIME-WAIT%E7%9A%84%E7%90%86%E8%A7%A3/"/>
+    <id>http://yoursite.com/2018/12/19/图解TCP连接及对TIME-WAIT的理解/</id>
+    <published>2018-12-19T11:14:58.000Z</published>
+    <updated>2018-12-19T11:24:15.086Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="环境说明："><a href="#环境说明：" class="headerlink" title="环境说明："></a>环境说明：</h4><p>访问路径：<a href="http://118.24.8.229/index.html" target="_blank" rel="noopener">http://118.24.8.229/index.html</a><br>index.html代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;./ceshi.webp&quot; /&gt;</span><br></pre></td></tr></table></figure></p><p>监控工具：Wireshark<br>监控筛选条件：<code>ip.addr == 118.24.8.229 &amp;&amp; tcp.port == 80</code><br><a id="more"></a></p><h4 id="监控说明："><a href="#监控说明：" class="headerlink" title="监控说明："></a>监控说明：</h4><h5 id="（1）建立连接"><a href="#（1）建立连接" class="headerlink" title="（1）建立连接"></a>（1）建立连接</h5><p><img src="/uploads/2018/12/network_tcp_wireshark_01.png" alt=""><br>客户端开启了3个连接请求，相应的客户端也会占用3个端口：59746、59747、59748。通过三次握手建立连接，图示连接建立过程很清晰。</p><p>客户端监控端口：<br><img src="/uploads/2018/12/network_tcp_client_01.png" alt=""></p><p>服务端监控端口：<br><img src="/uploads/2018/12/network_tcp_server_01.png" alt=""></p><h5 id="（2）传输数据"><a href="#（2）传输数据" class="headerlink" title="（2）传输数据"></a>（2）传输数据</h5><p>index.html 文件传输：通过59747端口传输<br><img src="/uploads/2018/12/network_tcp_file_01.png" alt=""></p><p>apple.jpg 文件传输：通过59747端口传输<br><img src="/uploads/2018/12/network_tcp_file_02.png" alt=""></p><p>ceshi.webp 文件传输：通过59748端口传输<br><img src="/uploads/2018/12/network_tcp_file_03.png" alt=""></p><h5 id="（3）断开连接"><a href="#（3）断开连接" class="headerlink" title="（3）断开连接"></a>（3）断开连接</h5><p><img src="/uploads/2018/12/network_tcp_unconnect.png" alt=""><br>① 59746端口连接<br>由图示可以看出，首先断开的是59746端口的连接，且是客户端主动断开连接。因此，客户端会产生TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_client_02.png" alt=""><br><img src="/uploads/2018/12/network_tcp_server_02.png" alt=""></p><blockquote><p>要注意的是，在此URL请求里，客户端建立的59746端口连接并没有用到；并且，很快就被断开了，并没有保持持久连接检测。</p></blockquote><p>② 59747、59748端口连接<br>由上图示可以看出来，这两个端口是服务端主动断开连接的。中间客户端发送了 Keep-Alive保持连接，之后服务端在keepalive_timeout到时间后，自动断开了连接。因此，服务端会产生TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_client_03.png" alt=""><br><img src="/uploads/2018/12/network_tcp_server_03.png" alt=""></p><blockquote><p>由此可知道，网站如果量比较大的话，尽量不要使用长连接，会产生大量的TIME_WAIT，导致网站瘫痪。<br>量大的话，服务器可采用降配横向扩展，多部署几台服务器，提高端口数量，降低TIME_WAIT。</p></blockquote><h4 id="问题思考："><a href="#问题思考：" class="headerlink" title="问题思考："></a>问题思考：</h4><h5 id="长连接中TCP是如何请求的？"><a href="#长连接中TCP是如何请求的？" class="headerlink" title="长连接中TCP是如何请求的？"></a>长连接中TCP是如何请求的？</h5><p>实验一：客户端请求连接中，有多个额外请求时，TCP使用是怎么样的？<br>服务端程序改成：<br>（1）1个html和1个图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot; /&gt;</span><br></pre></td></tr></table></figure></p><p>结论：<br>客户端仍然会产生3个TCP连接，并且由于html的数据量少，导致服务端只使用了一个TCP连接就传输了html页面和图片数据。客户端产生2个TIME_WAIT，服务端产生1个TIME_WAIT。</p><p>（2）1个html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br></pre></td></tr></table></figure></p><p>结论：<br>客户端仍然会产生3个TCP连接，传输数据的TCP连接会保持持久连接，其余未传输数据的客户端会主动断开连接，不检测持久连接。客户端产生2个TIME_WAIT，服务端产生1个TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_wireshark_02.png" alt=""></p><p>（3）1个html和4个图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;./ceshi.webp&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;./timg.jpg&quot; /&gt;</span><br><span class="line">&lt;img src=&quot;./test001.jpg&quot; /&gt;</span><br></pre></td></tr></table></figure></p><p>结论：<br>客户端初始仍会产生3个TCP连接，首先建立连接的TCP会先传输html数据，当传输完成后，会自动的继续传输前3个图片，当发现3个TCP连接都用完后，仍有一个图片未传输，客户端会再新建一个TCP连接，用于传输第四个图片。 此时，TCP连接建立了4个，且都会检测是否保持持久连接，因此最后服务端会产生4个TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_server_04.png" alt=""></p><p>（4）1个html和7个图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./ceshi.webp&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./timg.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test001.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test002.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test003.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test004.jpg&quot;&gt;</span><br></pre></td></tr></table></figure></p><p>结论：<br>客户端初始会产生6个TCP连接，并且复用连接。断开TCP连接的是服务端，因此最后服务端会产生6个TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_server_05.png" alt=""></p><p>解决方案：<br>线上环境可使用负载均衡。</p><h5 id="短连接中TCP是如何请求的？"><a href="#短连接中TCP是如何请求的？" class="headerlink" title="短连接中TCP是如何请求的？"></a>短连接中TCP是如何请求的？</h5><p>实验二：使用短连接（在服务端Nginx配置 <code>keepalive_timeout 0;</code>）<br>（1）1个html和7个图片<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">www.zhengbenwu.com</span><br><span class="line">&lt;img src=&quot;./apple.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./ceshi.webp&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./timg.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test001.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test002.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test003.jpg&quot;&gt;</span><br><span class="line">&lt;img src=&quot;./test004.jpg&quot;&gt;</span><br></pre></td></tr></table></figure></p><p>结论：<br>在使用短连接的情况下，每个请求都会建立一个TCP连接，不会复用。并且，测试显示都是服务端断开的连接，因此服务端会产生TIME_WAIT。<br><img src="/uploads/2018/12/network_tcp_server_06.png" alt=""></p><h5 id="TIME-WAIT在服务端与客户端的理解"><a href="#TIME-WAIT在服务端与客户端的理解" class="headerlink" title="TIME_WAIT在服务端与客户端的理解"></a>TIME_WAIT在服务端与客户端的理解</h5><p>我理解的TIME_WAIT有两种，一种是作为客户端产生的TIME_WAIT，一种是作为服务端产生的TIME_WAIT。<br>这里，我们先说一下请求的过程。首先，客户端会新建一个进程，并随机分配一个端口号，来与服务端的固定端口号进行连接建立。因此，这一条请求就有两个端口，一个是客户端的随机端口，一个是服务端的固定端口。那么，下面来说结论：<br>① 对于客户端来说<br>客户端主动断开连接，TIME_WAIT产生在客户端。那么，服务端的这条TCP连接会被迅速回收；而客户端会耗时2MSL才被回收，端口才会被释放。</p><p>② 对于服务端来说<br>服务端主动断开连接，TIME_WAIT产生在服务端。客户端的TCP连接会被迅速回收，端口释放，重复使用；而服务端会耗时2MSL才会释放该条连接。</p><p>请注意，这里服务端与TCP建立连接并没有占用端口号，服务端的固定端口号一直在监听服务，并不会被请求占用，而是复用端口。这里与客户端建立连接的是服务端的线程或子进程，会复制主进程的资源，进行处理请求，然后，返回给客户端。<br>因此，服务端产生的TIME_WAIT并不会消耗端口号，只会消耗线程或子进程资源。当请求量达到服务器承载的极限值时，服务端会返回错误。</p><font color="red">（注：由上可知，一般说的TIME_WAIT，是指服务端作为客户端发起的请求产生的TIME_WAIT。过多会导致端口号不够，造成错误。）</font><h5 id="那端会产生TIME-WAIT"><a href="#那端会产生TIME-WAIT" class="headerlink" title="那端会产生TIME_WAIT"></a>那端会产生TIME_WAIT</h5><p>待续…</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;环境说明：&quot;&gt;&lt;a href=&quot;#环境说明：&quot; class=&quot;headerlink&quot; title=&quot;环境说明：&quot;&gt;&lt;/a&gt;环境说明：&lt;/h4&gt;&lt;p&gt;访问路径：&lt;a href=&quot;http://118.24.8.229/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://118.24.8.229/index.html&lt;/a&gt;&lt;br&gt;index.html代码：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;www.zhengbenwu.com&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;img src=&amp;quot;./apple.jpg&amp;quot; /&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;img src=&amp;quot;./ceshi.webp&amp;quot; /&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;监控工具：Wireshark&lt;br&gt;监控筛选条件：&lt;code&gt;ip.addr == 118.24.8.229 &amp;amp;&amp;amp; tcp.port == 80&lt;/code&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="计算机网络" scheme="http://yoursite.com/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="计算机网络" scheme="http://yoursite.com/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>计算机网络之URL基础知识</title>
@@ -229,9 +252,9 @@
       <category term="优化" scheme="http://yoursite.com/categories/MySQL/%E4%BC%98%E5%8C%96/"/>
     
     
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
-    
       <category term="MySQL优化" scheme="http://yoursite.com/tags/MySQL%E4%BC%98%E5%8C%96/"/>
+    
+      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
     
       <category term="优化" scheme="http://yoursite.com/tags/%E4%BC%98%E5%8C%96/"/>
     
@@ -495,29 +518,6 @@
 &lt;li&gt;&lt;p&gt;拉取MySQL5.6版本&lt;br&gt;&lt;code&gt;docker pull mysql:5.6&lt;/code&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p&gt;创建并启动一个容器&lt;br&gt;&lt;code&gt;docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=xy123456 --name test_mysql mysql:5.6&lt;/code&gt;&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Docker" scheme="http://yoursite.com/categories/Docker/"/>
-    
-    
-      <category term="Docker" scheme="http://yoursite.com/tags/Docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Docker之容器间通信</title>
-    <link href="http://yoursite.com/2018/09/30/Docker%E4%B9%8B%E5%AE%B9%E5%99%A8%E9%97%B4%E9%80%9A%E4%BF%A1/"/>
-    <id>http://yoursite.com/2018/09/30/Docker之容器间通信/</id>
-    <published>2018-09-30T04:00:38.000Z</published>
-    <updated>2018-09-30T04:08:03.837Z</updated>
-    
-    <content type="html"><![CDATA[<p>容器之间可通过 IP，Docker DNS Server 或 joined 容器三种方式通信。</p><h4 id="IP-通信"><a href="#IP-通信" class="headerlink" title="IP 通信"></a>IP 通信</h4><p>两个容器要能通信，必须要有属于同一个网络的网卡。<br>满足这个条件后，容器就可以通过 IP 交互了。具体做法是在容器创建时通过 –network 指定相应的网络，或者通过 docker network connect 将现有容器加入到指定网络。<br><a id="more"></a></p><h4 id="Docker-DNS-Server"><a href="#Docker-DNS-Server" class="headerlink" title="Docker DNS Server"></a>Docker DNS Server</h4><p>通过 IP 访问容器虽然满足了通信的需求，但还是不够灵活。因为我们在部署应用之前可能无法确定 IP，部署之后再指定要访问的 IP 会比较麻烦。对于这个问题，可以通过 docker 自带的 DNS 服务解决。</p><p>从 Docker 1.10 版本开始，docker daemon 实现了一个内嵌的 DNS server，使容器可以直接通过“容器名”通信。方法很简单，只要在启动时用 –name 为容器命名就可以了。</p><p>下面启动两个容器 bbox1 和 bbox2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --network=my_net2 --name=bbox1 busybox</span><br><span class="line">docker run -it --network=my_net2 --name=bbox2 busybox</span><br></pre></td></tr></table></figure></p><p>然后，bbox2 就可以直接 ping 到 bbox1 了：<br><img src="/uploads/2018/09/docker-network-communication-01.jpg" alt=""></p><p>使用 docker DNS 有个限制：只能在 user-defined 网络中使用。也就是说，默认的 bridge 网络是无法使用 DNS 的。下面验证一下：<br>创建 bbox3 和 bbox4，均连接到 bridge 网络。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --name=bbox3 busybox</span><br><span class="line">docker run -it --name=bbox4 busybox</span><br></pre></td></tr></table></figure></p><p>bbox4 无法 ping 到 bbox3。<br><img src="/uploads/2018/09/docker-network-communication-02.jpg" alt=""></p><h4 id="joined-容器"><a href="#joined-容器" class="headerlink" title="joined 容器"></a>joined 容器</h4><p>joined 容器是另一种实现容器间通信的方式。<br>joined 容器非常特别，它可以使两个或多个容器共享一个网络栈，共享网卡和配置信息，joined 容器之间可以通过 127.0.0.1 直接通信。请看下面的例子：</p><p>先创建一个 httpd 容器，名字为 web1。<br><code>docker run -d -it --name=web1 httpd</code><br>然后创建 busybox 容器并通过 <code>--network=container:web1</code> 指定 jointed 容器为 web1：<br><img src="/uploads/2018/09/docker-network-communication-03.jpg" alt=""></p><p>请注意 busybox 容器中的网络配置信息，下面我们查看一下 web1 的网络：<br><img src="/uploads/2018/09/docker-network-communication-04.jpg" alt=""></p><p>看！busybox 和 web1 的网卡 mac 地址与 IP 完全一样，它们共享了相同的网络栈。busybox 可以直接用 127.0.0.1 访问 web1 的 http 服务。<br><img src="/uploads/2018/09/docker-network-communication-05.jpg" alt=""></p><p>joined 容器非常适合以下场景：</p><ol><li>不同容器中的程序希望通过 loopback 高效快速地通信，比如 web server 与 app server。</li><li>希望监控其他容器的网络流量，比如运行在独立容器中的网络监控程序。</li></ol><p>容器之间的通信我们已经搞清楚了，接下来要考虑的是容器如何与外部世界通信？</p><h4 id="容器如何访问到外部世界？"><a href="#容器如何访问到外部世界？" class="headerlink" title="容器如何访问到外部世界？"></a>容器如何访问到外部世界？</h4><p><strong>容器默认就能访问外网。</strong><br>详细信息查看博客：<a href="https://www.cnblogs.com/CloudMan6/p/7107407.html" target="_blank" rel="noopener">传送门</a></p><h4 id="外部世界如何访问容器？"><a href="#外部世界如何访问容器？" class="headerlink" title="外部世界如何访问容器？"></a>外部世界如何访问容器？</h4><p>答案是：<strong>端口映射。</strong></p><p>docker 可将容器对外提供服务的端口映射到 host 的某个端口，外网通过该端口访问容器。容器启动时通过-p参数映射端口：<br><img src="/uploads/2018/09/docker-network-communication-06.jpg" alt=""></p><p>容器启动后，可通过 docker ps 或者 docker port 查看到 host 映射的端口。在上面的例子中，httpd 容器的 80 端口被映射到 host 32773 上，这样就可以通过 <code>&lt;host ip&gt;:&lt;32773&gt;</code> 访问容器的 web 服务了。<br><img src="/uploads/2018/09/docker-network-communication-07.jpg" alt=""></p><p>除了映射动态端口，也可在 -p 中指定映射到 host 某个特定端口，例如可将 80 端口映射到 host 的 8080 端口：<br><img src="/uploads/2018/09/docker-network-communication-08.jpg" alt=""></p><p>每一个映射的端口，host 都会启动一个 docker-proxy 进程来处理访问容器的流量：<br><img src="/uploads/2018/09/docker-network-communication-09.jpg" alt=""></p><p>以 0.0.0.0:32773-&gt;80/tcp 为例分析整个过程：<br><img src="/uploads/2018/09/docker-network-communication-10.jpg" alt=""></p><ol><li>docker-proxy 监听 host 的 32773 端口。</li><li>当 curl 访问 10.0.2.15:32773 时，docker-proxy 转发给容器 172.17.0.2:80。</li><li>httpd 容器响应请求并返回结果。</li></ol>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;容器之间可通过 IP，Docker DNS Server 或 joined 容器三种方式通信。&lt;/p&gt;
-&lt;h4 id=&quot;IP-通信&quot;&gt;&lt;a href=&quot;#IP-通信&quot; class=&quot;headerlink&quot; title=&quot;IP 通信&quot;&gt;&lt;/a&gt;IP 通信&lt;/h4&gt;&lt;p&gt;两个容器要能通信，必须要有属于同一个网络的网卡。&lt;br&gt;满足这个条件后，容器就可以通过 IP 交互了。具体做法是在容器创建时通过 –network 指定相应的网络，或者通过 docker network connect 将现有容器加入到指定网络。&lt;br&gt;
     
     </summary>
     
