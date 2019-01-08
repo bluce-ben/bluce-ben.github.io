@@ -143,5 +143,15 @@ www.zhengbenwu.com
 
 
 ##### 那端会产生TIME_WAIT
-待续...
+主动断开连接的那端会产生TIME_WAIT。 那又有个问题，那端会先断开连接呢？什么情况下客户端先断，什么情况下服务端先断？
+1. 对于http1.0协议来说，如果响应头中有content-length头，则以content-length的长度就可以知道body的长度了，客户端在接收body时，就可以依照这个长度来接收数据，接收完后，就表示这个请求完成了。而如果没有content-length头，则客户端会一直接收数据，直到服务端主动断开连接，才表示body接收完了。
+2. 而对于http1.1协议来说，如果响应头中的Transfer-encoding为chunked传输，则表示body是流式输出，body会被分成多个块，每块的开始会标识出当前块的长度，此时，body不需要通过长度来指定。如果是非chunked传输，而且有content-length，则按照content-length来接收数据。否则，如果是非chunked，并且没有content-length，则客户端接收数据，直到服务端主动断开连接。
 
+**总结：**
+* http1.0  
+带content-length，body长度可知，客户端在接收body时，就可以依据这个长度来接受数据。接受完毕后，就表示这个请求完毕了。客户端主动调用close进入四次挥手。
+不带content-length ，body长度不可知，客户端一直接受数据，直到服务端主动断开
+* http1.1
+带content-length，body长度可知，客户端主动断开
+带Transfer-encoding：chunked，body会被分成多个块，每块的开始会标识出当前块的长度，body就不需要通过content-length来指定了。但依然可以知道body的长度 客户端主动断开
+不带Transfer-encoding：chunked且不带content-length，客户端接收数据，直到服务端主动断开连接。
