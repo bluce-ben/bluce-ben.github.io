@@ -104,7 +104,7 @@
 <meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_04.png">
 <meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_05.png">
 <meta property="og:image" content="http://yoursite.com/uploads/2018/12/network_tcp_server_06.png">
-<meta property="og:updated_time" content="2018-12-19T11:24:15.086Z">
+<meta property="og:updated_time" content="2019-01-08T08:05:31.231Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图解TCP连接及对TIME_WAIT的理解">
 <meta name="twitter:description" content="环境说明：访问路径：http://118.24.8.229/index.htmlindex.html代码：123www.zhengbenwu.com&amp;lt;img src=&amp;quot;./apple.jpg&amp;quot; /&amp;gt;&amp;lt;img src=&amp;quot;./ceshi.webp&amp;quot; /&amp;gt; 监控工具：Wireshark监控筛选条件：ip.addr == 118.24.8.2">
@@ -432,7 +432,16 @@
 <font color="red">（注：由上可知，一般说的TIME_WAIT，是指服务端作为客户端发起的请求产生的TIME_WAIT。过多会导致端口号不够，造成错误。）</font>
 
 
-<h5 id="那端会产生TIME-WAIT"><a href="#那端会产生TIME-WAIT" class="headerlink" title="那端会产生TIME_WAIT"></a>那端会产生TIME_WAIT</h5><p>待续…</p>
+<h5 id="那端会产生TIME-WAIT"><a href="#那端会产生TIME-WAIT" class="headerlink" title="那端会产生TIME_WAIT"></a>那端会产生TIME_WAIT</h5><p>主动断开连接的那端会产生TIME_WAIT。 那又有个问题，那端会先断开连接呢？什么情况下客户端先断，什么情况下服务端先断？</p>
+<ol>
+<li>对于http1.0协议来说，如果响应头中有content-length头，则以content-length的长度就可以知道body的长度了，客户端在接收body时，就可以依照这个长度来接收数据，接收完后，就表示这个请求完成了。而如果没有content-length头，则客户端会一直接收数据，直到服务端主动断开连接，才表示body接收完了。</li>
+<li>而对于http1.1协议来说，如果响应头中的Transfer-encoding为chunked传输，则表示body是流式输出，body会被分成多个块，每块的开始会标识出当前块的长度，此时，body不需要通过长度来指定。如果是非chunked传输，而且有content-length，则按照content-length来接收数据。否则，如果是非chunked，并且没有content-length，则客户端接收数据，直到服务端主动断开连接。</li>
+</ol>
+<p><strong>总结：</strong></p>
+<ul>
+<li>http1.0<br>带content-length，body长度可知，客户端在接收body时，就可以依据这个长度来接受数据。接受完毕后，就表示这个请求完毕了。客户端主动调用close进入四次挥手。<br>不带content-length ，body长度不可知，客户端一直接受数据，直到服务端主动断开</li>
+<li>http1.1<br>带content-length，body长度可知，客户端主动断开<br>带Transfer-encoding：chunked，body会被分成多个块，每块的开始会标识出当前块的长度，body就不需要通过content-length来指定了。但依然可以知道body的长度 客户端主动断开<br>不带Transfer-encoding：chunked且不带content-length，客户端接收数据，直到服务端主动断开连接。</li>
+</ul>
 
       
     </div>
@@ -472,6 +481,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/08/PHP错误日志简单配置/" rel="prev" title="PHP错误日志简单配置">
+                PHP错误日志简单配置 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -552,7 +565,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">170</span>
+                  <span class="site-state-item-count">172</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -650,7 +663,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
