@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PHP知识点,面试," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="类PHP5中的新特性包括：访问控制、抽象类、final类与方法，附加的魔术方法、接口、对象复制和类型约束。 基本概念： 一个类可以包含有属于自己的常量、变量（称为“属性”）以及函数（称为“方法”）。 一个类可以在声明中用 extends 关键字继承另一个类的方法和属性。PHP不支持多重继承。 访问控制关键字 public、protected、private、static、final 静态成员、类常">
+<meta name="keywords" content="PHP知识点,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP手册学习之类">
+<meta property="og:url" content="http://yoursite.com/2019/07/19/PHP手册学习之类/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="类PHP5中的新特性包括：访问控制、抽象类、final类与方法，附加的魔术方法、接口、对象复制和类型约束。 基本概念： 一个类可以包含有属于自己的常量、变量（称为“属性”）以及函数（称为“方法”）。 一个类可以在声明中用 extends 关键字继承另一个类的方法和属性。PHP不支持多重继承。 访问控制关键字 public、protected、private、static、final 静态成员、类常">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-07-19T09:24:41.425Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP手册学习之类">
+<meta name="twitter:description" content="类PHP5中的新特性包括：访问控制、抽象类、final类与方法，附加的魔术方法、接口、对象复制和类型约束。 基本概念： 一个类可以包含有属于自己的常量、变量（称为“属性”）以及函数（称为“方法”）。 一个类可以在声明中用 extends 关键字继承另一个类的方法和属性。PHP不支持多重继承。 访问控制关键字 public、protected、private、static、final 静态成员、类常">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/07/19/PHP手册学习之类/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>PHP手册学习之类 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/19/PHP手册学习之类/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">PHP手册学习之类</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-19T17:00:56+08:00">
+                2019-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/PHP/" itemprop="url" rel="index">
+                    <span itemprop="name">PHP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/07/19/PHP手册学习之类/" class="leancloud_visitors" data-flag-title="PHP手册学习之类">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><p>PHP5中的新特性包括：访问控制、抽象类、final类与方法，附加的魔术方法、接口、对象复制和类型约束。</p>
+<h5 id="基本概念："><a href="#基本概念：" class="headerlink" title="基本概念："></a>基本概念：</h5><ol>
+<li>一个类可以包含有属于自己的常量、变量（称为“属性”）以及函数（称为“方法”）。</li>
+<li>一个类可以在声明中用 extends 关键字继承另一个类的方法和属性。PHP不支持多重继承。</li>
+<li>访问控制关键字 public、protected、private、static、final</li>
+<li>静态成员、类常量访问使用“::“</li>
+<li>self,parent和static这是那个特殊的关键字是用于在类定义的内部对其属性或方法进行访问的。</li>
+<li>对象比较<br><code>==</code> 比较两个对象时，如果两个对象的属性和属性值 都相等，而且两个对象是同一个类的实例，那么这两个对象变量相等。<br><code>===</code> 使用全等运算符，这两个对象变量一定要指向某个类的同一个实例（即同一个对象）。</li>
+</ol>
+<a id="more"></a>
+<h5 id="static"><a href="#static" class="headerlink" title="static"></a>static</h5><ol>
+<li>声明类属性或方法为静态，就可以不实例化类而直接访问。静态属性不能通过一个已实例化的类对象来访问（但静态方法可以）。</li>
+<li>由于静态方法不需要通过对象即可调用，所以伪变量 $this在静态方法中不可用。</li>
+<li>静态属性不可以由对象通过 -&gt; 操作符来访问。</li>
+<li>用静态方式调用一个非静态方法会导致一个 E_STRICT级别的错误</li>
+</ol>
+<h5 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h5><ol>
+<li>通过关键字 interface来定义，通过implements关键字来实现接口。（类可以实现多个接口）</li>
+<li>接口定义的所有方法都必须是公有的，这是接口的特性。</li>
+<li>类中必须实现接口定义的所有方法，否则会报一个致命错误</li>
+</ol>
+<h5 id="Trait"><a href="#Trait" class="headerlink" title="Trait"></a>Trait</h5><ol>
+<li>Trait是为类似PHP的单继承语言而准备的一种代码复用机制。利用组合的方式来复用代码。</li>
+<li>优先级问题：<br>从基类继承的成员会被trait插入的成员所覆盖。优先顺序是来自当前类的成员覆盖了trait的方法，而trait则覆盖了被继承的方法。</li>
+<li>多个trait，通过都好分隔，在use声明列出多个trait，可以都插入到一个类中。</li>
+</ol>
+<h5 id="重载（类魔术方法）"><a href="#重载（类魔术方法）" class="headerlink" title="重载（类魔术方法）"></a>重载（类魔术方法）</h5><h6 id="属性重载"><a href="#属性重载" class="headerlink" title="属性重载"></a>属性重载</h6><p>__set() 在给不可访问属性赋值时，会调用<br>__get() 读取不可访问属性的值时，会调用<br>__isset() 当对不可访问属性调用isset()或empty()时，会调用<br>__unset() 当对不可访问属性调用unset()时，会调用</p>
+<h6 id="方法重载"><a href="#方法重载" class="headerlink" title="方法重载"></a>方法重载</h6><p>__call() 在对象中调用一个不可访问方法时，会调用<br>__callStatic() 在静态上下文中调用一个不可访问方法时，会调用</p>
+<h5 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h5><p>__construct()、__destruct()、__call()、__callStatic()、<br>__get()、__set()、__isset()、__unset()、__sleep()、__wakeup()、<br>__toString()、__invoke()、__clone()、__set_state()、__debugInfo()<br>__toString() 用于当一个类被当成字符串时应该怎么回应。例如echo $obj;应该显示什么<br>__invoke() 当尝试以调用函数的方式调用一个对象时，该方法会自动调用。<br>__clone() 当克隆对象的时候，会调用该方法。</p>
+<h5 id="类型约束（PHP5可以使用）"><a href="#类型约束（PHP5可以使用）" class="headerlink" title="类型约束（PHP5可以使用）"></a>类型约束（PHP5可以使用）</h5><ol>
+<li>函数的参数可以指定必须为对象（在函数原型里面指定类的名字），接口，数组或者callable</li>
+<li>如果一个类或接口指定了类型约束，则其所有的子类或者实现也都如此。</li>
+</ol>
+<h5 id="类-对象函数"><a href="#类-对象函数" class="headerlink" title="类/对象函数"></a>类/对象函数</h5><p>__autoload    - 尝试加载为定义的类 sql_autoload_register()<br>class_exists    - 检查类是否已定义<br>method_exists    - 检查类的方法是否存在<br>trait_exists    - 检查指定的trait是否存在<br>property_exists - 检查对象或类是否具有该属性<br>get_class    - 返回对象的类名<br>is_a        - 如果对象属于该类或该类是此对象的父类则返回TRUE</p>
+<h4 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h4><h5 id="一、错误处理和日志记录"><a href="#一、错误处理和日志记录" class="headerlink" title="一、错误处理和日志记录"></a>一、错误处理和日志记录</h5><p>1、预定义常量<br>E_ERROR        致命的运行时错误<br>E_WARNING    运行时警告<br>E_PARSE        编译时语法解析错误<br>E_NOTICE    运行时通知<br>E_STRICT    启用PHP对代码的修改建议，以确保代码具有最佳的互操作性和向前兼容性<br>E_ALL        除E_STRICT外所有错误和警告信息</p>
+<p>2、运行时配置项： 可通过ini_set()函数设置运行时配置<br>error_reporting        设置错误报告的级别。运行时可直接使用error_reporting()函数设置<br> PHP5.3及以上版本中，默认值为E_ALL &amp; ~E_NOTICE &amp; ~E_STRICT &amp; ~E_DEPRECATED<br>该设置不会显示E_NOTICE、E_STRICT、E_DEPRECATED级错误提示。<br>display_errors        该选项设置是否将错误信息作为输出的一部分显示到屏幕，或者对用户隐藏而不显示。<br>log_errors        设置是否将脚本运行的错误信息记录到服务器错误日志或者error_log之中。<br>error_log        设置脚本错误将被记录到文件。<br>ignore_repeated_errors    不记录重复的信息</p>
+<p>3、错误处理函数：<br>debug_backtrace 产生一条回溯信息<br>debug_print_backtrace 打印一条回溯信息<br>error_clear_last 清楚最近一次错误<br>error_get_last    获取最后发生的错误<br>error_log    发送错误信息到某个地方<br>error_reporting    设置应该报告何种PHP错误<br>set_error_handler    设置用户自定义的错误处理函数<br>set_exception_handler    设置用户自定义的异常处理函数</p>
+<h5 id="二、PHP选项-信息函数"><a href="#二、PHP选项-信息函数" class="headerlink" title="二、PHP选项/信息函数"></a>二、PHP选项/信息函数</h5><p>set_time_limit    - 设置脚本最大执行时间<br>ini_set        - 为一个配置选项设置值<br>getenv        - 获取一个环境变量的值<br>getlastmod    - 获取页面最后修改的时间<br>ini_get        - 获取一个配置选项的值<br>memory_get_usage     - 返回分配给PHP的内存量<br>php_ini_loaded_file    - 取得已加载的php.ini文件的路径<br>php_uname    - 返回运行PHP的系统的有关信息<br>phpinfo        - 输出关于PHP配置的信息<br>phpversion    - 获取当前的PHP版本<br>putenv        - 设置环境变量的值</p>
+<h5 id="三、扩展："><a href="#三、扩展：" class="headerlink" title="三、扩展："></a>三、扩展：</h5><p><strong>压缩与归档扩展：</strong><br> Bzip2        对.bz2的压缩文件<br> Rar<br> Zip<br> Zlib        对gzip的编译<br><strong>加密：</strong><br> Hash        无需安装，自带<br> Mcrypt        加密扩展，需安装<br> OpenSSL        对称/非对称加解密<br><strong>数据库：</strong><br> Mysql(原始)    从PHP5.5.0起这个扩展已经被废弃，并且从PHP7.0.0开始被移除。可使用mysqli或者PDO_MySQL扩展代替。<br> Mysqli        MySQL增强版扩展<br> Mysqlnd        mysql的客户端<br> PDO_MYSQL    mysql的PDO驱动<br><strong>国际化与字符编码支持：</strong><br> iconv        包含了iconv字符集转换功能的接口<br> gettext    实现了NLS API<br><strong>图像生成和处理：</strong><br> GD        图像处理和GD<br> Gmagick、ImageMagick、Exif<br><strong>邮件相关扩展：</strong> 一般使用第三方邮件系统<br><strong>数学扩展：</strong><br> BC Math    BCMath 任意精度数学<br> Math<br><strong>其它基本扩展：</strong><br> JSON、Sessions、libxml<br> Lua、Swoole、Yaf、Yaml<br><strong>其它服务：</strong><br> cURL、Memcache、Memcached、Sockets</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP知识点/" rel="tag"># PHP知识点</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/19/PHP手册学习之函数整理/" rel="next" title="PHP手册学习之函数整理">
+                <i class="fa fa-chevron-left"></i> PHP手册学习之函数整理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">178</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#类"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x7C7B;" class="headerlink" title="&#x7C7B;"></a>&#x7C7B;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#基本概念："><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x57FA;&#x672C;&#x6982;&#x5FF5;&#xFF1A;" class="headerlink" title="&#x57FA;&#x672C;&#x6982;&#x5FF5;&#xFF1A;"></a>&#x57FA;&#x672C;&#x6982;&#x5FF5;&#xFF1A;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#static"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#static" class="headerlink" title="static"></a>static</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#接口"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x63A5;&#x53E3;" class="headerlink" title="&#x63A5;&#x53E3;"></a>&#x63A5;&#x53E3;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Trait"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#Trait" class="headerlink" title="Trait"></a>Trait</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重载（类魔术方法）"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#&#x91CD;&#x8F7D;&#xFF08;&#x7C7B;&#x9B54;&#x672F;&#x65B9;&#x6CD5;&#xFF09;" class="headerlink" title="&#x91CD;&#x8F7D;&#xFF08;&#x7C7B;&#x9B54;&#x672F;&#x65B9;&#x6CD5;&#xFF09;"></a>&#x91CD;&#x8F7D;&#xFF08;&#x7C7B;&#x9B54;&#x672F;&#x65B9;&#x6CD5;&#xFF09;</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#属性重载"><span class="nav-number">1.5.1.</span> <span class="nav-text"><a href="#&#x5C5E;&#x6027;&#x91CD;&#x8F7D;" class="headerlink" title="&#x5C5E;&#x6027;&#x91CD;&#x8F7D;"></a>&#x5C5E;&#x6027;&#x91CD;&#x8F7D;</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#方法重载"><span class="nav-number">1.5.2.</span> <span class="nav-text"><a href="#&#x65B9;&#x6CD5;&#x91CD;&#x8F7D;" class="headerlink" title="&#x65B9;&#x6CD5;&#x91CD;&#x8F7D;"></a>&#x65B9;&#x6CD5;&#x91CD;&#x8F7D;</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#魔术方法"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#&#x9B54;&#x672F;&#x65B9;&#x6CD5;" class="headerlink" title="&#x9B54;&#x672F;&#x65B9;&#x6CD5;"></a>&#x9B54;&#x672F;&#x65B9;&#x6CD5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类型约束（PHP5可以使用）"><span class="nav-number">1.7.</span> <span class="nav-text"><a href="#&#x7C7B;&#x578B;&#x7EA6;&#x675F;&#xFF08;PHP5&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF09;" class="headerlink" title="&#x7C7B;&#x578B;&#x7EA6;&#x675F;&#xFF08;PHP5&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF09;"></a>&#x7C7B;&#x578B;&#x7EA6;&#x675F;&#xFF08;PHP5&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类-对象函数"><span class="nav-number">1.8.</span> <span class="nav-text"><a href="#&#x7C7B;-&#x5BF9;&#x8C61;&#x51FD;&#x6570;" class="headerlink" title="&#x7C7B;/&#x5BF9;&#x8C61;&#x51FD;&#x6570;"></a>&#x7C7B;/&#x5BF9;&#x8C61;&#x51FD;&#x6570;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其它"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x5176;&#x5B83;" class="headerlink" title="&#x5176;&#x5B83;"></a>&#x5176;&#x5B83;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#一、错误处理和日志记录"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x9519;&#x8BEF;&#x5904;&#x7406;&#x548C;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;" class="headerlink" title="&#x4E00;&#x3001;&#x9519;&#x8BEF;&#x5904;&#x7406;&#x548C;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;"></a>&#x4E00;&#x3001;&#x9519;&#x8BEF;&#x5904;&#x7406;&#x548C;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#二、PHP选项-信息函数"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;PHP&#x9009;&#x9879;-&#x4FE1;&#x606F;&#x51FD;&#x6570;" class="headerlink" title="&#x4E8C;&#x3001;PHP&#x9009;&#x9879;/&#x4FE1;&#x606F;&#x51FD;&#x6570;"></a>&#x4E8C;&#x3001;PHP&#x9009;&#x9879;/&#x4FE1;&#x606F;&#x51FD;&#x6570;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#三、扩展："><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x6269;&#x5C55;&#xFF1A;" class="headerlink" title="&#x4E09;&#x3001;&#x6269;&#x5C55;&#xFF1A;"></a>&#x4E09;&#x3001;&#x6269;&#x5C55;&#xFF1A;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

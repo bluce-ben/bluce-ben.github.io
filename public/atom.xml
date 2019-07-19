@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-06T13:04:23.596Z</updated>
+  <updated>2019-07-19T09:24:41.425Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,88 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PHP手册学习之类</title>
+    <link href="http://yoursite.com/2019/07/19/PHP%E6%89%8B%E5%86%8C%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%B1%BB/"/>
+    <id>http://yoursite.com/2019/07/19/PHP手册学习之类/</id>
+    <published>2019-07-19T09:00:56.000Z</published>
+    <updated>2019-07-19T09:24:41.425Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="类"><a href="#类" class="headerlink" title="类"></a>类</h4><p>PHP5中的新特性包括：访问控制、抽象类、final类与方法，附加的魔术方法、接口、对象复制和类型约束。</p><h5 id="基本概念："><a href="#基本概念：" class="headerlink" title="基本概念："></a>基本概念：</h5><ol><li>一个类可以包含有属于自己的常量、变量（称为“属性”）以及函数（称为“方法”）。</li><li>一个类可以在声明中用 extends 关键字继承另一个类的方法和属性。PHP不支持多重继承。</li><li>访问控制关键字 public、protected、private、static、final</li><li>静态成员、类常量访问使用“::“</li><li>self,parent和static这是那个特殊的关键字是用于在类定义的内部对其属性或方法进行访问的。</li><li>对象比较<br><code>==</code> 比较两个对象时，如果两个对象的属性和属性值 都相等，而且两个对象是同一个类的实例，那么这两个对象变量相等。<br><code>===</code> 使用全等运算符，这两个对象变量一定要指向某个类的同一个实例（即同一个对象）。</li></ol><a id="more"></a><h5 id="static"><a href="#static" class="headerlink" title="static"></a>static</h5><ol><li>声明类属性或方法为静态，就可以不实例化类而直接访问。静态属性不能通过一个已实例化的类对象来访问（但静态方法可以）。</li><li>由于静态方法不需要通过对象即可调用，所以伪变量 $this在静态方法中不可用。</li><li>静态属性不可以由对象通过 -&gt; 操作符来访问。</li><li>用静态方式调用一个非静态方法会导致一个 E_STRICT级别的错误</li></ol><h5 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h5><ol><li>通过关键字 interface来定义，通过implements关键字来实现接口。（类可以实现多个接口）</li><li>接口定义的所有方法都必须是公有的，这是接口的特性。</li><li>类中必须实现接口定义的所有方法，否则会报一个致命错误</li></ol><h5 id="Trait"><a href="#Trait" class="headerlink" title="Trait"></a>Trait</h5><ol><li>Trait是为类似PHP的单继承语言而准备的一种代码复用机制。利用组合的方式来复用代码。</li><li>优先级问题：<br>从基类继承的成员会被trait插入的成员所覆盖。优先顺序是来自当前类的成员覆盖了trait的方法，而trait则覆盖了被继承的方法。</li><li>多个trait，通过都好分隔，在use声明列出多个trait，可以都插入到一个类中。</li></ol><h5 id="重载（类魔术方法）"><a href="#重载（类魔术方法）" class="headerlink" title="重载（类魔术方法）"></a>重载（类魔术方法）</h5><h6 id="属性重载"><a href="#属性重载" class="headerlink" title="属性重载"></a>属性重载</h6><p>__set() 在给不可访问属性赋值时，会调用<br>__get() 读取不可访问属性的值时，会调用<br>__isset() 当对不可访问属性调用isset()或empty()时，会调用<br>__unset() 当对不可访问属性调用unset()时，会调用</p><h6 id="方法重载"><a href="#方法重载" class="headerlink" title="方法重载"></a>方法重载</h6><p>__call() 在对象中调用一个不可访问方法时，会调用<br>__callStatic() 在静态上下文中调用一个不可访问方法时，会调用</p><h5 id="魔术方法"><a href="#魔术方法" class="headerlink" title="魔术方法"></a>魔术方法</h5><p>__construct()、__destruct()、__call()、__callStatic()、<br>__get()、__set()、__isset()、__unset()、__sleep()、__wakeup()、<br>__toString()、__invoke()、__clone()、__set_state()、__debugInfo()<br>__toString() 用于当一个类被当成字符串时应该怎么回应。例如echo $obj;应该显示什么<br>__invoke() 当尝试以调用函数的方式调用一个对象时，该方法会自动调用。<br>__clone() 当克隆对象的时候，会调用该方法。</p><h5 id="类型约束（PHP5可以使用）"><a href="#类型约束（PHP5可以使用）" class="headerlink" title="类型约束（PHP5可以使用）"></a>类型约束（PHP5可以使用）</h5><ol><li>函数的参数可以指定必须为对象（在函数原型里面指定类的名字），接口，数组或者callable</li><li>如果一个类或接口指定了类型约束，则其所有的子类或者实现也都如此。</li></ol><h5 id="类-对象函数"><a href="#类-对象函数" class="headerlink" title="类/对象函数"></a>类/对象函数</h5><p>__autoload    - 尝试加载为定义的类 sql_autoload_register()<br>class_exists    - 检查类是否已定义<br>method_exists    - 检查类的方法是否存在<br>trait_exists    - 检查指定的trait是否存在<br>property_exists - 检查对象或类是否具有该属性<br>get_class    - 返回对象的类名<br>is_a        - 如果对象属于该类或该类是此对象的父类则返回TRUE</p><h4 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h4><h5 id="一、错误处理和日志记录"><a href="#一、错误处理和日志记录" class="headerlink" title="一、错误处理和日志记录"></a>一、错误处理和日志记录</h5><p>1、预定义常量<br>E_ERROR        致命的运行时错误<br>E_WARNING    运行时警告<br>E_PARSE        编译时语法解析错误<br>E_NOTICE    运行时通知<br>E_STRICT    启用PHP对代码的修改建议，以确保代码具有最佳的互操作性和向前兼容性<br>E_ALL        除E_STRICT外所有错误和警告信息</p><p>2、运行时配置项： 可通过ini_set()函数设置运行时配置<br>error_reporting        设置错误报告的级别。运行时可直接使用error_reporting()函数设置<br> PHP5.3及以上版本中，默认值为E_ALL &amp; ~E_NOTICE &amp; ~E_STRICT &amp; ~E_DEPRECATED<br>该设置不会显示E_NOTICE、E_STRICT、E_DEPRECATED级错误提示。<br>display_errors        该选项设置是否将错误信息作为输出的一部分显示到屏幕，或者对用户隐藏而不显示。<br>log_errors        设置是否将脚本运行的错误信息记录到服务器错误日志或者error_log之中。<br>error_log        设置脚本错误将被记录到文件。<br>ignore_repeated_errors    不记录重复的信息</p><p>3、错误处理函数：<br>debug_backtrace 产生一条回溯信息<br>debug_print_backtrace 打印一条回溯信息<br>error_clear_last 清楚最近一次错误<br>error_get_last    获取最后发生的错误<br>error_log    发送错误信息到某个地方<br>error_reporting    设置应该报告何种PHP错误<br>set_error_handler    设置用户自定义的错误处理函数<br>set_exception_handler    设置用户自定义的异常处理函数</p><h5 id="二、PHP选项-信息函数"><a href="#二、PHP选项-信息函数" class="headerlink" title="二、PHP选项/信息函数"></a>二、PHP选项/信息函数</h5><p>set_time_limit    - 设置脚本最大执行时间<br>ini_set        - 为一个配置选项设置值<br>getenv        - 获取一个环境变量的值<br>getlastmod    - 获取页面最后修改的时间<br>ini_get        - 获取一个配置选项的值<br>memory_get_usage     - 返回分配给PHP的内存量<br>php_ini_loaded_file    - 取得已加载的php.ini文件的路径<br>php_uname    - 返回运行PHP的系统的有关信息<br>phpinfo        - 输出关于PHP配置的信息<br>phpversion    - 获取当前的PHP版本<br>putenv        - 设置环境变量的值</p><h5 id="三、扩展："><a href="#三、扩展：" class="headerlink" title="三、扩展："></a>三、扩展：</h5><p><strong>压缩与归档扩展：</strong><br> Bzip2        对.bz2的压缩文件<br> Rar<br> Zip<br> Zlib        对gzip的编译<br><strong>加密：</strong><br> Hash        无需安装，自带<br> Mcrypt        加密扩展，需安装<br> OpenSSL        对称/非对称加解密<br><strong>数据库：</strong><br> Mysql(原始)    从PHP5.5.0起这个扩展已经被废弃，并且从PHP7.0.0开始被移除。可使用mysqli或者PDO_MySQL扩展代替。<br> Mysqli        MySQL增强版扩展<br> Mysqlnd        mysql的客户端<br> PDO_MYSQL    mysql的PDO驱动<br><strong>国际化与字符编码支持：</strong><br> iconv        包含了iconv字符集转换功能的接口<br> gettext    实现了NLS API<br><strong>图像生成和处理：</strong><br> GD        图像处理和GD<br> Gmagick、ImageMagick、Exif<br><strong>邮件相关扩展：</strong> 一般使用第三方邮件系统<br><strong>数学扩展：</strong><br> BC Math    BCMath 任意精度数学<br> Math<br><strong>其它基本扩展：</strong><br> JSON、Sessions、libxml<br> Lua、Swoole、Yaf、Yaml<br><strong>其它服务：</strong><br> cURL、Memcache、Memcached、Sockets</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;类&quot;&gt;&lt;a href=&quot;#类&quot; class=&quot;headerlink&quot; title=&quot;类&quot;&gt;&lt;/a&gt;类&lt;/h4&gt;&lt;p&gt;PHP5中的新特性包括：访问控制、抽象类、final类与方法，附加的魔术方法、接口、对象复制和类型约束。&lt;/p&gt;
+&lt;h5 id=&quot;基本概念：&quot;&gt;&lt;a href=&quot;#基本概念：&quot; class=&quot;headerlink&quot; title=&quot;基本概念：&quot;&gt;&lt;/a&gt;基本概念：&lt;/h5&gt;&lt;ol&gt;
+&lt;li&gt;一个类可以包含有属于自己的常量、变量（称为“属性”）以及函数（称为“方法”）。&lt;/li&gt;
+&lt;li&gt;一个类可以在声明中用 extends 关键字继承另一个类的方法和属性。PHP不支持多重继承。&lt;/li&gt;
+&lt;li&gt;访问控制关键字 public、protected、private、static、final&lt;/li&gt;
+&lt;li&gt;静态成员、类常量访问使用“::“&lt;/li&gt;
+&lt;li&gt;self,parent和static这是那个特殊的关键字是用于在类定义的内部对其属性或方法进行访问的。&lt;/li&gt;
+&lt;li&gt;对象比较&lt;br&gt;&lt;code&gt;==&lt;/code&gt; 比较两个对象时，如果两个对象的属性和属性值 都相等，而且两个对象是同一个类的实例，那么这两个对象变量相等。&lt;br&gt;&lt;code&gt;===&lt;/code&gt; 使用全等运算符，这两个对象变量一定要指向某个类的同一个实例（即同一个对象）。&lt;/li&gt;
+&lt;/ol&gt;
+    
+    </summary>
+    
+      <category term="PHP" scheme="http://yoursite.com/categories/PHP/"/>
+    
+    
+      <category term="PHP知识点" scheme="http://yoursite.com/tags/PHP%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    
+      <category term="面试" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHP手册学习之函数整理</title>
+    <link href="http://yoursite.com/2019/07/19/PHP%E6%89%8B%E5%86%8C%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%87%BD%E6%95%B0%E6%95%B4%E7%90%86/"/>
+    <id>http://yoursite.com/2019/07/19/PHP手册学习之函数整理/</id>
+    <published>2019-07-19T08:59:43.000Z</published>
+    <updated>2019-07-19T09:24:41.425Z</updated>
+    
+    <content type="html"><![CDATA[<p>下面是此段时间看手册整理之后的函数：</p><a id="more"></a><h4 id="数组函数："><a href="#数组函数：" class="headerlink" title="数组函数："></a>数组函数：</h4><p>array_chunk(array, size, bool) 对数组进行分组，每个数组包含size个元素<br>array_column(array, null, key) 获取数组中某一列数据，或以某列为键，某列为值<br>array_combine(array1, array2)  合并两个数组，以array1为键，以array2为值，如果两个数组元素个数不一样，返回false<br>array_diff(array1, array2,…) 比较数组的值，返回差集，存在array1,且不存在其它数组中的值。保持索引不变<br>array_diff_key(array1, array2, …) 比较数组的键，返回差集，存在array1,且不存在其它数组中，保持索引不变<br>array_intersect(array1, array2, …) 比较数组的值，返回交集，返回即存在array1,又存在array2种，保持索引不变<br>array_intersect_key(array1, array2, …) 比较数组的键，返回交集，返回即存在array1,又存在array2种，保持索引不变<br>array_filter(array, [callback]) 用回调函数过滤数组中的单元，如果没有回调函数，则过滤数组中false的单元<br>array_flip(array)  交换数组中的键值<br>array_keys(array)  返回数组中的键<br>array_values(array)   返回数组中的值<br>array_map(callback, array)  返回数组，对array中的每个元素都应用callback之后的数组<br>array_walk(&amp;array, callback, [userdata])  返回bool，对数组中的每个元素应用callback<br>array_merge(array1, array2, …) 合并两个数组，关联数组后面的会覆盖前面。索引数组会重置索引值，从0开始。（比较 “+” 合并数组，索引数组会保持索引值，前面的会覆盖后面。）<br>array_pop()、array_push()、array_shift()、array_unshift()<br>array_rand(array, [int]) 从数组中随机取出一个或多个单元。只取出一个，返回键名。否则返回包含键名的数组。<br>shuffle(array) 打乱数组，返回bool。<br>array_reverse(array, [bool=false]) 返回单元顺序相反的数组。如果第二个值为true，会保留数字索引。<br>array_key_exists(key, array)  检查数组中是否包含key<br>in_array(needle, array) 检查数组中是否存在某个值<br>array_search(needle, array) 在数组中搜索给定的值，成功返回键名<br>array_slice(array, offset, [length, bool=false]) 返回根据offset和length指定的数组序列。第四个值设为true，保持数字索引不变。<br>array_sum(array)  对数组中所有值求和<br>array_unique(array)  移除数组中重复的值，默认按照字符串排序<br>sort()、rsort()、asort()、arsort()、ksort()、krsort()、usort(array, callback)、uksort()、uasort()<br>compact(varname1) 建立一个数组，包含变量名和它们的值。会在当前符号表中查找该变量名并将它添加到输出的数组中，变量名成为键名而变量的内容成为该键的值。<br>extract(array)  从数组中将变量导入到当前的符号表。 与compact正好相反<br>count(array, [int = 0]) 获取数组的单元个数。 如果第二个值为1，则获取多维数组中单元个数。<br>current() 返回数组当前单元，并不移动指针<br>key() 从关联数组中取得键名，返回当前单元的键名，并不移动指针<br>end() 返回数组最后一个单元，返回值<br>next() 将数组中的内部指针向前移动一位，返回值<br>prev() 将数组的内部指针倒回一位，返回值<br>reset() 将数组的内部指针指向第一个单元，返回值<br>each() 返回数组中当前的键/值对并将数组指针向前移动一位<br>list(var1, …) 把数组中的值赋给一组变量<br>range(start, end, [step=1]) 根据范围创建数组，包含指定的元素。</p><h4 id="字符串函数："><a href="#字符串函数：" class="headerlink" title="字符串函数："></a>字符串函数：</h4><p>addslashes($str):str    - 使用反斜线引用字符串<br>stripcslashes($str):str    - 反引用一个使用addslashes转义的字符串<br>html_entity_decode    - 转化html实体<br>htmlspecialchars()    - 将特殊字符转换为HTML实体<br>htmlspecialchars_decode() - 将特殊的HTML实体转换回普通字符<br>explode($delimiter, $str):array        - 使用一个字符串分隔另一个字符串<br>implode($glue, $pieces):string        - 将一个一维数组的值转化为字符串<br>trim()、ltrim()、rtrim()    - 删除字符串两边的空白字符（或其它字符）<br>md5($str, [$raw_output]):str        - 计算字符串的MD5散列值<br>sha1($str, [$raw_output]):str        - 计算字符串的sha1散列值<br>crc32($str):int        - 计算一个字符串的crc32多项式<br>sprintf($format, [$args,…]):str     - 格式化字符串<br>printf($format, [$args, …]):int    - 输出格式化字符串<br>number_format($number, $decimals, $dec_point=’.’, $thousands_sep=’,’) - 以千位分隔符方式格式化一个数字（注：本函数接受1个、2个或者4个参数，不能是3个）<br>str_pad($input, $pad_length, [$pad_string, $pad_type=’left’]):str    - 使用另一个字符串填充字符串为指定长度<br>str_shuffle($str):str    - 随机打乱一个字符串<br>strlen($str):str    - 获取字符串长度<br>strrev($str):str    - 反转字符串<br>strpos($haystack, $needle, [$offset]):int    - 查找字符串首次出现的位置<br>stripos($haystack, $needle, [$offset]):int    - 查找字符串首次出现的位置（不区分大小写）<br>strrpos($haystack, $needle, [$offset]):int    - 计算指定字符串在目标字符串中最后一次出现的位置<br>strtolower($str):str    - 将字符串转化为小写<br>strtoupper($str):str    - 将字符串转化为大写<br>substr_replace($str, $replace, $start, [$length]):mixed    - 替换字符串的子串<br>substr($str, $start, $length):str    - 返回字符串的子串<br>ucfirst($str):str    - 将字符串的首字母转换为大写<br>ucwords($str):str    - 将字符串中每个单词的首字母转换为大写</p><h4 id="数学函数："><a href="#数学函数：" class="headerlink" title="数学函数："></a>数学函数：</h4><p>ceil()    - 进一法取整<br>floor()    - 舍去法取整<br>round()    - 对浮点数进行四舍五入<br>fmod()    - 返回除法的浮点数余数<br>max()    - 找出最大值<br>min()    - 找出最小值<br>rand()    - 产生一个随机整数（闭合区间）<br>mt_rand()    - 生成更好的随机数（闭合区间）<br>pow()    - 指数表达式<br>abs()    - 绝对值</p><h4 id="BC数学函数："><a href="#BC数学函数：" class="headerlink" title="BC数学函数："></a>BC数学函数：</h4><p>bcadd($left_operand, $right_operand, [$scale])    - 2个任意精度数字的加法计算<br>bcsub($left_operand, $right_operand, [$scale])    - 2个任意精度数学的减法<br>bcmul($left_operand, $right_operand, [$scale])    - 2个任意精度数字乘法计算<br>bcdiv($left_operand, $right_operand, [$scale])        - 2个任意精度的数字除法计算<br>bccomp($left_operand, $right_operand, [$scale])    - 比较两个任意精度的数字<br>bcmod($left_operand, $modulus)        - 对一个任意精度数字取模<br>bcpow($left_operand, $right_operand, [$scale])        - 任意精度数字的乘方<br>bcsqrt($operand, [$scale])    - 任意精度数学的二次方根<br>bcscale($scale)     - 设置所有bc数学函数的默认小数点保留位数</p><h4 id="时间函数："><a href="#时间函数：" class="headerlink" title="时间函数："></a>时间函数：</h4><p>date()        - 格式化一个本地时间/日期<br>microtime()    - 返回当前Unix时间戳和微秒数<br>mktime()    - 取得一个日期的Unix时间戳<br>strtotime()    - 将任何字符串的日期时间描述解析为Unix时间戳<br>time()        - 返回当前的Unix时间戳<br>localtime()    - 取得本地时间<br>date_default_timezone_set - 设定用于一个脚本中所有日期时间函数的默认时区<br>date_default_timezone_get - 获取</p><h4 id="文件函数："><a href="#文件函数：" class="headerlink" title="文件函数："></a>文件函数：</h4><p>opendir($path):resource    - 打开目录句柄<br>closedir($dir_handle)    - 关闭目录句柄<br>readdir($dir_handle):str    - 从目录句柄中读取条目<br>scandir($directory, [$sorting_order]):array    - 列出指定路径中的文件和目录<br>chdir($directory):bool        - 改变目录<br>chroot($directory):bool    - 改变根目录<br>getcwd():str    - 取得当前工作目录</p><h4 id="文件系统函数；"><a href="#文件系统函数；" class="headerlink" title="文件系统函数；"></a>文件系统函数；</h4><p>file_get_contents($filename):str - 将整个文件读取一个字符串<br>file_put_contents($filename, $data):int - 将一个字符串写入文件<br>basename($path, [$suffix]):str    - 返回路径中的文件名部分（如果文件名是以suffix结尾，也会被去掉）<br>dirname($path):str    - 返回路径中的目录部分<br>pathinfo($path):mixd    - 返回文件路径信息（包含：surname,basename,extension,filename）<br>fopen($filename, $mode):resource    - 打开文件或者URL<br>fread($handle, $length):str        - 读取文件<br>fgetc($handle):str        - 从文件指针中读取字符<br>fgets($handle, [$length]):str    - 从文件指针中读取一行（如果没有指定length，则默认1K，即1024字节）<br>fclose($handle):bool    - 关闭一个已打开的文件指针<br>feof($handle):bool        - 测试文件指针是否到了文件结束的位置<br>fwrite($handle, $str, [$length]):int    - 写入文件<br>mkdir($pathname, [$mode=0777, $recursive=false]):bool        - 新建目录<br>rmdir($dirname):bool        - 删除目录（目录必须是空的）<br>unlink($filename):bool    - 删除文件<br>fseek()        - 在文件指针中定位<br>move_uploaded_file($filename, $destination):bool    - 将上传的文件移动到新位置<br>filesize($filename):int    - 取得文件大小<br>filetype($filename):type    - 取得文件类型<br>fileatime($filename):int    - 文件访问时间<br>filectime($filename):int    - 文件inode修改时间<br>filemtime($filename):int    - 取得文件修改时间<br>is_dir($filename):bool    - 是否是一个目录<br>is_file($filename):bool    - 是否为一个正常的文件<br>is_executable($filename):bool    - 文件是否可执行<br>is_writable($filename):bool    - 文件是否可写<br>is_readable($filename):bool    - 文件是否可读<br>chgrp($filename, $group):bool        - 改变文件所属的组<br>chmod($filename, $mode):bool        - 改变文件模式<br>chown($filename, $user):bool        - 改变文件的所有者<br>copy($source, $dest):bool        - 拷贝文件<br>rename()    - 重命名一个文件或目录<br>realpath()    - 返回规范化的绝对路径名<br>touch()        - 设定文件的访问和修改时间</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;下面是此段时间看手册整理之后的函数：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="PHP" scheme="http://yoursite.com/categories/PHP/"/>
+    
+    
+      <category term="PHP知识点" scheme="http://yoursite.com/tags/PHP%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    
+      <category term="面试" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PHP手册学习之基础知识</title>
+    <link href="http://yoursite.com/2019/07/19/PHP%E6%89%8B%E5%86%8C%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    <id>http://yoursite.com/2019/07/19/PHP手册学习之基础知识/</id>
+    <published>2019-07-19T08:59:10.000Z</published>
+    <updated>2019-07-19T09:24:41.425Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="PHP类型：支持9种原始数据类型。"><a href="#PHP类型：支持9种原始数据类型。" class="headerlink" title="PHP类型：支持9种原始数据类型。"></a>PHP类型：支持9种原始数据类型。</h4><h5 id="四种标量类型："><a href="#四种标量类型：" class="headerlink" title="四种标量类型："></a>四种标量类型：</h5><p> boolean、integer、float(double)、string</p><h5 id="三种复合类型："><a href="#三种复合类型：" class="headerlink" title="三种复合类型："></a>三种复合类型：</h5><p> array、object、callable(可调用)</p><h5 id="两种特殊类型："><a href="#两种特殊类型：" class="headerlink" title="两种特殊类型："></a>两种特殊类型：</h5><p> resource、NULL(无类型)</p><a id="more"></a><h4 id="知识点："><a href="#知识点：" class="headerlink" title="知识点："></a>知识点：</h4><ol><li><p>以下值被认为是false：<br>false、0、0.0、”0”、””、array()、NULL</p></li><li><p>永远不要比较两个浮点数是否相等</p></li><li><p>一个字符串的表达方式：单引号、双引号、heredoc语法结构、nowdoc语法结构</p></li><li><p>在下列情况下一个变量被认为是NULL：被赋值为NULL；尚未被赋值；被unset()。<br>（注：使用unset()将一个变量转换为null将不会删除该变量或unset其值。仅是返回NULL值而已）</p></li><li><p>define()、const()定义常量，一个常量一旦被定义，就不能再改变或者取消定义。</p><ul><li>1）常量只能包含标量数据</li><li>2）const()可以在类中定义常量</li></ul></li><li><p>常量和变量的不同点</p><ul><li>常量前面没有美元符号 $</li><li>常量只能用define()函数定义，而不能通过赋值语句</li><li>常量可以不用理会变量的作用域而在任何地方定义和访问</li><li>常量一旦定义就不能被重新定义或者取消</li><li>常量的值只能是标量。</li></ul></li><li><p>isset()与empty()<br>isset()检测变量是否设置并且非NULL，注意，null字符并不等同于NULL常量。当变量被unset()之后，就变为NULL了。<br>empty()检测变量是否为空。当一个变量不存在，或者它的值等同于false，那么就会被被认为不存在。<br>以下的东西被认为是空的：<br>“”、0、0.0、”0”、NULL、false、array()、$var(一个声明了，但是没有值的变量)<br>（注：不存在的变量，empty()检测也是为true。）</p></li></ol><h4 id="其它："><a href="#其它：" class="headerlink" title="其它："></a>其它：</h4><ol><li><p>允许强制转换的有：<br>(int)、(bool)、(float)、(string)、(array)、(object)、(unset)<br>对应函数：intval()、strval()</p></li><li><p>确定变量的类型：<br>gettype()、is_array()、is_bool()、is_float()、is_int()、is_object()、is_string()、is_null()、is_numeric()</p></li><li><p>变量相关函数：<br>empty()、isset()、serialize()、unserialize()、unset()、var_dump()、print_r()、var_export()</p></li></ol><ol start="4"><li>PHP预定义变量：<br>$_GLOBALS<br>$_SERVER<br>$_GET<br>$_POST<br>$_REQUEST<br>$_FILES<br>$_SESSION<br>$_COOKIE<br>$_ENV 环境变量<br>$argc 传递给脚本的参数数目<br>$argv 传递给脚本的参数数组<br>$php_errormsg 前一个错误信息<br>$HTTP_RAW_POST_DATA 原声POST数据<br>$http_response_header HTTP响应头</li></ol><ol start="5"><li><p>魔术常量：<br>__LINE__ 文件中当前行号<br>__FILE__ 文件的完整路径和文件名<br>__DIR__ 文件所在的目录<br>__FUNCTION__ 函数名称（区分大小写）<br>__CLASS__ 类的名称（区分大小写）<br>__TRAIT__ Trait的名字（区分大小写）<br>__METHOD__ 类的方法名（区分大小写）<br>__NAMESPACE__ 当前命名空间的名称（区分大小写）</p></li><li><p>常见函数：<br>get_class()、get_object_vars()、file_exists()、function_exists()<br>call_user_func - 把第一个参数作为回调函数调用<br>func_get_args - 返回一个包含函数参数列表的数组</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h4 id=&quot;PHP类型：支持9种原始数据类型。&quot;&gt;&lt;a href=&quot;#PHP类型：支持9种原始数据类型。&quot; class=&quot;headerlink&quot; title=&quot;PHP类型：支持9种原始数据类型。&quot;&gt;&lt;/a&gt;PHP类型：支持9种原始数据类型。&lt;/h4&gt;&lt;h5 id=&quot;四种标量类型：&quot;&gt;&lt;a href=&quot;#四种标量类型：&quot; class=&quot;headerlink&quot; title=&quot;四种标量类型：&quot;&gt;&lt;/a&gt;四种标量类型：&lt;/h5&gt;&lt;p&gt; boolean、integer、float(double)、string&lt;/p&gt;
+&lt;h5 id=&quot;三种复合类型：&quot;&gt;&lt;a href=&quot;#三种复合类型：&quot; class=&quot;headerlink&quot; title=&quot;三种复合类型：&quot;&gt;&lt;/a&gt;三种复合类型：&lt;/h5&gt;&lt;p&gt; array、object、callable(可调用)&lt;/p&gt;
+&lt;h5 id=&quot;两种特殊类型：&quot;&gt;&lt;a href=&quot;#两种特殊类型：&quot; class=&quot;headerlink&quot; title=&quot;两种特殊类型：&quot;&gt;&lt;/a&gt;两种特殊类型：&lt;/h5&gt;&lt;p&gt; resource、NULL(无类型)&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="PHP" scheme="http://yoursite.com/categories/PHP/"/>
+    
+    
+      <category term="PHP知识点" scheme="http://yoursite.com/tags/PHP%E7%9F%A5%E8%AF%86%E7%82%B9/"/>
+    
+      <category term="面试" scheme="http://yoursite.com/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title>PHP异常处理机制</title>
@@ -421,76 +503,6 @@
     
     
       <category term="PHP-FPM" scheme="http://yoursite.com/tags/PHP-FPM/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>INI配置文件的格式</title>
-    <link href="http://yoursite.com/2018/10/24/INI%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E6%A0%BC%E5%BC%8F/"/>
-    <id>http://yoursite.com/2018/10/24/INI配置文件的格式/</id>
-    <published>2018-10-24T09:14:55.000Z</published>
-    <updated>2018-10-24T09:26:34.226Z</updated>
-    
-    <content type="html"><![CDATA[<p>最近学习Go语言的时候，发现好多Go框架中的配置文件都支持INI格式的。当然，不仅仅是Go框架，PHP语言的好多框架也使用INI格式的配置文件，例如Yaf等。因此，需要梳理一下INI格式。常用的配置文件格式还有很多，如XML配置文件等。<br><a id="more"></a></p><blockquote><p>在早期的windows桌面系统中主要是用INI文件作为系统的配置文件，从win95以后开始转向使用注册表，但是还有很多系统配置是使用INI文件的。其实INI文件就是简单的text文件，只不过这种txt文件要遵循一定的INI文件格式。现在的WINCE系统上也常常用INI文件作为配置文件。“.INI ”就是英文 “initialization”的头三个字母的缩写；当然INI file的后缀名也不一定是”.ini”也可以是”.cfg”，”.conf ”或者是”.txt”。</p></blockquote><h4 id="INI文件由节、键、值组成"><a href="#INI文件由节、键、值组成" class="headerlink" title="INI文件由节、键、值组成"></a>INI文件由节、键、值组成</h4><p><strong>节</strong><br>　　[section]  </p><p><strong>参数（键=值） </strong><br>　　name=value</p><p><strong>注解</strong><br>　　注解使用分号表示（;）。在分号后面的文字，直到该行结尾都全部为注解。</p><font color="red">INI文件的格式很简单，最基本的三个要素是：parameters，sections和comments。</font><h4 id="什么是parameters？"><a href="#什么是parameters？" class="headerlink" title="什么是parameters？"></a>什么是parameters？</h4><p>INI所包含的最基本的“元素”就是parameter；每一个parameter都有一个name和一个value，name和value是由等号“=”隔开。name在等号的左边。<br>如：<br>　　name = value</p><h4 id="什么是sections-？"><a href="#什么是sections-？" class="headerlink" title="什么是sections ？"></a>什么是sections ？</h4><p>所有的parameters都是以sections为单位结合在一起的。所有的section名称都是独占一行，并且sections名字都被方括号包围着（[ and ])。在section声明后的所有parameters都是属于该section。对于一个section没有明显的结束标志符，一个section的开始就是上一个section的结束，或者是end of the file。Sections一般情况下不能被nested，当然特殊情况下也可以实现sections的嵌套。<br>section如下所示：<br>　　[section]</p><h4 id="什么是comments-？"><a href="#什么是comments-？" class="headerlink" title="什么是comments ？"></a>什么是comments ？</h4><p>在INI文件中注释语句是以分号“；”开始的。所有的所有的注释语句不管多长都是独占一行直到结束的。在分号和行结束符之间的所有内容都是被忽略的。<br>注释实例如下：<br>;comments text</p><p>当然，上面讲的都是最经典的INI文件格式，随着使用的需求INI文件的格式也出现了很多变种；</p><h4 id="INI实例"><a href="#INI实例" class="headerlink" title="INI实例"></a>INI实例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">; last modified 1 April 2001 by John Doe</span><br><span class="line">[owner]</span><br><span class="line">name = John Doe</span><br><span class="line">organization = Acme Products</span><br><span class="line"></span><br><span class="line">[database]</span><br><span class="line">server=192.0.2.42</span><br><span class="line">; use IP address in case network name resolution is not working</span><br><span class="line">port=143</span><br><span class="line">file = &quot;acme payroll.dat&quot;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;最近学习Go语言的时候，发现好多Go框架中的配置文件都支持INI格式的。当然，不仅仅是Go框架，PHP语言的好多框架也使用INI格式的配置文件，例如Yaf等。因此，需要梳理一下INI格式。常用的配置文件格式还有很多，如XML配置文件等。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="服务器" scheme="http://yoursite.com/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
-    
-      <category term="Nginx" scheme="http://yoursite.com/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/Nginx/"/>
-    
-    
-      <category term="Nginx" scheme="http://yoursite.com/tags/Nginx/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HTTP状态码499解析</title>
-    <link href="http://yoursite.com/2018/10/24/HTTP%E7%8A%B6%E6%80%81%E7%A0%81499%E8%A7%A3%E6%9E%90/"/>
-    <id>http://yoursite.com/2018/10/24/HTTP状态码499解析/</id>
-    <published>2018-10-24T09:13:51.000Z</published>
-    <updated>2018-10-24T09:32:04.934Z</updated>
-    
-    <content type="html"><![CDATA[<p>日志记录中HTTP状态码出现499错误有多种情况，我遇到的一种情况是nginx反代到一个永远打不开的后端，就这样了，日志状态记录是499、发送字节数是0。</p><p>499错误是什么？让我们看看NGINX的源码中的定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ngx_string(ngx_http_error_495_page), /* 495, https certificate error */</span><br><span class="line">ngx_string(ngx_http_error_496_page), /* 496, https no certificate */</span><br><span class="line">ngx_string(ngx_http_error_497_page), /* 497, http to https */</span><br><span class="line">ngx_string(ngx_http_error_404_page), /* 498, canceled */</span><br><span class="line">ngx_null_string,                    /* 499, client has closed connection */</span><br></pre></td></tr></table></figure></p><p>可以看到，499对应的是 “client has closed connection”。这很有可能是因为服务器端处理的时间过长，客户端“不耐烦”了。<br><a id="more"></a></p><p><strong>Nginx 499错误的原因及解决方法</strong><br>打开Nginx的access.log发现在最后一次的提交是出现了HTTP1.1 499 0 -这样的错误，在百度搜索nginx 499错误，结果都是说客户端主动断开了连接。</p><p>但经过我的测试这显然不是客户端的问题，因为使用端口+IP直接访问后端服务器不存在此问题，后来测试nginx发现如果两次提交post过快就会出现499的情况，看来是nginx认为是不安全的连接，主动拒绝了客户端的连接.</p><p>但搜索相关问题一直找不到解决方法，最后终于在google上搜索到一英文论坛上有关于此错误的解决方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">proxy_ignore_client_abort on;</span><br><span class="line">Don’t know if this is safe.</span><br></pre></td></tr></table></figure></p><p>就是说要配置参数 proxy_ignore_client_abort on;<br>表示代理服务端不要主要主动关闭客户端连接。</p><p>以此配置重启nginx,问题果然得到解决。只是安全方面稍有欠缺，但比总是出现找不到服务器好多了。</p><p>还有一种原因是 我后来测试发现 确实是客户端关闭了连接,或者说连接超时 ,无论你设置多少超时时间多没用 原来是php进程不够用了 改善一下php进程数 问题解决 默认测试环境才开5个子进程。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;日志记录中HTTP状态码出现499错误有多种情况，我遇到的一种情况是nginx反代到一个永远打不开的后端，就这样了，日志状态记录是499、发送字节数是0。&lt;/p&gt;
-&lt;p&gt;499错误是什么？让我们看看NGINX的源码中的定义：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;ngx_string(ngx_http_error_495_page), /* 495, https certificate error */&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ngx_string(ngx_http_error_496_page), /* 496, https no certificate */&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ngx_string(ngx_http_error_497_page), /* 497, http to https */&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ngx_string(ngx_http_error_404_page), /* 498, canceled */&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ngx_null_string,                    /* 499, client has closed connection */&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;可以看到，499对应的是 “client has closed connection”。这很有可能是因为服务器端处理的时间过长，客户端“不耐烦”了。&lt;br&gt;
-    
-    </summary>
-    
-      <category term="前端" scheme="http://yoursite.com/categories/%E5%89%8D%E7%AB%AF/"/>
-    
-    
-      <category term="HTTP" scheme="http://yoursite.com/tags/HTTP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Shell常用知识点总结</title>
-    <link href="http://yoursite.com/2018/10/23/Shell%E5%B8%B8%E7%94%A8%E7%9F%A5%E8%AF%86%E7%82%B9%E6%80%BB%E7%BB%93/"/>
-    <id>http://yoursite.com/2018/10/23/Shell常用知识点总结/</id>
-    <published>2018-10-23T10:42:55.000Z</published>
-    <updated>2018-10-23T10:49:08.709Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="1、整型变量自增的几种方法"><a href="#1、整型变量自增的几种方法" class="headerlink" title="1、整型变量自增的几种方法"></a>1、整型变量自增的几种方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a=1</span><br><span class="line">a=$(($a+1))</span><br><span class="line">a=$[$a+1]</span><br><span class="line">a=`expr $a + 1`</span><br><span class="line">let a++</span><br><span class="line">let a+=1</span><br><span class="line">((a++))</span><br><span class="line">echo $a</span><br></pre></td></tr></table></figure><a id="more"></a><h4 id="2、读取文件中的内容"><a href="#2、读取文件中的内容" class="headerlink" title="2、读取文件中的内容"></a>2、读取文件中的内容</h4><p>（1）直接读取对应文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">while read line</span><br><span class="line">do</span><br><span class="line">      echo $line     #这里可根据实际用途变化</span><br><span class="line">done &lt; urfile</span><br></pre></td></tr></table></figure></p><p>（2）使用管道符形式读取<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">cat urfile | while read line</span><br><span class="line">do</span><br><span class="line">    echo $line</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p><p>（注意：以上代码中urfile 为被读取的文件）</p><p>（3）将文件赋值给变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">last | while read wOne wTwo wThree</span><br><span class="line">do</span><br><span class="line">echo $wOne&quot;,&quot;$wTwo&quot;,&quot;$wThree</span><br><span class="line">done</span><br></pre></td></tr></table></figure></p><h4 id="3、判断文件是否为空"><a href="#3、判断文件是否为空" class="headerlink" title="3、判断文件是否为空"></a>3、判断文件是否为空</h4><p><code>if [[ ! -s filename ]]</code> # 如果文件存在且为空，-s代表存在不为空，！将它取反</p><h4 id="4、比较两个字符串的大小"><a href="#4、比较两个字符串的大小" class="headerlink" title="4、比较两个字符串的大小"></a>4、比较两个字符串的大小</h4><p>&lt;    小于，在ASCII字母顺序下，如：<br>    <code>if [[ &quot;$a&quot; &lt; &quot;$b&quot; ]]</code><br>    <code>if [ &quot;$a&quot; \&lt; &quot;$b&quot; ]</code><br>&#60;    大于，在ASCII字母顺序下，如：<br>    <code>if [[ &quot;$a&quot; &gt; &quot;$b&quot; ]]</code><br>    <code>if [ &quot;$a&quot; \&gt; &quot;$b&quot; ]</code><br>注意：在[]结构中”&gt;”需要被转义。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;1、整型变量自增的几种方法&quot;&gt;&lt;a href=&quot;#1、整型变量自增的几种方法&quot; class=&quot;headerlink&quot; title=&quot;1、整型变量自增的几种方法&quot;&gt;&lt;/a&gt;1、整型变量自增的几种方法&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;a=1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;a=$(($a+1))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;a=$[$a+1]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;a=`expr $a + 1`&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;let a++&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;let a+=1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;((a++))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;echo $a&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="Shell" scheme="http://yoursite.com/categories/Shell/"/>
-    
-    
-      <category term="Shell" scheme="http://yoursite.com/tags/Shell/"/>
     
   </entry>
   
