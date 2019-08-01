@@ -84,3 +84,9 @@ deploy:
   #repository: https://github.com/bluce-ben/bluce-ben.github.io.git
   repository: git@github.com:bluce-ben/bluce-ben.github.io.git
   branch: master
+
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
