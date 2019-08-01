@@ -116,3 +116,24 @@ Next主题配置：[传送门](http://theme-next.iissnan.com/theme-settings.html
 
 2、在Options（默认）选项下方找到GitHub Page一栏，如下图所示，勾选 Enforce HTTPS设置即可。
 ![](/uploads/2018/10/hexo_https_02.png)
+
+
+## Hexo 增加搜索功能
+### 安装插件
+`npm install hexo-generator-searchdb --save`
+
+### 修改配置文件
+**修改 站点配置 文件**
+```
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
+```
+
+**修改 主题配置 文件**
+```
+local_search:
+  enable: true
+```
