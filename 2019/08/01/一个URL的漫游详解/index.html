@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机网络,面试," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="详细分解网络请求一个网络请求通过TCP/IP五层架构（此处数据链路层和物理层是分开的）进行传输，都是怎么传输的，以及都干了些什么。此文将会从网络层、传输层和应用层进行详解，各个层都做了哪些操作，以及是如何进行传输的。 下面我们将从大的方向来说明一个请求从客户端到服务端都经历了哪些过程，此处可能会遗漏，以后达到该层次，再补充。">
+<meta name="keywords" content="计算机网络,面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个URL的漫游详解">
+<meta property="og:url" content="http://yoursite.com/2019/08/01/一个URL的漫游详解/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="详细分解网络请求一个网络请求通过TCP/IP五层架构（此处数据链路层和物理层是分开的）进行传输，都是怎么传输的，以及都干了些什么。此文将会从网络层、传输层和应用层进行详解，各个层都做了哪些操作，以及是如何进行传输的。 下面我们将从大的方向来说明一个请求从客户端到服务端都经历了哪些过程，此处可能会遗漏，以后达到该层次，再补充。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/uploads/2019/04/the_whole_url.jpg">
+<meta property="og:image" content="http://yoursite.com/uploads/2019/04/ip_head.jpeg">
+<meta property="og:image" content="http://yoursite.com/uploads/2019/04/tcp_head.png">
+<meta property="og:updated_time" content="2019-08-02T02:05:47.648Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一个URL的漫游详解">
+<meta name="twitter:description" content="详细分解网络请求一个网络请求通过TCP/IP五层架构（此处数据链路层和物理层是分开的）进行传输，都是怎么传输的，以及都干了些什么。此文将会从网络层、传输层和应用层进行详解，各个层都做了哪些操作，以及是如何进行传输的。 下面我们将从大的方向来说明一个请求从客户端到服务端都经历了哪些过程，此处可能会遗漏，以后达到该层次，再补充。">
+<meta name="twitter:image" content="http://yoursite.com/uploads/2019/04/the_whole_url.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/01/一个URL的漫游详解/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>一个URL的漫游详解 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/01/一个URL的漫游详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">一个URL的漫游详解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-01T17:28:41+08:00">
+                2019-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/计算机网络/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机网络</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/08/01/一个URL的漫游详解/" class="leancloud_visitors" data-flag-title="一个URL的漫游详解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>详细分解网络请求</strong><br>一个网络请求通过TCP/IP五层架构（此处数据链路层和物理层是分开的）进行传输，都是怎么传输的，以及都干了些什么。此文将会从网络层、传输层和应用层进行详解，各个层都做了哪些操作，以及是如何进行传输的。</p>
+<p>下面我们将从大的方向来说明一个请求从客户端到服务端都经历了哪些过程，此处可能会遗漏，以后达到该层次，再补充。<br><a id="more"></a></p>
+<h4 id="一、一个HTTP的URL的生命过程"><a href="#一、一个HTTP的URL的生命过程" class="headerlink" title="一、一个HTTP的URL的生命过程"></a>一、一个HTTP的URL的生命过程</h4><p>（注：此处会涉及到一个客户端缓存的问题，如果请求的是静态页面且本机上有该缓存页面，则直接读取，不会向服务器发送请求。此处忽略该请求）<br>总体来说分为以下六个步骤：</p>
+<h5 id="1、DNS解析"><a href="#1、DNS解析" class="headerlink" title="1、DNS解析"></a>1、DNS解析</h5><p>我们都知道，正常的url是通过域名来访问的，而在服务器之间则是通过IP地址来传输的。因此，首先客户端会进行URL解析——DNS解析。DNS会先在本机查找是否有缓存，没有的话，会向DNS服务器发送请求，而DNS服务器则会递归查询，直到找到该解析，则返回，客户端则会缓存该解析。</p>
+<blockquote>
+<p>扩展：<br>DNS缓存：DNS存在着多级缓存，从离浏览器的距离排序的话，有以下几种：浏览器缓存，系统缓存，路由缓存，IPS服务器缓存，根域名服务器缓存，顶级域名服务器缓存，<br>DNS负载均衡：DNS可以返回一个合适的机器的IP给用户，例如可以根据每台服务器的负载量，该机器离用户地理位置的距离等，这种过程就是DNS负载均衡，又可以叫做DNS重定向，大家耳熟能详的CDN就是利用DNS的重定向技术，DNS服务器会返回一个跟用户最接近的点的IP地址给用户，CDN节点的服务器负责响应用户的请求，提供所需的内容。</p>
+</blockquote>
+<h5 id="2、TCP连接"><a href="#2、TCP连接" class="headerlink" title="2、TCP连接"></a>2、TCP连接</h5><p>由DNS解析后，客户端就能够找到服务器，首先会通过TCP建立连接。</p>
+<h5 id="3、发送HTTP请求"><a href="#3、发送HTTP请求" class="headerlink" title="3、发送HTTP请求"></a>3、发送HTTP请求</h5><p>建立连接后，客户端就向服务器发送请求。</p>
+<h5 id="4、服务器处理请求并返回HTTP报文"><a href="#4、服务器处理请求并返回HTTP报文" class="headerlink" title="4、服务器处理请求并返回HTTP报文"></a>4、服务器处理请求并返回HTTP报文</h5><p>服务器接收到请求后，首先服务器会进行处理，如果是静态页面，则直接返回；否则，将该动态请求转发给后端服务处理，等待后端服务处理结束，则返回处理结果。</p>
+<h5 id="5、浏览器解析渲染页面"><a href="#5、浏览器解析渲染页面" class="headerlink" title="5、浏览器解析渲染页面"></a>5、浏览器解析渲染页面</h5><p>客户端接收到服务端返回的结果后，进行页面渲染。展示给用户。</p>
+<h5 id="6、连接结束"><a href="#6、连接结束" class="headerlink" title="6、连接结束"></a>6、连接结束</h5><p>客户端断开连接。到此，一个请求周期结束。<br>（注：如果是keepalive长连接模式，则该连接不会断开，在timeout时间结束后，连接才会断开。）<br><img src="/uploads/2019/04/the_whole_url.jpg" alt="" title="一个完整的URL请求过程"></p>
+<h4 id="二、一个请求的建立及断开都经历了什么"><a href="#二、一个请求的建立及断开都经历了什么" class="headerlink" title="二、一个请求的建立及断开都经历了什么"></a>二、一个请求的建立及断开都经历了什么</h4><p>我们通过监听9000端口，来捕捉一个php-fpm的请求。仔细分析一下，该请求在服务端都进行了哪些处理，以及都进行了哪些步骤。（注：此分析相当于服务器处理请求并返回结果的过程）<br>下面是通过<code>tcpdump</code>捕获的一个php请求：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_7_centos conf]# tcpdump -i lo port 9000 -S -XX</span><br><span class="line">tcpdump: verbose output suppressed, use -v or -vv for full protocol decode</span><br><span class="line">listening on lo, link-type EN10MB (Ethernet), capture size 262144 bytes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">15:07:47.787523 IP VM_0_7_centos.39980 &gt; VM_0_7_centos.cslistener: Flags [S], seq 682182615, win 43690, options [mss 65495,sackOK,TS val 3797694546 ecr 0,nop,wscale 7], length 0</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  003c 7f85 4000 4006 bd34 7f00 0001 7f00  .&lt;..@.@..4......</span><br><span class="line">	0x0020:  0001 9c2c 2328 28a9 47d7 0000 0000 a002  ...,#((.G.......</span><br><span class="line">	0x0030:  aaaa fe30 0000 0204 ffd7 0402 080a e25c  ...0...........\</span><br><span class="line">	0x0040:  3852 0000 0000 0103 0307                 8R........</span><br><span class="line">00:58:18.801473 IP VM_0_7_centos.cslistener &gt; VM_0_7_centos.39980: Flags [S.], seq 1894922491, ack 682182616, win 43690, options [mss 65495,sackOK,TS val 3797694546 ecr 3797694546,nop,wscale 7], length 0</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  003c 0000 4000 4006 3cba 7f00 0001 7f00  .&lt;..@.@.&lt;.......</span><br><span class="line">	0x0020:  0001 2328 9c2c 70f2 38fb 28a9 47d8 a012  ..#(.,p.8.(.G...</span><br><span class="line">	0x0030:  aaaa fe30 0000 0204 ffd7 0402 080a e25c  ...0...........\</span><br><span class="line">	0x0040:  3852 e25c 3852 0103 0307                 8R.\8R....</span><br><span class="line">15:07:47.787544 IP VM_0_7_centos.39980 &gt; VM_0_7_centos.cslistener: Flags [.], ack 1894922492, win 342, options [nop,nop,TS val 3797694546 ecr 3797694546], length 0</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  0034 7f86 4000 4006 bd3b 7f00 0001 7f00  .4..@.@..;......</span><br><span class="line">	0x0020:  0001 9c2c 2328 28a9 47d8 70f2 38fc 8010  ...,#((.G.p.8...</span><br><span class="line">	0x0030:  0156 fe28 0000 0101 080a e25c 3852 e25c  .V.(.......\8R.\</span><br><span class="line">	0x0040:  3852                                     8R</span><br><span class="line">15:07:47.787571 IP VM_0_7_centos.39980 &gt; VM_0_7_centos.cslistener: Flags [P.], seq 682182616:682183504, ack 1894922492, win 342, options [nop,nop,TS val 3797694546 ecr 3797694546], length 888</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  03ac 7f87 4000 4006 b9c2 7f00 0001 7f00  ....@.@.........</span><br><span class="line">	0x0020:  0001 9c2c 2328 28a9 47d8 70f2 38fc 8018  ...,#((.G.p.8...</span><br><span class="line">	0x0030:  0156 01a1 0000 0101 080a e25c 3852 e25c  .V.........\8R.\</span><br><span class="line">	0x0040:  3852 0101 0001 0008 0000 0001 0000 0000  8R..............</span><br><span class="line">	0x0050:  0000 0104 0001 034f 0100 0f17 5343 5249  .......O....SCRI</span><br><span class="line">	0x0060:  5054 5f46 494c 454e 414d 452f 686f 6d65  PT_FILENAME/home</span><br><span class="line">	0x0070:  2f77 7777 726f 6f74 2f69 6e64 6578 2e70  /wwwroot/index.p</span><br><span class="line">	0x0080:  6870 0c00 5155 4552 595f 5354 5249 4e47  hp..QUERY_STRING</span><br><span class="line">	0x0090:  0e03 5245 5155 4553 545f 4d45 5448 4f44  ..REQUEST_METHOD</span><br><span class="line">	0x00a0:  4745 540c 0043 4f4e 5445 4e54 5f54 5950  GET..CONTENT_TYP</span><br><span class="line">	0x00b0:  450e 0043 4f4e 5445 4e54 5f4c 454e 4754  E..CONTENT_LENGT</span><br><span class="line">	0x00c0:  480b 0a53 4352 4950 545f 4e41 4d45 2f69  H..SCRIPT_NAME/i</span><br><span class="line">	0x00d0:  6e64 6578 2e70 6870 0b0a 5245 5155 4553  ndex.php..REQUES</span><br><span class="line">	0x00e0:  545f 5552 492f 696e 6465 782e 7068 700c  T_URI/index.php.</span><br><span class="line">	0x00f0:  0a44 4f43 554d 454e 545f 5552 492f 696e  .DOCUMENT_URI/in</span><br><span class="line">	0x0100:  6465 782e 7068 700d 0d44 4f43 554d 454e  dex.php..DOCUMEN</span><br><span class="line">	0x0110:  545f 524f 4f54 2f68 6f6d 652f 7777 7772  T_ROOT/home/wwwr</span><br><span class="line">	0x0120:  6f6f 740f 0853 4552 5645 525f 5052 4f54  oot..SERVER_PROT</span><br><span class="line">	0x0130:  4f43 4f4c 4854 5450 2f31 2e31 0e04 5245  OCOLHTTP/1.1..RE</span><br><span class="line">	0x0140:  5155 4553 545f 5343 4845 4d45 6874 7470  QUEST_SCHEMEhttp</span><br><span class="line">	0x0150:  1107 4741 5445 5741 595f 494e 5445 5246  ..GATEWAY_INTERF</span><br><span class="line">	0x0160:  4143 4543 4749 2f31 2e31 0f0c 5345 5256  ACECGI/1.1..SERV</span><br><span class="line">	0x0170:  4552 5f53 4f46 5457 4152 456e 6769 6e78  ER_SOFTWAREnginx</span><br><span class="line">	0x0180:  2f31 2e31 342e 300b 0d52 454d 4f54 455f  /1.14.0..REMOTE_</span><br><span class="line">	0x0190:  4144 4452 3232 332e 3230 2e31 3633 2e39  ADDR223.20.163.9</span><br><span class="line">	0x01a0:  350b 0452 454d 4f54 455f 504f 5254 3437  5..REMOTE_PORT47</span><br><span class="line">	0x01b0:  3839 0b0a 5345 5256 4552 5f41 4444 5231  89..SERVER_ADDR1</span><br><span class="line">	0x01c0:  3732 2e32 372e 302e 370b 0253 4552 5645  72.27.0.7..SERVE</span><br><span class="line">	0x01d0:  525f 504f 5254 3830 0b09 5345 5256 4552  R_PORT80..SERVER</span><br><span class="line">	0x01e0:  5f4e 414d 456c 6f63 616c 686f 7374 0f03  _NAMElocalhost..</span><br><span class="line">	0x01f0:  5245 4449 5245 4354 5f53 5441 5455 5332  REDIRECT_STATUS2</span><br><span class="line">	0x0200:  3030 090c 4854 5450 5f48 4f53 5431 3138  00..HTTP_HOST118</span><br><span class="line">	0x0210:  2e32 342e 382e 3232 390f 0a48 5454 505f  .24.8.229..HTTP_</span><br><span class="line">	0x0220:  434f 4e4e 4543 5449 4f4e 6b65 6570 2d61  CONNECTIONkeep-a</span><br><span class="line">	0x0230:  6c69 7665 1e01 4854 5450 5f55 5047 5241  live..HTTP_UPGRA</span><br><span class="line">	0x0240:  4445 5f49 4e53 4543 5552 455f 5245 5155  DE_INSECURE_REQU</span><br><span class="line">	0x0250:  4553 5453 310f 7948 5454 505f 5553 4552  ESTS1.yHTTP_USER</span><br><span class="line">	0x0260:  5f41 4745 4e54 4d6f 7a69 6c6c 612f 352e  _AGENTMozilla/5.</span><br><span class="line">	0x0270:  3020 284d 6163 696e 746f 7368 3b20 496e  0.(Macintosh;.In</span><br><span class="line">	0x0280:  7465 6c20 4d61 6320 4f53 2058 2031 305f  tel.Mac.OS.X.10_</span><br><span class="line">	0x0290:  3134 5f34 2920 4170 706c 6557 6562 4b69  14_4).AppleWebKi</span><br><span class="line">	0x02a0:  742f 3533 372e 3336 2028 4b48 544d 4c2c  t/537.36.(KHTML,</span><br><span class="line">	0x02b0:  206c 696b 6520 4765 636b 6f29 2043 6872  .like.Gecko).Chr</span><br><span class="line">	0x02c0:  6f6d 652f 3733 2e30 2e33 3638 332e 3130  ome/73.0.3683.10</span><br><span class="line">	0x02d0:  3320 5361 6661 7269 2f35 3337 2e33 360b  3.Safari/537.36.</span><br><span class="line">	0x02e0:  7648 5454 505f 4143 4345 5054 7465 7874  vHTTP_ACCEPTtext</span><br><span class="line">	0x02f0:  2f68 746d 6c2c 6170 706c 6963 6174 696f  /html,applicatio</span><br><span class="line">	0x0300:  6e2f 7868 746d 6c2b 786d 6c2c 6170 706c  n/xhtml+xml,appl</span><br><span class="line">	0x0310:  6963 6174 696f 6e2f 786d 6c3b 713d 302e  ication/xml;q=0.</span><br><span class="line">	0x0320:  392c 696d 6167 652f 7765 6270 2c69 6d61  9,image/webp,ima</span><br><span class="line">	0x0330:  6765 2f61 706e 672c 2a2f 2a3b 713d 302e  ge/apng,*/*;q=0.</span><br><span class="line">	0x0340:  382c 6170 706c 6963 6174 696f 6e2f 7369  8,application/si</span><br><span class="line">	0x0350:  676e 6564 2d65 7863 6861 6e67 653b 763d  gned-exchange;v=</span><br><span class="line">	0x0360:  6233 140d 4854 5450 5f41 4343 4550 545f  b3..HTTP_ACCEPT_</span><br><span class="line">	0x0370:  454e 434f 4449 4e47 677a 6970 2c20 6465  ENCODINGgzip,.de</span><br><span class="line">	0x0380:  666c 6174 6514 0e48 5454 505f 4143 4345  flate..HTTP_ACCE</span><br><span class="line">	0x0390:  5054 5f4c 414e 4755 4147 457a 682d 434e  PT_LANGUAGEzh-CN</span><br><span class="line">	0x03a0:  2c7a 683b 713d 302e 3900 0104 0001 0000  ,zh;q=0.9.......</span><br><span class="line">	0x03b0:  0000 0105 0001 0000 0000                 ..........</span><br><span class="line">15:07:47.787577 IP VM_0_7_centos.cslistener &gt; VM_0_7_centos.39980: Flags [.], ack 682183504, win 356, options [nop,nop,TS val 3797694546 ecr 3797694546], length 0</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  0034 00ae 4000 4006 3c14 7f00 0001 7f00  .4..@.@.&lt;.......</span><br><span class="line">	0x0020:  0001 2328 9c2c 70f2 38fc 28a9 4b50 8010  ..#(.,p.8.(.KP..</span><br><span class="line">	0x0030:  0164 fe28 0000 0101 080a e25c 3852 e25c  .d.(.......\8R.\</span><br><span class="line">	0x0040:  3852                                     8R</span><br><span class="line">15:07:49.735400 IP VM_0_7_centos.cslistener &gt; VM_0_7_centos.39980: Flags [P.], seq 1894922492:1894922596, ack 682183504, win 356, options [nop,nop,TS val 3797696494 ecr 3797694546], length 104</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  009c 00af 4000 4006 3bab 7f00 0001 7f00  ....@.@.;.......</span><br><span class="line">	0x0020:  0001 2328 9c2c 70f2 38fc 28a9 4b50 8018  ..#(.,p.8.(.KP..</span><br><span class="line">	0x0030:  0164 fe90 0000 0101 080a e25c 3fee e25c  .d.........\?..\</span><br><span class="line">	0x0040:  3852 0106 0001 0050 0000 582d 506f 7765  8R.....P..X-Powe</span><br><span class="line">	0x0050:  7265 642d 4279 3a20 5048 502f 372e 302e  red-By:.PHP/7.0.</span><br><span class="line">	0x0060:  3333 0d0a 436f 6e74 656e 742d 7479 7065  33..Content-type</span><br><span class="line">	0x0070:  3a20 7465 7874 2f68 746d 6c3b 2063 6861  :.text/html;.cha</span><br><span class="line">	0x0080:  7273 6574 3d55 5446 2d38 0d0a 0d0a 4865  rset=UTF-8....He</span><br><span class="line">	0x0090:  6c6c 6f20 576f 726c 6421 0103 0001 0008  llo.World!......</span><br><span class="line">	0x00a0:  0000 0000 0000 003a 2074                 .......:.t</span><br><span class="line">15:07:49.735419 IP VM_0_7_centos.39980 &gt; VM_0_7_centos.cslistener: Flags [.], ack 1894922596, win 342, options [nop,nop,TS val 3797696494 ecr 3797696494], length 0</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  0034 7f88 4000 4006 bd39 7f00 0001 7f00  .4..@.@..9......</span><br><span class="line">	0x0020:  0001 9c2c 2328 28a9 4b50 70f2 3964 8010  ...,#((.KPp.9d..</span><br><span class="line">	0x0030:  0156 fe28 0000 0101 080a e25c 3fee e25c  .V.(.......\?..\</span><br><span class="line">	0x0040:  3fee                                     ?.</span><br><span class="line">15:07:49.735501 IP VM_0_7_centos.cslistener &gt; VM_0_7_centos.39980: Flags [F.], seq 1894922596, ack 682183504, win 356, options [nop,nop,TS val 3797696494 ecr 3797696494], length 0</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  0034 00b0 4000 4006 3c12 7f00 0001 7f00  .4..@.@.&lt;.......</span><br><span class="line">	0x0020:  0001 2328 9c2c 70f2 3964 28a9 4b50 8011  ..#(.,p.9d(.KP..</span><br><span class="line">	0x0030:  0164 fe28 0000 0101 080a e25c 3fee e25c  .d.(.......\?..\</span><br><span class="line">	0x0040:  3fee                                     ?.</span><br><span class="line">15:07:49.735547 IP VM_0_7_centos.39980 &gt; VM_0_7_centos.cslistener: Flags [F.], seq 682183504, ack 1894922597, win 342, options [nop,nop,TS val 3797696494 ecr 3797696494], length 0</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  0034 7f89 4000 4006 bd38 7f00 0001 7f00  .4..@.@..8......</span><br><span class="line">	0x0020:  0001 9c2c 2328 28a9 4b50 70f2 3965 8011  ...,#((.KPp.9e..</span><br><span class="line">	0x0030:  0156 fe28 0000 0101 080a e25c 3fee e25c  .V.(.......\?..\</span><br><span class="line">	0x0040:  3fee                                     ?.</span><br><span class="line">15:07:49.735554 IP VM_0_7_centos.cslistener &gt; VM_0_7_centos.39980: Flags [.], ack 682183505, win 356, options [nop,nop,TS val 3797696494 ecr 3797696494], length 0</span><br><span class="line">	0x0000:  0000 0000 0000 0000 0000 0000 0800 4500  ..............E.</span><br><span class="line">	0x0010:  0034 00b1 4000 4006 3c11 7f00 0001 7f00  .4..@.@.&lt;.......</span><br><span class="line">	0x0020:  0001 2328 9c2c 70f2 3965 28a9 4b51 8010  ..#(.,p.9e(.KQ..</span><br><span class="line">	0x0030:  0164 fe28 0000 0101 080a e25c 3fee e25c  .d.(.......\?..\</span><br><span class="line">	0x0040:  3fee                                     ?.</span><br></pre></td></tr></table></figure></p>
+<p>分析分为三个步骤，建立连接、传输数据、断开连接，及TCP的一个周期。</p>
+<h5 id="1、三次握手建立连接"><a href="#1、三次握手建立连接" class="headerlink" title="1、三次握手建立连接"></a>1、三次握手建立连接</h5><p>一个连接包含了哪些数据，包头和包体。包头又包含了mac头、IP头、TCP头。下面扩展中分析了各头部所占用的位数。<br>需要注意区分的是，IP头的协议版本、首部长度及IP地址是什么，TCP头的端口号、数据偏移及标识位是什么。<br>对应上面二进制的表示，则为：<br>IP头的版本号为<code>4500</code>中的’4’，表示IPv4，如果为’6’，表示IPv6。<br>IP头的首部长度为<code>4500</code>中的’5’，表示4x5=20，说明IP头部有20个字节。<br>IP头的IP地址为<code>7f00 0001</code>，表示’127.0.0.1’。<br>TCP头的端口号为<code>9c2c</code>，表示nginx起的端口号为’39980’；<code>2328</code>，表示php-fpm的端口号为’9000’。<br>TCP头的长度为<code>a002</code>中的’a’，表示10x4=40，说明TCP头部有40个字节。<br>TCP头的标识位为<code>a002</code>中的’02’，表示‘SYN’；<code>a012</code>中的’12’，表示‘SYN’和‘ACK’。而断开连接的<code>8011</code>中的’11’，表示’FIN’和’ACK’。</p>
+<p>因此，建立连接的步骤为：<br>1) 客户端向服务端发送了一个‘SYN’，seq 682182615。<br>2) 服务端回了客户端一个’ACK’，并向客户端发送了一个’SYN’，seq 1894922491, ack 682182616。<br>3) 客户端回了服务端一个’ACK’，ack 1894922492。（注：此seq是接着服务端的seq的）<br>至此，客户端与服务端建立了连接。下面就是客户端向服务端发送了请求。</p>
+<blockquote>
+<p>扩展：<br>Mac头包含什么？<br>mac头包含了14个字节。<br>对应上面的二进制，即为<code>0000 0000 0000 0000 0000 0000 0800</code>。<br>IP头包含什么？<br><img src="/uploads/2019/04/ip_head.jpeg" alt="" title="IP首部"><br>对应上面的二进制，即为<code>7f00 0001</code>结束。<br>TCP头包含什么？<br><img src="/uploads/2019/04/tcp_head.png" alt="" title="TCP首部"><br>对应上面的二进制，即为<code>fe30 0000</code>结束。<br>注：标识位区分<br>TCP的标识位一共有6个，分别为URG、ACK（响应）、PSH（数据传输）、RST（连接重置）、SYN（建立连接）、FIN（关闭连接）。<br>对应的位数分别表示为：10，01，1000，0100，0010，0001。转成16进制则为：2，1，8，4，2，1。<br>TCP/IP头部大小<br>通过TCP的数据偏移及IP的首部长度可说明头部的大小，因为都是4位，最大表示15，因此，TCP/IP头部最大头部位15x4=60个字节。由于最低头部有20字节，因此，可扩展的头部字节数为40字节。至于为什么要乘于4，因为4表示4字节，32位。而TCP/IP头部每一行占用32位。所以，TCP/IP的长度标识位最小数应为5。</p>
+</blockquote>
+<h5 id="2、传输数据"><a href="#2、传输数据" class="headerlink" title="2、传输数据"></a>2、传输数据</h5><p>在发送请求的时候，客户端给服务端回了一个’ACK‘，以及向服务端发送了数据’PSH’，seq 682182616:682183504, ack 1894922492<br>（注：此处的682182616:682183504，表示传输的数据大小。）<br>传输数据的协议都有哪些？HTTP、HTTPS、fastcgi,cgi</p>
+<p>本次分析，以fastcgi协议来说明数据是如何传输的，以及如何保证数据的正确性。<br>博客：<a href="https://mengkang.net/668.html" target="_blank" rel="noopener">https://mengkang.net/668.html</a><br>传输数据时，nginx与PHP都会按照fastcig协议来进行通信，而最后，会通过nginx来进行组装数据，返回给客户端。</p>
+<blockquote>
+<p><strong>扩展：</strong><br>各协议详解？</p>
+</blockquote>
+<h5 id="3、四次挥手断开连接"><a href="#3、四次挥手断开连接" class="headerlink" title="3、四次挥手断开连接"></a>3、四次挥手断开连接</h5><p>首先，是服务端主动断开连接的，向服务端发送了‘FIN’，客户端回了一个‘ACK’，并发送了一个‘FIN’，服务端回了客户端一个‘ACK’。断开连接。</p>
+<blockquote>
+<p><strong>扩展：</strong><br>1、在浏览器与服务器通信的时候，哪端主动断开连接<br> 那端都可主动断开连接，一般是客户端会断开连接。 如果服务端配置的有CLB，一般是CLB对服务端断开连接。 服务器上的TIME_WAIT一般都是请求其它服务断开的连接。例如：mysql、redis、mq、rpc等等。<br>2、TIME_WAIT的产生，以及影响<br> 那端主动断开，TIME_WAIT产生在那端，且存留时间为2MSL（MSL：数据报在网络中存留的最大时间）。如果并发量太高的话，会导致服务器端口被用尽，其它请求会报5xx。 解决办法，就是只能增加机器，横向扩展，服务器降级，多配几台低端机器，增加并发量。<br>3、服务端连接都有几种状态，以及各个状态的含义<br>三次握手状态：LISTEN、CLOSED、SYN_SENT、SYN_RCVD、ESTABLISHED<br>四次挥手状态：FIN_WAIT_1、CLOSE_WAIT、FIN_WAIT_2、LAST_ACK、TIME_WAIT、CLOSED</p>
+</blockquote>
+<p><strong>扩展知识点：</strong><br>各层之间都是透明的，互不影响的，通过接口进行调用及传输。<br>网络层的作用是找到主机（通过IP+mac地址）；传输层的作用是找到那个进程，即服务（通过端口）；</p>
+<p><strong>经典文章：</strong><br><a href="https://www.cnblogs.com/jacklikedogs/articles/3848263.html" target="_blank" rel="noopener">https://www.cnblogs.com/jacklikedogs/articles/3848263.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机网络/" rel="tag"># 计算机网络</a>
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/19/PHP手册学习之类/" rel="next" title="PHP手册学习之类">
+                <i class="fa fa-chevron-left"></i> PHP手册学习之类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">179</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">56</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、一个HTTP的URL的生命过程"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x4E00;&#x4E2A;HTTP&#x7684;URL&#x7684;&#x751F;&#x547D;&#x8FC7;&#x7A0B;" class="headerlink" title="&#x4E00;&#x3001;&#x4E00;&#x4E2A;HTTP&#x7684;URL&#x7684;&#x751F;&#x547D;&#x8FC7;&#x7A0B;"></a>&#x4E00;&#x3001;&#x4E00;&#x4E2A;HTTP&#x7684;URL&#x7684;&#x751F;&#x547D;&#x8FC7;&#x7A0B;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、DNS解析"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;DNS&#x89E3;&#x6790;" class="headerlink" title="1&#x3001;DNS&#x89E3;&#x6790;"></a>1&#x3001;DNS&#x89E3;&#x6790;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、TCP连接"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;TCP&#x8FDE;&#x63A5;" class="headerlink" title="2&#x3001;TCP&#x8FDE;&#x63A5;"></a>2&#x3001;TCP&#x8FDE;&#x63A5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、发送HTTP请求"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x53D1;&#x9001;HTTP&#x8BF7;&#x6C42;" class="headerlink" title="3&#x3001;&#x53D1;&#x9001;HTTP&#x8BF7;&#x6C42;"></a>3&#x3001;&#x53D1;&#x9001;HTTP&#x8BF7;&#x6C42;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、服务器处理请求并返回HTTP报文"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x670D;&#x52A1;&#x5668;&#x5904;&#x7406;&#x8BF7;&#x6C42;&#x5E76;&#x8FD4;&#x56DE;HTTP&#x62A5;&#x6587;" class="headerlink" title="4&#x3001;&#x670D;&#x52A1;&#x5668;&#x5904;&#x7406;&#x8BF7;&#x6C42;&#x5E76;&#x8FD4;&#x56DE;HTTP&#x62A5;&#x6587;"></a>4&#x3001;&#x670D;&#x52A1;&#x5668;&#x5904;&#x7406;&#x8BF7;&#x6C42;&#x5E76;&#x8FD4;&#x56DE;HTTP&#x62A5;&#x6587;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、浏览器解析渲染页面"><span class="nav-number">1.5.</span> <span class="nav-text"><a href="#5&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x89E3;&#x6790;&#x6E32;&#x67D3;&#x9875;&#x9762;" class="headerlink" title="5&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x89E3;&#x6790;&#x6E32;&#x67D3;&#x9875;&#x9762;"></a>5&#x3001;&#x6D4F;&#x89C8;&#x5668;&#x89E3;&#x6790;&#x6E32;&#x67D3;&#x9875;&#x9762;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6、连接结束"><span class="nav-number">1.6.</span> <span class="nav-text"><a href="#6&#x3001;&#x8FDE;&#x63A5;&#x7ED3;&#x675F;" class="headerlink" title="6&#x3001;&#x8FDE;&#x63A5;&#x7ED3;&#x675F;"></a>6&#x3001;&#x8FDE;&#x63A5;&#x7ED3;&#x675F;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、一个请求的建立及断开都经历了什么"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x7684;&#x5EFA;&#x7ACB;&#x53CA;&#x65AD;&#x5F00;&#x90FD;&#x7ECF;&#x5386;&#x4E86;&#x4EC0;&#x4E48;" class="headerlink" title="&#x4E8C;&#x3001;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x7684;&#x5EFA;&#x7ACB;&#x53CA;&#x65AD;&#x5F00;&#x90FD;&#x7ECF;&#x5386;&#x4E86;&#x4EC0;&#x4E48;"></a>&#x4E8C;&#x3001;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x7684;&#x5EFA;&#x7ACB;&#x53CA;&#x65AD;&#x5F00;&#x90FD;&#x7ECF;&#x5386;&#x4E86;&#x4EC0;&#x4E48;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、三次握手建立连接"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;" class="headerlink" title="1&#x3001;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;"></a>1&#x3001;&#x4E09;&#x6B21;&#x63E1;&#x624B;&#x5EFA;&#x7ACB;&#x8FDE;&#x63A5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、传输数据"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x4F20;&#x8F93;&#x6570;&#x636E;" class="headerlink" title="2&#x3001;&#x4F20;&#x8F93;&#x6570;&#x636E;"></a>2&#x3001;&#x4F20;&#x8F93;&#x6570;&#x636E;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、四次挥手断开连接"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x56DB;&#x6B21;&#x6325;&#x624B;&#x65AD;&#x5F00;&#x8FDE;&#x63A5;" class="headerlink" title="3&#x3001;&#x56DB;&#x6B21;&#x6325;&#x624B;&#x65AD;&#x5F00;&#x8FDE;&#x63A5;"></a>3&#x3001;&#x56DB;&#x6B21;&#x6325;&#x624B;&#x65AD;&#x5F00;&#x8FDE;&#x63A5;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
