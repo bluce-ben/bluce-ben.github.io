@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-08-02T02:05:47.648Z</updated>
+  <updated>2019-08-02T09:53:27.023Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>PHP安装yaf扩展</title>
+    <link href="http://yoursite.com/2019/08/02/PHP%E5%AE%89%E8%A3%85yaf%E6%89%A9%E5%B1%95/"/>
+    <id>http://yoursite.com/2019/08/02/PHP安装yaf扩展/</id>
+    <published>2019-08-02T09:46:46.000Z</published>
+    <updated>2019-08-02T09:53:27.023Z</updated>
+    
+    <content type="html"><![CDATA[<p>Yaf，全称 Yet Another Framework，是一个C语言编写的PHP框架，是一个用PHP扩展形式提供的PHP开发框架, 相比于一般的PHP框架, 它更快. 它提供了Bootstrap, 路由, 分发, 视图, 插件, 是一个全功能的PHP框架。最大特点就是简单、高效、快速，已经在百度和新浪微博经过大平台验证。</p><h4 id="一、下载"><a href="#一、下载" class="headerlink" title="一、下载"></a>一、下载</h4><p>Git仓库：<code>https://github.com/laruence/yaf</code></p><blockquote><p>资源整理：</p><ol><li>yaf官方文档 ：<code>http://www.laruence.com/manual/</code></li><li>yaf手册：<code>http://www.laruence.com/manual/index.html</code></li></ol></blockquote><a id="more"></a><h4 id="二、安装"><a href="#二、安装" class="headerlink" title="二、安装"></a>二、安装</h4><p>依据git仓库中的说明，有两种方式可安装（也可使用其它方式）。</p><h5 id="1、Yaf是PECL的一个扩展，因此，可以直接使用PECL安装即可"><a href="#1、Yaf是PECL的一个扩展，因此，可以直接使用PECL安装即可" class="headerlink" title="1、Yaf是PECL的一个扩展，因此，可以直接使用PECL安装即可"></a>1、Yaf是PECL的一个扩展，因此，可以直接使用PECL安装即可</h5><p><code>pecl install yaf</code><br>（注：没有pecl命令，可先安装该命令。）</p><h5 id="2、编译安装（Linux）"><a href="#2、编译安装（Linux）" class="headerlink" title="2、编译安装（Linux）"></a>2、编译安装（Linux）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/path/to/phpize</span><br><span class="line">./configure --with-php-config=/path/to/php-config</span><br><span class="line">Make &amp; make install</span><br></pre></td></tr></table></figure><blockquote><p>成功安装提示：<br>Build process completed successfully<br>Installing ‘/usr/local/lib/php/extensions/no-debug-non-zts-20170718/yaf.so’<br>install ok: channel://pecl.php.net/yaf-3.0.8<br>configuration option “php_ini” is not set to php.ini location<br>You should add “extension=yaf.so” to php.ini</p></blockquote><h5 id="三、使用yaf框架"><a href="#三、使用yaf框架" class="headerlink" title="三、使用yaf框架"></a>三、使用yaf框架</h5><h6 id="1、启用yaf扩展"><a href="#1、启用yaf扩展" class="headerlink" title="1、启用yaf扩展"></a>1、启用yaf扩展</h6><p>由上面“成功安装提示”可知道，下面需要配置php.ini，将yaf.so添加进PHP扩展中，重新启动PHP即可。</p><blockquote><p>下面是常用yaf配置选项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[yaf]</span><br><span class="line">yaf.environ = product</span><br><span class="line">yaf.library = NULL</span><br><span class="line">yaf.cache_config = 0</span><br><span class="line">yaf.name_suffix = 1</span><br><span class="line">yaf.name_separator = &quot;&quot;</span><br><span class="line">yaf.forward_limit = 5</span><br><span class="line">yaf.use_namespace = 0</span><br><span class="line">yaf.use_spl_autoload = 0</span><br></pre></td></tr></table></figure></p></blockquote><h5 id="2、生成yaf框架代码"><a href="#2、生成yaf框架代码" class="headerlink" title="2、生成yaf框架代码"></a>2、生成yaf框架代码</h5><p>Yaf提供了代码生成工具yaf_code generator（在git项目中）, 所以也可以通过使用代码生成工具yaf_cg来完成这个简单的入门Demo（即yaf框架）。<br><code>./yaf/tools/cg/yaf_cg sample</code><br>会在 cg/output/目录下生成 sample文件夹，即yaf初版框架。将其粘贴到自己的项目中使用</p><h5 id="3、访问yaf框架"><a href="#3、访问yaf框架" class="headerlink" title="3、访问yaf框架"></a>3、访问yaf框架</h5><p>注：需要将’yaf_’ 更改为’/yaf/‘，才能识别出yaf的位置，否则会报找不到相应的类。<br>然后就可以访问成功了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello World! I am Stranger</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Yaf，全称 Yet Another Framework，是一个C语言编写的PHP框架，是一个用PHP扩展形式提供的PHP开发框架, 相比于一般的PHP框架, 它更快. 它提供了Bootstrap, 路由, 分发, 视图, 插件, 是一个全功能的PHP框架。最大特点就是简单、高效、快速，已经在百度和新浪微博经过大平台验证。&lt;/p&gt;
+&lt;h4 id=&quot;一、下载&quot;&gt;&lt;a href=&quot;#一、下载&quot; class=&quot;headerlink&quot; title=&quot;一、下载&quot;&gt;&lt;/a&gt;一、下载&lt;/h4&gt;&lt;p&gt;Git仓库：&lt;code&gt;https://github.com/laruence/yaf&lt;/code&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;资源整理：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;yaf官方文档 ：&lt;code&gt;http://www.laruence.com/manual/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;yaf手册：&lt;code&gt;http://www.laruence.com/manual/index.html&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+    
+    </summary>
+    
+      <category term="PHP" scheme="http://yoursite.com/categories/PHP/"/>
+    
+    
+      <category term="PHP" scheme="http://yoursite.com/tags/PHP/"/>
+    
+  </entry>
   
   <entry>
     <title>一个URL的漫游详解</title>
@@ -480,28 +510,6 @@
       <category term="MySQL优化" scheme="http://yoursite.com/tags/MySQL%E4%BC%98%E5%8C%96/"/>
     
       <category term="优化" scheme="http://yoursite.com/tags/%E4%BC%98%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>MySQL加锁详解</title>
-    <link href="http://yoursite.com/2018/11/20/MySQL%E5%8A%A0%E9%94%81%E8%AF%A6%E8%A7%A3/"/>
-    <id>http://yoursite.com/2018/11/20/MySQL加锁详解/</id>
-    <published>2018-11-20T09:19:29.000Z</published>
-    <updated>2018-11-20T09:26:10.549Z</updated>
-    
-    <content type="html"><![CDATA[<h4 id="1-新建数据表："><a href="#1-新建数据表：" class="headerlink" title="1. 新建数据表："></a>1. 新建数据表：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">| test  | CREATE TABLE `test` (</span><br><span class="line">  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `name` varchar(50) NOT NULL DEFAULT &apos;&apos;,</span><br><span class="line">  `age` tinyint(3) NOT NULL,</span><br><span class="line">  `hobby` varchar(200) NOT NULL DEFAULT &apos;&apos;,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `name` (`name`),</span><br><span class="line">  KEY `hobby` (`hobby`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 |</span><br></pre></td></tr></table></figure><a id="more"></a><h4 id="2-设置事物隔离级别："><a href="#2-设置事物隔离级别：" class="headerlink" title="2. 设置事物隔离级别："></a>2. 设置事物隔离级别：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set tx_isolation=&apos;READ-COMMITTED&apos;;</span><br><span class="line">Query OK, 0 rows affected</span><br><span class="line"></span><br><span class="line">mysql&gt; select @@tx_isolation;</span><br><span class="line">+-----------------+</span><br><span class="line">| @@tx_isolation  |</span><br><span class="line">+-----------------+</span><br><span class="line">| READ-COMMITTED  |</span><br><span class="line">+-----------------+</span><br><span class="line">1 row in set</span><br></pre></td></tr></table></figure><h4 id="3-测试索引对于锁的影响（事务级别：READ-COMMITTED，默认级别（REPEATABLE-READ））"><a href="#3-测试索引对于锁的影响（事务级别：READ-COMMITTED，默认级别（REPEATABLE-READ））" class="headerlink" title="3. 测试索引对于锁的影响（事务级别：READ-COMMITTED，默认级别（REPEATABLE-READ））"></a>3. 测试索引对于锁的影响（事务级别：READ-COMMITTED，默认级别（REPEATABLE-READ））</h4><h5 id="①-只含有一个主键"><a href="#①-只含有一个主键" class="headerlink" title="① 只含有一个主键"></a>① 只含有一个主键</h5><p><code>delete from test where id = 10;</code><br>这个毋庸置疑，锁的肯定是主键。在id = 10的记录上加上锁即可。<br><img src="/uploads/2018/11/mysql_index_00.jpg" alt=""></p><h5 id="②-只含有一个唯一键"><a href="#②-只含有一个唯一键" class="headerlink" title="② 只含有一个唯一键"></a>② 只含有一个唯一键</h5><p><code>delete from test where id = 10;</code><br>这个id不是主键，而是一个Unique的二级索引键值。<br><img src="/uploads/2018/11/mysql_index_01.jpg" alt=""><br>由于id是unique索引，因此delete语句会选择走id列的索引进行where条件的过滤，在找到id=10的记录后，首先会将unique索引上的id=10索引记录加上X锁，同时，会根据读取到的name列，回主键索引(聚簇索引)，然后将聚簇索引上的name = ‘d’ 对应的主键索引项加X锁。</p><blockquote><p>为什么聚簇索引上的记录也要加锁？试想一下，如果并发的一个SQL，是通过主键索引来更新：update t1 set id = 100 where name = ‘d’; 此时，如果delete语句没有将主键索引上的记录加锁，那么并发的update就会感知不到delete语句的存在，违背了同一记录上的更新/删除需要串行执行的约束。</p></blockquote><h5 id="③-仅含有一个普通索引"><a href="#③-仅含有一个普通索引" class="headerlink" title="③ 仅含有一个普通索引"></a>③ 仅含有一个普通索引</h5><p><code>delete from test where id = 10;</code><br>相对于前两个的变化，id列上的约束又降低了，id列不再唯一，只有一个普通的索引。<br><img src="/uploads/2018/11/mysql_index_02.jpg" alt=""><br>根据此图，可以看到，首先，id列索引上，满足id = 10查询条件的记录，均已加锁。同时，这些记录对应的主键索引上的记录也都加上了锁。与②唯一的区别在于，②最多只有一个满足等值查询的记录，而③会将所有满足查询条件的记录都加锁。</p><h5 id="④-即含有唯一键，也含有普通索引"><a href="#④-即含有唯一键，也含有普通索引" class="headerlink" title="④ 即含有唯一键，也含有普通索引"></a>④ 即含有唯一键，也含有普通索引</h5><p>（唯一索引和普通索引都会 加锁，其它地方使用主键加锁，死锁概率会增加）</p><h5 id="⑤-不含有索引-（聚簇索引上全部加锁）"><a href="#⑤-不含有索引-（聚簇索引上全部加锁）" class="headerlink" title="⑤ 不含有索引 （聚簇索引上全部加锁）"></a>⑤ 不含有索引 （聚簇索引上全部加锁）</h5><p><code>delete from test where id = 10;</code><br>(没有索引，只能走聚簇索引，进行全部扫描。)<br>相对于前面三个组合，这是一个比较特殊的情况。id列上没有索引，where id = 10;这个过滤条件，没法通过索引进行过滤，那么只能走全表扫描做过滤。<br><img src="/uploads/2018/11/mysql_index_03.jpg" alt=""><br>由于id列上没有索引，因此只能走聚簇索引，进行全部扫描。从图中可以看到，满足删除条件的记录有两条，但是，聚簇索引上所有的记录，都被加上了X锁。无论记录是否满足条件，全部被加上X锁。既不是加表锁，也不是在满足条件的记录上加行锁。</p><h4 id="4-死锁"><a href="#4-死锁" class="headerlink" title="4. 死锁"></a>4. 死锁</h4><p>死锁是指两个或者多个事务在同一资源上相互作用，并请求锁定对方占用的资源，从而导致恶性循环的现象。当多个事务试图以不同的顺序锁定资源时，就可能产生死锁。多个事务同时锁定同一个资源时，也会产生死锁。</p><h5 id="（1）互锁"><a href="#（1）互锁" class="headerlink" title="（1）互锁"></a>（1）互锁</h5><p><img src="/uploads/2018/11/mysql_deadlock_01.jpg" alt=""><br>最常见的死锁，每个事务执行两条SQL，分别持有了一把锁，然后加另一把锁，产生死锁。</p><h5 id="（2）数据查询顺序导致加锁"><a href="#（2）数据查询顺序导致加锁" class="headerlink" title="（2）数据查询顺序导致加锁"></a>（2）数据查询顺序导致加锁</h5><p><img src="/uploads/2018/11/mysql_deadlock_02.jpg" alt=""><br>虽然每个Session都只有一条语句，仍旧会产生死锁。要分析这个死锁，首先必须用到本文前面提到的MySQL加锁的规则。针对Session 1，从name索引出发，读到的[hdc, 1]，[hdc, 6]均满足条件，不仅会加name索引上的记录X锁，而且会加聚簇索引上的记录X锁，加锁顺序为先[1,hdc,100]，后[6,hdc,10]。而Session 2，从pubtime索引出发，[10,6],[100,1]均满足过滤条件，同样也会加聚簇索引上的记录X锁，加锁顺序为[6,hdc,10]，后[1,hdc,100]。发现没有，跟Session 1的加锁顺序正好相反，如果两个Session恰好都持有了第一把锁，请求加第二把锁，死锁就发生了。</p><font color="red">（注：死锁的发生与否，并不在于事务中有多少条SQL语句，死锁的关键在于：两个(或以上)的Session加锁的顺序不一致。）</font>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h4 id=&quot;1-新建数据表：&quot;&gt;&lt;a href=&quot;#1-新建数据表：&quot; class=&quot;headerlink&quot; title=&quot;1. 新建数据表：&quot;&gt;&lt;/a&gt;1. 新建数据表：&lt;/h4&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;| test  | CREATE TABLE `test` (&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  `name` varchar(50) NOT NULL DEFAULT &amp;apos;&amp;apos;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  `age` tinyint(3) NOT NULL,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  `hobby` varchar(200) NOT NULL DEFAULT &amp;apos;&amp;apos;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  PRIMARY KEY (`id`),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  UNIQUE KEY `name` (`name`),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  KEY `hobby` (`hobby`)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 |&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="MySQL" scheme="http://yoursite.com/categories/MySQL/"/>
-    
-    
-      <category term="MySQL" scheme="http://yoursite.com/tags/MySQL/"/>
     
   </entry>
   
