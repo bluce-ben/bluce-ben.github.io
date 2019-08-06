@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Blog" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="参考博客：https://www.awaimai.com/patternshttps://learnku.com/docs/php-design-patterns/2018/about/1524http://c.biancheng.net/view/1395.html">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="http://yoursite.com/2019/08/06/常用设计模式/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="参考博客：https://www.awaimai.com/patternshttps://learnku.com/docs/php-design-patterns/2018/about/1524http://c.biancheng.net/view/1395.html">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-06T09:51:25.449Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式">
+<meta name="twitter:description" content="参考博客：https://www.awaimai.com/patternshttps://learnku.com/docs/php-design-patterns/2018/about/1524http://c.biancheng.net/view/1395.html">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/06/常用设计模式/"/>
+
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- 存储服务 -->
+<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+
+
+
+  <title>设计模式 | Blog</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?9c4b2184b7b2f90dbd8b8e34c44e11eb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/06/常用设计模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zheng Benwu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2796.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">设计模式</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-06T17:29:30+08:00">
+                2019-08-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/08/06/常用设计模式/" class="leancloud_visitors" data-flag-title="设计模式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 浏览
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考博客：<br><a href="https://www.awaimai.com/patterns" target="_blank" rel="noopener">https://www.awaimai.com/patterns</a><br><a href="https://learnku.com/docs/php-design-patterns/2018/about/1524" target="_blank" rel="noopener">https://learnku.com/docs/php-design-patterns/2018/about/1524</a><br><a href="http://c.biancheng.net/view/1395.html" target="_blank" rel="noopener">http://c.biancheng.net/view/1395.html</a></p>
+<a id="more"></a>
+<h4 id="一、创建型模式（-）"><a href="#一、创建型模式（-）" class="headerlink" title="一、创建型模式（*）"></a>一、创建型模式（*）</h4><h5 id="1、简单工厂模式"><a href="#1、简单工厂模式" class="headerlink" title="1、简单工厂模式"></a>1、简单工厂模式</h5><p>概述：通过传入参数，工厂就实例化出合适的对象，通过多态，返回对应的实例。<br>简单代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class Factory</span><br><span class="line">&#123;</span><br><span class="line">    public static function getObject($type) &#123;</span><br><span class="line">        $object = null;</span><br><span class="line">        switch ($type) &#123;</span><br><span class="line">            case “A”:</span><br><span class="line">                $object = new Object();</span><br><span class="line">                break;</span><br><span class="line">            case “B”:</span><br><span class="line">                $object = new Object();</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line">        return $object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还有类似这种的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class SimpleFactory</span><br><span class="line">&#123;</span><br><span class="line">    public function createBicycle() &#123;</span><br><span class="line">        return new Bicycle();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$factory = new SimpleFactory();</span><br><span class="line">$bicycle = $factory-&gt;createBicycle();</span><br></pre></td></tr></table></figure></p>
+<p>（注：简单工厂模式，可以理解为生产类的工厂。）</p>
+<h5 id="2、工厂模式"><a href="#2、工厂模式" class="headerlink" title="2、工厂模式"></a>2、工厂模式</h5><p>概述：定义一个用于创建对象的接口，让子类决定实例化哪一个类。工厂方法使一个类的实例化延迟到其子类。<br>简单代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">interface IFactory</span><br><span class="line">&#123;</span><br><span class="line">    function getObject();</span><br><span class="line">&#125;</span><br><span class="line">class ObjectA implements IFactory</span><br><span class="line">&#123;</span><br><span class="line">    public function getObject() &#123;</span><br><span class="line">        return new self();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="3、抽象工厂模式"><a href="#3、抽象工厂模式" class="headerlink" title="3、抽象工厂模式"></a>3、抽象工厂模式</h5><p>概述：提供一个创建一系列相关或相互依赖对象的接口，而无需指定它们具体的类。<br>其实就是简单工厂模式与抽象工厂模式的结合。<br>简单代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">interface Product    //抽象接口</span><br><span class="line">&#123;</span><br><span class="line">    public function calculatePrice();</span><br><span class="line">&#125;</span><br><span class="line">class ShippableProduct implements Product    //实现接口的具体类</span><br><span class="line">&#123;</span><br><span class="line">    public function calculatePrice() &#123;</span><br><span class="line">        return 66;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class ProductFactory    //工厂类</span><br><span class="line">&#123;</span><br><span class="line">    public function createShippableProduct($price) &#123;</span><br><span class="line">        return new ShippableProduct($price);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="4、单例模式"><a href="#4、单例模式" class="headerlink" title="4、单例模式"></a>4、单例模式</h5><p>概述：保证一个类仅有一个实例，并提供一个访问它的全局访问点。<br>简单代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Singleton</span><br><span class="line">&#123;</span><br><span class="line">    private static $instance = null;</span><br><span class="line">    private function __construct() &#123;&#125;</span><br><span class="line">    public static function getInstance() &#123;</span><br><span class="line">        if (self::$instance === null) &#123;</span><br><span class="line">            self::$instance = new self();</span><br><span class="line">        &#125;</span><br><span class="line">        return self::$instance;</span><br><span class="line">    &#125;</span><br><span class="line">    private function __clone() &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>线上示例：连接数据库的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">class Database</span><br><span class="line">&#123;</span><br><span class="line">    private static $instance = null;</span><br><span class="line">    private $db = null;</span><br><span class="line">    private function __construct($config = array()) &#123;</span><br><span class="line">        $dsn = sprintf(‘mysql:host=%s,dbname=%s’, $config[‘host’], $config[‘db_name’]);</span><br><span class="line">        $this-&gt;db = new PDO($dsn, $config[‘db_user’], $config[‘db_pass’]);</span><br><span class="line">    &#125;</span><br><span class="line">    public static function getInstance($config = array()) &#123;</span><br><span class="line">        if (self::$instance === null) &#123;</span><br><span class="line">            self::$instance = new self($config);</span><br><span class="line">        &#125;</span><br><span class="line">        return self::$instance;</span><br><span class="line">    &#125;</span><br><span class="line">    public function db() &#123;</span><br><span class="line">        return $this-&gt;db;</span><br><span class="line">    &#125;</span><br><span class="line">    private function __clone() &#123;&#125;</span><br><span class="line">    private function __wakeup() &#123;&#125;    //禁止重建对象</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="二、结构性模式"><a href="#二、结构性模式" class="headerlink" title="二、结构性模式"></a>二、结构性模式</h4><h5 id="1、适配器模式（-）"><a href="#1、适配器模式（-）" class="headerlink" title="1、适配器模式（*）"></a>1、适配器模式（*）</h5><p>即根据客户端需要，将某个类的接口转换成特定样式的接口，以解决类之间的兼容问题。</p>
+<blockquote>
+<p>如果我们的代码依赖一些外部的API，或者依赖一些可能会经常更改的类，那么应该考虑用适配器模式。例如，支付接口，需要接入支付宝、微信等等。可对内部项目封装成一个支付接口，统一调用。外部接口变化，客户端接口并不需要调整。</p>
+</blockquote>
+<p>简单代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">interface PayAdapter</span><br><span class="line">&#123;</span><br><span class="line">    public function pay();</span><br><span class="line">&#125;</span><br><span class="line">class AlipayAdapter implements PayAdapter</span><br><span class="line">&#123;</span><br><span class="line">    public function pay() &#123;</span><br><span class="line">        $alipay = new Alipay();</span><br><span class="line">        $alipay-&gt;sendPayment();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>客户端调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$alipay = new AlipayAdapter();</span><br><span class="line">$alipay-&gt;pay();</span><br></pre></td></tr></table></figure></p>
+<p>如果当Alipay的支付方式改变，只需要修改AlipayAdapter类即可。</p>
+<h5 id="2、组合模式"><a href="#2、组合模式" class="headerlink" title="2、组合模式"></a>2、组合模式</h5><p>概述：组合模式将对象组合成树形结构，以表示“部分-整体”的层次结构。<br>在组合模式，客户端访问独立对象和组合对象（或称对象集合）一样。</p>
+<h5 id="3、装饰器模式"><a href="#3、装饰器模式" class="headerlink" title="3、装饰器模式"></a>3、装饰器模式</h5><p>概述：又名包装（Wrapper）模式，该模式向一个已有的对象添加新的功能，而不改变其结构。</p>
+<blockquote>
+<p>通常给对象添加功能有3种方法：</p>
+<ol>
+<li>直接修改类，添加相应的功能。 直接修改类代码是一种侵入式修改，很容易对类功能造成损害。</li>
+<li>派生对应的子类扩展新功能。 使用继承方式扩展功能，则在整个子类中添加功能，即使有的对象不需要，new出来也会有这些新功能。</li>
+<li>使用对象组合的方式。 装饰器模式是典型的基于对象组合的方式，可以很灵活的给对象添加所需要的功能，它能动态的为一个对象增加功能，而且还能动态撤销。</li>
+</ol>
+</blockquote>
+<h5 id="4、依赖注入模式"><a href="#4、依赖注入模式" class="headerlink" title="4、依赖注入模式"></a>4、依赖注入模式</h5><p>概述：用松散耦合的方式来更好的实现可测试、可维护和可扩展的代码。</p>
+<h5 id="5、注册模式（-）"><a href="#5、注册模式（-）" class="headerlink" title="5、注册模式（*）"></a>5、注册模式（*）</h5><p>概述：目的是能够存储在应用程序中经常使用的对象实例，通常会使用只有静态方法的抽象类来实现（或使用单例模式）。需要注意的是这里可能会引入全局的状态，我们需要使用依赖注入来避免它。</p>
+<h4 id="三、行为型模式"><a href="#三、行为型模式" class="headerlink" title="三、行为型模式"></a>三、行为型模式</h4><h5 id="1、策略模式（-）"><a href="#1、策略模式（-）" class="headerlink" title="1、策略模式（*）"></a>1、策略模式（*）</h5><p>概述：策略模式定义了一簇相同类型的算法，算法之间独立封装，并且可以互换代替。<br>这些算法是同一类型问题的多种处理方式，它们具体行为有差别。<br>每一个算法、或说每一种处理方式称为一个策略。在应用中，就可以根据环境的不同，选择不同的策略来处理问题。<br>简单代码实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">interface OutputStrategy    //策略接口</span><br><span class="line">&#123;</span><br><span class="line">    public function render($array);</span><br><span class="line">&#125;</span><br><span class="line">class SerializeStrategy implements OutputStrategy    //策略1</span><br><span class="line">&#123;</span><br><span class="line">    public function render($array) &#123;</span><br><span class="line">        return serialize($array);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class JsonStrategy implements OutputStrategy    //策略2</span><br><span class="line">&#123;</span><br><span class="line">    public function render($array) &#123;</span><br><span class="line">        return json_encode($array);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>环境角色用来管理策略，实现不同策略的切换功能。<br>同样，一旦写好，环境角色类以后也不需要修改了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Output    //环境角色类</span><br><span class="line">&#123;</span><br><span class="line">    private $outputStrategy;</span><br><span class="line">    public function __construct(OutputStrategy $outputStrategy) &#123;</span><br><span class="line">        $this-&gt;outputStrategy = $outputStrategy;</span><br><span class="line">    &#125;</span><br><span class="line">    public function renderOutput($array) &#123;</span><br><span class="line">        return $this-&gt;outputStrategy-&gt;render($array);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>客户端代码示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$test = [‘a’, ‘b’, ‘c’];</span><br><span class="line">$output = new Output(new JsonStrategy());</span><br><span class="line">$data = $output-&gt;renderOutput($test);</span><br></pre></td></tr></table></figure></p>
+<h5 id="2、观察者模式（-）"><a href="#2、观察者模式（-）" class="headerlink" title="2、观察者模式（*）"></a>2、观察者模式（*）</h5><p>概述：也称发布-订阅模式，定义了一个被观察者和多个观察者的、一对多的对象关系。<br>在被观察者状态发生变化的时候，它的所有观察者都会收到通知，并自动更新。<br>观察者模式常用在 实时事件处理系统、组件间解耦、数据库驱动的消息队列系统，同时也是MVC设计模式中的重要组成部分。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *被观察者接口</span><br><span class="line"> */</span><br><span class="line">interface Observable</span><br><span class="line">&#123;</span><br><span class="line">    public function attach(Observer $observer);    //添加/注册观察者</span><br><span class="line">    public function detach(Observer $observer);    //删除观察者</span><br><span class="line">    public function notify();    //触发通知</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>被观察者至少要实现attach()、detach()、notify()三个方法，用以添加、删除和通知观察者。<br>通知的方式是，在类中的其他方法调用notify()方法。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">class Order implements Observable</span><br><span class="line">&#123;</span><br><span class="line">    private $observers = array();    //保存观察者</span><br><span class="line">    private $state = 0;    //订单状态</span><br><span class="line">    public function attach(Observer $observer) &#123;</span><br><span class="line">        $key = array_search($observer, $this-&gt;observers);</span><br><span class="line">        if ($key === false) &#123;</span><br><span class="line">            $this-&gt;observers[] = $observer;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public function detach(Observer $observer) &#123;</span><br><span class="line">        $key = array_search($observer, $this-&gt;observers);</span><br><span class="line">        if ($key !== false) &#123;</span><br><span class="line">            unset($this-&gt;observers[$key]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public function notify() &#123;    //遍历调用观察者的update()方法进行通知，不关心其具体实现方式</span><br><span class="line">        foreach($this-&gt;observers as $observer) &#123;</span><br><span class="line">            $observer-&gt;update($this);    //把本类对象传给观察者，以便观察者获取当前类对象的信息</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public function addOrder() &#123;    //订单状态有变化时发送通知</span><br><span class="line">        $this-&gt;state = 1;</span><br><span class="line">        $this-&gt;notify();</span><br><span class="line">    &#125;</span><br><span class="line">    public function getState() &#123;    //观察者可能需要被观察者的一些状态信息，对外提供接口</span><br><span class="line">        return $this-&gt;state;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line"> *观察者接口</span><br><span class="line"> */</span><br><span class="line">interface Observer</span><br><span class="line">&#123;</span><br><span class="line">    public function update(Observable $observable);    //接收到通知的处理方法</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>观察者可能有多个，但每个观察者都必须实现Observer接口规定的update()接口，这是接收被观察者通知的唯一渠道。<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Email implements Observer</span><br><span class="line">&#123;</span><br><span class="line">    public function update(Observable $observable) &#123;</span><br><span class="line">        $state = $observable-&gt;getState();</span><br><span class="line">        if ($state) &#123;</span><br><span class="line">            echo &quot;发送邮件：您已经成功下单。&quot;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            echo “发送邮件：下单失败，请重试。”;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>客户端代码示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$email = new Email();    //创建观察者对象</span><br><span class="line">$order = new Order();    //创建订单对象</span><br><span class="line">$order-&gt;attach($email);    //向订单对象中注册观察者</span><br><span class="line">$order-&gt;addOrder();    //添加订单，添加时会自动发送通知给观察者</span><br></pre></td></tr></table></figure></p>
+<h5 id="3、迭代器模式"><a href="#3、迭代器模式" class="headerlink" title="3、迭代器模式"></a>3、迭代器模式</h5><p>概述：让对象变得可迭代并表现得像对象集合。</p>
+<h5 id="4、代理模式"><a href="#4、代理模式" class="headerlink" title="4、代理模式"></a>4、代理模式</h5><p>概述：在有些情况下，一个客户不能或者不想直接访问另一个对象，这时需要找一个中介帮忙完成某项任务，这个中介就是代理对象。</p>
+<h4 id="四、设计模式遵循的七大原则"><a href="#四、设计模式遵循的七大原则" class="headerlink" title="四、设计模式遵循的七大原则"></a>四、设计模式遵循的七大原则</h4><p>开闭原则、里氏替换原则、迪米特原则、单一职责原则、接口分割原则、依赖倒置原则、组合/聚合复用原则。<br>设计目标：开闭原则、里氏替换原则、迪米特原则<br>设计方法：单一职责原则、接口分割原则、依赖倒置原则、组合/聚合复用原则</p>
+<p>开闭原则：软件实体（模块、类、方法等）应该对扩展开放，对修改关闭。<br>里氏替换原则：子类能够替换基类。<br>迪米特原则：又叫最少知道原则。只与你直接的朋友们通信，不要跟“陌生人”说话。<br>单一职责原则：只能让一个类/接口/方法有且仅有一个职责。<br>接口分割原则：使用多个专门的接口比使用单一的总接口要好。<br>依赖倒置原则：高层模块不应该依赖底层模块，二者都应该依赖于抽象。<br>组合/聚合复用原则：尽量使用组合/聚合，不要使用类继承。</p>
+<h4 id="五、面向对象的三个基本特征："><a href="#五、面向对象的三个基本特征：" class="headerlink" title="五、面向对象的三个基本特征："></a>五、面向对象的三个基本特征：</h4><h5 id="1、封装"><a href="#1、封装" class="headerlink" title="1、封装"></a>1、封装</h5><p> 就是把客观事物封装成抽象的类，并且类可以把自己的数据和方法只让可信的类或者对象操作，对不可信的进行信息隐藏。</p>
+<h5 id="2、继承"><a href="#2、继承" class="headerlink" title="2、继承"></a>2、继承</h5><p> 他可以使用现有类的所有功能，并在无需重新编写原来的类的情况下对这些功能进行扩展。<br> 继承的称为“子类”或“派生类”。<br> 被继承的称为“基类”、“父类”或“超类”。</p>
+<h5 id="3、多态"><a href="#3、多态" class="headerlink" title="3、多态"></a>3、多态</h5><p> 不同类对象对相同行为的不同反应，就叫做多态。 与继承相对应的是多态提供了对同一类对象差异性的处理方法，子类通过多态重写父类继承的方法来实现子类的差异性。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/02/PHP安装yaf扩展/" rel="next" title="PHP安装yaf扩展">
+                <i class="fa fa-chevron-left"></i> PHP安装yaf扩展
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/IMG_2796.JPG"
+                alt="Zheng Benwu" />
+            
+              <p class="site-author-name" itemprop="name">Zheng Benwu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">181</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bluce-ben" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="mailto:zheng_benwu@163.com" target="_blank" title="E-Mail">
+                    
+                      <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一、创建型模式（-）"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x4E00;&#x3001;&#x521B;&#x5EFA;&#x578B;&#x6A21;&#x5F0F;&#xFF08;-&#xFF09;" class="headerlink" title="&#x4E00;&#x3001;&#x521B;&#x5EFA;&#x578B;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;"></a>&#x4E00;&#x3001;&#x521B;&#x5EFA;&#x578B;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、简单工厂模式"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x7B80;&#x5355;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;" class="headerlink" title="1&#x3001;&#x7B80;&#x5355;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;"></a>1&#x3001;&#x7B80;&#x5355;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、工厂模式"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;" class="headerlink" title="2&#x3001;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;"></a>2&#x3001;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、抽象工厂模式"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x62BD;&#x8C61;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;" class="headerlink" title="3&#x3001;&#x62BD;&#x8C61;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;"></a>3&#x3001;&#x62BD;&#x8C61;&#x5DE5;&#x5382;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、单例模式"><span class="nav-number">1.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;" class="headerlink" title="4&#x3001;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;"></a>4&#x3001;&#x5355;&#x4F8B;&#x6A21;&#x5F0F;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、结构性模式"><span class="nav-number">2.</span> <span class="nav-text"><a href="#&#x4E8C;&#x3001;&#x7ED3;&#x6784;&#x6027;&#x6A21;&#x5F0F;" class="headerlink" title="&#x4E8C;&#x3001;&#x7ED3;&#x6784;&#x6027;&#x6A21;&#x5F0F;"></a>&#x4E8C;&#x3001;&#x7ED3;&#x6784;&#x6027;&#x6A21;&#x5F0F;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、适配器模式（-）"><span class="nav-number">2.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x9002;&#x914D;&#x5668;&#x6A21;&#x5F0F;&#xFF08;-&#xFF09;" class="headerlink" title="1&#x3001;&#x9002;&#x914D;&#x5668;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;"></a>1&#x3001;&#x9002;&#x914D;&#x5668;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、组合模式"><span class="nav-number">2.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x7EC4;&#x5408;&#x6A21;&#x5F0F;" class="headerlink" title="2&#x3001;&#x7EC4;&#x5408;&#x6A21;&#x5F0F;"></a>2&#x3001;&#x7EC4;&#x5408;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、装饰器模式"><span class="nav-number">2.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x88C5;&#x9970;&#x5668;&#x6A21;&#x5F0F;" class="headerlink" title="3&#x3001;&#x88C5;&#x9970;&#x5668;&#x6A21;&#x5F0F;"></a>3&#x3001;&#x88C5;&#x9970;&#x5668;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、依赖注入模式"><span class="nav-number">2.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x6A21;&#x5F0F;" class="headerlink" title="4&#x3001;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x6A21;&#x5F0F;"></a>4&#x3001;&#x4F9D;&#x8D56;&#x6CE8;&#x5165;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5、注册模式（-）"><span class="nav-number">2.5.</span> <span class="nav-text"><a href="#5&#x3001;&#x6CE8;&#x518C;&#x6A21;&#x5F0F;&#xFF08;-&#xFF09;" class="headerlink" title="5&#x3001;&#x6CE8;&#x518C;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;"></a>5&#x3001;&#x6CE8;&#x518C;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三、行为型模式"><span class="nav-number">3.</span> <span class="nav-text"><a href="#&#x4E09;&#x3001;&#x884C;&#x4E3A;&#x578B;&#x6A21;&#x5F0F;" class="headerlink" title="&#x4E09;&#x3001;&#x884C;&#x4E3A;&#x578B;&#x6A21;&#x5F0F;"></a>&#x4E09;&#x3001;&#x884C;&#x4E3A;&#x578B;&#x6A21;&#x5F0F;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、策略模式（-）"><span class="nav-number">3.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x7B56;&#x7565;&#x6A21;&#x5F0F;&#xFF08;-&#xFF09;" class="headerlink" title="1&#x3001;&#x7B56;&#x7565;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;"></a>1&#x3001;&#x7B56;&#x7565;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、观察者模式（-）"><span class="nav-number">3.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x89C2;&#x5BDF;&#x8005;&#x6A21;&#x5F0F;&#xFF08;-&#xFF09;" class="headerlink" title="2&#x3001;&#x89C2;&#x5BDF;&#x8005;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;"></a>2&#x3001;&#x89C2;&#x5BDF;&#x8005;&#x6A21;&#x5F0F;&#xFF08;*&#xFF09;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、迭代器模式"><span class="nav-number">3.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x8FED;&#x4EE3;&#x5668;&#x6A21;&#x5F0F;" class="headerlink" title="3&#x3001;&#x8FED;&#x4EE3;&#x5668;&#x6A21;&#x5F0F;"></a>3&#x3001;&#x8FED;&#x4EE3;&#x5668;&#x6A21;&#x5F0F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、代理模式"><span class="nav-number">3.4.</span> <span class="nav-text"><a href="#4&#x3001;&#x4EE3;&#x7406;&#x6A21;&#x5F0F;" class="headerlink" title="4&#x3001;&#x4EE3;&#x7406;&#x6A21;&#x5F0F;"></a>4&#x3001;&#x4EE3;&#x7406;&#x6A21;&#x5F0F;</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四、设计模式遵循的七大原则"><span class="nav-number">4.</span> <span class="nav-text"><a href="#&#x56DB;&#x3001;&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#x9075;&#x5FAA;&#x7684;&#x4E03;&#x5927;&#x539F;&#x5219;" class="headerlink" title="&#x56DB;&#x3001;&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#x9075;&#x5FAA;&#x7684;&#x4E03;&#x5927;&#x539F;&#x5219;"></a>&#x56DB;&#x3001;&#x8BBE;&#x8BA1;&#x6A21;&#x5F0F;&#x9075;&#x5FAA;&#x7684;&#x4E03;&#x5927;&#x539F;&#x5219;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五、面向对象的三个基本特征："><span class="nav-number">5.</span> <span class="nav-text"><a href="#&#x4E94;&#x3001;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7684;&#x4E09;&#x4E2A;&#x57FA;&#x672C;&#x7279;&#x5F81;&#xFF1A;" class="headerlink" title="&#x4E94;&#x3001;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7684;&#x4E09;&#x4E2A;&#x57FA;&#x672C;&#x7279;&#x5F81;&#xFF1A;"></a>&#x4E94;&#x3001;&#x9762;&#x5411;&#x5BF9;&#x8C61;&#x7684;&#x4E09;&#x4E2A;&#x57FA;&#x672C;&#x7279;&#x5F81;&#xFF1A;</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、封装"><span class="nav-number">5.1.</span> <span class="nav-text"><a href="#1&#x3001;&#x5C01;&#x88C5;" class="headerlink" title="1&#x3001;&#x5C01;&#x88C5;"></a>1&#x3001;&#x5C01;&#x88C5;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、继承"><span class="nav-number">5.2.</span> <span class="nav-text"><a href="#2&#x3001;&#x7EE7;&#x627F;" class="headerlink" title="2&#x3001;&#x7EE7;&#x627F;"></a>2&#x3001;&#x7EE7;&#x627F;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、多态"><span class="nav-number">5.3.</span> <span class="nav-text"><a href="#3&#x3001;&#x591A;&#x6001;" class="headerlink" title="3&#x3001;&#x591A;&#x6001;"></a>3&#x3001;&#x591A;&#x6001;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Zheng Benwu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.3</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("0xNn1pwwQEUyuYJA5FwnLGKm-gzGzoHsz", "hYKQqspX8ivguvgDs3vgDhmC");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
