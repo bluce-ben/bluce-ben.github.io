@@ -30,6 +30,35 @@ Windows:
 　　sudo less /var/log/shadowsocks.log
 
 
+##### 3、使用配置文件 #####
+后台启动：
+    ssserver -c /etc/shadowsocks.json -d start
+关闭：
+    ssserver -c /etc/shadowsocks.json -d stop
+配置文件：
+```
+{
+"server": "0.0.0.0",
+"server_port": 443,
+"local_address": "127.0.0.1",
+"local_port": 1080,
+"password": "123456",
+"timeout": 300,
+"method": "aes-256-cfb",
+"fast_open": false
+}
+```
+
+##### 4、防火墙相关设置 #####
+1. 安装防火墙
+`yum install firewalld`
+2. 启动防火墙
+`systemctl start firewalld`
+3. 开启防火墙相应端口
+`firewall-cmd -permanent -zone=putlic -add-port=443/tcp`
+`firewall-cmd -reload`
+4. 启动Shadowsocks服务
+
 #### 二、客户端安装wiki ####
 ```
 [Android]:           https://github.com/shadowsocks/shadowsocks-android
