@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="一、配置操作1、配置文件Git自带一个 git config 的工具来帮助设置控制 Git外观和行为的配置变量。这些变量存储在三个不同的位置：  /etc/gitconfig 文件：包含系统上每一个用户及他们仓库的通用配置。如果使用带有 --system 选项的 git config时，它会从此文件读写配置变量。 ~/.gitconfig 或 ~/.config/git/config 文件：只针对">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-29T06:30:14.405Z">
+<meta property="og:updated_time" content="2019-10-19T09:41:22.376Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 入职必备">
 <meta name="twitter:description" content="一、配置操作1、配置文件Git自带一个 git config 的工具来帮助设置控制 Git外观和行为的配置变量。这些变量存储在三个不同的位置：  /etc/gitconfig 文件：包含系统上每一个用户及他们仓库的通用配置。如果使用带有 --system 选项的 git config时，它会从此文件读写配置变量。 ~/.gitconfig 或 ~/.config/git/config 文件：只针对">
@@ -435,8 +435,8 @@
 <li>当前使用仓库的Git目录中的config文件（就是 <strong>.git/config</strong>)：针对该仓库。</li>
 </ol>
 <p>每一个级别覆盖上一个级别的配置，所以 .git/config 的配置变量会覆盖 /etc/gitconfig 中的配置变量。<br><a id="more"></a></p>
-<h5 id="2、用户信息"><a href="#2、用户信息" class="headerlink" title="2、用户信息"></a>2、用户信息</h5><p>当安装完 Git应该做的第一件事就是设置用户名称与邮件地址。这样做很重要，因为每一个Git 的提交都会使用这些信息，并且它会写入到每一次提交中，不可更改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;zhengbenwu&quot;</span><br><span class="line">git config --global user.email &quot;zhengbenwu@soyoung.com&quot;</span><br></pre></td></tr></table></figure></p>
-<p>再次强调，如果使用了 --global 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情，Git都会使用这些信息。当你想针对特定项目使用不同的用户名称与邮件地址时，可以在哪个项目目录下运行不使用 --global选项的命令来设置。<br>Git提交示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">commit 2a82ac5a1bfcd8e052e9053e512e14a8880c02ce (HEAD -&gt; dev-sms)</span><br><span class="line">Merge: 8e4c451 3b03b5e</span><br><span class="line">Author: zhengbenwu &lt;zhengbenwu@soyoung.com&gt;</span><br><span class="line">Date:   Thu Aug 29 10:17:11 2019 +0800</span><br></pre></td></tr></table></figure></p>
+<h5 id="2、用户信息"><a href="#2、用户信息" class="headerlink" title="2、用户信息"></a>2、用户信息</h5><p>当安装完 Git应该做的第一件事就是设置用户名称与邮件地址。这样做很重要，因为每一个Git 的提交都会使用这些信息，并且它会写入到每一次提交中，不可更改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;username&quot;</span><br><span class="line">git config --global user.email &quot;username@**.com&quot;</span><br></pre></td></tr></table></figure></p>
+<p>再次强调，如果使用了 --global 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情，Git都会使用这些信息。当你想针对特定项目使用不同的用户名称与邮件地址时，可以在哪个项目目录下运行不使用 --global选项的命令来设置。<br>Git提交示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">commit 2a82ac5a1bfcd8e052e9053e512e14a8880c02ce (HEAD -&gt; dev-sms)</span><br><span class="line">Merge: 8e4c451 3b03b5e</span><br><span class="line">Author: username &lt;username@**.com&gt;</span><br><span class="line">Date:   Thu Aug 29 10:17:11 2019 +0800</span><br></pre></td></tr></table></figure></p>
 <h5 id="3、常用配置命令"><a href="#3、常用配置命令" class="headerlink" title="3、常用配置命令"></a>3、常用配置命令</h5><ol>
 <li>git config <key> 查看某个配置项</key></li>
 <li>git config –list 列出所有Git当时能找到的配置</li>
@@ -471,9 +471,10 @@
 <ol>
 <li><code>git pull</code> 更新远程仓库到本地</li>
 <li><code>git push origin dev-sms</code> 将本地修改推动到远程仓库中</li>
+<li><code>git push origin dev-sms:test</code> 将本地修改推动到远程test仓库中</li>
 </ol>
 <p>注意，一定要在推送前，先更新下远程仓库，因为在协同开发中有可能会出现冲突，遇到冲突的话，需要先解决冲突之后，才能推送。 </p>
-<h4 id="三、Git常用命令"><a href="#三、Git常用命令" class="headerlink" title="三、Git常用命令"></a>三、Git常用命令</h4><h5 id="1、基本操作"><a href="#1、基本操作" class="headerlink" title="1、基本操作"></a>1、基本操作</h5><p> 可参考我以前的文章：<a href="https://blog.zhengbenwu.com/2018/03/14/Git%E8%AF%A6%E8%A7%A3%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%EF%BC%88%E5%9B%9B%EF%BC%89/" target="_blank" rel="noopener">常用命令汇总</a></p>
+<h4 id="三、Git常用命令"><a href="#三、Git常用命令" class="headerlink" title="三、Git常用命令"></a>三、Git常用命令</h4><h5 id="1、基本操作"><a href="#1、基本操作" class="headerlink" title="1、基本操作"></a>1、基本操作</h5><p> 可参考我以前的文章：<a href="https://blog.xxx.com/2018/03/14/Git%E8%AF%A6%E8%A7%A3%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%EF%BC%88%E5%9B%9B%EF%BC%89/" target="_blank" rel="noopener">常用命令汇总</a></p>
 <h5 id="2、实际工作中记录"><a href="#2、实际工作中记录" class="headerlink" title="2、实际工作中记录"></a>2、实际工作中记录</h5><ol>
 <li>git stash用法<br>保存工作区到暂存区： git stash save “save message”<br>查看暂存区：git stash list<br>查看暂存区中某一个做了哪些改动：git stash show [stash@{$num}]<br>应用某个存储单不会删除：git stash apply [stash@{$num}]<br>应用某个存储并删除：git stash pop [stash@{$num}]<br>删除某个存储：git stash drop stash@{$num}<br>删除所有存储：git stash clear</li>
 <li>git commit用法<br>1）修改commit注释，前提是commit后未push<br><code>git commit --amend</code>进入vi编辑界面，修改注释后保存退出即可。<br>2）还有一种用法是，当需要将本地的修改推到未push的commit中时使用，先add添加进去，在commit。<br>（注：还有一种是将两个commit糅合在一起，通过 rebase -i）</li>
