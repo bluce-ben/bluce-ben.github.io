@@ -20,15 +20,15 @@ Git自带一个 git config 的工具来帮助设置控制 Git外观和行为的�
 ##### 2、用户信息
 当安装完 Git应该做的第一件事就是设置用户名称与邮件地址。这样做很重要，因为每一个Git 的提交都会使用这些信息，并且它会写入到每一次提交中，不可更改。
 ```
-git config --global user.name "zhengbenwu"
-git config --global user.email "zhengbenwu@soyoung.com"
+git config --global user.name "username"
+git config --global user.email "username@**.com"
 ```
 再次强调，如果使用了 \-\-global 选项，那么该命令只需要运行一次，因为之后无论你在该系统上做任何事情，Git都会使用这些信息。当你想针对特定项目使用不同的用户名称与邮件地址时，可以在哪个项目目录下运行不使用 \-\-global选项的命令来设置。
 Git提交示例：
 ```
 commit 2a82ac5a1bfcd8e052e9053e512e14a8880c02ce (HEAD -> dev-sms)
 Merge: 8e4c451 3b03b5e
-Author: zhengbenwu <zhengbenwu@soyoung.com>
+Author: username <username@**.com>
 Date:   Thu Aug 29 10:17:11 2019 +0800
 ```
 
@@ -71,13 +71,14 @@ Git是一个版本控制工具，**版本控制是一种记录一个或若干个
 上面说的版本库，仅仅只是对本地的仓库来说的。并没有涉及到远程仓库，因此，还需要将本地的仓库修改推到远程仓库中。一般的操作流程如下：
 1. `git pull` 更新远程仓库到本地
 2. `git push origin dev-sms` 将本地修改推动到远程仓库中
+3. `git push origin dev-sms:test` 将本地修改推动到远程test仓库中
 
 注意，一定要在推送前，先更新下远程仓库，因为在协同开发中有可能会出现冲突，遇到冲突的话，需要先解决冲突之后，才能推送。 
 
 
 #### 三、Git常用命令
 ##### 1、基本操作
- 可参考我以前的文章：[常用命令汇总](https://blog.zhengbenwu.com/2018/03/14/Git%E8%AF%A6%E8%A7%A3%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%EF%BC%88%E5%9B%9B%EF%BC%89/)
+ 可参考我以前的文章：[常用命令汇总](https://blog.xxx.com/2018/03/14/Git%E8%AF%A6%E8%A7%A3%E4%B9%8B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%B1%87%E6%80%BB%EF%BC%88%E5%9B%9B%EF%BC%89/)
 ##### 2、实际工作中记录
 1. git stash用法
  保存工作区到暂存区： git stash save "save message"
